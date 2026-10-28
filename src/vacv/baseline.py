@@ -5,13 +5,14 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 import numpy as np
-import pandas as pd
 from rdkit import Chem, DataStructs
 from rdkit.Chem import Descriptors, rdMolDescriptors
 from rdkit.Chem.Scaffolds import MurckoScaffold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import average_precision_score, matthews_corrcoef, roc_auc_score
 from sklearn.model_selection import GroupShuffleSplit
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import make_pipeline
 
 
 def standardize_smiles(smiles: str) -> tuple[str, Chem.Mol]:
@@ -58,8 +59,13 @@ def fit_baseline(smiles: Sequence[str], labels: Sequence[int], seed: int = 42):
     if set(np.unique(y)) != {0, 1}:
         raise ValueError("labels must contain both classes 0 and 1")
     train, test = scaffold_split(canonical, seed=seed)
-    model = RandomForestClassifier(n_estimators=500, class_weight="balanced", random_state=seed,
-                                   n_jobs=-1, min_samples_leaf=2)
+    # Descriptor calculation can produce missing/infinite values for unusual
+    # structures. Fit the imputer on train only to avoid test-set leakage.
+    model = make_pipeline(
+        SimpleImputer(strategy="median", keep_empty_features=True),
+        RandomForestClassifier(n_estimators=500, class_weight="balanced", random_state=seed,
+                               n_jobs=-1, min_samples_leaf=2),
+    )
     model.fit(X[train], y[train])
     prob = model.predict_proba(X[test])[:, 1]
     pred = (prob >= 0.5).astype(int)
