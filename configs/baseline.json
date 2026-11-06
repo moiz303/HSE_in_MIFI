@@ -2,7 +2,9 @@
   "name": "baseline-morgan-hgb",
   "seed": 20261106,
   "data": {
-    "sources": ["chembl"],
+    "sources": [
+      "chembl"
+    ],
     "starter_csv": "data/raw/starter.csv",
     "censored": "keep",
     "chembl": {
@@ -12,7 +14,11 @@
   },
   "splits": {
     "seed": 20261106,
-    "fractions": {"train": 0.7, "validation": 0.15, "holdout": 0.15}
+    "fractions": {
+      "train": 0.7,
+      "validation": 0.15,
+      "holdout": 0.15
+    }
   },
   "features": {
     "morgan": true,
@@ -23,10 +29,12 @@
     "params": {}
   },
   "submission": {
-    "test_csv": "data/raw/test.csv",
-    "smiles_column": "smiles",
-    "id_column": "id",
-    "target_column": "SI",
+    "method": "formula",
+    "competition": "molecular-activity-prediction-hack",
+    "test_csv": "data/raw/kaggle/test.csv",
+    "smiles_column": "SMILES",
+    "id_column": "index",
+    "target_column": "SI VACV",
     "output": "reports/submission.csv"
   }
 }

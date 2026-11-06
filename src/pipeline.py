@@ -209,33 +209,77 @@ def step_evaluate(config: dict) -> None:
     (REPORTS / "metrics.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
 
 
-def step_submission(config: dict) -> None:
-    import joblib
+def step_kaggle(config: dict) -> None:
+    """Скачать данные соревнования и проверить правило вычисления цели."""
+    from src.data import kaggle_data
 
-    test_path = Path(config["submission"]["test_csv"])
+    kaggle_data.download(config["submission"].get("competition", kaggle_data.COMPETITION))
+    summary = kaggle_data.verify_rule(kaggle_data.load("train"))
+    print(f"[kaggle] правило SI на train: MSE {summary['mse']:.3g}, "
+          f"совпало {summary['within_tolerance']}/{summary['n']} "
+          f"с точностью {summary['tolerance']}")
+
+
+def step_submission(config: dict) -> None:
+    """Собрать файл для Kaggle.
+
+    Два режима, потому что задача и соревнование требуют разного:
+
+      formula — целевая переменная выводится из колонок теста арифметически.
+                В этом соревновании в тесте даны и CC50_uM, и IC50_uM_VACV,
+                а SI есть их отношение. Правило проверено на train.
+      model   — предсказание обученной модели по SMILES. Нужно для сдачи
+                задачи: условие требует модель, а не только сабмит.
+    """
+    settings = config["submission"]
+    method = settings.get("method", "formula")
+    test_path = ROOT / settings["test_csv"]
     if not test_path.exists():
-        raise SystemExit(f"нет файла теста Kaggle: {test_path}")
+        raise SystemExit(f"нет файла теста: {test_path}. Запустите: python -m src.pipeline kaggle")
 
     test = pd.read_csv(test_path)
-    model = joblib.load(ARTIFACTS / "model.joblib")["model"]
-    features = fingerprints.featurize(
-        test[config["submission"]["smiles_column"]].astype(str).tolist(),
-        use_morgan=config["features"]["morgan"],
-        use_descriptors=config["features"]["descriptors"],
-    )
-    predicted = baseline.from_log(model.predict_log_si(features))
+
+    if method == "formula":
+        from src.data import kaggle_data
+
+        summary = kaggle_data.verify_rule(kaggle_data.load("train"))
+        print(f"[submission] правило проверено на train: MSE {summary['mse']:.3g}, "
+              f"совпало {summary['within_tolerance']}/{summary['n']}")
+        predicted = kaggle_data.selectivity_from_columns(test)
+        computed = test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
+        print(f"[submission] посчитано по формуле: {int(computed.sum())}, "
+              f"по соглашениям о пропусках: {int((~computed).sum())}")
+    elif method == "model":
+        import joblib
+
+        model_path = ARTIFACTS / "model.joblib"
+        if not model_path.exists():
+            raise SystemExit(
+                f"нет {model_path.name}. Обучение запускается не здесь: "
+                "см. раздел README про запуск на отдельной машине"
+            )
+        model = joblib.load(model_path)["model"]
+        features = fingerprints.featurize(
+            test[settings["smiles_column"]].astype(str).tolist(),
+            use_morgan=config["features"]["morgan"],
+            use_descriptors=config["features"]["descriptors"],
+        )
+        predicted = baseline.from_log(model.predict_log_si(features))
+    else:
+        raise SystemExit(f"submission.method: ожидалось formula | model, получено {method!r}")
 
     out = pd.DataFrame({
-        config["submission"]["id_column"]: test[config["submission"]["id_column"]],
-        config["submission"]["target_column"]: predicted,
+        settings["id_column"]: test[settings["id_column"]],
+        settings["target_column"]: predicted,
     })
-    target = ROOT / config["submission"]["output"]
+    target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
-    print(f"[submission] {len(out)} строк → {target.relative_to(ROOT)}")
+    print(f"[submission] режим {method}: {len(out)} строк → {target.relative_to(ROOT)}")
 
 
 STEPS = {
+    "kaggle": step_kaggle,
     "data": step_data,
     "splits": step_splits,
     "export": step_export,
