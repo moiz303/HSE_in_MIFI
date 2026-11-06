@@ -81,7 +81,7 @@ def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
     model = baseline.build(strategy, params, clip_si)
     if strategy == "two_head":
         model.fit(features, frame["IC50"].to_numpy(), frame["CC50"].to_numpy())
-    elif strategy == "sentinel":
+    elif strategy.startswith("sentinel"):
         model.fit(features, frame["SI"].to_numpy(), labels_of(frame))
     else:
         model.fit(features, frame["SI"].to_numpy())
@@ -210,21 +210,34 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None,
         rmse = np.array([r["rmse_log10"] for r in results])
         spearman = np.array([r["spearman"] for r in results])
         competition = np.array([r["competition_mse"] for r in results])
+        in_dist = np.array([
+            r["competition_mse_in_distribution"] for r in results
+            if "competition_mse_in_distribution" in r
+        ])
         report[strategy] = {
             "rmse_log10_mean": float(rmse.mean()),
             "rmse_log10_std": float(rmse.std(ddof=1)) if len(rmse) > 1 else 0.0,
             "spearman_mean": float(spearman.mean()),
             "spearman_std": float(spearman.std(ddof=1)) if len(spearman) > 1 else 0.0,
             "competition_mse_mean": float(competition.mean()),
+            "competition_mse_in_distribution_mean": float(in_dist.mean()) if in_dist.size else None,
+            "competition_mse_in_distribution_std": (
+                float(in_dist.std(ddof=1)) if in_dist.size > 1 else 0.0
+            ),
             "competition_mse_std": float(competition.std(ddof=1)) if len(competition) > 1 else 0.0,
             "n_splits": len(results),
         }
         log(f"{strategy:<9} RMSE {rmse.mean():.3f} ± {report[strategy]['rmse_log10_std']:.3f}   "
             f"Spearman {spearman.mean():.3f} ± {report[strategy]['spearman_std']:.3f}   "
-            f"MSE_соревнования {competition.mean():.4g}", indent=2)
+            f"MSE_соревнования {competition.mean():.4g}" +
+            (f"   в распределении {in_dist.mean():.4g}" if in_dist.size else ""), indent=2)
 
     if len(strategies) > 1:
-        best = min(report, key=lambda key: report[key]["rmse_log10_mean"])
+        def ranking_key(name: str) -> float:
+            value = report[name].get("competition_mse_in_distribution_mean")
+            return value if value is not None else report[name]["rmse_log10_mean"]
+
+        best = min(report, key=ranking_key)
         spread = max(report[s]["rmse_log10_std"] for s in report)
         gap = abs(
             report[strategies[0]]["rmse_log10_mean"] - report[strategies[-1]]["rmse_log10_mean"]
@@ -264,7 +277,8 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--strategy",
-                        choices=["sentinel", "direct", "two_head", "both", "all"],
+                        choices=["sentinel", "sentinel_raw", "raw", "direct",
+                                 "two_head", "both", "all"],
                         default="sentinel")
     parser.add_argument("--repeats", type=int, default=0,
                         help="сколько scaffold-разбиений прогнать вместо одного фиксированного")
@@ -283,7 +297,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.strategy == "both":
         strategies = ["two_head", "direct"]
     elif args.strategy == "all":
-        strategies = ["sentinel", "direct", "two_head"]
+        strategies = ["sentinel_raw", "sentinel", "raw", "direct", "two_head"]
     else:
         strategies = [args.strategy]
     params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None
@@ -294,6 +308,29 @@ def main(argv: list[str] | None = None) -> int:
 
     report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
               else run_fixed(strategies, params, clip_si))
+
+    # После сравнения по разбиениям моделей на диске не остаётся, а отправлять
+    # нужно именно модель. Поэтому лучшую стратегию доучиваем на train.csv и
+    # сохраняем — один прогон даёт и сравнение, и готовый артефакт.
+    if args.repeats > 0:
+        best = min(
+            report,
+            key=lambda name: (
+                report[name].get("competition_mse_in_distribution_mean")
+                if report[name].get("competition_mse_in_distribution_mean") is not None
+                else report[name]["rmse_log10_mean"]
+            ),
+        )
+        log(f"доучиваю лучшую стратегию ({best}) на train.csv и сохраняю…")
+        train = load(TRAIN_CSV)
+        model = fit(best, featurize(train), train, params, clip_si)
+        ARTIFACTS.mkdir(parents=True, exist_ok=True)
+        import joblib
+
+        joblib.dump({"model": model, "strategy": best}, ARTIFACTS / f"model_{best}.joblib")
+        joblib.dump({"model": model, "strategy": best}, ARTIFACTS / "model.joblib")
+        log(f"модель → artifacts/model_{best}.joblib (и model.joblib)", indent=2)
+        report["best_strategy"] = best
 
     metrics_path = Path(args.metrics_out)
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
