@@ -3,15 +3,15 @@
 Владелец: D.
 
 Воспроизводимость проверяют именно здесь: клон репозитория, одна команда,
-csv на выходе. Поэтому ни один шаг не ходит в сеть, кроме шага data, и ни
-один не зависит от того, что лежит в чьей-то локальной папке.
+csv на выходе. В сеть ходят только шаги data и kaggle; all использует
+закоммиченный dataset.csv и уже скачанный файл соревнования test.csv.
 
     python -m src.pipeline data        # выгрузка и очистка          (A)
     python -m src.pipeline splits      # scaffold-разбиение          (B)
     python -m src.pipeline train       # обучение по конфигу         (B C)
     python -m src.pipeline evaluate    # метрики на validation       (B D)
     python -m src.pipeline submission  # предсказания для Kaggle     (D)
-    python -m src.pipeline all         # всё, кроме data
+    python -m src.pipeline all         # splits, train, evaluate, submission
 """
 
 from __future__ import annotations
@@ -27,6 +27,7 @@ import pandas as pd
 from src import splits as splits_module
 from src.features import fingerprints
 from src.models import baseline
+from src.run_record import record_run
 
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
@@ -38,7 +39,13 @@ DEFAULT_CONFIG = ROOT / "configs" / "baseline.json"
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG) -> dict:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    path = Path(path)
+    if not path.is_file():
+        raise SystemExit(f"нет конфигурации {path} — проверьте --config")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise SystemExit(f"ошибка в конфигурации {path}: {error}") from error
 
 
 def load_dataset() -> pd.DataFrame:
@@ -47,6 +54,28 @@ def load_dataset() -> pd.DataFrame:
             f"нет {DATASET.relative_to(ROOT)} — сначала `python -m src.pipeline data` (владелец A)"
         )
     return pd.read_csv(DATASET)
+
+
+def require_file(path: Path, instruction: str) -> Path:
+    if not path.is_file():
+        raise SystemExit(f"нет {path.relative_to(ROOT)} — {instruction}")
+    return path
+
+
+def validate_submission(test: pd.DataFrame, submission: pd.DataFrame,
+                        id_column: str, target_column: str) -> None:
+    expected = [id_column, target_column]
+    if list(submission.columns) != expected:
+        raise ValueError(f"ожидаются колонки {expected}, получены {list(submission.columns)}")
+    if len(submission) != len(test):
+        raise ValueError(f"ожидается {len(test)} строк, получено {len(submission)}")
+    if not submission[id_column].reset_index(drop=True).equals(
+        test[id_column].reset_index(drop=True)
+    ):
+        raise ValueError("ID в сабмите не совпадают с ID тестового файла или идут в другом порядке")
+    predictions = pd.to_numeric(submission[target_column], errors="coerce").to_numpy(dtype=float)
+    if not np.isfinite(predictions).all():
+        raise ValueError("прогнозы пустые или нечисловые")
 
 
 def step_data(config: dict) -> None:
@@ -136,6 +165,7 @@ def step_export(config: dict) -> None:
     обучающим, рано или поздно попадёт в обучение.
     """
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
 
     for part in ("train", "validation"):
@@ -163,6 +193,7 @@ def step_train(config: dict) -> None:
     import joblib
 
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
     features = _features(dataset, config)
     train_index = split["train"]
@@ -191,8 +222,10 @@ def step_evaluate(config: dict) -> None:
     from src import evaluate as evaluate_module
 
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
     features = _features(dataset, config)
+    require_file(ARTIFACTS / "model.joblib", "сначала запустите `python -m src.pipeline train`")
     model = joblib.load(ARTIFACTS / "model.joblib")["model"]
 
     report: dict[str, dict] = {}
@@ -245,13 +278,21 @@ def step_submission(config: dict) -> None:
 
     test = pd.read_csv(test_path)
 
+    required = (settings["id_column"], settings["smiles_column"])
+    missing = [column for column in required if column not in test.columns]
+    if missing:
+        raise SystemExit(
+            f"в {test_path.relative_to(ROOT)} нет колонок: {', '.join(missing)}; "
+            f"ожидались {', '.join(required)}"
+        )
+
     strategy = config["model"]["strategy"]
     candidates = [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
     model_path = next((path for path in candidates if path.exists()), None)
     if model_path is None:
         raise SystemExit(
-            f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
-            "на маке ./run_mac.sh, см. README"
+            f"нет обученной модели ({', '.join(path.name for path in candidates)}). "
+            "Сначала запустите `python -m src.pipeline train` или `python -m src.pipeline all`."
         )
     model = joblib.load(model_path)["model"]
     print(f"[submission] модель: {model_path.name}, стратегия {strategy}")
@@ -262,14 +303,26 @@ def step_submission(config: dict) -> None:
         use_descriptors=config["features"]["descriptors"],
     )
     predicted = baseline.from_log(model.predict_log_si(features))
+    if len(predicted) != len(test):
+        raise SystemExit(
+            f"ошибка сабмита: тест содержит {len(test)} строк, модель вернула {len(predicted)} прогнозов"
+        )
 
     out = pd.DataFrame({
         settings["id_column"]: test[settings["id_column"]],
         settings["target_column"]: predicted,
     })
+    try:
+        validate_submission(test, out, settings["id_column"], settings["target_column"])
+    except ValueError as error:
+        raise SystemExit(f"ошибка сабмита: {error}") from error
     target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
+    try:
+        validate_submission(test, pd.read_csv(target), settings["id_column"], settings["target_column"])
+    except ValueError as error:
+        raise SystemExit(f"ошибка записанного сабмита: {error}") from error
     print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 
@@ -290,10 +343,26 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     args = parser.parse_args(argv)
 
-    config = load_config(args.config)
+    config_path = Path(args.config)
+    config = load_config(config_path)
     order = ["splits", "train", "evaluate", "submission"] if args.step == "all" else [args.step]
-    for name in order:
-        STEPS[name](config)
+    inputs = [config_path]
+    if args.step in ("splits", "train", "evaluate", "all"):
+        inputs.append(DATASET)
+    if args.step in ("train", "evaluate"):
+        inputs.append(MANIFEST)
+    if args.step == "evaluate":
+        inputs.append(ARTIFACTS / "model.joblib")
+    if args.step in ("submission", "all"):
+        inputs.extend([
+            ROOT / config["submission"]["test_csv"],
+            ARTIFACTS / f"model_{config['model']['strategy']}.joblib",
+            ARTIFACTS / "model.joblib",
+        ])
+    command = ["python", "-m", "src.pipeline", *(argv if argv is not None else sys.argv[1:])]
+    with record_run(command, config, inputs):
+        for name in order:
+            STEPS[name](config)
     return 0
 
 

@@ -35,12 +35,14 @@ SI = CC50 / IC50
 
 ## Запуск
 
-Виртуальное окружение лежит **вне** репозитория, в родительской папке:
+Полная инструкция для чистого клона и релиза — в [docs/RELEASE.md](docs/RELEASE.md).
+Окружение создаётся в репозитории и исключено из Git:
 
 ```bash
-source ../env/Scripts/activate      # Git Bash
-../env/Scripts/Activate.ps1         # PowerShell
-pip install -r requirements.txt
+python3.12 -m venv .venv
+source .venv/bin/activate           # macOS / Linux / Git Bash
+# PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
 Единая точка входа — один модуль, без скрытого состояния в чьей-то локальной
@@ -53,7 +55,7 @@ python -m src.pipeline train       # обучение по configs/baseline.json
 python -m src.pipeline evaluate    # метрики на validation с интервалами   B D
 python -m src.pipeline kaggle      # скачать файлы соревнования (нужна авторизация)
 python -m src.pipeline submission  # собрать CSV из уже обученной модели   D
-python -m src.pipeline all         # splits, train, evaluate и submission
+python -m src.pipeline all         # splits, train, evaluate и submission; нужен скачанный test.csv
 
 python -m unittest discover -s tests -t . -v   # тесты и smoke-прогон
 ```
@@ -82,6 +84,7 @@ ChEMBL и 57 совпавших структур.
 
 ```bash
 brew install python@3.12          # если python3.12 ещё нет
+python -m pip install kaggle
 kaggle auth login                 # иначе шаг 6 не увидит test.csv
 ```
 

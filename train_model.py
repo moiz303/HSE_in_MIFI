@@ -7,7 +7,7 @@
     python -m src.pipeline export        # это уже сделано, файлы в репозитории
     python train_model.py                # обе стратегии, сравнение
     python train_model.py --strategy direct --repeats 5
-    python train_model.py --predict data/raw/test.csv --out reports/submission.csv
+    python train_model.py --predict data/raw/kaggle/test.csv --id-column index --smiles-column SMILES --target-column "SI VACV"
 
 Что он решает. Открытый вопрос команды: предсказывать SI одной головой
 (`direct`) или считать его из двух прогнозов, log IC50 и log CC50 (`two_head`).
@@ -30,6 +30,8 @@ import pandas as pd
 from src import evaluate, splits
 from src.features import fingerprints
 from src.models import baseline
+from src.pipeline import validate_submission
+from src.run_record import record_run
 
 ROOT = Path(__file__).resolve().parent
 TRAIN_CSV = ROOT / "data" / "processed" / "train.csv"
@@ -216,6 +218,10 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
     """Предсказать для файла теста и записать csv для Kaggle."""
     import joblib
 
+    if not path.is_file():
+        raise SystemExit(
+            f"нет тестового файла {path}; скачайте его командой `python -m src.pipeline kaggle`"
+        )
     model_path = ARTIFACTS / f"model_{strategy}.joblib"
     if not model_path.exists():
         raise SystemExit(f"нет {model_path.name}: сначала обучите модель")
@@ -229,9 +235,23 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
             )
     features = fingerprints.featurize(test[smiles_column].astype(str).tolist())
     predicted = baseline.from_log(model.predict_log_si(features))
+    if len(predicted) != len(test):
+        raise SystemExit(
+            f"ошибка сабмита: тест содержит {len(test)} строк, "
+            f"модель вернула {len(predicted)} прогнозов"
+        )
 
     out.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame({id_column: test[id_column], target_column: predicted}).to_csv(out, index=False)
+    submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
+    try:
+        validate_submission(test, submission, id_column, target_column)
+    except ValueError as error:
+        raise SystemExit(f"ошибка сабмита: {error}") from error
+    submission.to_csv(out, index=False)
+    try:
+        validate_submission(test, pd.read_csv(out), id_column, target_column)
+    except ValueError as error:
+        raise SystemExit(f"ошибка записанного сабмита: {error}") from error
     log(f"предсказания: {len(test)} строк → {out}")
 
 
@@ -253,23 +273,53 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     strategies = ["two_head", "direct"] if args.strategy == "both" else [args.strategy]
-    params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None
+    params_path = Path(args.params) if args.params else None
+    if params_path and not params_path.is_file():
+        raise SystemExit(f"нет файла гиперпараметров {params_path} — проверьте --params")
+    try:
+        params = json.loads(params_path.read_text(encoding="utf-8")) if params_path else None
+    except json.JSONDecodeError as error:
+        raise SystemExit(f"ошибка в {params_path}: {error}") from error
 
-    config = json.loads((ROOT / "configs" / "baseline.json").read_text(encoding="utf-8"))
-    clip_si = None if args.no_clip else config["model"].get("clip_si")
-    log(f"ограничение прогноза: {'нет' if clip_si is None else f'SI <= {clip_si:g}'}")
-
-    report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
-              else run_fixed(strategies, params, clip_si))
-
-    metrics_path = Path(args.metrics_out)
-    metrics_path.parent.mkdir(parents=True, exist_ok=True)
-    metrics_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    log(f"метрики → {metrics_path}")
-
+    config_path = ROOT / "configs" / "baseline.json"
+    if not config_path.is_file():
+        raise SystemExit(f"нет конфигурации {config_path}")
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise SystemExit(f"ошибка в конфигурации {config_path}: {error}") from error
+    run_config = {
+        **config,
+        "run_options": {
+            "strategy": args.strategy,
+            "repeats": args.repeats,
+            "params": params,
+            "no_clip": args.no_clip,
+            "predict": args.predict,
+        },
+    }
+    inputs = [TRAIN_CSV, VALIDATION_CSV, ROOT / "configs" / "baseline.json"]
+    if args.params:
+        inputs.append(Path(args.params))
     if args.predict:
-        predict(Path(args.predict), strategies[0], args.id_column,
-                args.smiles_column, args.target_column, Path(args.out))
+        inputs.append(Path(args.predict))
+    command = ["python", "train_model.py", *(argv if argv is not None else sys.argv[1:])]
+
+    with record_run(command, run_config, inputs):
+        clip_si = None if args.no_clip else config["model"].get("clip_si")
+        log(f"ограничение прогноза: {'нет' if clip_si is None else f'SI <= {clip_si:g}'}")
+
+        report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
+                  else run_fixed(strategies, params, clip_si))
+
+        metrics_path = Path(args.metrics_out)
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        metrics_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        log(f"метрики → {metrics_path}")
+
+        if args.predict:
+            predict(Path(args.predict), strategies[0], args.id_column,
+                    args.smiles_column, args.target_column, Path(args.out))
     return 0
 
 
