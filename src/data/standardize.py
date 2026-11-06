@@ -119,6 +119,13 @@ def aggregate_duplicates(
         if "si_artifact" in group.columns:
             row["si_artifact"] = bool(group["si_artifact"].fillna(False).astype(bool).any())
 
+        # Цель задана меткой организаторов, а не измерена. Флаг нужен, чтобы
+        # обучение могло исключить такие строки и замерить разницу.
+        if "target_is_label" in group.columns:
+            row["target_is_label"] = bool(
+                group["target_is_label"].fillna(False).astype(bool).any()
+            )
+
         first = group.iloc[0]
         for column in (
             "smiles",

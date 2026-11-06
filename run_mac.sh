@@ -124,15 +124,18 @@ STATUS=${PIPESTATUS[0]}
 set -e
 [[ $STATUS -eq 0 ]] || die "обучение упало (код $STATUS), см. $LOG_FILE"
 
-# ------------------------------------------------- 6. Сабмит моделью
-step "Собираю сабмит моделью"
+# ------------------------------------------------- 6. Предсказание на тесте
+step "Предсказываю тест соревнования"
 SUBMISSION="reports/submission.csv"
 if [[ ! -f data/raw/kaggle/test.csv ]]; then
-  printf '  %sскачиваю данные соревнования…%s\n' "$DIM" "$R"
-  if ! python -m src.pipeline kaggle >/dev/null 2>&1; then
-    warn "нет данных соревнования и нет авторизации Kaggle"
-    printf '  %sсделай один раз:%s kaggle auth login\n' "$DIM" "$R"
-    printf '  %sпотом:%s python -m src.pipeline kaggle && python -m src.pipeline submission\n' "$DIM" "$R"
+  printf '  %sнет data/raw/kaggle/test.csv, скачиваю…%s\n' "$DIM" "$R"
+  if ! python -m pip show kaggle >/dev/null 2>&1; then
+    python -m pip install --quiet kaggle || true
+  fi
+  if ! python -m src.pipeline kaggle 2>&1 | tail -2; then
+    warn "данные соревнования недоступны"
+    printf '  %sнужна авторизация, один раз:%s kaggle auth login\n' "$DIM" "$R"
+    printf '  %sпотом снова:%s ./run_mac.sh\n' "$DIM" "$R"
     SUBMISSION=""
   fi
 fi
@@ -141,7 +144,8 @@ if [[ -n "$SUBMISSION" ]]; then
   # Предсказание только по SMILES: организаторы запретили считать SI из
   # колонок CC50_uM и IC50_uM_VACV тестового файла.
   if python -u -m src.pipeline submission 2>&1 | tee -a "$LOG_FILE"; then
-    ok "$SUBMISSION готов"
+    rows=$(( $(wc -l < "$SUBMISSION") - 1 ))
+    ok "$SUBMISSION: $rows строк, предсказано только по SMILES"
   else
     warn "сабмит собрать не удалось, см. $LOG_FILE"
     SUBMISSION=""

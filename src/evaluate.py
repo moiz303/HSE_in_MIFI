@@ -37,6 +37,19 @@ def metrics(log_true: np.ndarray, log_pred: np.ndarray) -> dict[str, float]:
     }
 
 
+def competition_mse(log_true: np.ndarray, log_pred: np.ndarray) -> float:
+    """MSE по сырому SI — метрика соревнования.
+
+    Лог-пространство удобно для обучения, но оценивают нас не в нём. Ошибка
+    0.8 log10 — это множитель 6.3: на молекуле с SI = 10000 она даёт промах в
+    десятки тысяч, а в квадрате — сотни миллионов. Поэтому метрику
+    соревнования считаем отдельно и смотрим на неё, а не только на RMSE.
+    """
+    true = np.power(10.0, np.asarray(log_true, dtype=float))
+    predicted = np.power(10.0, np.asarray(log_pred, dtype=float))
+    return float(((predicted - true) ** 2).mean())
+
+
 def bootstrap_ci(
     log_true: np.ndarray,
     log_pred: np.ndarray,

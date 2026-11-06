@@ -164,6 +164,18 @@ def validate_table(frame: pd.DataFrame, si_tolerance: float = 0.25) -> tuple[pd.
         reason: str | None = None
         smiles = getattr(row, "smiles", None)
 
+        # Строки, где цель задана меткой организаторов, а не измерена: с них
+        # нельзя требовать согласованности SI = CC50 / IC50 и наличия IC50.
+        # Проверяем только структуру и положительность цели.
+        if bool(getattr(row, "target_is_label", False)):
+            target, _ = parse_measurement(getattr(row, "SI", None))
+            if smiles is None or not str(smiles).strip():
+                reason = "пустой smiles"
+            elif target is None or not target > 0:
+                reason = "SI-метка: не положительное значение"
+            reasons.append(reason)
+            continue
+
         if smiles is None or not str(smiles).strip():
             reason = "пустой smiles"
         else:

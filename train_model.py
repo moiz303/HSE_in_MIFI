@@ -84,6 +84,9 @@ def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
     result = evaluate.metrics(true, predicted)
     low, high = evaluate.bootstrap_ci(true, predicted)
     result["rmse_log10_ci95"] = [low, high]
+    # Метрика соревнования. На неё и смотрим: лидерборд считает MSE по сырому
+    # SI, а не по логарифму.
+    result["competition_mse"] = evaluate.competition_mse(true, predicted)
     return result
 
 
@@ -108,6 +111,7 @@ def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
         low, high = result["rmse_log10_ci95"]
         log(f"{strategy}: RMSE log10 = {result['rmse_log10']:.3f} [{low:.3f}; {high:.3f}], "
             f"Spearman = {result['spearman']:.3f}", indent=2)
+        log(f"метрика соревнования (MSE по сырому SI): {result['competition_mse']:.4g}", indent=2)
 
         ARTIFACTS.mkdir(parents=True, exist_ok=True)
         import joblib
@@ -158,8 +162,9 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dic
             result = score(model, features[validation_index], combined.iloc[validation_index])
             collected[strategy].append(result)
             log(f"{strategy:<9} RMSE {result['rmse_log10']:.3f}  "
-                f"Spearman {result['spearman']:.3f}  ({time.monotonic() - started:.1f} с)",
-                indent=2)
+                f"Spearman {result['spearman']:.3f}  "
+                f"MSE_соревнования {result['competition_mse']:.4g}  "
+                f"({time.monotonic() - started:.1f} с)", indent=2)
 
     log("")
     log("среднее по разбиениям:")
@@ -167,15 +172,19 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dic
     for strategy, results in collected.items():
         rmse = np.array([r["rmse_log10"] for r in results])
         spearman = np.array([r["spearman"] for r in results])
+        competition = np.array([r["competition_mse"] for r in results])
         report[strategy] = {
             "rmse_log10_mean": float(rmse.mean()),
             "rmse_log10_std": float(rmse.std(ddof=1)) if len(rmse) > 1 else 0.0,
             "spearman_mean": float(spearman.mean()),
             "spearman_std": float(spearman.std(ddof=1)) if len(spearman) > 1 else 0.0,
+            "competition_mse_mean": float(competition.mean()),
+            "competition_mse_std": float(competition.std(ddof=1)) if len(competition) > 1 else 0.0,
             "n_splits": len(results),
         }
         log(f"{strategy:<9} RMSE {rmse.mean():.3f} ± {report[strategy]['rmse_log10_std']:.3f}   "
-            f"Spearman {spearman.mean():.3f} ± {report[strategy]['spearman_std']:.3f}", indent=2)
+            f"Spearman {spearman.mean():.3f} ± {report[strategy]['spearman_std']:.3f}   "
+            f"MSE_соревнования {competition.mean():.4g}", indent=2)
 
     if len(strategies) > 1:
         best = min(report, key=lambda key: report[key]["rmse_log10_mean"])

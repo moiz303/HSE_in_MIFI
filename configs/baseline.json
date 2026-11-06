@@ -3,6 +3,7 @@
   "seed": 20261106,
   "data": {
     "sources": [
+      "kaggle_train",
       "chembl"
     ],
     "starter_csv": "data/raw/starter.csv",
@@ -10,6 +11,9 @@
     "chembl": {
       "limit": null,
       "drop_invalid": true
+    },
+    "kaggle_train": {
+      "sentinels": "keep"
     }
   },
   "splits": {

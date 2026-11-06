@@ -507,8 +507,40 @@ def from_starter_csv(config: dict | None = None) -> pd.DataFrame:
     return frame
 
 
+def from_kaggle_train(config: dict | None = None) -> pd.DataFrame:
+    """train.csv соревнования — обучающие данные в распределении теста.
+
+    Это самый важный источник для метрики: ChEMBL даёт объём, но у него другое
+    распределение SI, другие клеточные линии и другие протоколы. 320 строк
+    организаторов — ровно то, на чём тест и построен.
+
+    Запрет организаторов касается тестового файла: в обучающем измеренные CC50
+    и IC50 использовать можно.
+
+    У 81 строки IC50 не определён, и SI там задан меткой 10000 — это не
+    измерение, а разметка «неактивно». Такие строки помечаются
+    target_is_label, чтобы валидация не требовала от них согласованности
+    SI = CC50 / IC50, а обучение могло их исключить переключателем.
+    """
+    from src.data import kaggle_data
+
+    settings = (config or {}).get("kaggle_train", {})
+    frame = kaggle_data.training_frame()
+
+    ic50 = pd.to_numeric(frame.get("IC50"), errors="coerce")
+    frame["target_is_label"] = ic50.isna()
+    print(f"[kaggle_train] {len(frame)} строк, из них строк-меток SI=10000: "
+          f"{int(frame['target_is_label'].sum())}")
+
+    if settings.get("sentinels", "keep") == "drop":
+        frame = frame[~frame["target_is_label"]].reset_index(drop=True)
+        print(f"[kaggle_train] строки-метки исключены, осталось {len(frame)}")
+    return frame
+
+
 SOURCES = {
     "starter": from_starter_csv,
+    "kaggle_train": from_kaggle_train,
     "chembl": from_chembl,
     "pubchem": from_pubchem,
     "bindingdb": from_bindingdb,
