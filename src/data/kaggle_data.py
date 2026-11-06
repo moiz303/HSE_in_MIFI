@@ -1,17 +1,16 @@
-"""Данные соревнования Kaggle и правило вычисления целевой переменной.
+"""Данные соревнования Kaggle.
 
 Соревнование: molecular-activity-prediction-hack (Nuclear IT Hack).
 
-Важное свойство этого соревнования: **в тестовом файле даны и CC50_uM, и
-IC50_uM_VACV** — оба члена формулы SI = CC50 / IC50. То есть целевая
-переменная выводится из признаков арифметически, без модели.
+**Организаторы запретили выводить целевую переменную из колонок тестового
+файла.** В test.csv лежат CC50_uM и IC50_uM_VACV, то есть SI = CC50 / IC50
+считался бы делением без всякой модели. Этот путь закрыт: функции, считавшие
+SI из колонок теста, удалены, и восстанавливать их не нужно. Предсказание
+делается только по структуре молекулы.
 
-Правило, выведенное из train и воспроизводящее его с MSE 3.4e-08 на всех
-320 строках (расхождения — округление SI до трёх знаков в самом файле):
-
-    оба значения есть   -> SI = CC50 / IC50      (237 из 320 строк train)
-    IC50 пропущен       -> SI = 10000.0          (81 из 81, маркер неактивности)
-    CC50 пропущен       -> SI = 0.0              (2 из 2)
+Запрет касается тестового файла. SI = CC50 / IC50 остаётся законным при сборке
+обучающих данных из литературы и баз — см. `src.data.schema.selectivity_index`
+и выгрузку ChEMBL.
 
 Данные соревнования не коммитятся: их перераспространение — вопрос правил
 Kaggle. Пайплайн их скачивает, для этого нужна авторизация
@@ -35,12 +34,10 @@ KAGGLE_DIR = Path("data/raw/kaggle")
 ID_COLUMN = "index"
 TARGET_COLUMN = "SI VACV"
 SMILES_COLUMN = "SMILES"
-CC50_COLUMN = "CC50_uM"
-IC50_COLUMN = "IC50_uM_VACV"
 
-# Соглашения организаторов о пропусках, проверенные на train.
-INACTIVE_MARKER = 10000.0   # IC50 не определён: соединение неактивно
-NO_CC50_VALUE = 0.0         # цитотоксичность не определена
+# Колонки, которые НЕЛЬЗЯ использовать для предсказания. Перечислены, чтобы
+# проверка ниже могла поймать их появление в пути сабмита.
+FORBIDDEN_FEATURE_COLUMNS = ("CC50_uM", "IC50_uM_VACV")
 
 
 def download(competition: str = COMPETITION, dest: Path | str = KAGGLE_DIR) -> Path:
@@ -68,8 +65,9 @@ def download(competition: str = COMPETITION, dest: Path | str = KAGGLE_DIR) -> P
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
         for path in sorted(target.glob("*.csv"))
     }
-    (Path("reports") / "kaggle_files.json").parent.mkdir(parents=True, exist_ok=True)
-    (Path("reports") / "kaggle_files.json").write_text(
+    report = Path("reports") / "kaggle_files.json"
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(
         json.dumps({"competition": competition, "sha256": checksums}, indent=2),
         encoding="utf-8",
     )
@@ -80,44 +78,40 @@ def load(name: str, directory: Path | str = KAGGLE_DIR) -> pd.DataFrame:
     """Прочитать train.csv, test.csv или sample_submit.csv."""
     path = Path(directory) / f"{name}.csv"
     if not path.exists():
-        raise SystemExit(
-            f"нет {path}. Скачайте данные: python -m src.pipeline kaggle"
-        )
+        raise SystemExit(f"нет {path}. Скачайте данные: python -m src.pipeline kaggle")
     return pd.read_csv(path)
 
 
-def selectivity_from_columns(frame: pd.DataFrame) -> pd.Series:
-    """Посчитать SI по правилу организаторов.
+def training_frame(directory: Path | str = KAGGLE_DIR) -> pd.DataFrame:
+    """train.csv соревнования в формате нашего контракта данных.
 
-    Порядок условий важен: строка без CC50 получает 0.0 даже если IC50 задан,
-    потому что именно так размечены такие строки в train.
+    Это обучающие данные, в них измеренные CC50 и IC50 использовать можно и
+    нужно: запрет касается тестового файла.
     """
-    for column in (CC50_COLUMN, IC50_COLUMN):
-        if column not in frame.columns:
-            raise ValueError(f"в таблице нет колонки {column!r}")
+    frame = load("train", directory).rename(
+        columns={
+            SMILES_COLUMN: "smiles",
+            "CC50_uM": "CC50",
+            "IC50_uM_VACV": "IC50",
+            TARGET_COLUMN: "SI",
+            "Culture": "cell_line",
+        }
+    )
+    frame["source"] = "kaggle_train"
+    frame["virus"] = "vaccinia virus"
+    return frame
 
-    cc50 = pd.to_numeric(frame[CC50_COLUMN], errors="coerce")
-    ic50 = pd.to_numeric(frame[IC50_COLUMN], errors="coerce")
 
-    selectivity = cc50 / ic50
-    selectivity = selectivity.where(ic50.notna(), INACTIVE_MARKER)
-    selectivity = selectivity.where(cc50.notna(), NO_CC50_VALUE)
-    return selectivity
+def assert_no_forbidden_features(frame: pd.DataFrame) -> None:
+    """Упасть, если в признаки для предсказания попали запрещённые колонки.
 
-
-def verify_rule(train: pd.DataFrame, tolerance: float = 0.01) -> dict:
-    """Проверить правило на train. Возвращает сводку для отчёта.
-
-    Это и есть обоснование, почему сабмит считается формулой: не «кажется
-    верным», а воспроизводит разметку организаторов на всех строках.
+    Страховка от того, что кто-то снова заведёт арифметику: запрет легко
+    нарушить случайно, передав в модель весь тестовый фрейм.
     """
-    predicted = selectivity_from_columns(train)
-    true = pd.to_numeric(train[TARGET_COLUMN], errors="coerce")
-    difference = (predicted - true).abs()
-    return {
-        "n": int(len(train)),
-        "mse": float(((predicted - true) ** 2).mean()),
-        "within_tolerance": int((difference < tolerance).sum()),
-        "max_abs_error": float(difference.max()),
-        "tolerance": tolerance,
-    }
+    present = [column for column in FORBIDDEN_FEATURE_COLUMNS if column in frame.columns]
+    if present:
+        raise ValueError(
+            "организаторы запретили использовать для предсказания колонки "
+            + ", ".join(present)
+            + ": предсказание делается только по структуре молекулы"
+        )

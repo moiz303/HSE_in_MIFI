@@ -126,7 +126,7 @@ set -e
 
 # ------------------------------------------------- 6. Сабмит моделью
 step "Собираю сабмит моделью"
-SUBMISSION="reports/submission_model.csv"
+SUBMISSION="reports/submission.csv"
 if [[ ! -f data/raw/kaggle/test.csv ]]; then
   printf '  %sскачиваю данные соревнования…%s\n' "$DIM" "$R"
   if ! python -m src.pipeline kaggle >/dev/null 2>&1; then
@@ -138,27 +138,14 @@ if [[ ! -f data/raw/kaggle/test.csv ]]; then
 fi
 
 if [[ -n "$SUBMISSION" ]]; then
-  # Модель отвечает за строки, где у организаторов настоящий SI. Строки, где
-  # IC50 или CC50 не заданы, размечены метками (10000 и 0.0) — структура их не
-  # предсказывает, и прогноз модели там только портит метрику.
-  if python -c "
-import json,pathlib
-p=pathlib.Path('configs/baseline.json'); c=json.loads(p.read_text(encoding='utf-8'))
-c['submission']['method']='model'
-p.write_text(json.dumps(c,indent=2,ensure_ascii=False)+chr(10),encoding='utf-8')
-" && python -u -m src.pipeline submission 2>&1 | tee -a "$LOG_FILE"; then
+  # Предсказание только по SMILES: организаторы запретили считать SI из
+  # колонок CC50_uM и IC50_uM_VACV тестового файла.
+  if python -u -m src.pipeline submission 2>&1 | tee -a "$LOG_FILE"; then
     ok "$SUBMISSION готов"
   else
-    warn "сабмит моделью собрать не удалось, см. $LOG_FILE"
+    warn "сабмит собрать не удалось, см. $LOG_FILE"
     SUBMISSION=""
   fi
-  # Возвращаем конфиг в режим formula: он даёт лучший результат на лидерборде.
-  python -c "
-import json,pathlib
-p=pathlib.Path('configs/baseline.json'); c=json.loads(p.read_text(encoding='utf-8'))
-c['submission']['method']='formula'
-p.write_text(json.dumps(c,indent=2,ensure_ascii=False)+chr(10),encoding='utf-8')
-"
 fi
 
 # ------------------------------------------------------------------- Итог
@@ -176,7 +163,7 @@ if [[ -n "$SUBMISSION" ]]; then
   printf '     %s(модели в .gitignore, уезжают только метрики, лог и csv)%s\n' "$DIM" "$R"
   printf '  2. попытку на Kaggle отправляет тот, у кого аккаунт команды:\n'
   printf '     kaggle competitions submit -c molecular-activity-prediction-hack \\\n'
-  printf '       -f %s -m "model two_head + conventions"\n' "$SUBMISSION"
+  printf '       -f %s -m "two_head, prediction from SMILES only"\n' "$SUBMISSION"
 else
   printf '  1. git add -A && git commit -m "обучение two_head" && git push\n'
   printf '  2. сабмит моделью собрать не удалось — см. предупреждение выше\n'

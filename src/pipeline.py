@@ -210,108 +210,65 @@ def step_evaluate(config: dict) -> None:
 
 
 def step_kaggle(config: dict) -> None:
-    """Скачать данные соревнования и проверить правило вычисления цели."""
+    """Скачать данные соревнования."""
     from src.data import kaggle_data
 
-    kaggle_data.download(config["submission"].get("competition", kaggle_data.COMPETITION))
-    summary = kaggle_data.verify_rule(kaggle_data.load("train"))
-    print(f"[kaggle] правило SI на train: MSE {summary['mse']:.3g}, "
-          f"совпало {summary['within_tolerance']}/{summary['n']} "
-          f"с точностью {summary['tolerance']}")
+    directory = kaggle_data.download(
+        config["submission"].get("competition", kaggle_data.COMPETITION)
+    )
+    train = kaggle_data.load("train")
+    print(f"[kaggle] файлы в {directory}, train: {len(train)} строк")
 
 
 def step_submission(config: dict) -> None:
-    """Собрать файл для Kaggle.
+    """Собрать файл для Kaggle: предсказание модели по SMILES.
 
-    Два режима, потому что задача и соревнование требуют разного:
+    Организаторы запретили выводить целевую переменную из колонок тестового
+    файла. В test.csv лежат CC50_uM и IC50_uM_VACV, то есть SI считался бы
+    делением без всякой модели — этот путь закрыт и в коде отсутствует.
 
-      formula — целевая переменная выводится из колонок теста арифметически.
-                В этом соревновании в тесте даны и CC50_uM, и IC50_uM_VACV,
-                а SI есть их отношение. Правило проверено на train.
-      model   — предсказание обученной модели по SMILES. Нужно для сдачи
-                задачи: условие требует модель, а не только сабмит.
+    Поэтому здесь используется только структура молекулы. Колонки CC50_uM и
+    IC50_uM_VACV из теста не читаются вообще, включая соглашения организаторов
+    о метках пропусков: они тоже опираются на эти колонки.
+
+    SI = CC50 / IC50 остаётся законным при сборке ОБУЧАЮЩИХ данных из
+    литературы и баз (см. schema.selectivity_index) — запрет про тестовый файл.
     """
+    import joblib
+
     settings = config["submission"]
-    method = settings.get("method", "formula")
     test_path = ROOT / settings["test_csv"]
     if not test_path.exists():
         raise SystemExit(f"нет файла теста: {test_path}. Запустите: python -m src.pipeline kaggle")
 
     test = pd.read_csv(test_path)
 
-    if method == "formula":
-        from src.data import kaggle_data
-
-        summary = kaggle_data.verify_rule(kaggle_data.load("train"))
-        print(f"[submission] правило проверено на train: MSE {summary['mse']:.3g}, "
-              f"совпало {summary['within_tolerance']}/{summary['n']}")
-        predicted = kaggle_data.selectivity_from_columns(test)
-        computed = test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
-        print(f"[submission] посчитано по формуле: {int(computed.sum())}, "
-              f"по соглашениям о пропусках: {int((~computed).sum())}")
-    elif method == "model":
-        import joblib
-
-        from src.data import kaggle_data
-
-        strategy = config["model"]["strategy"]
-        candidates = [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
-        model_path = next((path for path in candidates if path.exists()), None)
-        if model_path is None:
-            raise SystemExit(
-                f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
-                "на маке ./run_mac.sh, см. README"
-            )
-        model = joblib.load(model_path)["model"]
-        print(f"[submission] модель: {model_path.name}")
-
-        features = fingerprints.featurize(
-            test[settings["smiles_column"]].astype(str).tolist(),
-            use_morgan=config["features"]["morgan"],
-            use_descriptors=config["features"]["descriptors"],
+    strategy = config["model"]["strategy"]
+    candidates = [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
+    model_path = next((path for path in candidates if path.exists()), None)
+    if model_path is None:
+        raise SystemExit(
+            f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
+            "на маке ./run_mac.sh, см. README"
         )
-        predicted = pd.Series(
-            baseline.from_log(model.predict_log_si(features)), index=test.index
-        )
+    model = joblib.load(model_path)["model"]
+    print(f"[submission] модель: {model_path.name}, стратегия {strategy}")
 
-        # Там, где организаторы не дали IC50 или CC50, их разметка — не
-        # измерение, а метка: 10000 для неактивных, 0.0 без цитотоксичности.
-        # Структура молекулы такую метку не предсказывает, и прогноз модели на
-        # этих строках только портит метрику, ничего не говоря о её качестве.
-        # Поэтому модель отвечает за строки с настоящей целью, а строки-метки
-        # закрываются соглашениями.
-        #
-        # Если в тесте этих колонок нет вообще — а финальная проверка может их
-        # убрать, иначе целевая переменная выводится из признаков арифметикой —
-        # модель отвечает за все строки. Это и есть та постановка, под которую
-        # она обучена: прогноз по одной SMILES-записи.
-        has_columns = all(
-            column in test.columns
-            for column in (kaggle_data.CC50_COLUMN, kaggle_data.IC50_COLUMN)
-        )
-        if has_columns:
-            conventions = kaggle_data.selectivity_from_columns(test)
-            real_target = (
-                test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
-            )
-            predicted = predicted.where(real_target, conventions)
-            print(f"[submission] моделью: {int(real_target.sum())}, "
-                  f"по соглашениям о пропусках: {int((~real_target).sum())}")
-        else:
-            print(f"[submission] в тесте нет колонок {kaggle_data.CC50_COLUMN} и "
-                  f"{kaggle_data.IC50_COLUMN} — моделью предсказаны все {len(test)} строк")
-    else:
-        raise SystemExit(f"submission.method: ожидалось formula | model, получено {method!r}")
+    features = fingerprints.featurize(
+        test[settings["smiles_column"]].astype(str).tolist(),
+        use_morgan=config["features"]["morgan"],
+        use_descriptors=config["features"]["descriptors"],
+    )
+    predicted = baseline.from_log(model.predict_log_si(features))
 
     out = pd.DataFrame({
         settings["id_column"]: test[settings["id_column"]],
-        settings["target_column"]: pd.Series(predicted).to_numpy(),
+        settings["target_column"]: predicted,
     })
-    output_key = "output_model" if method == "model" and "output_model" in settings else "output"
-    target = ROOT / settings[output_key]
+    target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
-    print(f"[submission] режим {method}: {len(out)} строк → {target.relative_to(ROOT)}")
+    print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 
 STEPS = {

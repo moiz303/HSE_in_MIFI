@@ -29,13 +29,11 @@
     "params": {}
   },
   "submission": {
-    "method": "formula",
     "competition": "molecular-activity-prediction-hack",
     "test_csv": "data/raw/kaggle/test.csv",
     "smiles_column": "SMILES",
     "id_column": "index",
     "target_column": "SI VACV",
-    "output": "reports/submission.csv",
-    "output_model": "reports/submission_model.csv"
+    "output": "reports/submission.csv"
   }
 }
