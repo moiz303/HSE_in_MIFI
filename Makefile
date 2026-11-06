@@ -3,10 +3,11 @@
 PYTHON ?= python
 CONFIG ?= configs/baseline.json
 
-.PHONY: help data splits train eval submission test clean
+.PHONY: help data kaggle splits train eval submission test clean
 
 help:
 	@echo "data        выгрузка из открытых баз, валидация, стандартизация (A)"
+	@echo "kaggle      скачать файлы соревнования (нужна авторизация)"
 	@echo "splits      scaffold-разбиение и манифест                        (B)"
 	@echo "train       обучение по конфигу $(CONFIG)                        (B C)"
 	@echo "eval        метрики на validation с интервалами                  (B D)"
@@ -15,6 +16,9 @@ help:
 
 data:
 	$(PYTHON) -m src.pipeline data --config $(CONFIG)
+
+kaggle:
+	$(PYTHON) -m src.pipeline kaggle --config $(CONFIG)
 
 splits:
 	$(PYTHON) -m src.pipeline splits --config $(CONFIG)
@@ -26,7 +30,7 @@ eval:
 	$(PYTHON) -m src.pipeline evaluate --config $(CONFIG)
 
 submission:
-	$(PYTHON) -m src.pipeline all --config $(CONFIG)
+	$(PYTHON) -m src.pipeline submission --config $(CONFIG)
 
 test:
 	$(PYTHON) -m unittest discover -s tests -t . -v

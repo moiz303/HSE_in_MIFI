@@ -51,8 +51,9 @@ python -m src.pipeline data        # выгрузка, валидация, ст�
 python -m src.pipeline splits      # scaffold-разбиение и манифест         B
 python -m src.pipeline train       # обучение по configs/baseline.json     B C
 python -m src.pipeline evaluate    # метрики на validation с интервалами   B D
-python -m src.pipeline submission  # reports/submission.csv для Kaggle     D
-python -m src.pipeline all         # всё, кроме выгрузки данных
+python -m src.pipeline kaggle      # скачать файлы соревнования (нужна авторизация)
+python -m src.pipeline submission  # собрать CSV из уже обученной модели   D
+python -m src.pipeline all         # splits, train, evaluate и submission
 
 python -m unittest discover -s tests -t . -v   # тесты и smoke-прогон
 ```
@@ -95,9 +96,9 @@ Holdout в отдельный файл **намеренно не выгружа�
 
 ```bash
 git clone https://github.com/moiz303/HSE_in_MIFI.git && cd HSE_in_MIFI
-./run_mac.sh          # обе стратегии на фиксированном разбиении
-./run_mac.sh 5        # 5 scaffold-разбиений, сравнение стратегий
-./run_mac.sh 5 direct # 5 разбиений, только стратегия direct
+./run_mac.sh                 # direct на фиксированном разбиении
+./run_mac.sh 5 direct        # direct на 5 scaffold-разбиениях
+./run_mac.sh 5 both          # сравнить обе стратегии на 5 разбиениях
 ```
 
 `run_mac.sh` сам находит python, создаёт `.venv`, ставит зависимости (только в
@@ -110,7 +111,8 @@ git clone https://github.com/moiz303/HSE_in_MIFI.git && cd HSE_in_MIFI
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -u train_model.py --repeats 5
-python train_model.py --strategy direct --predict data/raw/test.csv
+python train_model.py --strategy direct --predict data/raw/kaggle/test.csv \
+  --id-column index --smiles-column SMILES --target-column "SI VACV"
 ```
 
 `--repeats` — это замер, которого не хватает команде: на одном разбиении из 140
