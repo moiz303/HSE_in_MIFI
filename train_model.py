@@ -243,15 +243,9 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
 
     out.parent.mkdir(parents=True, exist_ok=True)
     submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
-    try:
-        validate_submission(test, submission, id_column, target_column)
-    except ValueError as error:
-        raise SystemExit(f"ошибка сабмита: {error}") from error
+    validate_submission(test, submission, id_column, target_column)
     submission.to_csv(out, index=False)
-    try:
-        validate_submission(test, pd.read_csv(out), id_column, target_column)
-    except ValueError as error:
-        raise SystemExit(f"ошибка записанного сабмита: {error}") from error
+    validate_submission(test, pd.read_csv(out), id_column, target_column)
     log(f"предсказания: {len(test)} строк → {out}")
 
 

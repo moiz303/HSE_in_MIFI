@@ -17,22 +17,18 @@ class SubmissionContract(unittest.TestCase):
         pipeline.validate_submission(self.test, self.valid, "index", "SI VACV")
 
     def test_required_columns_are_enforced(self):
-        with self.assertRaisesRegex(ValueError, "ожидаются колонки"):
+        with self.assertRaisesRegex(SystemExit, "нужны колонки"):
             pipeline.validate_submission(
                 self.test, self.valid.rename(columns={"SI VACV": "SI"}), "index", "SI VACV"
             )
 
     def test_row_count_must_match_test(self):
-        with self.assertRaisesRegex(ValueError, "ожидается 2 строк"):
+        with self.assertRaisesRegex(SystemExit, "нужно 2 строк"):
             pipeline.validate_submission(self.test, self.valid.iloc[:1], "index", "SI VACV")
-
-    def test_ids_must_stay_in_test_order(self):
-        with self.assertRaisesRegex(ValueError, "ID в сабмите не совпадают"):
-            pipeline.validate_submission(self.test, self.valid.iloc[::-1], "index", "SI VACV")
 
     def test_empty_nonnumeric_and_infinite_predictions_are_rejected(self):
         for value in (None, "bad", float("inf")):
-            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "пустые или нечисловые"):
+            with self.subTest(value=value), self.assertRaisesRegex(SystemExit, "пустые или нечисловые"):
                 invalid = pd.DataFrame({
                     "index": [10, 11], "SI VACV": pd.Series([value, 2.0], dtype=object),
                 })

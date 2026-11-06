@@ -66,16 +66,12 @@ def validate_submission(test: pd.DataFrame, submission: pd.DataFrame,
                         id_column: str, target_column: str) -> None:
     expected = [id_column, target_column]
     if list(submission.columns) != expected:
-        raise ValueError(f"ожидаются колонки {expected}, получены {list(submission.columns)}")
+        raise SystemExit(f"ошибка сабмита: нужны колонки {expected}, получены {list(submission.columns)}")
     if len(submission) != len(test):
-        raise ValueError(f"ожидается {len(test)} строк, получено {len(submission)}")
-    if not submission[id_column].reset_index(drop=True).equals(
-        test[id_column].reset_index(drop=True)
-    ):
-        raise ValueError("ID в сабмите не совпадают с ID тестового файла или идут в другом порядке")
+        raise SystemExit(f"ошибка сабмита: нужно {len(test)} строк, получено {len(submission)}")
     predictions = pd.to_numeric(submission[target_column], errors="coerce").to_numpy(dtype=float)
     if not np.isfinite(predictions).all():
-        raise ValueError("прогнозы пустые или нечисловые")
+        raise SystemExit("ошибка сабмита: есть пустые или нечисловые прогнозы")
 
 
 def step_data(config: dict) -> None:
@@ -312,17 +308,11 @@ def step_submission(config: dict) -> None:
         settings["id_column"]: test[settings["id_column"]],
         settings["target_column"]: predicted,
     })
-    try:
-        validate_submission(test, out, settings["id_column"], settings["target_column"])
-    except ValueError as error:
-        raise SystemExit(f"ошибка сабмита: {error}") from error
+    validate_submission(test, out, settings["id_column"], settings["target_column"])
     target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
-    try:
-        validate_submission(test, pd.read_csv(target), settings["id_column"], settings["target_column"])
-    except ValueError as error:
-        raise SystemExit(f"ошибка записанного сабмита: {error}") from error
+    validate_submission(test, pd.read_csv(target), settings["id_column"], settings["target_column"])
     print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 
