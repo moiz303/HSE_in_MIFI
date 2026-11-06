@@ -136,10 +136,84 @@ class TwoHeadSI:
         return _clip_log(self.cc50.predict(features) - self.ic50.predict(features), self.clip_si)
 
 
+class SentinelSI:
+    """Классификатор неактивности плюс регрессия SI на активных молекулах.
+
+    Зачем. Метрика соревнования — MSE по сырому SI. В train.csv организаторов
+    25% строк размечены меткой SI = 10000: это не измерение, а «активности не
+    обнаружено». Если модель даёт на такой молекуле свою обычную медиану около
+    5, одна строка стоит (10000-5)^2 ≈ 1e8. На 150 таких строках из 597 это
+    около 2.5e7 метрики — больше, чем всё остальное вместе.
+
+    Как. Вместо порога берём ожидаемое значение: для квадратичной ошибки
+    оптимальный прогноз это E[y|x], то есть
+
+        SI = p * 10000 + (1 - p) * SI_регрессии,
+
+    где p — вероятность, что молекула размечена меткой. Порог терял бы
+    информацию: при p = 0.5 и жёстком решении ошибка максимальна, а смесь
+    даёт 5000 и режет квадрат ошибки вчетверо.
+
+    Регрессия учится только на строках с измеренным SI: подмешивать туда
+    метку 10000 значит учить её предсказывать не концентрацию, а разметку.
+    """
+
+    def __init__(self, params: dict | None = None, clip_si: float | None = None,
+                 label_value: float = 10000.0) -> None:
+        from sklearn.ensemble import HistGradientBoostingClassifier
+
+        merged = dict(DEFAULT_PARAMS)
+        merged.update(params or {})
+        self.classifier = HistGradientBoostingClassifier(**merged)
+        self.regressor = DirectSI(params, clip_si)
+        self.label_value = label_value
+        self.clip_si = clip_si
+        self.n_train: dict[str, int] = {}
+        self._single_class: bool | None = None
+
+    def fit(self, features: np.ndarray, si: np.ndarray, is_label: np.ndarray) -> "SentinelSI":
+        labels = np.asarray(is_label, dtype=bool)
+        if labels.all() or not labels.any():
+            # Один класс: классификатор не нужен и обучаться не может.
+            self._single_class = bool(labels.all())
+        else:
+            self._single_class = None
+            self.classifier.fit(features, labels.astype(int))
+
+        self.regressor.fit(features[~labels], np.asarray(si, dtype=float)[~labels])
+        self.n_train = {
+            "регрессия": int((~labels).sum()),
+            "метки": int(labels.sum()),
+            "доля меток": round(float(labels.mean()), 3),
+        }
+        return self
+
+    def predict_proba_label(self, features: np.ndarray) -> np.ndarray:
+        if self._single_class is not None:
+            return np.full(features.shape[0], 1.0 if self._single_class else 0.0)
+        return self.classifier.predict_proba(features)[:, 1]
+
+    def predict_si(self, features: np.ndarray) -> np.ndarray:
+        """Ожидаемое значение SI в линейном масштабе — так оценивает метрика."""
+        probability = self.predict_proba_label(features)
+        regression = from_log(self.regressor.predict_log_si(features))
+        blended = probability * self.label_value + (1.0 - probability) * regression
+        if self.clip_si is not None:
+            blended = np.minimum(blended, max(self.clip_si, self.label_value))
+        return blended
+
+    def predict_log_si(self, features: np.ndarray) -> np.ndarray:
+        return to_log(self.predict_si(features))
+
+
 def build(strategy: str, params: dict | None = None, clip_si: float | None = None):
     """Собрать модель. clip_si — правдоподобный максимум SI или None."""
     if strategy == "direct":
         return DirectSI(params, clip_si)
     if strategy == "two_head":
         return TwoHeadSI(params, clip_si)
-    raise ValueError(f"неизвестная стратегия: {strategy!r}, ожидалось direct или two_head")
+    if strategy == "sentinel":
+        return SentinelSI(params, clip_si)
+    raise ValueError(
+        f"неизвестная стратегия: {strategy!r}, ожидалось direct, two_head или sentinel"
+    )

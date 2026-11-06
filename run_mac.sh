@@ -11,7 +11,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 REPEATS="${1:-0}"
-STRATEGY="${2:-direct}"     # direct лучше на 5 разбиениях; "both" — сравнить
+STRATEGY="${2:-sentinel}"   # sentinel: классификатор меток + регрессия; "all" — сравнить все три
 CLIP="${3:-clip}"           # "noclip" — замер без ограничения SI сверху
 VENV=".venv"
 LOG_DIR="reports"

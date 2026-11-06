@@ -29,7 +29,7 @@
     "descriptors": true
   },
   "model": {
-    "strategy": "direct",
+    "strategy": "sentinel",
     "params": {},
     "clip_si": 36066.7
   },

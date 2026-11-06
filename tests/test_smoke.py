@@ -123,6 +123,50 @@ class TrainingLoop(unittest.TestCase):
         model = baseline.build("direct")
         self.assertIsNone(model.clip_si)
 
+    def test_sentinel_blends_by_probability(self):
+        # Метка стоит на молекулах с общим мотивом, поэтому классификатор
+        # должен их отделить, а прогноз на них — уйти к 10000.
+        rng = np.random.default_rng(3)
+        features = np.vstack([
+            rng.normal(0, 0.1, (20, 6)),      # активные
+            rng.normal(5, 0.1, (20, 6)),      # неактивные, явно другой кластер
+        ])
+        si = np.concatenate([10 ** rng.uniform(0, 2, 20), np.full(20, 10000.0)])
+        is_label = np.concatenate([np.zeros(20, bool), np.ones(20, bool)])
+
+        model = baseline.build("sentinel").fit(features, si, is_label)
+        predicted = model.predict_si(features)
+        self.assertLess(predicted[:20].mean(), 1000.0)
+        self.assertGreater(predicted[20:].mean(), 5000.0)
+        self.assertEqual(model.n_train["метки"], 20)
+        self.assertEqual(model.n_train["регрессия"], 20)
+
+    def test_sentinel_regression_never_sees_the_label_rows(self):
+        # Иначе регрессия учится предсказывать разметку, а не концентрацию.
+        features = np.random.default_rng(4).random((30, 5))
+        si = np.concatenate([np.full(10, 10000.0), 10 ** np.linspace(0, 2, 20)])
+        is_label = np.concatenate([np.ones(10, bool), np.zeros(20, bool)])
+        model = baseline.build("sentinel").fit(features, si, is_label)
+        self.assertEqual(model.n_train["регрессия"], 20)
+        self.assertEqual(model.regressor.n_train["SI"], 20)
+
+    def test_sentinel_survives_a_single_class(self):
+        features = np.random.default_rng(5).random((12, 4))
+        si = 10 ** np.linspace(0, 2, 12)
+        model = baseline.build("sentinel").fit(features, si, np.zeros(12, bool))
+        predicted = model.predict_si(features)
+        self.assertTrue(np.isfinite(predicted).all())
+        self.assertLess(predicted.max(), 10000.0)
+
+    def test_sentinel_probability_is_a_probability(self):
+        rng = np.random.default_rng(6)
+        features = np.vstack([rng.normal(0, 0.1, (15, 4)), rng.normal(4, 0.1, (15, 4))])
+        si = np.concatenate([np.full(15, 3.0), np.full(15, 10000.0)])
+        is_label = np.concatenate([np.zeros(15, bool), np.ones(15, bool)])
+        model = baseline.build("sentinel").fit(features, si, is_label)
+        probability = model.predict_proba_label(features)
+        self.assertTrue(((probability >= 0) & (probability <= 1)).all())
+
     def test_a_head_with_no_usable_rows_fails_clearly(self):
         with self.assertRaises(ValueError) as caught:
             baseline.build("two_head").fit(

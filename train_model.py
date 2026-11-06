@@ -69,11 +69,20 @@ def featurize(frame: pd.DataFrame) -> np.ndarray:
     return fingerprints.featurize(frame[SMILES_COLUMN].astype(str).tolist())
 
 
+def labels_of(frame: pd.DataFrame) -> np.ndarray:
+    """Строки, где цель задана меткой организаторов, а не измерена."""
+    if "target_is_label" in frame.columns:
+        return frame["target_is_label"].fillna(False).to_numpy(dtype=bool)
+    return np.zeros(len(frame), dtype=bool)
+
+
 def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
         params: dict | None = None, clip_si: float | None = None):
     model = baseline.build(strategy, params, clip_si)
     if strategy == "two_head":
         model.fit(features, frame["IC50"].to_numpy(), frame["CC50"].to_numpy())
+    elif strategy == "sentinel":
+        model.fit(features, frame["SI"].to_numpy(), labels_of(frame))
     else:
         model.fit(features, frame["SI"].to_numpy())
     return model
@@ -88,6 +97,18 @@ def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
     # Метрика соревнования. На неё и смотрим: лидерборд считает MSE по сырому
     # SI, а не по логарифму.
     result["competition_mse"] = evaluate.competition_mse(true, predicted)
+
+    # Наша валидация содержит хвост ChEMBL с SI до 2.2e5, которого в тесте нет:
+    # на ней MSE была 7e7 при реальных 2.1e6 на лидерборде. Поэтому отдельно
+    # считаем метрику только на строках из train.csv соревнования — они в том
+    # же распределении, что тест, и только эта цифра сопоставима с лидербордом.
+    if "source" in frame.columns:
+        mask = frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
+        if mask.sum() >= 10:
+            result["competition_mse_in_distribution"] = evaluate.competition_mse(
+                true[mask], predicted[mask]
+            )
+            result["n_in_distribution"] = int(mask.sum())
     return result
 
 
@@ -122,6 +143,11 @@ def run_fixed(strategies: list[str], params: dict | None,
         log(f"{strategy}: RMSE log10 = {result['rmse_log10']:.3f} [{low:.3f}; {high:.3f}], "
             f"Spearman = {result['spearman']:.3f}", indent=2)
         log(f"метрика соревнования (MSE по сырому SI): {result['competition_mse']:.4g}", indent=2)
+        if "competition_mse_in_distribution" in result:
+            log(f"она же только на строках соревнования "
+                f"(n={result['n_in_distribution']}): "
+                f"{result['competition_mse_in_distribution']:.4g}  <- сопоставимо с лидербордом",
+                indent=2)
 
         ARTIFACTS.mkdir(parents=True, exist_ok=True)
         import joblib
@@ -237,7 +263,9 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--strategy", choices=["two_head", "direct", "both"], default="both")
+    parser.add_argument("--strategy",
+                        choices=["sentinel", "direct", "two_head", "both", "all"],
+                        default="sentinel")
     parser.add_argument("--repeats", type=int, default=0,
                         help="сколько scaffold-разбиений прогнать вместо одного фиксированного")
     parser.add_argument("--params", default=None,
@@ -252,7 +280,12 @@ def main(argv: list[str] | None = None) -> int:
                         help="не ограничивать прогноз максимумом SI из данных организаторов")
     args = parser.parse_args(argv)
 
-    strategies = ["two_head", "direct"] if args.strategy == "both" else [args.strategy]
+    if args.strategy == "both":
+        strategies = ["two_head", "direct"]
+    elif args.strategy == "all":
+        strategies = ["sentinel", "direct", "two_head"]
+    else:
+        strategies = [args.strategy]
     params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None
 
     config = json.loads((ROOT / "configs" / "baseline.json").read_text(encoding="utf-8"))
