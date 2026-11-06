@@ -194,6 +194,7 @@ def run_classifier(
         for repeat, fold_list in enumerate(folds_list):
             probability = np.full(len(si), np.nan)
             regression = np.full(len(si), np.nan)
+            baseline_prediction = np.full(len(si), np.nan)
             for held in fold_list:
                 rest = np.setdiff1d(np.arange(len(si)), held)
                 if labels[rest].sum() < 5 or (~labels[rest]).sum() < 5:
@@ -201,11 +202,21 @@ def run_classifier(
                 classifier = build_classifier(kind)
                 classifier.fit(features[rest], labels[rest].astype(int))
                 probability[held] = classifier.predict_proba(features[held])[:, 1]
-                # Регрессия учится только на строках с измеренным SI.
+                # Регрессия для смеси учится только на строках с измеренным SI:
+                # подмешивать метку значит учить её предсказывать разметку.
                 measured = rest[~labels[rest]]
                 model = FlexibleSI(**BASE_SETTINGS, params=SCREEN_PARAMS)
                 model.fit(features[measured], si[measured])
                 regression[held] = model.predict_si(features[held])
+
+                # База для сравнения — рабочая модель, обученная на ВСЕХ
+                # строках, включая метки. Сравнивать смесь с регрессией без
+                # меток нельзя: это искусственно ослабленная база, и выигрыш
+                # над ней ничего не значит. Прямая модель уже выучивает класс
+                # меток сама, и исключение этих строк стоит 45% метрики.
+                full = FlexibleSI(**BASE_SETTINGS, params=SCREEN_PARAMS)
+                full.fit(features[rest], si[rest])
+                baseline_prediction[held] = full.predict_si(features[held])
 
             done = np.isfinite(probability) & in_distribution
             if done.sum() < 20:
@@ -219,7 +230,8 @@ def run_classifier(
                 "brier": float(((probability_done - true_label) ** 2).mean()),
                 "ece": expected_calibration_error(true_label.astype(float), probability_done),
                 "mse_смесь": float(((blended - si[done]) ** 2).mean()),
-                "mse_только_регрессия": float(((regression[done] - si[done]) ** 2).mean()),
+                "mse_база": float(((baseline_prediction[done] - si[done]) ** 2).mean()),
+                "mse_регрессия_без_меток": float(((regression[done] - si[done]) ** 2).mean()),
             })
 
         if not per_repeat:
@@ -332,12 +344,14 @@ def main(argv: list[str] | None = None) -> int:
             table = pd.DataFrame(classifier_rows).sort_values("mse_смесь")
             table.to_csv(REPORTS / "experiment_sentinel_classifier.csv", index=False)
             best = table.iloc[0]
-            gain = best["mse_только_регрессия"] - best["mse_смесь"]
+            gain = best["mse_база"] - best["mse_смесь"]
             log("")
-            log(f"лучший: {best['классификатор']}, смесь {'выигрывает' if gain > 0 else 'проигрывает'} "
-                f"{abs(gain):.4g} при разбросе {best['mse_смесь_sd']:.3g}")
+            log(f"лучший классификатор: {best['классификатор']}. Смесь "
+                f"{'выигрывает' if gain > 0 else 'проигрывает'} базе {abs(gain):.4g} "
+                f"при разбросе {best['mse_смесь_sd']:.3g}")
             report["вердикт_классификатор"] = (
-                "принять" if gain > best["mse_смесь_sd"] else "в пределах шума"
+                "принять" if gain > best["mse_смесь_sd"] else
+                "отклонить" if gain < -best["mse_смесь_sd"] else "в пределах шума"
             )
 
     if args.only in (None, "dilution"):
