@@ -42,3 +42,7 @@ reports/submission.csv
 reports/metrics.json
 CLAUDE.md
 .kaggle/kaggle.json
+
+# Данные соревнования не перераспространяем: качаются через
+# python -m src.pipeline kaggle
+data/raw/kaggle/
