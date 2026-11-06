@@ -53,22 +53,25 @@ def log(message: str, indent: int = 0) -> None:
 
 
 def candidates(grid: str) -> list[dict]:
-    """Комбинации для перебора — только непроверенные гипотезы.
+    """Комбинации для перебора.
 
-    Закрытые направления здесь намеренно отсутствуют, их не нужно гонять снова
-    (числа в Teach.md): масштаб log и sqrt, потери absolute_error и poisson,
-    квантили 0.7 и 0.9, порог обрезки 3000. Все они проиграли за пределами
-    погрешности либо попали в неразличимую группу.
+    `base` — живые гипотезы, быстрый прогон.
 
-    Живое на сейчас: лес как baseline QSAR (не проверялся ни разу) и вес строк
-    соревнования против строк ChEMBL (другое распределение).
+    `full` — включая направления, ранее отвергнутые. Это не повтор зря: они
+    отвергались старым измерителем, где в распределении соревнования было 64
+    строки и std доходил до трети среднего. На такой точности «в пределах
+    шума» значило «не знаем», а не «хуже». Кросс-валидация на 310 строках
+    сужает погрешность примерно в 2.2 раза, и часть отказов может
+    перевернуться. Исключение — масштаб цели: там разрыв был втрое больше
+    погрешности (raw 2.54e7 против log 3.69e7), и перепроверять нечего, но
+    опорная точка в сетке остаётся.
     """
     items: list[dict] = []
 
-    # Опора: лучшее на сейчас, для сравнения в тех же разбиениях.
+    # Опора: лучшее на сейчас.
     items.append({"transform": "raw", "loss": "squared_error", "clip_si": 20000.0})
 
-    # Лес и ExtraTrees — единственная непроверенная модельная семья.
+    # Лес и ExtraTrees: отвергнуты с разрывом 0.1e7 при std 0.5-0.7e7.
     for learner in ("rf", "extra"):
         items.append({"transform": "raw", "loss": "squared_error", "learner": learner,
                       "clip_si": 20000.0})
@@ -78,18 +81,34 @@ def candidates(grid: str) -> list[dict]:
         items.append({"transform": "raw", "loss": "squared_error",
                       "weight_power": power, "clip_si": 20000.0})
 
-    if grid == "full":
-        items.append({"transform": "raw", "loss": "squared_error", "learner": "rf",
-                      "clip_si": 36066.7})
-        items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
+    if grid == "base":
+        return items
+
+    # Потери: отвергнуты на шумном измерителе.
+    for loss in ("absolute_error", "poisson", "gamma"):
+        items.append({"transform": "raw", "loss": loss, "clip_si": 20000.0})
+    for quantile in (0.7, 0.8, 0.9):
+        items.append({"transform": "raw", "loss": "quantile", "quantile": quantile,
                       "clip_si": 20000.0})
-        items.append({"transform": "raw", "loss": "quantile", "quantile": 0.8,
+
+    # Порог обрезки: сетка шире прежней, оптимум мог оказаться между точками.
+    for clip in (5000.0, 10000.0, 15000.0, 30000.0, CLIP_FROM_TRAIN, None):
+        items.append({"transform": "raw", "loss": "squared_error", "clip_si": clip})
+
+    # Масштаб цели: опорные точки, разрыв был велик и вряд ли перевернётся.
+    for transform in ("sqrt", "log"):
+        items.append({"transform": transform, "loss": "squared_error",
                       "clip_si": 20000.0})
-        items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
-                      "clip_si": 20000.0})
-        for power in (1.0,):
-            items.append({"transform": "raw", "loss": "squared_error",
-                          "weight_power": power, "clip_si": 20000.0})
+
+    # Лес с другими критериями и обрезкой, XGBoost, сильный вес.
+    items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "poisson", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "weight_power": 1.0,
+                  "clip_si": 20000.0})
 
     unique: list[dict] = []
     for item in items:
@@ -223,12 +242,12 @@ def evaluate_candidate(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Перебор методов по метрике соревнования")
-    parser.add_argument("--repeats", type=int, default=2)
+    parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--grid", choices=["base", "full"], default="base")
     parser.add_argument("--top", type=int, default=3, help="сколько лучших сохранить")
-    parser.add_argument("--max-minutes", type=float, default=5.0,
-                        help="жёсткий бюджет: перебор останавливается по времени")
+    parser.add_argument("--max-minutes", type=float, default=0.0,
+                        help="жёсткий бюджет в минутах; 0 — без ограничения")
     parser.add_argument("--features", action="store_true",
                         help="второй этап по наборам признаков (закрытое направление)")
     args = parser.parse_args(argv)
@@ -247,8 +266,10 @@ def main(argv: list[str] | None = None) -> int:
     grid = candidates(args.grid)
     log(f"комбинаций: {len(grid)}, обучений: {len(grid) * args.repeats}\n")
 
-    deadline = time.monotonic() + args.max_minutes * 60
-    log(f"бюджет: {args.max_minutes:g} мин")
+    deadline = (
+        time.monotonic() + args.max_minutes * 60 if args.max_minutes > 0 else float("inf")
+    )
+    log(f"бюджет: {f'{args.max_minutes:g} мин' if args.max_minutes > 0 else 'без ограничения'}")
 
     results: list[dict] = []
     for number, settings in enumerate(grid, start=1):

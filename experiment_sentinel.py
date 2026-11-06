@@ -302,7 +302,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--folds", type=int, default=5)
-    parser.add_argument("--max-minutes", type=float, default=5.0)
+    parser.add_argument("--max-minutes", type=float, default=0.0,
+                        help="жёсткий бюджет в минутах; 0 — без ограничения")
     parser.add_argument("--only", choices=["classifier", "dilution"], default=None)
     args = parser.parse_args(argv)
 
@@ -314,9 +315,12 @@ def main(argv: list[str] | None = None) -> int:
         fold_indices(smiles, args.folds, splits.DEFAULT_SEED + repeat)
         for repeat in range(args.repeats)
     ]
-    log(f"{args.repeats} повторов по {args.folds} фолдов, бюджет {args.max_minutes:g} мин")
+    log(f"{args.repeats} повторов по {args.folds} фолдов, бюджет "
+        f"{f'{args.max_minutes:g} мин' if args.max_minutes > 0 else 'без ограничения'}")
 
-    deadline = time.monotonic() + args.max_minutes * 60
+    deadline = (
+        time.monotonic() + args.max_minutes * 60 if args.max_minutes > 0 else float("inf")
+    )
     report: dict[str, object] = {"повторов": args.repeats, "folds": args.folds}
 
     if args.only in (None, "classifier"):
