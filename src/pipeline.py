@@ -252,27 +252,50 @@ def step_submission(config: dict) -> None:
     elif method == "model":
         import joblib
 
-        model_path = ARTIFACTS / "model.joblib"
-        if not model_path.exists():
+        from src.data import kaggle_data
+
+        strategy = config["model"]["strategy"]
+        candidates = [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
+        model_path = next((path for path in candidates if path.exists()), None)
+        if model_path is None:
             raise SystemExit(
-                f"нет {model_path.name}. Обучение запускается не здесь: "
-                "см. раздел README про запуск на отдельной машине"
+                f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
+                "на маке ./run_mac.sh, см. README"
             )
         model = joblib.load(model_path)["model"]
+        print(f"[submission] модель: {model_path.name}")
+
         features = fingerprints.featurize(
             test[settings["smiles_column"]].astype(str).tolist(),
             use_morgan=config["features"]["morgan"],
             use_descriptors=config["features"]["descriptors"],
         )
-        predicted = baseline.from_log(model.predict_log_si(features))
+        predicted = pd.Series(
+            baseline.from_log(model.predict_log_si(features)), index=test.index
+        )
+
+        # Там, где организаторы не дали IC50 или CC50, их разметка — не
+        # измерение, а метка: 10000 для неактивных, 0.0 без цитотоксичности.
+        # Структура молекулы такую метку не предсказывает, и прогноз модели на
+        # этих строках только портит метрику, ничего не говоря о её качестве.
+        # Поэтому модель отвечает за строки с настоящей целью, а строки-метки
+        # закрываются соглашениями.
+        conventions = kaggle_data.selectivity_from_columns(test)
+        real_target = (
+            test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
+        )
+        predicted = predicted.where(real_target, conventions)
+        print(f"[submission] моделью: {int(real_target.sum())}, "
+              f"по соглашениям о пропусках: {int((~real_target).sum())}")
     else:
         raise SystemExit(f"submission.method: ожидалось formula | model, получено {method!r}")
 
     out = pd.DataFrame({
         settings["id_column"]: test[settings["id_column"]],
-        settings["target_column"]: predicted,
+        settings["target_column"]: pd.Series(predicted).to_numpy(),
     })
-    target = ROOT / settings["output"]
+    output_key = "output_model" if method == "model" and "output_model" in settings else "output"
+    target = ROOT / settings[output_key]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
     print(f"[submission] режим {method}: {len(out)} строк → {target.relative_to(ROOT)}")

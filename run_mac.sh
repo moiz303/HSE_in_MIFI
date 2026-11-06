@@ -11,7 +11,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 REPEATS="${1:-0}"
-STRATEGY="${2:-both}"
+STRATEGY="${2:-two_head}"   # команда выбрала two_head; "both" — сравнить со direct
 VENV=".venv"
 LOG_DIR="reports"
 LOG_FILE="$LOG_DIR/train_$(date +%Y%m%d_%H%M%S).log"
@@ -25,7 +25,7 @@ else
 fi
 
 STEP=0
-TOTAL=5
+TOTAL=6
 START_TS=$(date +%s)
 
 elapsed() {
@@ -124,6 +124,43 @@ STATUS=${PIPESTATUS[0]}
 set -e
 [[ $STATUS -eq 0 ]] || die "обучение упало (код $STATUS), см. $LOG_FILE"
 
+# ------------------------------------------------- 6. Сабмит моделью
+step "Собираю сабмит моделью"
+SUBMISSION="reports/submission_model.csv"
+if [[ ! -f data/raw/kaggle/test.csv ]]; then
+  printf '  %sскачиваю данные соревнования…%s\n' "$DIM" "$R"
+  if ! python -m src.pipeline kaggle >/dev/null 2>&1; then
+    warn "нет данных соревнования и нет авторизации Kaggle"
+    printf '  %sсделай один раз:%s kaggle auth login\n' "$DIM" "$R"
+    printf '  %sпотом:%s python -m src.pipeline kaggle && python -m src.pipeline submission\n' "$DIM" "$R"
+    SUBMISSION=""
+  fi
+fi
+
+if [[ -n "$SUBMISSION" ]]; then
+  # Модель отвечает за строки, где у организаторов настоящий SI. Строки, где
+  # IC50 или CC50 не заданы, размечены метками (10000 и 0.0) — структура их не
+  # предсказывает, и прогноз модели там только портит метрику.
+  if python -c "
+import json,pathlib
+p=pathlib.Path('configs/baseline.json'); c=json.loads(p.read_text(encoding='utf-8'))
+c['submission']['method']='model'
+p.write_text(json.dumps(c,indent=2,ensure_ascii=False)+chr(10),encoding='utf-8')
+" && python -u -m src.pipeline submission 2>&1 | tee -a "$LOG_FILE"; then
+    ok "$SUBMISSION готов"
+  else
+    warn "сабмит моделью собрать не удалось, см. $LOG_FILE"
+    SUBMISSION=""
+  fi
+  # Возвращаем конфиг в режим formula: он даёт лучший результат на лидерборде.
+  python -c "
+import json,pathlib
+p=pathlib.Path('configs/baseline.json'); c=json.loads(p.read_text(encoding='utf-8'))
+c['submission']['method']='formula'
+p.write_text(json.dumps(c,indent=2,ensure_ascii=False)+chr(10),encoding='utf-8')
+"
+fi
+
 # ------------------------------------------------------------------- Итог
 printf '\n%s╭─────────────────────────────────────────────────╮%s\n' "$GREEN" "$R"
 printf '%s│  Готово за %-36s │%s\n' "$GREEN" "$(elapsed)" "$R"
@@ -131,9 +168,22 @@ printf '%s╰──────────────────────�
 printf '  метрики:  %s\n' "reports/train_metrics.json"
 printf '  модели:   %s\n' "artifacts/model_*.joblib"
 printf '  лог:      %s\n' "$LOG_FILE"
+[[ -n "$SUBMISSION" ]] && printf '  сабмит:   %s\n' "$SUBMISSION"
+
+printf '\n%sЧто сделать дальше:%s\n' "$B" "$R"
+if [[ -n "$SUBMISSION" ]]; then
+  printf '  1. git add -A && git commit -m "обучение two_head + сабмит моделью" && git push\n'
+  printf '     %s(модели в .gitignore, уезжают только метрики, лог и csv)%s\n' "$DIM" "$R"
+  printf '  2. попытку на Kaggle отправляет тот, у кого аккаунт команды:\n'
+  printf '     kaggle competitions submit -c molecular-activity-prediction-hack \\\n'
+  printf '       -f %s -m "model two_head + conventions"\n' "$SUBMISSION"
+else
+  printf '  1. git add -A && git commit -m "обучение two_head" && git push\n'
+  printf '  2. сабмит моделью собрать не удалось — см. предупреждение выше\n'
+fi
 
 if [[ "$REPEATS" -eq 0 ]]; then
-  printf '\n%sОдно разбиение из 140 молекул: разница между стратегиями внутри шума.%s\n' "$DIM" "$R"
-  printf '%sЧтобы закрыть вопрос direct против two_head: ./run_mac.sh 5%s\n' "$DIM" "$R"
+  printf '\n%sОдно разбиение из 140 молекул: разница между стратегиями внутри шума%s\n' "$DIM" "$R"
+  printf '%s(0.056 против ширины интервала 0.342). Чтобы закрыть вопрос: ./run_mac.sh 5 both%s\n' "$DIM" "$R"
 fi
-printf '\n%sКоммить метрики и лог в репозиторий — они идут в финальный отчёт.%s\n' "$DIM" "$R"
+printf '\n%sМетрики, лог и сабмит идут в финальный отчёт — коммить их.%s\n' "$DIM" "$R"
