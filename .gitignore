@@ -34,3 +34,9 @@ pip-delete-this-directory.txt
 
 # Local runtime data and credentials
 .env
+# Артефакты обучения и кэш HTTP: тяжёлые, восстанавливаются прогоном.
+# Данные в data/ коммитятся — собранная база входит в сдачу.
+artifacts/*.joblib
+data/raw/.http_cache*
+reports/submission.csv
+reports/metrics.json

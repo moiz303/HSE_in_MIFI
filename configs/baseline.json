@@ -1,0 +1,27 @@
+{
+  "name": "baseline-morgan-hgb",
+  "seed": 20261106,
+  "data": {
+    "sources": ["starter"],
+    "starter_csv": "data/raw/starter.csv"
+  },
+  "splits": {
+    "seed": 20261106,
+    "fractions": {"train": 0.7, "validation": 0.15, "holdout": 0.15}
+  },
+  "features": {
+    "morgan": true,
+    "descriptors": true
+  },
+  "model": {
+    "strategy": "two_head",
+    "params": {}
+  },
+  "submission": {
+    "test_csv": "data/raw/test.csv",
+    "smiles_column": "smiles",
+    "id_column": "id",
+    "target_column": "SI",
+    "output": "reports/submission.csv"
+  }
+}
