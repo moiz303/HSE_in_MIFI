@@ -41,7 +41,7 @@ DEFAULT_CONFIG = ROOT / "configs" / "baseline.json"
 def load_config(path: str | Path = DEFAULT_CONFIG) -> dict:
     path = Path(path)
     if not path.is_file():
-        raise SystemExit(f"нет конфигурации {path} — проверьте --config")
+        raise SystemExit(f"нет конфигурации {path}")
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as error:
@@ -56,10 +56,9 @@ def load_dataset() -> pd.DataFrame:
     return pd.read_csv(DATASET)
 
 
-def require_file(path: Path, instruction: str) -> Path:
+def require_file(path: Path, instruction: str) -> None:
     if not path.is_file():
         raise SystemExit(f"нет {path.relative_to(ROOT)} — {instruction}")
-    return path
 
 
 def validate_submission(test: pd.DataFrame, submission: pd.DataFrame,
@@ -320,7 +319,6 @@ def step_submission(config: dict) -> None:
     target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(target, index=False)
-    validate_submission(test, pd.read_csv(target), settings["id_column"], settings["target_column"])
     print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 

@@ -30,7 +30,7 @@ import pandas as pd
 from src import evaluate, splits
 from src.features import fingerprints
 from src.models import baseline
-from src.pipeline import validate_submission
+from src.pipeline import load_config, validate_submission
 from src.run_record import record_run
 
 ROOT = Path(__file__).resolve().parent
@@ -284,7 +284,6 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
     submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
     validate_submission(test, submission, id_column, target_column)
     submission.to_csv(out, index=False)
-    validate_submission(test, pd.read_csv(out), id_column, target_column)
     log(f"предсказания: {len(test)} строк → {out}")
 
 
@@ -315,30 +314,10 @@ def main(argv: list[str] | None = None) -> int:
     else:
         strategies = [args.strategy]
     params_path = Path(args.params) if args.params else None
-    if params_path and not params_path.is_file():
-        raise SystemExit(f"нет файла гиперпараметров {params_path} — проверьте --params")
-    try:
-        params = json.loads(params_path.read_text(encoding="utf-8")) if params_path else None
-    except json.JSONDecodeError as error:
-        raise SystemExit(f"ошибка в {params_path}: {error}") from error
-
+    params = load_config(params_path) if params_path else None
     config_path = ROOT / "configs" / "baseline.json"
-    if not config_path.is_file():
-        raise SystemExit(f"нет конфигурации {config_path}")
-    try:
-        config = json.loads(config_path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as error:
-        raise SystemExit(f"ошибка в конфигурации {config_path}: {error}") from error
-    run_config = {
-        **config,
-        "run_options": {
-            "strategy": args.strategy,
-            "repeats": args.repeats,
-            "params": params,
-            "no_clip": args.no_clip,
-            "predict": args.predict,
-        },
-    }
+    config = load_config(config_path)
+    run_config = {**config, "run_options": vars(args), "params": params}
     inputs = [TRAIN_CSV, VALIDATION_CSV, config_path]
     if params_path:
         inputs.append(params_path)

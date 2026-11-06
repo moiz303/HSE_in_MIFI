@@ -40,7 +40,8 @@ SI = CC50 / IC50
 
 ```bash
 python3.12 -m venv .venv
-source .venv/bin/activate           # macOS / Linux / Git Bash
+source .venv/bin/activate           # macOS / Linux
+# Git Bash на Windows: source .venv/Scripts/activate
 # PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
