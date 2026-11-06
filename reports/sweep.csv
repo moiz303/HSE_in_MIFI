@@ -1,6 +1,6 @@
-transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,разбиений,learner,weight_power
-raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,28325342.50635517,7142170.666243482,62769730.40072629,3,,
-raw,squared_error,20000.0,rf · raw · squared_error · clip=20000,29357542.03339163,4950374.765303023,61987430.98710259,3,rf,
-raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.25 · clip=20000,29458690.764971137,6665122.050626601,64317672.45100814,3,,0.25
-raw,squared_error,20000.0,extra · raw · squared_error · clip=20000,30072581.499567002,4501595.426445836,62355050.28848425,3,extra,
-raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.5 · clip=20000,30152931.13677162,6861378.976369927,63828168.72290888,3,,0.5
+transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,строк_оценки,повторов,learner,weight_power
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,19978172.078900546,1421907.9060340961,92623139.52166378,260,2,,
+raw,squared_error,20000.0,extra · raw · squared_error · clip=20000,21262803.350824304,1474733.4273709129,93290737.05380943,260,2,extra,
+raw,squared_error,20000.0,rf · raw · squared_error · clip=20000,21542864.58170906,1322734.4162319577,92825723.53582823,260,2,rf,
+raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.25 · clip=20000,22986813.16344122,3524861.384158304,94608983.27309112,260,2,,0.25
+raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.5 · clip=20000,26978873.718291983,3629114.946047596,97262185.94104934,260,2,,0.5
