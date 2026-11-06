@@ -18,12 +18,35 @@ from scipy.stats import spearmanr
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
+def _check_shapes(y_true: np.ndarray, y_pred: np.ndarray) -> None:
+    if len(y_true) != len(y_pred):
+        raise ValueError(
+            f"y_true and y_pred must have the same length, got {len(y_true)} and {len(y_pred)}"
+        )
+
+
 def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    _check_shapes(y_true, y_pred)
     rmse = float(np.sqrt(mean_squared_error(y_true, y_pred)))
     mae = float(mean_absolute_error(y_true, y_pred))
     r2 = float(r2_score(y_true, y_pred))
     rho = float(spearmanr(y_true, y_pred).correlation)
     return {"rmse": rmse, "mae": mae, "r2": r2, "spearman": rho}
+
+
+def metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    """Same numbers as compute_metrics, with log10-space key names used by
+    pipeline.py / train_model.py / tests (values are identical because all
+    inputs here already live in log10(SI) space)."""
+    base = compute_metrics(y_true, y_pred)
+    return {
+        "rmse_log10": base["rmse"],
+        "mae_log10": base["mae"],
+        "r2_log10": base["r2"],
+        "spearman": base["spearman"],
+    }
 
 
 def bootstrap_ci(
@@ -33,10 +56,20 @@ def bootstrap_ci(
     n_boot: int = 2000,
     ci: float = 0.95,
     seed: int = 42,
-) -> Dict[str, float]:
+    n_resamples: int | None = None,
+) -> tuple[float, float]:
     """Non-parametric bootstrap CI for one metric, resampling molecules
     with replacement (Задача 14: 'statistical uncertainty via bootstrap').
+
+    Returns the (ci_low, ci_high) pair directly — that is the shape every
+    caller unpacks (`low, high = bootstrap_ci(...)`); `n_resamples` is
+    accepted as an alias for `n_boot`.
     """
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    _check_shapes(y_true, y_pred)
+    if n_resamples is not None:
+        n_boot = n_resamples
     rng = np.random.default_rng(seed)
     n = len(y_true)
     stats = []
@@ -52,7 +85,21 @@ def bootstrap_ci(
     stats = np.array(stats)
     alpha = 1 - ci
     lo, hi = np.percentile(stats, [100 * alpha / 2, 100 * (1 - alpha / 2)])
-    return {"point_estimate": float(metric_fn(y_true, y_pred)), "ci_low": float(lo), "ci_high": float(hi), "n_boot": n_boot}
+    return float(lo), float(hi)
+
+
+def applicability_warning(train_features: np.ndarray, query_features: np.ndarray) -> np.ndarray:
+    """Max Tanimoto similarity between each query fingerprint row and any
+    training row (binary fingerprints). A low value flags molecules outside
+    the model's applicability domain."""
+    train = np.asarray(train_features, dtype=np.float64)
+    query = np.asarray(query_features, dtype=np.float64)
+    intersections = query @ train.T                      # both rows are binary
+    q_bits = query.sum(axis=1, keepdims=True)
+    t_bits = train.sum(axis=1)[np.newaxis, :]
+    unions = q_bits + t_bits - intersections
+    similarities = np.divide(intersections, unions, out=np.zeros_like(intersections), where=unions > 0)
+    return similarities.max(axis=1)
 
 
 def paired_bootstrap_difference(
