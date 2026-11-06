@@ -116,7 +116,7 @@ step "Обучаю"
 mkdir -p "$LOG_DIR"
 # Режим перебора: вместо сравнения стратегий гоняем сетку методов.
 if [[ "$STRATEGY" == "sweep" || "$STRATEGY" == "sweep-full" ]]; then
-  SWEEP_ARGS=(--repeats "${REPEATS:-3}")
+  SWEEP_ARGS=(--repeats "${REPEATS:-3}" --max-minutes 5)
   [[ "$STRATEGY" == "sweep-full" ]] && SWEEP_ARGS+=(--grid full)
   set +e
   python -u sweep.py "${SWEEP_ARGS[@]}" 2>&1 | tee "$LOG_FILE"
