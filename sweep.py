@@ -53,22 +53,25 @@ def log(message: str, indent: int = 0) -> None:
 
 
 def candidates(grid: str) -> list[dict]:
-    """Комбинации для перебора — только непроверенные гипотезы.
+    """Комбинации для перебора.
 
-    Закрытые направления здесь намеренно отсутствуют, их не нужно гонять снова
-    (числа в Teach.md): масштаб log и sqrt, потери absolute_error и poisson,
-    квантили 0.7 и 0.9, порог обрезки 3000. Все они проиграли за пределами
-    погрешности либо попали в неразличимую группу.
+    `base` — живые гипотезы, быстрый прогон.
 
-    Живое на сейчас: лес как baseline QSAR (не проверялся ни разу) и вес строк
-    соревнования против строк ChEMBL (другое распределение).
+    `full` — включая направления, ранее отвергнутые. Это не повтор зря: они
+    отвергались старым измерителем, где в распределении соревнования было 64
+    строки и std доходил до трети среднего. На такой точности «в пределах
+    шума» значило «не знаем», а не «хуже». Кросс-валидация на 310 строках
+    сужает погрешность примерно в 2.2 раза, и часть отказов может
+    перевернуться. Исключение — масштаб цели: там разрыв был втрое больше
+    погрешности (raw 2.54e7 против log 3.69e7), и перепроверять нечего, но
+    опорная точка в сетке остаётся.
     """
     items: list[dict] = []
 
-    # Опора: лучшее на сейчас, для сравнения в тех же разбиениях.
+    # Опора: лучшее на сейчас.
     items.append({"transform": "raw", "loss": "squared_error", "clip_si": 20000.0})
 
-    # Лес и ExtraTrees — единственная непроверенная модельная семья.
+    # Лес и ExtraTrees: отвергнуты с разрывом 0.1e7 при std 0.5-0.7e7.
     for learner in ("rf", "extra"):
         items.append({"transform": "raw", "loss": "squared_error", "learner": learner,
                       "clip_si": 20000.0})
@@ -78,18 +81,34 @@ def candidates(grid: str) -> list[dict]:
         items.append({"transform": "raw", "loss": "squared_error",
                       "weight_power": power, "clip_si": 20000.0})
 
-    if grid == "full":
-        items.append({"transform": "raw", "loss": "squared_error", "learner": "rf",
-                      "clip_si": 36066.7})
-        items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
+    if grid == "base":
+        return items
+
+    # Потери: отвергнуты на шумном измерителе.
+    for loss in ("absolute_error", "poisson", "gamma"):
+        items.append({"transform": "raw", "loss": loss, "clip_si": 20000.0})
+    for quantile in (0.7, 0.8, 0.9):
+        items.append({"transform": "raw", "loss": "quantile", "quantile": quantile,
                       "clip_si": 20000.0})
-        items.append({"transform": "raw", "loss": "quantile", "quantile": 0.8,
+
+    # Порог обрезки: сетка шире прежней, оптимум мог оказаться между точками.
+    for clip in (5000.0, 10000.0, 15000.0, 30000.0, CLIP_FROM_TRAIN, None):
+        items.append({"transform": "raw", "loss": "squared_error", "clip_si": clip})
+
+    # Масштаб цели: опорные точки, разрыв был велик и вряд ли перевернётся.
+    for transform in ("sqrt", "log"):
+        items.append({"transform": transform, "loss": "squared_error",
                       "clip_si": 20000.0})
-        items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
-                      "clip_si": 20000.0})
-        for power in (1.0,):
-            items.append({"transform": "raw", "loss": "squared_error",
-                          "weight_power": power, "clip_si": 20000.0})
+
+    # Лес с другими критериями и обрезкой, XGBoost, сильный вес.
+    items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "poisson", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "weight_power": 1.0,
+                  "clip_si": 20000.0})
 
     unique: list[dict] = []
     for item in items:
@@ -151,57 +170,84 @@ def load_data() -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
     return frame, features, in_distribution
 
 
+def fold_indices(smiles: list[str], folds: int, seed: int) -> list[np.ndarray]:
+    """Scaffold-фолды по всем строкам сразу.
+
+    Разбиение строится по всем 1184 строкам, поэтому строка ChEMBL с каркасом
+    из отложенного fold тоже оказывается отложенной — утечки каркасов нет.
+    """
+    fractions = {f"f{number}": 1.0 / folds for number in range(folds)}
+    split = splits.scaffold_split(smiles, fractions, seed=seed)
+    splits.assert_no_leaks(smiles, split)
+    return [np.array(positions, dtype=int) for positions in split.values()]
+
+
 def evaluate_candidate(
     settings: dict,
     frame: pd.DataFrame,
     features: np.ndarray,
     in_distribution: np.ndarray,
-    split_list: list[dict[str, list[int]]],
+    folds_list: list[list[np.ndarray]],
     screen: bool = True,
 ) -> dict:
-    """Один набор настроек на всех разбиениях.
+    """Один набор настроек, оценка кросс-валидацией.
+
+    Раньше мерили на одном отложенном множестве, где в распределении
+    соревнования оказывалось 64 строки, и std доходил до трети среднего —
+    различить улучшение меньше четверти было невозможно. Кросс-валидация даёт
+    out-of-fold прогноз на всех 310 строках соревнования, то есть сужает
+    погрешность примерно в 2.2 раза при той же цене.
 
     screen=True урезает число итераций и деревьев: на скрининге нужен порядок
     величин, а не финальное качество. Победитель доучивается полными.
     """
     si = frame["SI"].to_numpy(float)
-    scores: list[float] = []
+    active = dict(settings)
+    if screen:
+        params = dict(active.get("params") or {})
+        params.update(SCREEN_PARAMS)
+        active["params"] = params
+
+    per_repeat: list[float] = []
     overall: list[float] = []
+    for fold_list in folds_list:
+        prediction = np.full(len(si), np.nan)
+        for held in fold_list:
+            rest = np.setdiff1d(np.arange(len(si)), held)
+            if rest.size < 30:
+                continue
+            model = FlexibleSI(**active).fit(features[rest], si[rest])
+            prediction[held] = model.predict_si(features[held])
 
-    for split in split_list:
-        train_index = np.array(split["train"])
-        validation_index = np.array(split["validation"])
-        active = dict(settings)
-        if screen:
-            params = dict(active.get("params") or {})
-            params.update(SCREEN_PARAMS)
-            active["params"] = params
-        model = FlexibleSI(**active).fit(features[train_index], si[train_index])
-        predicted = model.predict_si(features[validation_index])
-        true = si[validation_index]
-
-        overall.append(float(((predicted - true) ** 2).mean()))
-        mask = in_distribution[validation_index]
-        if mask.sum() >= 10:
-            scores.append(float(((predicted[mask] - true[mask]) ** 2).mean()))
+        done = np.isfinite(prediction)
+        if done.sum() < 20:
+            continue
+        overall.append(float(((prediction[done] - si[done]) ** 2).mean()))
+        inside = done & in_distribution
+        if inside.sum() >= 20:
+            per_repeat.append(float(((prediction[inside] - si[inside]) ** 2).mean()))
 
     return {
         **settings,
         "описание": FlexibleSI(**settings).describe(),
-        "mse_в_распределении": float(np.mean(scores)) if scores else float("nan"),
-        "mse_в_распределении_std": float(np.std(scores, ddof=1)) if len(scores) > 1 else 0.0,
-        "mse_вся_валидация": float(np.mean(overall)),
-        "разбиений": len(split_list),
+        "mse_в_распределении": float(np.mean(per_repeat)) if per_repeat else float("nan"),
+        "mse_в_распределении_std": (
+            float(np.std(per_repeat, ddof=1)) if len(per_repeat) > 1 else 0.0
+        ),
+        "mse_вся_валидация": float(np.mean(overall)) if overall else float("nan"),
+        "строк_оценки": int((in_distribution).sum()),
+        "повторов": len(per_repeat),
     }
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Перебор методов по метрике соревнования")
     parser.add_argument("--repeats", type=int, default=3)
+    parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--grid", choices=["base", "full"], default="base")
     parser.add_argument("--top", type=int, default=3, help="сколько лучших сохранить")
-    parser.add_argument("--max-minutes", type=float, default=5.0,
-                        help="жёсткий бюджет: перебор останавливается по времени")
+    parser.add_argument("--max-minutes", type=float, default=0.0,
+                        help="жёсткий бюджет в минутах; 0 — без ограничения")
     parser.add_argument("--features", action="store_true",
                         help="второй этап по наборам признаков (закрытое направление)")
     args = parser.parse_args(argv)
@@ -209,18 +255,21 @@ def main(argv: list[str] | None = None) -> int:
     frame, features, in_distribution = load_data()
     smiles = frame["standard_smiles"].astype(str).tolist()
 
-    log(f"готовлю {args.repeats} scaffold-разбиений…")
-    split_list = []
-    for index in range(args.repeats):
-        split = splits.scaffold_split(smiles, seed=splits.DEFAULT_SEED + index)
-        splits.assert_no_leaks(smiles, split)
-        split_list.append(split)
+    log(f"готовлю {args.repeats} повторов по {args.folds} фолдов…")
+    folds_list = [
+        fold_indices(smiles, args.folds, splits.DEFAULT_SEED + index)
+        for index in range(args.repeats)
+    ]
+    log(f"оценка out-of-fold на {int(in_distribution.sum())} строках соревнования "
+        f"вместо 64 на одном отложенном множестве")
 
     grid = candidates(args.grid)
     log(f"комбинаций: {len(grid)}, обучений: {len(grid) * args.repeats}\n")
 
-    deadline = time.monotonic() + args.max_minutes * 60
-    log(f"бюджет: {args.max_minutes:g} мин")
+    deadline = (
+        time.monotonic() + args.max_minutes * 60 if args.max_minutes > 0 else float("inf")
+    )
+    log(f"бюджет: {f'{args.max_minutes:g} мин' if args.max_minutes > 0 else 'без ограничения'}")
 
     results: list[dict] = []
     for number, settings in enumerate(grid, start=1):
@@ -229,7 +278,7 @@ def main(argv: list[str] | None = None) -> int:
             break
         started = time.monotonic()
         try:
-            result = evaluate_candidate(settings, frame, features, in_distribution, split_list)
+            result = evaluate_candidate(settings, frame, features, in_distribution, folds_list)
         except Exception as error:  # комбинация может быть недопустимой или падать
             log(f"[{number}/{len(grid)}] {settings} — пропущено: {error}")
             continue
@@ -305,7 +354,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             matrix = featurize_cached(smiles, name, preset)
             result = evaluate_candidate(
-                best_settings, frame, matrix, in_distribution, split_list
+                best_settings, frame, matrix, in_distribution, folds_list
             )
         except Exception as error:
             log(f"{name} — пропущено: {error}", indent=2)
