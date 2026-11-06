@@ -65,16 +65,31 @@ def step_data(config: dict) -> None:
 
     # Цензурированные значения ("IC50 > 100") всегда попадают в сдаваемую базу,
     # но для обучения их можно исключить: из такого измерения следует лишь
-    # граница SI. Переключатель замеряется на validation, а не выбирается верой.
+    # граница SI. Режим замеряется на validation, а не выбирается верой.
+    #
+    #   keep           — всё как есть (решение команды)
+    #   drop_artifacts — только строки, где SI = 1 возник из-за того, что оба
+    #                    значения цензурированы и равны: это артефакт протокола
+    #   drop           — вся цензура
+    mode = config["data"].get("censored", "keep")
     rejected_censored = pd.DataFrame()
-    if config["data"].get("censored", "keep") == "drop":
-        qualifiers = ("IC50_qualifier", "CC50_qualifier")
-        present = [column for column in qualifiers if column in accepted.columns]
+
+    if mode == "drop_artifacts" and "si_artifact" in accepted.columns:
+        artifact = accepted["si_artifact"].fillna(False).astype(bool)
+        rejected_censored = accepted[artifact].copy()
+        rejected_censored["reason"] = "артефакт SI=1, data.censored=drop_artifacts"
+        accepted = accepted[~artifact].reset_index(drop=True)
+    elif mode == "drop":
+        present = [c for c in ("IC50_qualifier", "CC50_qualifier") if c in accepted.columns]
         if present:
             censored = accepted[present].fillna("").astype(str).ne("").any(axis=1)
             rejected_censored = accepted[censored].copy()
             rejected_censored["reason"] = "цензурированное значение, data.censored=drop"
             accepted = accepted[~censored].reset_index(drop=True)
+    elif mode not in ("keep", "drop_artifacts", "drop"):
+        raise SystemExit(
+            f"data.censored: ожидалось keep | drop_artifacts | drop, получено {mode!r}"
+        )
 
     dataset = standardize.aggregate_duplicates(accepted)
 
@@ -108,6 +123,31 @@ def step_splits(config: dict) -> None:
     splits_module.assert_no_leaks(smiles, split)
     splits_module.save_manifest(MANIFEST, split, config["splits"]["seed"], len(smiles))
     print("[splits] " + ", ".join(f"{name}={len(idx)}" for name, idx in split.items()))
+
+
+def step_export(config: dict) -> None:
+    """Выложить обучающую и проверочную выборки отдельными файлами.
+
+    Обучение идёт не на машине, где собираются данные: тяжёлые прогоны делает
+    тот, у кого сильный мак. Этот шаг готовит ему два самодостаточных csv.
+
+    Holdout намеренно не экспортируется. Он остаётся только в манифесте
+    разбиения и трогается один раз, на стадии 9: файл, лежащий рядом с
+    обучающим, рано или поздно попадёт в обучение.
+    """
+    dataset = load_dataset()
+    split = splits_module.load_manifest(MANIFEST)
+
+    for part in ("train", "validation"):
+        if part not in split:
+            raise SystemExit(f"в манифесте нет части {part}: запустите splits")
+        frame = dataset.iloc[split[part]].reset_index(drop=True)
+        target = PROCESSED / f"{part}.csv"
+        frame.to_csv(target, index=False)
+        print(f"[export] {part}: {len(frame)} строк → {target.relative_to(ROOT)}")
+
+    print(f"[export] holdout ({len(split.get('holdout', []))} строк) не выгружается "
+          f"намеренно — он только в {MANIFEST.relative_to(ROOT)}")
 
 
 def _features(dataset: pd.DataFrame, config: dict) -> np.ndarray:
@@ -198,6 +238,7 @@ def step_submission(config: dict) -> None:
 STEPS = {
     "data": step_data,
     "splits": step_splits,
+    "export": step_export,
     "train": step_train,
     "evaluate": step_evaluate,
     "submission": step_submission,

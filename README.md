@@ -60,6 +60,42 @@ python -m unittest discover -s tests -t . -v   # тесты и smoke-прого�
 Те же команды есть в `Makefile` (`make data`, `make splits`, …) для тех, у кого
 установлен make. На Windows его обычно нет — запускаем напрямую.
 
+### Обучение идёт на отдельной машине
+
+Данные собираются на одном ноутбуке, а обучение запускается на сильной машине
+(мак). Поэтому выборки лежат в репозитории готовыми файлами, и обучающий скрипт
+самодостаточен: ему не нужны ни сеть, ни шаги выгрузки.
+
+| Файл | Что в нём |
+|---|---|
+| `data/processed/train.csv` | 652 молекулы, обучающая выборка |
+| `data/processed/validation.csv` | 140 молекул, проверочная выборка |
+| `data/processed/splits.json` | манифест разбиения, включая holdout |
+
+Holdout в отдельный файл **намеренно не выгружается**: он живёт только в
+манифесте и трогается один раз, на стадии 9. Файл, лежащий рядом с обучающим,
+рано или поздно попадает в обучение.
+
+На маке:
+
+```bash
+git clone https://github.com/moiz303/HSE_in_MIFI.git && cd HSE_in_MIFI
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+python train_model.py                      # обе стратегии на фиксированном разбиении
+python train_model.py --repeats 5          # 5 scaffold-разбиений, сравнение стратегий
+python train_model.py --strategy direct --predict data/raw/test.csv
+```
+
+`--repeats` — это замер, которого не хватает команде: на одном разбиении из 140
+молекул разница между `direct` и `two_head` лежит внутри доверительных
+интервалов (см. `reports/experiment_censoring.md`). Скрипт печатает среднее и
+разброс по разбиениям и прямо говорит, решена ли разница или она меньше шума.
+
+Если выборки нужно пересобрать (данные обновились), на машине с данными:
+`python -m src.pipeline data && python -m src.pipeline splits && python -m src.pipeline export`.
+
 ## Архитектура
 
 ```mermaid
