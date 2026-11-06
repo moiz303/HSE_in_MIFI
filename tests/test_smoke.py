@@ -58,6 +58,46 @@ class TrainingLoop(unittest.TestCase):
         with self.assertRaises(ValueError):
             baseline.build("magic")
 
+    def test_two_head_trains_when_some_ic50_are_missing(self):
+        # Так размечены строки организаторов: IC50 не определён, цель задана
+        # меткой SI = 10000. Раньше обучение падало на ValueError: y contains NaN.
+        ic50 = self.ic50.copy()
+        ic50[:3] = np.nan
+        model = baseline.build("two_head").fit(self.features, ic50, self.cc50)
+        self.assertEqual(model.n_train["IC50"], len(SMILES) - 3)
+        self.assertEqual(model.n_train["IC50_skipped"], 3)
+        self.assertEqual(model.n_train["CC50"], len(SMILES))
+        self.assertTrue(np.isfinite(model.predict_log_si(self.features)).all())
+
+    def test_each_head_uses_its_own_rows(self):
+        # Непарные данные: у части строк есть только IC50, у части только CC50.
+        ic50, cc50 = self.ic50.copy(), self.cc50.copy()
+        ic50[:2] = np.nan
+        cc50[-4:] = np.nan
+        model = baseline.build("two_head").fit(self.features, ic50, cc50)
+        self.assertEqual(model.n_train["IC50"], len(SMILES) - 2)
+        self.assertEqual(model.n_train["CC50"], len(SMILES) - 4)
+
+    def test_direct_skips_rows_without_a_target(self):
+        si = self.si.copy()
+        si[:2] = np.nan
+        model = baseline.build("direct").fit(self.features, si)
+        self.assertEqual(model.n_train["SI"], len(SMILES) - 2)
+
+    def test_non_positive_values_are_skipped_not_clipped(self):
+        ic50 = self.ic50.copy()
+        ic50[0] = 0.0
+        ic50[1] = -5.0
+        model = baseline.build("two_head").fit(self.features, ic50, self.cc50)
+        self.assertEqual(model.n_train["IC50_skipped"], 2)
+
+    def test_a_head_with_no_usable_rows_fails_clearly(self):
+        with self.assertRaises(ValueError) as caught:
+            baseline.build("two_head").fit(
+                self.features, np.full(len(SMILES), np.nan), self.cc50
+            )
+        self.assertIn("IC50", str(caught.exception))
+
     def test_log_roundtrip(self):
         values = np.array([0.1, 1.0, 1000.0])
         np.testing.assert_allclose(baseline.from_log(baseline.to_log(values)), values, rtol=1e-9)

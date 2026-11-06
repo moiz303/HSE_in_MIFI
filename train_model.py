@@ -104,6 +104,14 @@ def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
         log(f"[{number}/{len(strategies)}] обучаю {strategy}…")
         started = time.monotonic()
         model = fit(strategy, features_train, train, params)
+        counts = getattr(model, "n_train", {})
+        if counts:
+            log("строк на голову: " + ", ".join(
+                f"{k} {v}" for k, v in counts.items() if not k.endswith("_skipped")
+            ) + "".join(
+                f" (пропущено {k.replace('_skipped','')}: {v})"
+                for k, v in counts.items() if k.endswith("_skipped") and v
+            ), indent=2)
         log(f"обучено за {time.monotonic() - started:.1f} с, считаю метрики с бутстрапом…", indent=2)
 
         result = score(model, features_validation, validation)
