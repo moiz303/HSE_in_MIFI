@@ -1,0 +1,35 @@
+{
+  "config": {
+    "seed": 42,
+    "n_folds": 5,
+    "fold_seed": 42,
+    "feature_variant": "morgan",
+    "regressor_type": "random_forest",
+    "strategies": [
+      "direct",
+      "two_head"
+    ]
+  },
+  "feature_description": "morgan features (Morgan radius=2, n_bits=2048)",
+  "oof_metrics_by_strategy": {
+    "direct": {
+      "rmse": 0.6044966918273016,
+      "mae": 0.48673464879784484,
+      "r2": -0.17959940358831838,
+      "spearman": -0.14358997274230303
+    },
+    "two_head": {
+      "rmse": 0.6018072969354091,
+      "mae": 0.48348974217279866,
+      "r2": -0.16912671892715658,
+      "spearman": -0.14367934224049328
+    }
+  },
+  "n_excluded_censored": 0,
+  "model_limitations": [
+    "Classical ML baseline on hashed Morgan fingerprints / RDKit 2D descriptors \u2014 no learned molecular representation, no 3D information.",
+    "Censored IC50/CC50 rows are excluded (policy='exclude') rather than imputed.",
+    "OOF folds are scaffold-grouped but drawn only from TRAIN; holdout is untouched."
+  ],
+  "output_path": "reports/oof_baseline.csv"
+}

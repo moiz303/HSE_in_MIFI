@@ -1,0 +1,71 @@
+{
+  "comparison_table": [
+    {
+      "strategy": "direct",
+      "feature_variant": "morgan",
+      "rmse": 0.7235476327141309,
+      "mae": 0.602148906114427,
+      "r2": -0.7290085521861822,
+      "spearman": -0.27203065134099613,
+      "rmse_ci_low": 0.5799265787101183,
+      "rmse_ci_high": 0.8626303638357262
+    },
+    {
+      "strategy": "direct",
+      "feature_variant": "rdkit2d",
+      "rmse": 0.6858671147031562,
+      "mae": 0.5996132371787075,
+      "r2": -0.5536130050219388,
+      "spearman": -0.10125889436234263,
+      "rmse_ci_low": 0.5507292786445221,
+      "rmse_ci_high": 0.8173913698358236
+    },
+    {
+      "strategy": "direct",
+      "feature_variant": "morgan_rdkit2d",
+      "rmse": 0.7298301194699323,
+      "mae": 0.6329275013172834,
+      "r2": -0.7591644995873972,
+      "spearman": -0.23645320197044337,
+      "rmse_ci_low": 0.5892552241154746,
+      "rmse_ci_high": 0.8597220617343145
+    },
+    {
+      "strategy": "two_head",
+      "feature_variant": "morgan",
+      "rmse": 0.7222828182580895,
+      "mae": 0.5984580529866687,
+      "r2": -0.7229689674968356,
+      "spearman": -0.22879036672140118,
+      "rmse_ci_low": 0.5780828896226355,
+      "rmse_ci_high": 0.86175772623184
+    },
+    {
+      "strategy": "two_head",
+      "feature_variant": "rdkit2d",
+      "rmse": 0.6646453586435412,
+      "mae": 0.58510237291346,
+      "r2": -0.4589581694678906,
+      "spearman": 0.003284072249589491,
+      "rmse_ci_low": 0.5355862966033366,
+      "rmse_ci_high": 0.789718910304062
+    },
+    {
+      "strategy": "two_head",
+      "feature_variant": "morgan_rdkit2d",
+      "rmse": 0.6703284115765767,
+      "mae": 0.5869938690711481,
+      "r2": -0.48401449145885755,
+      "spearman": -0.14942528735632182,
+      "rmse_ci_low": 0.5453064427299482,
+      "rmse_ci_high": 0.7897413893296564
+    }
+  ],
+  "pairwise_bootstrap": {
+    "point_estimate_diff": 0.0012648144560414298,
+    "ci_low": -0.02829950945745671,
+    "ci_high": 0.026843997559296347,
+    "significant_at_ci": false,
+    "n_boot": 2000
+  }
+}

@@ -1,84 +1,108 @@
-"""Метрики и доверительные интервалы.
-
-Владелец: B и D (стадии 4 и 8).
-
-Все метрики считаются в лог-пространстве: в линейном масштабе одна молекула
-с SI = 5000 определяет и RMSE, и знак улучшения.
 """
+Metrics + bootstrap statistical comparison (Задачи 9, 13, 14 in TASKA.md).
 
+All metrics are computed in log10(SI) space, as required by TASKA.md §2/§6.
+
+    python -m src.evaluate --config configs/baseline.json
+(invoked by src/pipeline.py's "evaluate" command; see that module for the
+end-to-end CLI described in Задача 12)
+"""
 from __future__ import annotations
 
+import json
+from pathlib import Path
+from typing import Dict, List
+
 import numpy as np
-from scipy import stats
+from scipy.stats import spearmanr
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
-def metrics(log_true: np.ndarray, log_pred: np.ndarray) -> dict[str, float]:
-    true = np.asarray(log_true, dtype=float)
-    pred = np.asarray(log_pred, dtype=float)
-    if true.shape != pred.shape:
-        raise ValueError("размеры истинных и предсказанных значений не совпадают")
-    if true.size == 0:
-        raise ValueError("пустая выборка")
-
-    residual = pred - true
-    denominator = float(((true - true.mean()) ** 2).sum())
-    r2 = 1.0 - float((residual**2).sum()) / denominator if denominator > 0 else float("nan")
-
-    spearman = float("nan")
-    if true.size > 2:
-        spearman = float(stats.spearmanr(true, pred).statistic)
-
-    return {
-        "rmse_log10": float(np.sqrt((residual**2).mean())),
-        "mae_log10": float(np.abs(residual).mean()),
-        "r2_log10": r2,
-        "spearman": spearman,
-        "n": int(true.size),
-    }
+def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    rmse = float(np.sqrt(mean_squared_error(y_true, y_pred)))
+    mae = float(mean_absolute_error(y_true, y_pred))
+    r2 = float(r2_score(y_true, y_pred))
+    rho = float(spearmanr(y_true, y_pred).correlation)
+    return {"rmse": rmse, "mae": mae, "r2": r2, "spearman": rho}
 
 
 def bootstrap_ci(
-    log_true: np.ndarray,
-    log_pred: np.ndarray,
-    metric: str = "rmse_log10",
-    n_resamples: int = 1000,
-    seed: int = 20261106,
-) -> tuple[float, float]:
-    """95% интервал бутстрапом. Без него разница метрик на 200 молекулах
-    неотличима от шума, а на хакатоне это главный источник ложных выводов."""
-    true = np.asarray(log_true, dtype=float)
-    pred = np.asarray(log_pred, dtype=float)
-    rng = np.random.default_rng(seed)
-    values: list[float] = []
-    for _ in range(n_resamples):
-        index = rng.integers(0, true.size, true.size)
-        try:
-            values.append(metrics(true[index], pred[index])[metric])
-        except ValueError:
-            continue
-    if not values:
-        return float("nan"), float("nan")
-    return float(np.percentile(values, 2.5)), float(np.percentile(values, 97.5))
-
-
-def applicability_warning(
-    train_fingerprints: np.ndarray,
-    query_fingerprints: np.ndarray,
-    threshold: float = 0.3,
-) -> np.ndarray:
-    """Максимальное сходство Танимото с обучающей выборкой.
-
-    Владелец D (стадия 8). Молекула, у которой сходство ниже порога, лежит вне
-    области применимости: предсказание для неё выдаётся с пометкой, а не как
-    равноценное остальным.
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    metric: str = "rmse",
+    n_boot: int = 2000,
+    ci: float = 0.95,
+    seed: int = 42,
+) -> Dict[str, float]:
+    """Non-parametric bootstrap CI for one metric, resampling molecules
+    with replacement (Задача 14: 'statistical uncertainty via bootstrap').
     """
-    train = np.asarray(train_fingerprints, dtype=bool)
-    query = np.asarray(query_fingerprints, dtype=bool)
-    best = np.zeros(query.shape[0], dtype=float)
-    for index, row in enumerate(query):
-        intersection = np.logical_and(train, row).sum(axis=1)
-        union = np.logical_or(train, row).sum(axis=1)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            tanimoto = np.where(union > 0, intersection / union, 0.0)
-        best[index] = float(tanimoto.max()) if tanimoto.size else 0.0
-    return best
+    rng = np.random.default_rng(seed)
+    n = len(y_true)
+    stats = []
+    metric_fn = {
+        "rmse": lambda a, b: np.sqrt(mean_squared_error(a, b)),
+        "mae": mean_absolute_error,
+        "r2": r2_score,
+        "spearman": lambda a, b: spearmanr(a, b).correlation,
+    }[metric]
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, size=n)
+        stats.append(metric_fn(y_true[idx], y_pred[idx]))
+    stats = np.array(stats)
+    alpha = 1 - ci
+    lo, hi = np.percentile(stats, [100 * alpha / 2, 100 * (1 - alpha / 2)])
+    return {"point_estimate": float(metric_fn(y_true, y_pred)), "ci_low": float(lo), "ci_high": float(hi), "n_boot": n_boot}
+
+
+def paired_bootstrap_difference(
+    y_true: np.ndarray,
+    y_pred_a: np.ndarray,
+    y_pred_b: np.ndarray,
+    metric: str = "rmse",
+    n_boot: int = 2000,
+    ci: float = 0.95,
+    seed: int = 42,
+) -> Dict[str, float]:
+    """Bootstrap CI for (metric(A) - metric(B)) on the SAME resampled
+    molecules each iteration (paired), to judge whether the gap between
+    two strategies (e.g. direct vs two_head, Задача 14) is larger than
+    bootstrap noise. If the CI for the difference excludes 0, the
+    difference is considered statistically meaningful at this level.
+    """
+    rng = np.random.default_rng(seed)
+    n = len(y_true)
+    metric_fn = {
+        "rmse": lambda a, b: np.sqrt(mean_squared_error(a, b)),
+        "mae": mean_absolute_error,
+        "r2": r2_score,
+        "spearman": lambda a, b: spearmanr(a, b).correlation,
+    }[metric]
+    diffs = []
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, size=n)
+        diffs.append(metric_fn(y_true[idx], y_pred_a[idx]) - metric_fn(y_true[idx], y_pred_b[idx]))
+    diffs = np.array(diffs)
+    alpha = 1 - ci
+    lo, hi = np.percentile(diffs, [100 * alpha / 2, 100 * (1 - alpha / 2)])
+    point = metric_fn(y_true, y_pred_a) - metric_fn(y_true, y_pred_b)
+    return {
+        "point_estimate_diff": float(point),
+        "ci_low": float(lo),
+        "ci_high": float(hi),
+        "significant_at_ci": bool(lo > 0 or hi < 0),
+        "n_boot": n_boot,
+    }
+
+
+def repeat_split_stability(rmse_values: List[float]) -> Dict[str, float]:
+    """Задача 14: summarize a metric across several independent
+    scaffold-split repeats (different seeds)."""
+    arr = np.array(rmse_values, dtype=float)
+    return {
+        "mean": float(arr.mean()),
+        "std": float(arr.std(ddof=1)) if len(arr) > 1 else 0.0,
+        "min": float(arr.min()),
+        "max": float(arr.max()),
+        "n_repeats": len(arr),
+    }
