@@ -47,7 +47,6 @@ data/interim/features_cache.npz
 data/raw/.http_cache*
 reports/submission.csv
 reports/metrics.json
-CLAUDE.md
 .kaggle/kaggle.json
 
 # Данные соревнования не перераспространяем: качаются через
