@@ -95,6 +95,22 @@ def candidates(grid: str) -> list[dict]:
     return unique
 
 
+def load_frame() -> tuple[pd.DataFrame, np.ndarray]:
+    """Объединённые train и validation плюс маска строк в распределении теста."""
+    for path in (TRAIN_CSV, VALIDATION_CSV):
+        if not path.exists():
+            raise SystemExit(f"нет {path}. На машине с данными: python -m src.pipeline export")
+    frame = pd.concat(
+        [pd.read_csv(TRAIN_CSV), pd.read_csv(VALIDATION_CSV)], ignore_index=True
+    )
+    in_distribution = (
+        frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
+        if "source" in frame.columns
+        else np.ones(len(frame), dtype=bool)
+    )
+    return frame, in_distribution
+
+
 def load_data() -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
     for path in (TRAIN_CSV, VALIDATION_CSV):
         if not path.exists():
@@ -222,8 +238,59 @@ def main(argv: list[str] | None = None) -> int:
     (REPORTS / "sweep_best.json").write_text(
         json.dumps(saved, indent=2, ensure_ascii=False), encoding="utf-8"
     )
+    # ------------------------------------------------------------------------
+    # Этап 2: лучшие настройки модели фиксируем и перебираем наборы признаков.
+    # Полный перекрёст это 9 x 17 обучений; жадный проход даёт 9 и ловит
+    # основное: 41% ошибки метрики приходится на класс "неактивно", а это
+    # задача классификации, где состав признаков обычно важнее вида потерь.
+    # ------------------------------------------------------------------------
+    best_settings = {k: table.iloc[0][k] for k in keys
+                     if k in table.columns and pd.notna(table.iloc[0][k])}
     log("")
-    log("таблица → reports/sweep.csv, лучшая модель → artifacts/model.joblib")
+    log(f"этап 2: признаки при фиксированной модели ({table.iloc[0]['описание']})")
+
+    feature_rows: list[dict] = []
+    for name, preset in fingerprints.PRESETS.items():
+        started = time.monotonic()
+        try:
+            matrix = fingerprints.featurize(smiles, **preset)
+            result = evaluate_candidate(
+                best_settings, frame, matrix, in_distribution, split_list
+            )
+        except Exception as error:
+            log(f"{name} — пропущено: {error}", indent=2)
+            continue
+        result["признаки"] = name
+        result["колонок"] = int(matrix.shape[1])
+        feature_rows.append(result)
+        log(f"{name:<26} {result['колонок']:>5} колонок  "
+            f"MSE {result['mse_в_распределении']:.4g} ± "
+            f"{result['mse_в_распределении_std']:.3g}  ({time.monotonic() - started:.0f} с)",
+            indent=2)
+
+    if feature_rows:
+        feature_table = pd.DataFrame(feature_rows).sort_values("mse_в_распределении")
+        feature_table.to_csv(REPORTS / "sweep_features.csv", index=False)
+        best_features = feature_table.iloc[0]
+        log("")
+        log(f"лучший набор признаков: {best_features['признаки']} "
+            f"({best_features['mse_в_распределении']:.4g} против "
+            f"{table.iloc[0]['mse_в_распределении']:.4g} у базового)")
+        (REPORTS / "sweep_best.json").write_text(
+            json.dumps({
+                "модель": saved,
+                "признаки": {
+                    "лучший": str(best_features["признаки"]),
+                    "mse_в_распределении": float(best_features["mse_в_распределении"]),
+                    "пресет": fingerprints.PRESETS[str(best_features["признаки"])],
+                },
+            }, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+    log("")
+    log("таблицы → reports/sweep.csv и reports/sweep_features.csv")
+    log("лучшая модель → artifacts/model.joblib")
     log("закоммить artifacts/ и reports/ — отправку соберёт тот, у кого данные соревнования")
     return 0
 

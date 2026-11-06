@@ -81,6 +81,44 @@ class Quantile(unittest.TestCase):
         self.assertGreater(high.mean(), low.mean())
 
 
+class FeaturePresets(unittest.TestCase):
+    SMILES = ["CCO", "c1ccccc1", "CC(=O)Oc1ccccc1C(=O)O", "не молекула",
+              "CN1CCC[C@H]1c1cccnc1"]
+
+    def test_every_preset_builds_a_clean_matrix(self):
+        from src.features import fingerprints
+
+        for name, preset in fingerprints.PRESETS.items():
+            matrix = fingerprints.featurize(self.SMILES, **preset)
+            self.assertEqual(matrix.shape[0], len(self.SMILES), name)
+            self.assertFalse(np.isnan(matrix).any(), name)
+            self.assertTrue(np.isfinite(matrix).all(), name)
+
+    def test_presets_differ_in_width(self):
+        from src.features import fingerprints
+
+        widths = {
+            name: fingerprints.featurize(self.SMILES, **preset).shape[1]
+            for name, preset in fingerprints.PRESETS.items()
+        }
+        self.assertGreater(len(set(widths.values())), 3)
+
+    def test_old_config_calls_still_work(self):
+        # configs/baseline.json передаёт use_morgan и use_descriptors.
+        from src.features import fingerprints
+
+        matrix = fingerprints.featurize(
+            self.SMILES, use_morgan=True, use_descriptors=True
+        )
+        self.assertEqual(matrix.shape[1], fingerprints.MORGAN_BITS + 13)
+
+    def test_invalid_smiles_gives_a_zero_row_not_a_crash(self):
+        from src.features import fingerprints
+
+        matrix = fingerprints.featurize(["не молекула"], maccs=True)
+        self.assertTrue(np.isfinite(matrix).all())
+
+
 class Grid(unittest.TestCase):
     def test_base_grid_has_no_duplicates(self):
         grid = sweep.candidates("base")

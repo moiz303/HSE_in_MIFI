@@ -1,23 +1,27 @@
-"""Признаки: Morgan fingerprints и RDKit 2D дескрипторы.
+"""Признаки: Morgan fingerprints, MACCS keys и RDKit 2D дескрипторы.
 
 Владелец: B (стадия 3).
+
+Набор признаков — такой же перебираемый параметр, как функция потерь. Пресеты
+собраны в PRESETS и перебираются в sweep.py: 41% ошибки метрики приходится на
+класс «неактивно», а это задача классификации, где состав признаков обычно
+важнее вида потерь.
 """
 
 from __future__ import annotations
 
+from functools import lru_cache
+
 import numpy as np
 from rdkit import Chem, RDLogger
-from rdkit.Chem import Descriptors
-from rdkit.Chem import rdFingerprintGenerator
+from rdkit.Chem import Descriptors, MACCSkeys, rdFingerprintGenerator
 
 RDLogger.DisableLog("rdApp.*")
 
 MORGAN_RADIUS = 2
 MORGAN_BITS = 2048
 
-# Подмножество дескрипторов, которое считается быстро и не содержит NaN на
-# разумных структурах. Полный набор RDKit тянет около 200 колонок, половина
-# из них на наших объёмах только добавляет шум.
+# Небольшой набор: считается быстро и не даёт NaN на разумных структурах.
 DESCRIPTOR_NAMES = (
     "MolWt",
     "MolLogP",
@@ -34,33 +38,75 @@ DESCRIPTOR_NAMES = (
     "BertzCT",
 )
 
-_GENERATOR = rdFingerprintGenerator.GetMorganGenerator(
-    radius=MORGAN_RADIUS, fpSize=MORGAN_BITS
-)
+# Полный набор RDKit — около 200 колонок. Часть из них на наших объёмах добавит
+# шум, но это проверяется замером, а не предполагается.
+_ALL_DESCRIPTORS = tuple(name for name, _ in Descriptors.descList)
+
+PRESETS: dict[str, dict] = {
+    "morgan2048+desc13": {},
+    "morgan1024+desc13": {"bits": 1024},
+    "morgan4096+desc13": {"bits": 4096},
+    "morgan2048r3+desc13": {"radius": 3},
+    "morgan2048counts+desc13": {"counts": True},
+    "morgan2048+descfull": {"descriptors": "full"},
+    "morgan2048+maccs+desc13": {"maccs": True},
+    "maccs+descfull": {"morgan": False, "maccs": True, "descriptors": "full"},
+    "descfull": {"morgan": False, "descriptors": "full"},
+}
 
 
-def morgan_matrix(smiles: list[str]) -> np.ndarray:
+@lru_cache(maxsize=16)
+def _generator(radius: int, bits: int):
+    return rdFingerprintGenerator.GetMorganGenerator(radius=radius, fpSize=bits)
+
+
+def _mols(smiles: list[str]) -> list:
+    return [Chem.MolFromSmiles(str(value)) for value in smiles]
+
+
+def morgan_matrix(
+    smiles: list[str],
+    radius: int = MORGAN_RADIUS,
+    bits: int = MORGAN_BITS,
+    counts: bool = False,
+) -> np.ndarray:
     """Матрица фингерпринтов. Неразобранная молекула даёт нулевую строку."""
-    rows = np.zeros((len(smiles), MORGAN_BITS), dtype=np.uint8)
-    for index, value in enumerate(smiles):
-        mol = Chem.MolFromSmiles(str(value))
+    generator = _generator(radius, bits)
+    dtype = np.uint32 if counts else np.uint8
+    rows = np.zeros((len(smiles), bits), dtype=dtype)
+    for index, mol in enumerate(_mols(smiles)):
         if mol is None:
             continue
-        rows[index] = np.frombuffer(
-            _GENERATOR.GetFingerprintAsNumPy(mol).tobytes(), dtype=np.uint8
-        )[:MORGAN_BITS]
+        vector = (
+            generator.GetCountFingerprintAsNumPy(mol)
+            if counts
+            else generator.GetFingerprintAsNumPy(mol)
+        )
+        rows[index] = np.asarray(vector, dtype=dtype)[:bits]
     return rows
 
 
-def descriptor_matrix(smiles: list[str]) -> np.ndarray:
-    """RDKit 2D дескрипторы. NaN заменяются нулём и помечаются в отчёте."""
-    functions = [(name, getattr(Descriptors, name)) for name in DESCRIPTOR_NAMES]
-    rows = np.zeros((len(smiles), len(functions)), dtype=np.float64)
-    for index, value in enumerate(smiles):
-        mol = Chem.MolFromSmiles(str(value))
+def maccs_matrix(smiles: list[str]) -> np.ndarray:
+    """MACCS keys: 167 заранее заданных структурных признаков."""
+    rows = np.zeros((len(smiles), 167), dtype=np.uint8)
+    for index, mol in enumerate(_mols(smiles)):
         if mol is None:
             continue
-        for position, (_name, function) in enumerate(functions):
+        rows[index] = np.frombuffer(
+            MACCSkeys.GenMACCSKeys(mol).ToBitString().encode(), dtype=np.uint8
+        )[:167] - ord("0")
+    return rows
+
+
+def descriptor_matrix(smiles: list[str], which: str = "small") -> np.ndarray:
+    """RDKit 2D дескрипторы. NaN и бесконечности заменяются нулём."""
+    names = DESCRIPTOR_NAMES if which == "small" else _ALL_DESCRIPTORS
+    functions = [getattr(Descriptors, name) for name in names]
+    rows = np.zeros((len(smiles), len(functions)), dtype=np.float64)
+    for index, mol in enumerate(_mols(smiles)):
+        if mol is None:
+            continue
+        for position, function in enumerate(functions):
             try:
                 rows[index, position] = float(function(mol))
             except Exception:
@@ -68,13 +114,37 @@ def descriptor_matrix(smiles: list[str]) -> np.ndarray:
     return np.nan_to_num(rows, nan=0.0, posinf=0.0, neginf=0.0)
 
 
-def featurize(smiles: list[str], use_morgan: bool = True, use_descriptors: bool = True) -> np.ndarray:
-    """Собрать матрицу признаков в порядке, который фиксируют конфиги."""
+def featurize(
+    smiles: list[str],
+    use_morgan: bool = True,
+    use_descriptors: bool = True,
+    morgan: bool | None = None,
+    radius: int = MORGAN_RADIUS,
+    bits: int = MORGAN_BITS,
+    counts: bool = False,
+    maccs: bool = False,
+    descriptors: str | bool = "small",
+) -> np.ndarray:
+    """Собрать матрицу признаков.
+
+    use_morgan и use_descriptors оставлены для старых вызовов из конфигов;
+    morgan и descriptors — новые имена с теми же значениями.
+    """
+    with_morgan = use_morgan if morgan is None else morgan
+    if descriptors is False:
+        which = None
+    elif descriptors is True:
+        which = "small"
+    else:
+        which = descriptors if use_descriptors else None
+
     blocks: list[np.ndarray] = []
-    if use_morgan:
-        blocks.append(morgan_matrix(smiles).astype(np.float32))
-    if use_descriptors:
-        blocks.append(descriptor_matrix(smiles).astype(np.float32))
+    if with_morgan:
+        blocks.append(morgan_matrix(smiles, radius, bits, counts).astype(np.float32))
+    if maccs:
+        blocks.append(maccs_matrix(smiles).astype(np.float32))
+    if which is not None:
+        blocks.append(descriptor_matrix(smiles, which).astype(np.float32))
     if not blocks:
         raise ValueError("не выбран ни один блок признаков")
     return np.hstack(blocks)
