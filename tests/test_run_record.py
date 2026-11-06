@@ -5,7 +5,7 @@ import io
 import json
 import tempfile
 import unittest
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import redirect_stdout
 from pathlib import Path
 
 from src.run_record import record_run
@@ -19,10 +19,10 @@ class RunRecord(unittest.TestCase):
             source = root / "input.csv"
             source.write_text("x\n1\n", encoding="utf-8")
 
-            with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            with redirect_stdout(io.StringIO()):
                 with record_run(["python", "-m", "src.pipeline", "test"], config,
                                 [source], reports_dir=root / "runs"):
-                    print("synthetic run output")
+                    pass
 
             metadata_path = next((root / "runs").glob("*.json"))
             metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
@@ -37,7 +37,7 @@ class RunRecord(unittest.TestCase):
     def test_failed_run_is_recorded_and_reraised(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "runs"
-            with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            with redirect_stdout(io.StringIO()):
                 with self.assertRaisesRegex(RuntimeError, "expected failure"):
                     with record_run(["test"], {}, reports_dir=root):
                         raise RuntimeError("expected failure")

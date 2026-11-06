@@ -61,16 +61,19 @@ def require_file(path: Path, instruction: str) -> None:
         raise SystemExit(f"нет {path.relative_to(ROOT)} — {instruction}")
 
 
-def validate_submission(test: pd.DataFrame, submission: pd.DataFrame,
-                        id_column: str, target_column: str) -> None:
-    expected = [id_column, target_column]
-    if list(submission.columns) != expected:
-        raise SystemExit(f"ошибка сабмита: нужны колонки {expected}, получены {list(submission.columns)}")
-    if len(submission) != len(test):
-        raise SystemExit(f"ошибка сабмита: нужно {len(test)} строк, получено {len(submission)}")
-    predictions = pd.to_numeric(submission[target_column], errors="coerce").to_numpy(dtype=float)
-    if not np.isfinite(predictions).all():
+def save_submission(test, predicted, id_column, target_column, path):
+    if id_column == target_column:
+        raise SystemExit("ошибка сабмита: колонки идентификатора и прогноза должны различаться")
+    if len(predicted) != len(test):
+        raise SystemExit(
+            f"ошибка сабмита: тест содержит {len(test)} строк, модель вернула {len(predicted)} прогнозов"
+        )
+    values = pd.to_numeric(pd.Series(predicted), errors="coerce").to_numpy(dtype=float)
+    if not np.isfinite(values).all():
         raise SystemExit("ошибка сабмита: есть пустые или нечисловые прогнозы")
+    submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
+    path.parent.mkdir(parents=True, exist_ok=True)
+    submission.to_csv(path, index=False)
 
 
 def step_data(config: dict) -> None:
@@ -306,20 +309,9 @@ def step_submission(config: dict) -> None:
         use_descriptors=config["features"]["descriptors"],
     )
     predicted = baseline.from_log(model.predict_log_si(features))
-    if len(predicted) != len(test):
-        raise SystemExit(
-            f"ошибка сабмита: тест содержит {len(test)} строк, модель вернула {len(predicted)} прогнозов"
-        )
-
-    out = pd.DataFrame({
-        settings["id_column"]: test[settings["id_column"]],
-        settings["target_column"]: predicted,
-    })
-    validate_submission(test, out, settings["id_column"], settings["target_column"])
     target = ROOT / settings["output"]
-    target.parent.mkdir(parents=True, exist_ok=True)
-    out.to_csv(target, index=False)
-    print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
+    save_submission(test, predicted, settings["id_column"], settings["target_column"], target)
+    print(f"[submission] {len(test)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 
 STEPS = {

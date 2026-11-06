@@ -30,7 +30,7 @@ import pandas as pd
 from src import evaluate, splits
 from src.features import fingerprints
 from src.models import baseline
-from src.pipeline import load_config, validate_submission
+from src.pipeline import load_config, save_submission
 from src.run_record import record_run
 
 ROOT = Path(__file__).resolve().parent
@@ -274,16 +274,7 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
             )
     features = fingerprints.featurize(test[smiles_column].astype(str).tolist())
     predicted = baseline.from_log(model.predict_log_si(features))
-    if len(predicted) != len(test):
-        raise SystemExit(
-            f"ошибка сабмита: тест содержит {len(test)} строк, "
-            f"модель вернула {len(predicted)} прогнозов"
-        )
-
-    out.parent.mkdir(parents=True, exist_ok=True)
-    submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
-    validate_submission(test, submission, id_column, target_column)
-    submission.to_csv(out, index=False)
+    save_submission(test, predicted, id_column, target_column, out)
     log(f"предсказания: {len(test)} строк → {out}")
 
 
@@ -319,10 +310,7 @@ def main(argv: list[str] | None = None) -> int:
     config = load_config(config_path)
     run_config = {**config, "run_options": vars(args), "params": params}
     inputs = [TRAIN_CSV, VALIDATION_CSV, config_path]
-    if params_path:
-        inputs.append(params_path)
-    if args.predict:
-        inputs.append(Path(args.predict))
+    inputs.extend(Path(value) for value in (args.params, args.predict) if value)
     command = ["python", "train_model.py", *(argv if argv is not None else sys.argv[1:])]
     with record_run(command, run_config, inputs):
         clip_si = None if args.no_clip else config["model"].get("clip_si")

@@ -1,6 +1,8 @@
 """Проверки сборки Kaggle CSV на маленьких фреймах, без модели и сети."""
 
 import unittest
+import tempfile
+from pathlib import Path
 
 import pandas as pd
 
@@ -13,26 +15,20 @@ class SubmissionContract(unittest.TestCase):
         self.test = pd.DataFrame({"index": [10, 11], "SMILES": ["CCO", "CC"]})
         self.valid = pd.DataFrame({"index": [10, 11], "SI VACV": [1.5, 2.0]})
 
-    def test_valid_submission_passes(self):
-        pipeline.validate_submission(self.test, self.valid, "index", "SI VACV")
-
-    def test_required_columns_are_enforced(self):
-        with self.assertRaisesRegex(SystemExit, "нужны колонки"):
-            pipeline.validate_submission(
-                self.test, self.valid.rename(columns={"SI VACV": "SI"}), "index", "SI VACV"
-            )
-
-    def test_row_count_must_match_test(self):
-        with self.assertRaisesRegex(SystemExit, "нужно 2 строк"):
-            pipeline.validate_submission(self.test, self.valid.iloc[:1], "index", "SI VACV")
-
-    def test_empty_nonnumeric_and_infinite_predictions_are_rejected(self):
-        for value in (None, "bad", float("inf")):
-            with self.subTest(value=value), self.assertRaisesRegex(SystemExit, "пустые или нечисловые"):
-                invalid = pd.DataFrame({
-                    "index": [10, 11], "SI VACV": pd.Series([value, 2.0], dtype=object),
-                })
-                pipeline.validate_submission(self.test, invalid, "index", "SI VACV")
+    def test_submission_csv_and_validation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "reports" / "submission.csv"
+            pipeline.save_submission(self.test, [1.5, 2.0], "index", "SI VACV", path)
+            pd.testing.assert_frame_equal(pd.read_csv(path), self.valid)
+            saved = path.read_bytes()
+            with self.assertRaises(SystemExit):
+                pipeline.save_submission(self.test, [1.5, 2.0], "index", "index", path)
+            self.assertEqual(path.read_bytes(), saved)
+            invalid = ([1.5], [None, 2.0], ["bad", 2.0], [float("inf"), 2.0])
+            for predictions in invalid:
+                with self.subTest(predictions=predictions), self.assertRaises(SystemExit):
+                    pipeline.save_submission(self.test, predictions, "index", "SI VACV", path)
+                self.assertEqual(path.read_bytes(), saved)
 
     def test_missing_precondition_names_next_command(self):
         path = pipeline.ARTIFACTS / "missing-test-fixture.csv"
