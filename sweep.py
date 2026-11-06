@@ -78,6 +78,14 @@ def candidates(grid: str) -> list[dict]:
     for clip in (3000.0, 10000.0, 20000.0, CLIP_FROM_TRAIN, None):
         items.append({"transform": "raw", "loss": "squared_error", "clip_si": clip})
 
+    # Лес: классический baseline в QSAR на фингерпринтах, которого у нас не было.
+    for learner in ("rf", "extra"):
+        for loss in ("squared_error", "absolute_error"):
+            items.append({"transform": "raw", "loss": loss, "learner": learner,
+                          "clip_si": CLIP_FROM_TRAIN})
+    items.append({"transform": "raw", "loss": "squared_error", "learner": "rf",
+                  "clip_si": 20000.0})
+
     if grid == "full":
         for power, loss in itertools.product((0.25, 0.5, 1.0), ("squared_error", "absolute_error")):
             items.append({"transform": "raw", "loss": loss, "weight_power": power,

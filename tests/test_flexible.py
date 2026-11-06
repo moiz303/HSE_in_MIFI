@@ -140,3 +140,31 @@ class Grid(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Forests(unittest.TestCase):
+    """Лес как baseline: классика QSAR на фингерпринтах, которой у нас не было."""
+
+    def test_forest_learners_train_and_predict(self):
+        features, si = data(n=30)
+        for learner in ("rf", "extra"):
+            model = FlexibleSI(learner=learner, clip_si=20000.0).fit(features, si)
+            predicted = model.predict_si(features)
+            self.assertTrue(np.isfinite(predicted).all(), learner)
+            self.assertLessEqual(predicted.max(), 20000.0, learner)
+
+    def test_losses_the_forest_cannot_express_are_rejected(self):
+        # Лес предсказывает среднее по листу: квантиль и гамма ему недоступны,
+        # у него настраивается только критерий расщепления.
+        for loss in ("quantile", "gamma"):
+            with self.assertRaises(ValueError, msg=loss):
+                FlexibleSI(learner="rf", loss=loss)
+
+    def test_forest_criteria_that_exist_are_accepted(self):
+        for loss in ("squared_error", "absolute_error", "poisson"):
+            FlexibleSI(learner="rf", loss=loss)
+
+    def test_forest_is_in_the_base_grid(self):
+        learners = {item.get("learner", "hgb") for item in sweep.candidates("base")}
+        self.assertIn("rf", learners)
+        self.assertIn("extra", learners)

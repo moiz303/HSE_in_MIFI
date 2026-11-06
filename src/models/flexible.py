@@ -14,8 +14,13 @@
   сверху.
 * **веса.** Вклад строки в метрику растёт как SI², поэтому имеет смысл дать
   большим SI больший вес и при обучении.
-* **обучатель.** HistGradientBoosting и XGBoost по-разному ведут себя на
-  разреженных фингерпринтах.
+* **обучатель.** HistGradientBoosting, XGBoost и случайный лес. Лес —
+  классический сильный baseline в QSAR на фингерпринтах, и у него есть своя
+  причина быть лучше именно здесь: он даёт лучше калиброванные вероятности, а
+  смесь для класса «неактивно» взвешена по вероятности и оптимальна только при
+  честной вероятности. Обратная сторона: лес усредняет по деревьям, стягивает
+  прогноз к общему среднему и хуже достаёт до крайних значений — а метрику
+  определяет как раз хвост.
 
 Комбинации перебирает `sweep.py`; здесь только механика.
 """
@@ -37,7 +42,15 @@ POSITIVE_ONLY_LOSSES = ("poisson", "gamma")
 
 TRANSFORMS = ("raw", "log", "sqrt")
 LOSSES = ("squared_error", "absolute_error", "poisson", "gamma", "quantile")
-LEARNERS = ("hgb", "xgb")
+LEARNERS = ("hgb", "xgb", "rf", "extra")
+
+# Лес предсказывает среднее по листу, поэтому квантиль и гамма ему не выразить:
+# у него настраивается только критерий расщепления.
+RF_CRITERIA = {
+    "squared_error": "squared_error",
+    "absolute_error": "absolute_error",
+    "poisson": "poisson",
+}
 
 
 def _forward(values: np.ndarray, transform: str) -> np.ndarray:
@@ -85,6 +98,11 @@ class FlexibleSI:
             raise ValueError(
                 f"потери {loss} требуют положительной цели, поэтому только transform='raw'"
             )
+        if learner in ("rf", "extra") and loss not in RF_CRITERIA:
+            raise ValueError(
+                f"лес предсказывает среднее по листу, потери {loss} ему недоступны; "
+                f"доступны {tuple(RF_CRITERIA)}"
+            )
 
         self.transform = transform
         self.loss = loss
@@ -123,6 +141,19 @@ class FlexibleSI:
             if self.loss == "quantile":
                 kwargs["quantile_alpha"] = self.quantile
             return XGBRegressor(**kwargs)
+
+        if self.learner in ("rf", "extra"):
+            from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
+
+            forest = ExtraTreesRegressor if self.learner == "extra" else RandomForestRegressor
+            return forest(
+                n_estimators=self.params.get("n_estimators", 500),
+                criterion=RF_CRITERIA[self.loss],
+                min_samples_leaf=self.params.get("min_samples_leaf", 1),
+                max_features=self.params.get("max_features", 0.3),
+                random_state=merged["random_state"],
+                n_jobs=-1,
+            )
 
         from sklearn.ensemble import HistGradientBoostingRegressor
 
