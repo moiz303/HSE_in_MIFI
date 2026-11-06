@@ -1,0 +1,10 @@
+transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,разбиений,признаки,колонок
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,24376827.44944947,8206275.026461859,71662610.2634842,5,morgan2048+desc13,2061
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,24631155.687950883,7549020.550545517,70253897.65357423,5,morgan2048+maccs+desc13,2228
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,25025458.57043188,9011460.924660567,71913295.2553312,5,morgan2048r3+desc13,2061
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,25128086.13672093,8693559.984941183,71767509.24548121,5,morgan2048counts+desc13,2061
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,25130908.1690173,9102339.598132972,71715374.17647985,5,morgan1024+desc13,1037
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,26680425.891660664,6928869.633777553,70200971.73651385,5,morgan2048+descfull,2265
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,27304456.809250962,9535885.874152351,72231282.33799918,5,morgan4096+desc13,4109
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,28211100.571639914,9077340.6248375,68879407.74791655,5,maccs+descfull,384
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,29220376.80330821,8718697.745912138,69993924.92183505,5,descfull,217
