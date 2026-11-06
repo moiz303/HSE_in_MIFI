@@ -12,7 +12,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 REPEATS="${1:-0}"
-STRATEGY="${2:-direct}"     # direct лучше на 5 разбиениях; "both" — сравнить
+STRATEGY="${2:-sentinel}"   # sentinel: классификатор меток + регрессия; "all" — сравнить все три
 CLIP="${3:-clip}"           # "noclip" — замер без ограничения SI сверху
 VENV=".venv"
 LOG_DIR="reports"
@@ -115,6 +115,17 @@ fi
 # --------------------------------------------------------------- 5. Обучение
 step "Обучаю"
 mkdir -p "$LOG_DIR"
+# Режим перебора: вместо сравнения стратегий гоняем сетку методов.
+if [[ "$STRATEGY" == "sweep" || "$STRATEGY" == "sweep-full" ]]; then
+  SWEEP_ARGS=(--repeats "${REPEATS:-3}" --max-minutes 5)
+  [[ "$STRATEGY" == "sweep-full" ]] && SWEEP_ARGS+=(--grid full)
+  set +e
+  python -u sweep.py "${SWEEP_ARGS[@]}" 2>&1 | tee "$LOG_FILE"
+  STATUS=${PIPESTATUS[0]}
+  set -e
+  [[ $STATUS -eq 0 ]] || die "перебор упал (код $STATUS), см. $LOG_FILE"
+else
+
 ARGS=(--strategy "$STRATEGY")
 [[ "$REPEATS" -gt 0 ]] && ARGS+=(--repeats "$REPEATS")
 [[ "$CLIP" == "noclip" ]] && ARGS+=(--no-clip)
@@ -126,6 +137,7 @@ python -u train_model.py "${ARGS[@]}" 2>&1 | tee "$LOG_FILE"
 STATUS=${PIPESTATUS[0]}
 set -e
 [[ $STATUS -eq 0 ]] || die "обучение упало (код $STATUS), см. $LOG_FILE"
+fi
 
 # ------------------------------------------------- 6. Предсказание на тесте
 step "Предсказываю тест соревнования"

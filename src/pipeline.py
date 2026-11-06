@@ -283,15 +283,23 @@ def step_submission(config: dict) -> None:
         )
 
     strategy = config["model"]["strategy"]
-    candidates = [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
+    # submission.model_file задаёт файл напрямую: модели из sweep.py называются
+    # по месту в рейтинге, а не по стратегии.
+    explicit = settings.get("model_file")
+    candidates = (
+        [ROOT / explicit] if explicit
+        else [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
+    )
     model_path = next((path for path in candidates if path.exists()), None)
     if model_path is None:
         raise SystemExit(
             f"нет обученной модели ({', '.join(path.name for path in candidates)}). "
             "Сначала запустите `python -m src.pipeline train` или `python -m src.pipeline all`."
         )
-    model = joblib.load(model_path)["model"]
-    print(f"[submission] модель: {model_path.name}, стратегия {strategy}")
+    bundle = joblib.load(model_path)
+    model = bundle["model"]
+    description = bundle.get("описание") or bundle.get("strategy") or strategy
+    print(f"[submission] модель: {model_path.name} — {description}")
 
     features = fingerprints.featurize(
         test[settings["smiles_column"]].astype(str).tolist(),

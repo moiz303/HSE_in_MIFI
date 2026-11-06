@@ -36,7 +36,8 @@ pip-delete-this-directory.txt
 .env
 # Артефакты обучения и кэш HTTP: тяжёлые, восстанавливаются прогоном.
 # Данные в data/ коммитятся — собранная база входит в сдачу.
-artifacts/*.joblib
+# artifacts/*.joblib коммитятся намеренно: обучение идёт на маке,
+# а сборка сабмита и отправка — на машине с данными соревнования.
 data/raw/.http_cache*
 reports/submission.csv
 reports/metrics.json

@@ -59,6 +59,16 @@ def _fit_head(model, features: np.ndarray, values: np.ndarray, name: str):
     return int(mask.sum()), int((~mask).sum())
 
 
+def _clip_of(model) -> float | None:
+    """Порог обрезки у модели, загруженной из старого pickle, отсутствует.
+
+    Модели коммитятся в репозиторий, и судьи будут их загружать: падать на
+    AttributeError из-за того, что объект сохранён предыдущей версией кода,
+    недопустимо.
+    """
+    return getattr(model, "clip_si", None)
+
+
 def _clip_log(values: np.ndarray, clip_si: float | None) -> np.ndarray:
     """Ограничить прогноз сверху правдоподобным максимумом SI.
 
@@ -93,7 +103,7 @@ class DirectSI:
         return self
 
     def predict_log_si(self, features: np.ndarray) -> np.ndarray:
-        return _clip_log(self.model.predict(features), self.clip_si)
+        return _clip_log(self.model.predict(features), _clip_of(self))
 
 
 class TwoHeadSI:
@@ -133,7 +143,129 @@ class TwoHeadSI:
         return self
 
     def predict_log_si(self, features: np.ndarray) -> np.ndarray:
-        return _clip_log(self.cc50.predict(features) - self.ic50.predict(features), self.clip_si)
+        return _clip_log(
+            self.cc50.predict(features) - self.ic50.predict(features), _clip_of(self)
+        )
+
+
+class RawSI:
+    """Регрессия прямо по сырому SI, без логарифма.
+
+    Зачем. Обучение в логарифмах минимизирует ошибку логарифма, то есть даёт
+    примерно условную медиану. Метрика соревнования — MSE в линейном масштабе,
+    а ей нужно условное среднее. У правоскошенного распределения среднее
+    заметно выше медианы, поэтому лог-модель систематически занижает прогноз
+    именно там, где ошибка стоит дороже всего: на больших SI.
+
+    Эта стратегия убирает рассогласование: squared_error считается по той же
+    величине, которую оценивают.
+    """
+
+    def __init__(self, params: dict | None = None, clip_si: float | None = None) -> None:
+        self.model = _model(params)
+        self.clip_si = clip_si
+        self.n_train: dict[str, int] = {}
+
+    def fit(self, features: np.ndarray, si: np.ndarray) -> "RawSI":
+        target = np.asarray(si, dtype=float)
+        mask = np.isfinite(target) & (target > 0)
+        if not mask.any():
+            raise ValueError("нет ни одной строки с измеренным SI")
+        if self.clip_si is not None:
+            target = np.minimum(target, self.clip_si)
+        self.model.fit(features[mask], target[mask])
+        self.n_train = {"SI": int(mask.sum()), "SI_skipped": int((~mask).sum())}
+        return self
+
+    def predict_si(self, features: np.ndarray) -> np.ndarray:
+        predicted = np.clip(self.model.predict(features), 1e-9, None)
+        clip = _clip_of(self)
+        if clip is not None:
+            predicted = np.minimum(predicted, clip)
+        return predicted
+
+    def predict_log_si(self, features: np.ndarray) -> np.ndarray:
+        return to_log(self.predict_si(features))
+
+
+class SentinelSI:
+    """Классификатор неактивности плюс регрессия SI на активных молекулах.
+
+    Зачем. Метрика соревнования — MSE по сырому SI. В train.csv организаторов
+    25% строк размечены меткой SI = 10000: это не измерение, а «активности не
+    обнаружено». Если модель даёт на такой молекуле свою обычную медиану около
+    5, одна строка стоит (10000-5)^2 ≈ 1e8. На 150 таких строках из 597 это
+    около 2.5e7 метрики — больше, чем всё остальное вместе.
+
+    Как. Вместо порога берём ожидаемое значение: для квадратичной ошибки
+    оптимальный прогноз это E[y|x], то есть
+
+        SI = p * 10000 + (1 - p) * SI_регрессии,
+
+    где p — вероятность, что молекула размечена меткой. Порог терял бы
+    информацию: при p = 0.5 и жёстком решении ошибка максимальна, а смесь
+    даёт 5000 и режет квадрат ошибки вчетверо.
+
+    Регрессия учится только на строках с измеренным SI: подмешивать туда
+    метку 10000 значит учить её предсказывать не концентрацию, а разметку.
+    """
+
+    def __init__(self, params: dict | None = None, clip_si: float | None = None,
+                 label_value: float = 10000.0, regressor: str = "log") -> None:
+        from sklearn.ensemble import HistGradientBoostingClassifier
+
+        merged = dict(DEFAULT_PARAMS)
+        merged.update(params or {})
+        self.classifier = HistGradientBoostingClassifier(**merged)
+        # "raw" согласует регрессию с метрикой, "log" устойчивее на хвосте.
+        # Что лучше — замеряется, а не выбирается верой.
+        self.regressor = (
+            RawSI(params, clip_si) if regressor == "raw" else DirectSI(params, clip_si)
+        )
+        self.regressor_kind = regressor
+        self.label_value = label_value
+        self.clip_si = clip_si
+        self.n_train: dict[str, int] = {}
+        self._single_class: bool | None = None
+
+    def fit(self, features: np.ndarray, si: np.ndarray, is_label: np.ndarray) -> "SentinelSI":
+        labels = np.asarray(is_label, dtype=bool)
+        if labels.all() or not labels.any():
+            # Один класс: классификатор не нужен и обучаться не может.
+            self._single_class = bool(labels.all())
+        else:
+            self._single_class = None
+            self.classifier.fit(features, labels.astype(int))
+
+        self.regressor.fit(features[~labels], np.asarray(si, dtype=float)[~labels])
+        self.n_train = {
+            "регрессия": int((~labels).sum()),
+            "метки": int(labels.sum()),
+            "доля меток": round(float(labels.mean()), 3),
+        }
+        return self
+
+    def predict_proba_label(self, features: np.ndarray) -> np.ndarray:
+        if self._single_class is not None:
+            return np.full(features.shape[0], 1.0 if self._single_class else 0.0)
+        return self.classifier.predict_proba(features)[:, 1]
+
+    def predict_si(self, features: np.ndarray) -> np.ndarray:
+        """Ожидаемое значение SI в линейном масштабе — так оценивает метрика."""
+        probability = self.predict_proba_label(features)
+        regression = (
+            self.regressor.predict_si(features)
+            if hasattr(self.regressor, "predict_si")
+            else from_log(self.regressor.predict_log_si(features))
+        )
+        blended = probability * self.label_value + (1.0 - probability) * regression
+        clip = _clip_of(self)
+        if clip is not None:
+            blended = np.minimum(blended, max(clip, self.label_value))
+        return blended
+
+    def predict_log_si(self, features: np.ndarray) -> np.ndarray:
+        return to_log(self.predict_si(features))
 
 
 def build(strategy: str, params: dict | None = None, clip_si: float | None = None):
@@ -142,4 +274,13 @@ def build(strategy: str, params: dict | None = None, clip_si: float | None = Non
         return DirectSI(params, clip_si)
     if strategy == "two_head":
         return TwoHeadSI(params, clip_si)
-    raise ValueError(f"неизвестная стратегия: {strategy!r}, ожидалось direct или two_head")
+    if strategy == "raw":
+        return RawSI(params, clip_si)
+    if strategy == "sentinel":
+        return SentinelSI(params, clip_si, regressor="log")
+    if strategy == "sentinel_raw":
+        return SentinelSI(params, clip_si, regressor="raw")
+    raise ValueError(
+        f"неизвестная стратегия: {strategy!r}; доступны: "
+        "direct, raw, two_head, sentinel, sentinel_raw"
+    )

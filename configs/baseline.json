@@ -29,7 +29,7 @@
     "descriptors": true
   },
   "model": {
-    "strategy": "direct",
+    "strategy": "raw",
     "params": {},
     "clip_si": 36066.7
   },
@@ -39,6 +39,7 @@
     "smiles_column": "SMILES",
     "id_column": "index",
     "target_column": "SI VACV",
-    "output": "reports/submission.csv"
+    "output": "reports/submission.csv",
+    "model_file": "artifacts/model_sweep1.joblib"
   }
 }
