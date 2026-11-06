@@ -2,8 +2,13 @@
   "name": "baseline-morgan-hgb",
   "seed": 20261106,
   "data": {
-    "sources": ["starter"],
-    "starter_csv": "data/raw/starter.csv"
+    "sources": ["chembl"],
+    "starter_csv": "data/raw/starter.csv",
+    "censored": "keep",
+    "chembl": {
+      "limit": null,
+      "drop_invalid": true
+    }
   },
   "splits": {
     "seed": 20261106,

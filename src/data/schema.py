@@ -28,8 +28,16 @@ OPTIONAL_COLUMNS = (
     "strain",          # VACV / VV / WR / Copenhagen ...
     "cell_line",       # Vero, HFF, BSC-1 ...
     "assay",           # CPE reduction, plaque reduction ...
+    "assay_type",      # IC50 | EC50 — какой тип измерения был в источнике
     "IC50_qualifier",  # "", ">", "<", ">=", "<="
     "CC50_qualifier",
+    "document_id",     # статья, из которой взята пара IC50/CC50
+    "cell_line_ic50",
+    "cell_line_cc50",
+    "cc50_cell_line_match",  # по какому правилу подобрана CC50
+    "si_artifact",     # SI=1 из-за того, что оба значения цензурированы и равны
+    "n_ic50",          # сколько измерений свёрнуто в представителя
+    "n_cc50",
 )
 
 # Все концентрации внутри пайплайна храним в микромолях.
@@ -57,11 +65,28 @@ _MASS_UNITS = {
     "µg/ml": 1.0,
     "μg/ml": 1.0,
     "ng/ml": 1e-3,
+    # Так единицы массы пишет ChEMBL: "ug.mL-1" и "ug mL-1" — после удаления
+    # пробелов и точек оба дают "ugml-1".
+    "mgml-1": 1e3,
+    "ugml-1": 1.0,
+    "µgml-1": 1.0,
+    "μgml-1": 1.0,
+    "ngml-1": 1e-3,
 }
 
 
 class UnitConversionError(ValueError):
     """Единицы не удалось привести к µM."""
+
+
+def _unit_key(unit: str) -> str:
+    """ChEMBL пишет одни и те же единицы по-разному: "ug.mL-1", "ug mL-1"."""
+    return str(unit).strip().lower().replace(" ", "").replace(".", "")
+
+
+def is_mass_unit(unit: str | None) -> bool:
+    """Массовые единицы требуют молекулярной массы для перевода в µM."""
+    return bool(unit) and _unit_key(unit) in _MASS_UNITS
 
 
 def parse_measurement(raw: object) -> tuple[float | None, str]:
@@ -97,7 +122,7 @@ def to_micromolar(value: float, unit: str, molecular_weight: float | None = None
     if value is None or (isinstance(value, float) and math.isnan(value)):
         raise UnitConversionError("пустое значение концентрации")
 
-    key = str(unit).strip().lower().replace(" ", "")
+    key = _unit_key(unit)
     if key in _UNIT_FACTORS_TO_UM:
         return float(value) * _UNIT_FACTORS_TO_UM[key]
 

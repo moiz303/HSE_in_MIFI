@@ -96,11 +96,41 @@ def aggregate_duplicates(
             dois = sorted({str(value) for value in group["doi"].dropna() if str(value).strip()})
             row["doi"] = dois[0] if dois else ""
             row["doi_all"] = ";".join(dois)
-        if "source" in group.columns:
-            row["source"] = ";".join(sorted({str(value) for value in group["source"].dropna()}))
+
+        # Провенанс: из каких источников и статей собрана строка.
+        for column in ("source", "source_id", "document_id"):
+            if column in group.columns:
+                values = sorted({str(value) for value in group[column].dropna() if str(value).strip()})
+                row[column] = ";".join(values)
+
+        # Цензура: если хотя бы одно измерение в группе было со знаком, строка
+        # помечается. Без этого флага B не сможет замерить вклад таких строк.
+        censored = False
+        for column in ("IC50_qualifier", "CC50_qualifier"):
+            if column in group.columns:
+                marks = {str(value).strip() for value in group[column].fillna("")}
+                censored = censored or bool(marks - {""})
+                row[column] = ";".join(sorted(marks - {""}))
+        row["censored"] = censored
+
+        # Артефакт цензуры: SI = 1 только потому, что оба значения упёрлись в
+        # одну максимальную концентрацию. Флаг нужен B для отбора обучающей
+        # выборки, поэтому он не теряется при агрегации.
+        if "si_artifact" in group.columns:
+            row["si_artifact"] = bool(group["si_artifact"].fillna(False).astype(bool).any())
 
         first = group.iloc[0]
-        for column in ("smiles", "virus", "strain", "cell_line", "assay"):
+        for column in (
+            "smiles",
+            "virus",
+            "strain",
+            "cell_line",
+            "assay",
+            "assay_type",
+            "cell_line_ic50",
+            "cell_line_cc50",
+            "cc50_cell_line_match",
+        ):
             if column in group.columns:
                 row.setdefault(column, first[column])
 

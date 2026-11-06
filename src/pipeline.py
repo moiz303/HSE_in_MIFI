@@ -56,20 +56,44 @@ def step_data(config: dict) -> None:
     download.install_cache()
     frames: list[pd.DataFrame] = []
     for name in config["data"]["sources"]:
-        loader = download.SOURCES[name]
         print(f"[data] источник: {name}")
-        frames.append(loader() if name != "starter" else loader(config["data"]["starter_csv"]))
+        frames.append(download.SOURCES[name](config["data"]))
 
     raw = pd.concat(frames, ignore_index=True)
     accepted, rejected_schema = schema.validate_table(raw)
     accepted, rejected_parse = standardize.add_standard_smiles(accepted)
+
+    # Цензурированные значения ("IC50 > 100") всегда попадают в сдаваемую базу,
+    # но для обучения их можно исключить: из такого измерения следует лишь
+    # граница SI. Переключатель замеряется на validation, а не выбирается верой.
+    rejected_censored = pd.DataFrame()
+    if config["data"].get("censored", "keep") == "drop":
+        qualifiers = ("IC50_qualifier", "CC50_qualifier")
+        present = [column for column in qualifiers if column in accepted.columns]
+        if present:
+            censored = accepted[present].fillna("").astype(str).ne("").any(axis=1)
+            rejected_censored = accepted[censored].copy()
+            rejected_censored["reason"] = "цензурированное значение, data.censored=drop"
+            accepted = accepted[~censored].reset_index(drop=True)
+
     dataset = standardize.aggregate_duplicates(accepted)
+
+    # Журналы отказов самих выгрузчиков: отказ по единицам или отсутствию пары
+    # случается до валидации, и без этого шага он потерялся бы.
+    journals = [rejected_schema, rejected_parse, rejected_censored]
+    for path in sorted((ROOT / "data" / "interim").glob("*_rejected.csv")):
+        journal = pd.read_csv(path)
+        if not journal.empty:
+            journals.append(journal)
 
     PROCESSED.mkdir(parents=True, exist_ok=True)
     dataset.to_csv(DATASET, index=False)
-    rejected = pd.concat([rejected_schema, rejected_parse], ignore_index=True)
+    rejected = pd.concat(journals, ignore_index=True)
     rejected.to_csv(PROCESSED / "rejected.csv", index=False)
     print(f"[data] принято {len(dataset)}, отбраковано {len(rejected)}")
+    if "reason" in rejected.columns and not rejected.empty:
+        for reason, count in rejected["reason"].value_counts().head(8).items():
+            print(f"         {count:>6}  {reason}")
 
 
 def step_splits(config: dict) -> None:

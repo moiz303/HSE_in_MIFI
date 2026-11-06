@@ -41,3 +41,4 @@ data/raw/.http_cache*
 reports/submission.csv
 reports/metrics.json
 CLAUDE.md
+.kaggle/kaggle.json
