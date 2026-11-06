@@ -1,0 +1,17 @@
+[
+  {
+    "файл": "model_sweep1.joblib",
+    "описание": "hgb · raw · squared_error · clip=20000",
+    "mse_в_распределении": 27732059.05841526
+  },
+  {
+    "файл": "model_sweep2.joblib",
+    "описание": "hgb · raw · squared_error · clip=10000",
+    "mse_в_распределении": 28421888.12520479
+  },
+  {
+    "файл": "model_sweep3.joblib",
+    "описание": "hgb · raw · quantile · q=0.8 · clip=36066.7",
+    "mse_в_распределении": 28522121.20722824
+  }
+]
