@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 
+import math
+
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingRegressor
 
@@ -57,20 +59,41 @@ def _fit_head(model, features: np.ndarray, values: np.ndarray, name: str):
     return int(mask.sum()), int((~mask).sum())
 
 
+def _clip_log(values: np.ndarray, clip_si: float | None) -> np.ndarray:
+    """Ограничить прогноз сверху правдоподобным максимумом SI.
+
+    Метрика соревнования — MSE по сырому SI, и она определяется хвостом: три
+    молекулы из 1184 дают 85% суммы квадратов. Прогноз выше того, что вообще
+    встречается в данных организаторов, не может быть правильным, зато может
+    стоить сотни миллионов в метрике.
+    """
+    if clip_si is None:
+        return values
+    return np.minimum(values, math.log10(clip_si))
+
+
 class DirectSI:
     """Одна голова: признаки → log10(SI)."""
 
-    def __init__(self, params: dict | None = None) -> None:
+    def __init__(self, params: dict | None = None, clip_si: float | None = None) -> None:
         self.model = _model(params)
+        self.clip_si = clip_si
         self.n_train: dict[str, int] = {}
 
     def fit(self, features: np.ndarray, si: np.ndarray) -> "DirectSI":
-        used, skipped = _fit_head(self.model, features, si, "SI")
+        target = np.asarray(si, dtype=float)
+        if self.clip_si is not None:
+            # Обрезаем цель: три молекулы из ChEMBL с SI до 2.2e5 лежат вне
+            # диапазона соревнования (максимум 3.6e4) и перетягивают обучение
+            # на себя. Обрезка цели — не подгонка под тест: порог взят из
+            # train.csv организаторов, в тест мы не смотрим.
+            target = np.minimum(target, self.clip_si)
+        used, skipped = _fit_head(self.model, features, target, "SI")
         self.n_train = {"SI": used, "SI_skipped": skipped}
         return self
 
     def predict_log_si(self, features: np.ndarray) -> np.ndarray:
-        return self.model.predict(features)
+        return _clip_log(self.model.predict(features), self.clip_si)
 
 
 class TwoHeadSI:
@@ -90,9 +113,12 @@ class TwoHeadSI:
     стратегия direct.
     """
 
-    def __init__(self, params: dict | None = None) -> None:
+    def __init__(self, params: dict | None = None, clip_si: float | None = None) -> None:
         self.ic50 = _model(params)
         self.cc50 = _model(params)
+        # Цель здесь не одна, а две физические величины, поэтому обрезать
+        # «цель» нечего: ограничение применяется только к итоговому прогнозу.
+        self.clip_si = clip_si
         self.n_train: dict[str, int] = {}
 
     def fit(self, features: np.ndarray, ic50: np.ndarray, cc50: np.ndarray) -> "TwoHeadSI":
@@ -107,12 +133,13 @@ class TwoHeadSI:
         return self
 
     def predict_log_si(self, features: np.ndarray) -> np.ndarray:
-        return self.cc50.predict(features) - self.ic50.predict(features)
+        return _clip_log(self.cc50.predict(features) - self.ic50.predict(features), self.clip_si)
 
 
-def build(strategy: str, params: dict | None = None):
+def build(strategy: str, params: dict | None = None, clip_si: float | None = None):
+    """Собрать модель. clip_si — правдоподобный максимум SI или None."""
     if strategy == "direct":
-        return DirectSI(params)
+        return DirectSI(params, clip_si)
     if strategy == "two_head":
-        return TwoHeadSI(params)
+        return TwoHeadSI(params, clip_si)
     raise ValueError(f"неизвестная стратегия: {strategy!r}, ожидалось direct или two_head")

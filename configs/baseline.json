@@ -29,8 +29,9 @@
     "descriptors": true
   },
   "model": {
-    "strategy": "two_head",
-    "params": {}
+    "strategy": "direct",
+    "params": {},
+    "clip_si": 36066.7
   },
   "submission": {
     "competition": "molecular-activity-prediction-hack",

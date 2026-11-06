@@ -91,6 +91,38 @@ class TrainingLoop(unittest.TestCase):
         model = baseline.build("two_head").fit(self.features, ic50, self.cc50)
         self.assertEqual(model.n_train["IC50_skipped"], 2)
 
+    def test_clipping_caps_the_prediction(self):
+        # Метрика соревнования — MSE по сырому SI, и её определяет хвост:
+        # прогноз выше максимума из данных организаторов стоит сотни миллионов.
+        cap = 1000.0
+        model = baseline.build("direct", clip_si=cap).fit(self.features, self.si)
+        predicted = baseline.from_log(model.predict_log_si(self.features))
+        self.assertLessEqual(predicted.max(), cap * 1.000001)
+
+    def test_clipping_also_caps_two_head(self):
+        cap = 100.0
+        model = baseline.build("two_head", clip_si=cap).fit(
+            self.features, self.ic50, self.cc50
+        )
+        predicted = baseline.from_log(model.predict_log_si(self.features))
+        self.assertLessEqual(predicted.max(), cap * 1.000001)
+
+    def test_direct_clips_the_training_target_too(self):
+        # Три молекулы ChEMBL с SI до 2.2e5 лежат вне диапазона соревнования и
+        # без обрезки перетягивают обучение на себя.
+        si = self.si.copy()
+        si[0] = 2.2e5
+        capped = baseline.build("direct", clip_si=1000.0).fit(self.features, si)
+        free = baseline.build("direct").fit(self.features, si)
+        self.assertLess(
+            baseline.from_log(capped.predict_log_si(self.features)).max(),
+            baseline.from_log(free.predict_log_si(self.features)).max(),
+        )
+
+    def test_no_clipping_by_default(self):
+        model = baseline.build("direct")
+        self.assertIsNone(model.clip_si)
+
     def test_a_head_with_no_usable_rows_fails_clearly(self):
         with self.assertRaises(ValueError) as caught:
             baseline.build("two_head").fit(

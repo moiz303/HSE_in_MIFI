@@ -69,8 +69,9 @@ def featurize(frame: pd.DataFrame) -> np.ndarray:
     return fingerprints.featurize(frame[SMILES_COLUMN].astype(str).tolist())
 
 
-def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame, params: dict | None = None):
-    model = baseline.build(strategy, params)
+def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
+        params: dict | None = None, clip_si: float | None = None):
+    model = baseline.build(strategy, params, clip_si)
     if strategy == "two_head":
         model.fit(features, frame["IC50"].to_numpy(), frame["CC50"].to_numpy())
     else:
@@ -90,7 +91,8 @@ def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
     return result
 
 
-def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
+def run_fixed(strategies: list[str], params: dict | None,
+              clip_si: float | None = None) -> dict[str, dict]:
     """Обучить на train.csv, проверить на validation.csv — как есть."""
     train, validation = load(TRAIN_CSV), load(VALIDATION_CSV)
     log(f"train {len(train)} молекул, validation {len(validation)} молекул")
@@ -103,7 +105,7 @@ def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
     for number, strategy in enumerate(strategies, start=1):
         log(f"[{number}/{len(strategies)}] обучаю {strategy}…")
         started = time.monotonic()
-        model = fit(strategy, features_train, train, params)
+        model = fit(strategy, features_train, train, params, clip_si)
         counts = getattr(model, "n_train", {})
         if counts:
             log("строк на голову: " + ", ".join(
@@ -140,7 +142,8 @@ def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
     return report
 
 
-def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dict[str, dict]:
+def run_repeats(strategies: list[str], repeats: int, params: dict | None,
+                clip_si: float | None = None) -> dict[str, dict]:
     """Несколько scaffold-разбиений объединённых данных.
 
     Holdout сюда не попадает: он не экспортируется. Объединяем train и
@@ -166,7 +169,7 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dic
 
         for strategy in strategies:
             started = time.monotonic()
-            model = fit(strategy, features[train_index], combined.iloc[train_index], params)
+            model = fit(strategy, features[train_index], combined.iloc[train_index], params, clip_si)
             result = score(model, features[validation_index], combined.iloc[validation_index])
             collected[strategy].append(result)
             log(f"{strategy:<9} RMSE {result['rmse_log10']:.3f}  "
@@ -245,13 +248,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--smiles-column", default="smiles")
     parser.add_argument("--target-column", default="SI")
     parser.add_argument("--out", default=str(REPORTS / "submission.csv"))
+    parser.add_argument("--no-clip", action="store_true",
+                        help="не ограничивать прогноз максимумом SI из данных организаторов")
     args = parser.parse_args(argv)
 
     strategies = ["two_head", "direct"] if args.strategy == "both" else [args.strategy]
     params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None
 
-    report = (run_repeats(strategies, args.repeats, params) if args.repeats > 0
-              else run_fixed(strategies, params))
+    config = json.loads((ROOT / "configs" / "baseline.json").read_text(encoding="utf-8"))
+    clip_si = None if args.no_clip else config["model"].get("clip_si")
+    log(f"ограничение прогноза: {'нет' if clip_si is None else f'SI <= {clip_si:g}'}")
+
+    report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
+              else run_fixed(strategies, params, clip_si))
 
     metrics_path = Path(args.metrics_out)
     metrics_path.parent.mkdir(parents=True, exist_ok=True)

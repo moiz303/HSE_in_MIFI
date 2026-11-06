@@ -168,7 +168,9 @@ def step_train(config: dict) -> None:
     train_index = split["train"]
 
     strategy = config["model"]["strategy"]
-    model = baseline.build(strategy, config["model"].get("params"))
+    model = baseline.build(
+        strategy, config["model"].get("params"), config["model"].get("clip_si")
+    )
     if strategy == "two_head":
         model.fit(
             features[train_index],
