@@ -114,6 +114,17 @@ fi
 # --------------------------------------------------------------- 5. Обучение
 step "Обучаю"
 mkdir -p "$LOG_DIR"
+# Режим перебора: вместо сравнения стратегий гоняем сетку методов.
+if [[ "$STRATEGY" == "sweep" || "$STRATEGY" == "sweep-full" ]]; then
+  SWEEP_ARGS=(--repeats "${REPEATS:-3}")
+  [[ "$STRATEGY" == "sweep-full" ]] && SWEEP_ARGS+=(--grid full)
+  set +e
+  python -u sweep.py "${SWEEP_ARGS[@]}" 2>&1 | tee "$LOG_FILE"
+  STATUS=${PIPESTATUS[0]}
+  set -e
+  [[ $STATUS -eq 0 ]] || die "перебор упал (код $STATUS), см. $LOG_FILE"
+else
+
 ARGS=(--strategy "$STRATEGY")
 [[ "$REPEATS" -gt 0 ]] && ARGS+=(--repeats "$REPEATS")
 [[ "$CLIP" == "noclip" ]] && ARGS+=(--no-clip)
@@ -125,6 +136,7 @@ python -u train_model.py "${ARGS[@]}" 2>&1 | tee "$LOG_FILE"
 STATUS=${PIPESTATUS[0]}
 set -e
 [[ $STATUS -eq 0 ]] || die "обучение упало (код $STATUS), см. $LOG_FILE"
+fi
 
 # ------------------------------------------------- 6. Предсказание на тесте
 step "Предсказываю тест соревнования"
