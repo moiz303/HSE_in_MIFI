@@ -37,6 +37,9 @@ DEFAULT_PARAMS = {
     "random_state": 20261106,
 }
 
+# Параметры леса и XGBoost, которых HistGradientBoostingRegressor не принимает.
+FOREST_ONLY_PARAMS = ("n_estimators", "max_features", "criterion", "n_jobs")
+
 # Потери, которым нужна строго положительная цель — значит только сырой масштаб.
 POSITIVE_ONLY_LOSSES = ("poisson", "gamma")
 
@@ -157,7 +160,13 @@ class FlexibleSI:
 
         from sklearn.ensemble import HistGradientBoostingRegressor
 
-        kwargs = dict(merged, loss=self.loss)
+        # Параметры, которых у HistGradientBoosting нет: он падает на незнакомом
+        # ключе, а sweep.py передаёт один общий набор для скрининга всем
+        # обучателям. Без этого фильтра вся ветка hgb молча «пропускалась».
+        kwargs = dict(
+            {key: value for key, value in merged.items() if key not in FOREST_ONLY_PARAMS},
+            loss=self.loss,
+        )
         if self.loss == "quantile":
             kwargs["quantile"] = self.quantile
         return HistGradientBoostingRegressor(**kwargs)

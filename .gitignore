@@ -27,6 +27,9 @@ __pycache__/
 env/
 venv/
 .venv/
+# На маке окружение одно на все worktree, и .venv внутри копии репозитория —
+# симлинк на него. Шаблон с косой чертой симлинк не ловит, нужен и без неё.
+.venv
 .ENV
 .venv.bak/
 pip-log.txt
@@ -34,6 +37,9 @@ pip-delete-this-directory.txt
 
 # Local runtime data and credentials
 .env
+# Кэш признаков RDKit: минуты счёта, десятки мегабайт, восстанавливается сам.
+data/interim/features_cache.npz
+
 # Артефакты обучения и кэш HTTP: тяжёлые, восстанавливаются прогоном.
 # Данные в data/ коммитятся — собранная база входит в сдачу.
 # artifacts/*.joblib коммитятся намеренно: обучение идёт на маке,

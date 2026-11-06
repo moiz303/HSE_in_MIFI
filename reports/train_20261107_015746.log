@@ -1,0 +1,28 @@
+  0:00.0  объединено 1007 молекул, считаю признаки…
+  0:00.0  матрица 1007×2061, в распределении соревнования: 260
+  0:00.0  готовлю 3 scaffold-разбиений…
+  0:01.1  комбинаций: 5, обучений: 15
+
+  0:01.1  бюджет: 5 мин
+  0:14.7  [1/5] hgb · raw · squared_error · clip=20000         MSE 2.833e+07 ± 7.14e+06  (14 с)
+  0:16.5  [2/5] rf · raw · squared_error · clip=20000          MSE 2.936e+07 ± 4.95e+06  (2 с)
+  0:19.0  [3/5] extra · raw · squared_error · clip=20000       MSE 3.007e+07 ± 4.5e+06  (3 с)
+  0:32.9  [4/5] hgb · raw · squared_error · w=SI^0.25 · clip=20000 MSE 2.946e+07 ± 6.67e+06  (14 с)
+  0:46.9  [5/5] hgb · raw · squared_error · w=SI^0.5 · clip=20000 MSE 3.015e+07 ± 6.86e+06  (14 с)
+  0:46.9  
+  0:46.9  лучшие по метрике соревнования:
+  0:46.9     1. hgb · raw · squared_error · clip=20000         2.833e+07 ± 7.14e+06
+  0:46.9     2. rf · raw · squared_error · clip=20000          2.936e+07 ± 4.95e+06
+  0:46.9     3. hgb · raw · squared_error · w=SI^0.25 · clip=20000 2.946e+07 ± 6.67e+06
+  0:46.9     4. extra · raw · squared_error · clip=20000       3.007e+07 ± 4.5e+06
+  0:46.9     5. hgb · raw · squared_error · w=SI^0.5 · clip=20000 3.015e+07 ± 6.86e+06
+  0:46.9  
+  0:58.6  сохранено: model_sweep1.joblib — hgb · raw · squared_error · clip=20000
+  1:00.6  сохранено: model_sweep2.joblib — rf · raw · squared_error · clip=20000
+  1:13.2  сохранено: model_sweep3.joblib — hgb · raw · squared_error · w=SI^0.25 · clip=20000
+  1:13.2  
+  1:13.2  этап признаков пропущен: направление закрыто (--features включает)
+  1:13.2  
+  1:13.2  таблицы → reports/sweep.csv и reports/sweep_features.csv
+  1:13.2  лучшая модель → artifacts/model.joblib
+  1:13.2  закоммить artifacts/ и reports/ — отправку соберёт тот, у кого данные соревнования
