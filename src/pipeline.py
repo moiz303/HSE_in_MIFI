@@ -280,13 +280,26 @@ def step_submission(config: dict) -> None:
         # этих строках только портит метрику, ничего не говоря о её качестве.
         # Поэтому модель отвечает за строки с настоящей целью, а строки-метки
         # закрываются соглашениями.
-        conventions = kaggle_data.selectivity_from_columns(test)
-        real_target = (
-            test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
+        #
+        # Если в тесте этих колонок нет вообще — а финальная проверка может их
+        # убрать, иначе целевая переменная выводится из признаков арифметикой —
+        # модель отвечает за все строки. Это и есть та постановка, под которую
+        # она обучена: прогноз по одной SMILES-записи.
+        has_columns = all(
+            column in test.columns
+            for column in (kaggle_data.CC50_COLUMN, kaggle_data.IC50_COLUMN)
         )
-        predicted = predicted.where(real_target, conventions)
-        print(f"[submission] моделью: {int(real_target.sum())}, "
-              f"по соглашениям о пропусках: {int((~real_target).sum())}")
+        if has_columns:
+            conventions = kaggle_data.selectivity_from_columns(test)
+            real_target = (
+                test[kaggle_data.CC50_COLUMN].notna() & test[kaggle_data.IC50_COLUMN].notna()
+            )
+            predicted = predicted.where(real_target, conventions)
+            print(f"[submission] моделью: {int(real_target.sum())}, "
+                  f"по соглашениям о пропусках: {int((~real_target).sum())}")
+        else:
+            print(f"[submission] в тесте нет колонок {kaggle_data.CC50_COLUMN} и "
+                  f"{kaggle_data.IC50_COLUMN} — моделью предсказаны все {len(test)} строк")
     else:
         raise SystemExit(f"submission.method: ожидалось formula | model, получено {method!r}")
 
