@@ -20,6 +20,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -36,6 +38,19 @@ ARTIFACTS = ROOT / "artifacts"
 REPORTS = ROOT / "reports"
 
 SMILES_COLUMN = "standard_smiles"
+
+_STARTED = time.monotonic()
+
+
+def log(message: str, indent: int = 0) -> None:
+    """Строка лога с отметкой времени от старта, сразу в поток.
+
+    Обучение идёт минутами, и запускающий должен видеть прогресс, а не пустой
+    терминал. flush обязателен: вывод уходит в tee.
+    """
+    seconds = time.monotonic() - _STARTED
+    stamp = f"{int(seconds // 60):d}:{seconds % 60:04.1f}"
+    print(f"  {stamp:>7}  {' ' * indent}{message}", flush=True)
 
 
 def load(path: Path) -> pd.DataFrame:
@@ -75,22 +90,41 @@ def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
 def run_fixed(strategies: list[str], params: dict | None) -> dict[str, dict]:
     """Обучить на train.csv, проверить на validation.csv — как есть."""
     train, validation = load(TRAIN_CSV), load(VALIDATION_CSV)
-    print(f"train: {len(train)} молекул | validation: {len(validation)} молекул\n")
+    log(f"train {len(train)} молекул, validation {len(validation)} молекул")
+
+    log("считаю признаки: Morgan 2048 бит + RDKit 2D…")
     features_train, features_validation = featurize(train), featurize(validation)
+    log(f"матрица признаков {features_train.shape[0]}×{features_train.shape[1]}")
 
     report: dict[str, dict] = {}
-    for strategy in strategies:
+    for number, strategy in enumerate(strategies, start=1):
+        log(f"[{number}/{len(strategies)}] обучаю {strategy}…")
+        started = time.monotonic()
         model = fit(strategy, features_train, train, params)
+        log(f"обучено за {time.monotonic() - started:.1f} с, считаю метрики с бутстрапом…", indent=2)
+
         result = score(model, features_validation, validation)
         report[strategy] = result
         low, high = result["rmse_log10_ci95"]
-        print(f"{strategy:<9} RMSE log10 = {result['rmse_log10']:.3f} "
-              f"[{low:.3f}; {high:.3f}]   Spearman = {result['spearman']:.3f}")
+        log(f"{strategy}: RMSE log10 = {result['rmse_log10']:.3f} [{low:.3f}; {high:.3f}], "
+            f"Spearman = {result['spearman']:.3f}", indent=2)
 
         ARTIFACTS.mkdir(parents=True, exist_ok=True)
         import joblib
 
         joblib.dump({"model": model, "strategy": strategy}, ARTIFACTS / f"model_{strategy}.joblib")
+        log(f"модель → artifacts/model_{strategy}.joblib", indent=2)
+
+    if len(report) > 1:
+        best = min(report, key=lambda key: report[key]["rmse_log10"])
+        gap = abs(report[strategies[0]]["rmse_log10"] - report[strategies[-1]]["rmse_log10"])
+        width = max(r["rmse_log10_ci95"][1] - r["rmse_log10_ci95"][0] for r in report.values())
+        log("")
+        if gap > width:
+            log(f"итог: {best} лучше (разница {gap:.3f} шире интервала {width:.3f})")
+        else:
+            log(f"итог: не решено — разница {gap:.3f} меньше ширины интервала {width:.3f}; "
+                f"нужен прогон с --repeats")
     return report
 
 
@@ -102,24 +136,33 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dic
     зависеть от одного удачного разбиения.
     """
     combined = pd.concat([load(TRAIN_CSV), load(VALIDATION_CSV)], ignore_index=True)
+    log(f"объединено {len(combined)} молекул, разбиений: {repeats}")
+    log("считаю признаки один раз на всю выборку…")
     features = featurize(combined)
     smiles = combined[SMILES_COLUMN].astype(str).tolist()
-    print(f"объединено {len(combined)} молекул, разбиений: {repeats}\n")
+    log(f"матрица признаков {features.shape[0]}×{features.shape[1]}")
+    log(f"всего обучений: {repeats * len(strategies)}")
 
     collected: dict[str, list[dict]] = {strategy: [] for strategy in strategies}
     for index in range(repeats):
         seed = splits.DEFAULT_SEED + index
+        log(f"[разбиение {index + 1}/{repeats}] seed {seed}, режу по каркасам Мурко…")
         split = splits.scaffold_split(smiles, seed=seed)
         splits.assert_no_leaks(smiles, split)
         train_index, validation_index = split["train"], split["validation"]
+        log(f"train {len(train_index)}, validation {len(validation_index)}, утечек нет", indent=2)
+
         for strategy in strategies:
+            started = time.monotonic()
             model = fit(strategy, features[train_index], combined.iloc[train_index], params)
             result = score(model, features[validation_index], combined.iloc[validation_index])
             collected[strategy].append(result)
-            print(f"  seed {seed}  {strategy:<9} RMSE {result['rmse_log10']:.3f}  "
-                  f"Spearman {result['spearman']:.3f}")
+            log(f"{strategy:<9} RMSE {result['rmse_log10']:.3f}  "
+                f"Spearman {result['spearman']:.3f}  ({time.monotonic() - started:.1f} с)",
+                indent=2)
 
-    print("\nсреднее по разбиениям:")
+    log("")
+    log("среднее по разбиениям:")
     report: dict[str, dict] = {}
     for strategy, results in collected.items():
         rmse = np.array([r["rmse_log10"] for r in results])
@@ -131,16 +174,20 @@ def run_repeats(strategies: list[str], repeats: int, params: dict | None) -> dic
             "spearman_std": float(spearman.std(ddof=1)) if len(spearman) > 1 else 0.0,
             "n_splits": len(results),
         }
-        print(f"  {strategy:<9} RMSE {rmse.mean():.3f} ± {report[strategy]['rmse_log10_std']:.3f}   "
-              f"Spearman {spearman.mean():.3f} ± {report[strategy]['spearman_std']:.3f}")
+        log(f"{strategy:<9} RMSE {rmse.mean():.3f} ± {report[strategy]['rmse_log10_std']:.3f}   "
+            f"Spearman {spearman.mean():.3f} ± {report[strategy]['spearman_std']:.3f}", indent=2)
 
-    best = min(report, key=lambda key: report[key]["rmse_log10_mean"])
-    spread = max(report[s]["rmse_log10_std"] for s in report)
-    gap = abs(report[strategies[0]]["rmse_log10_mean"] - report[strategies[-1]]["rmse_log10_mean"])
     if len(strategies) > 1:
-        verdict = (f"{best} лучше" if gap > spread
-                   else f"разница ({gap:.3f}) меньше разброса между разбиениями ({spread:.3f}) — не решено")
-        print(f"\nвывод: {verdict}")
+        best = min(report, key=lambda key: report[key]["rmse_log10_mean"])
+        spread = max(report[s]["rmse_log10_std"] for s in report)
+        gap = abs(
+            report[strategies[0]]["rmse_log10_mean"] - report[strategies[-1]]["rmse_log10_mean"]
+        )
+        log("")
+        if gap > spread:
+            log(f"итог: {best} лучше — разница {gap:.3f} шире разброса между разбиениями {spread:.3f}")
+        else:
+            log(f"итог: не решено — разница {gap:.3f} меньше разброса между разбиениями {spread:.3f}")
     return report
 
 
@@ -165,7 +212,7 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
 
     out.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({id_column: test[id_column], target_column: predicted}).to_csv(out, index=False)
-    print(f"[predict] {len(test)} строк → {out}")
+    log(f"предсказания: {len(test)} строк → {out}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -192,7 +239,7 @@ def main(argv: list[str] | None = None) -> int:
     metrics_path = Path(args.metrics_out)
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
     metrics_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"\nметрики → {metrics_path}")
+    log(f"метрики → {metrics_path}")
 
     if args.predict:
         predict(Path(args.predict), strategies[0], args.id_column,

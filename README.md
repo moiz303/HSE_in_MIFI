@@ -80,11 +80,21 @@ Holdout в отдельный файл **намеренно не выгружа�
 
 ```bash
 git clone https://github.com/moiz303/HSE_in_MIFI.git && cd HSE_in_MIFI
+./run_mac.sh          # обе стратегии на фиксированном разбиении
+./run_mac.sh 5        # 5 scaffold-разбиений, сравнение стратегий
+./run_mac.sh 5 direct # 5 разбиений, только стратегия direct
+```
+
+`run_mac.sh` сам находит python, создаёт `.venv`, ставит зависимости (только в
+первый раз), проверяет данные и тесты, затем обучает с потоковым логом и пишет
+копию лога в `reports/train_<дата>.log`. Повторный запуск pip не трогает.
+
+Если нужен ручной контроль:
+
+```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
-python train_model.py                      # обе стратегии на фиксированном разбиении
-python train_model.py --repeats 5          # 5 scaffold-разбиений, сравнение стратегий
+python -u train_model.py --repeats 5
 python train_model.py --strategy direct --predict data/raw/test.csv
 ```
 
