@@ -1,0 +1,4 @@
+# Скрипты для unix-машин всегда хранятся с LF: с CRLF bash на маке падает
+# с "bad interpreter: /usr/bin/env bash^M".
+*.sh text eol=lf
+Makefile text eol=lf
