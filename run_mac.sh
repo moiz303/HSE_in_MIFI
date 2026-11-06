@@ -11,7 +11,8 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 REPEATS="${1:-0}"
-STRATEGY="${2:-two_head}"   # команда выбрала two_head; "both" — сравнить со direct
+STRATEGY="${2:-direct}"     # direct лучше на 5 разбиениях; "both" — сравнить
+CLIP="${3:-clip}"           # "noclip" — замер без ограничения SI сверху
 VENV=".venv"
 LOG_DIR="reports"
 LOG_FILE="$LOG_DIR/train_$(date +%Y%m%d_%H%M%S).log"
@@ -115,6 +116,7 @@ step "Обучаю"
 mkdir -p "$LOG_DIR"
 ARGS=(--strategy "$STRATEGY")
 [[ "$REPEATS" -gt 0 ]] && ARGS+=(--repeats "$REPEATS")
+[[ "$CLIP" == "noclip" ]] && ARGS+=(--no-clip)
 
 # python -u, чтобы строки шли в терминал сразу, а не после завершения.
 # tee пишет и в лог: утром никто не вспомнит числа из прокрученного терминала.
@@ -127,6 +129,10 @@ set -e
 # ------------------------------------------------- 6. Предсказание на тесте
 step "Предсказываю тест соревнования"
 SUBMISSION="reports/submission.csv"
+if [[ "$CLIP" == "noclip" ]]; then
+  warn "режим noclip — это только замер, сабмит из него не собираем"
+  SUBMISSION=""
+fi
 if [[ ! -f data/raw/kaggle/test.csv ]]; then
   printf '  %sнет data/raw/kaggle/test.csv, скачиваю…%s\n' "$DIM" "$R"
   if ! python -m pip show kaggle >/dev/null 2>&1; then
