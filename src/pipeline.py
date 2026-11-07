@@ -221,8 +221,10 @@ def applicability(smiles, train_smiles, identifiers, name):
         fingerprints.morgan_matrix(train_smiles), fingerprints.morgan_matrix(smiles)
     )
     REPORTS.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame({"id": identifiers, "max_tanimoto": similarity,
-                  "outside_domain": similarity < 0.3}).to_csv(REPORTS / name, index=False)
+    result = pd.DataFrame({"id": identifiers, "max_tanimoto": similarity,
+                           "outside_domain": similarity < 0.3})
+    result.to_csv(REPORTS / name, index=False)
+    return result
 
 
 def step_train(config: dict) -> None:
@@ -392,19 +394,17 @@ def step_submission(config: dict) -> None:
     predicted = baseline.from_log(model.predict_log_si(features))
     target = ROOT / settings["output"]
     save_submission(test, predicted, settings["id_column"], settings["target_column"], target)
-    applicability(test[settings["smiles_column"]].astype(str).tolist(), training_smiles(bundle),
-                  test[settings["id_column"]], "applicability_submission.csv")
+    domain = applicability(test[settings["smiles_column"]].astype(str).tolist(),
+                           training_smiles(bundle), test[settings["id_column"]],
+                           "applicability_submission.csv")
     validation = load_dataset().iloc[splits_module.load_manifest(MANIFEST)["validation"]]
-    true = baseline.to_log(validation["SI"].to_numpy())
-    fitted = model.predict_log_si(_features(validation, model_config))
-    residual = np.abs(true - fitted)
+    residual = np.abs(baseline.to_log(validation["SI"].to_numpy())
+                      - model.predict_log_si(_features(validation, model_config)))
     if len(residual) == 0 or not np.isfinite(residual).all():
         raise SystemExit("не удалось оценить неопределённость на validation")
-    width = float(np.quantile(residual, 0.9))
-    domain = pd.read_csv(REPORTS / "applicability_submission.csv")
-    ranking = domain.assign(predicted_si=predicted,
-                            lower_si=predicted / (10 ** width),
-                            upper_si=predicted * (10 ** width))
+    factor = 10 ** np.quantile(residual, 0.9)
+    ranking = domain.assign(predicted_si=predicted, lower_si=predicted / factor,
+                            upper_si=predicted * factor)
     ranking.sort_values("predicted_si", ascending=False, kind="stable").to_csv(
         REPORTS / "ranking.csv", index=False)
     metadata = {**provenance(config), "submission_sha256": checksum(target),
