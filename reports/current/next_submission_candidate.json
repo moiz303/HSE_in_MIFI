@@ -1,0 +1,23 @@
+{
+  "candidate": "bio_fp__kaggle_only",
+  "kind": "bio_fp",
+  "regime": "kaggle_only",
+  "mean_oof_mse": 5014266.299876882,
+  "molecule": 5023722.885991164,
+  "scaffold": 5004809.7137626,
+  "artifact": "artifacts/current_bio_transfer/bio_fp__kaggle_only.joblib",
+  "submission": "reports/current_bio_transfer/submission_bio_fp__kaggle_only.csv",
+  "submission_sha256": "3245971fa75a156cdbd2f360bbbb40790b5295dd1f10563f26b446b7657454f8",
+  "official_kaggle_score": null,
+  "status": "awaiting_verified_quota_reset_and_root_upload",
+  "expected_next_reset_utc": "2026-11-08T00:00:00Z",
+  "protected_reserved_rows_released": false,
+  "competition_calibration_rows": 267,
+  "public_SI_calibration_rows": 0,
+  "public_endpoint_pretraining_measurements": 4430,
+  "public_endpoint_pretraining_structures": 1711,
+  "official_endpoint_columns_read": [],
+  "decision_audit": "reports/current_bio_transfer/decision_audit.json",
+  "fresh_inference_verification": "reports/current_bio_transfer/inference_verification.json",
+  "selection_basis": "Predeclared TRAIN OOF primary score and zero/bulk guards; no test endpoint labels, no Kaggle score for this candidate"
+}

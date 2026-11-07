@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "checks": [
+    {
+      "candidate": "bio_fp__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "passed": true
+    },
+    {
+      "candidate": "bio_small__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "passed": true
+    },
+    {
+      "candidate": "base_fp__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 5.684341886080802e-14,
+      "passed": true
+    },
+    {
+      "candidate": "base_fp__public_plus_kaggle",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "passed": true
+    },
+    {
+      "candidate": "base_small__public_plus_kaggle",
+      "rows": 597,
+      "maximum_absolute_difference": 5.684341886080802e-14,
+      "passed": true
+    },
+    {
+      "candidate": "base_small__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 5.684341886080802e-14,
+      "passed": true
+    },
+    {
+      "candidate": "bio_fp__public_plus_kaggle",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "passed": true
+    },
+    {
+      "candidate": "bio_small__public_plus_kaggle",
+      "rows": 597,
+      "maximum_absolute_difference": 1.8189894035458565e-12,
+      "passed": true
+    }
+  ]
+}

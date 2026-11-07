@@ -50,5 +50,6 @@
   "target": "top10 OR Score<800000",
   "goal_attempt_budget": 4,
   "current_window_remaining_after_upload": 0,
-  "next_reset_expected_utc": "2026-11-08T00:00:00Z"
+  "next_reset_expected_utc": "2026-11-08T00:00:00Z",
+  "budget_scope": "Four authorized attempts apply to initial pre-reset window. User permits further selected hypotheses after live quota reset; never reuse old quota counts."
 }
