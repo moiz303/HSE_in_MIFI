@@ -19,6 +19,7 @@ from src.models.xgb_hybrid import XGBHybrid, select_hybrid
 from src.models.xgb_ensemble import XGBEnsemble
 from src.models.xgb_weighted import XGBWeightedTwoHead
 from src.models.xgb_analog import XGBAnalog
+from src.models.xgb_tail import XGBTail, tail_weights
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
@@ -26,6 +27,7 @@ MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 MODEL_TYPES["xgb_ensemble"] = XGBEnsemble
 MODEL_TYPES["xgb_weighted"] = XGBWeightedTwoHead
 MODEL_TYPES["xgb_analog"] = XGBAnalog
+MODEL_TYPES["xgb_tail"] = XGBTail
 
 
 def is_final(config):
@@ -33,6 +35,8 @@ def is_final(config):
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_tail":
+        return "xgb_tail"
     if config["model"]["strategy"] == "xgb_analog":
         return "xgb_analog"
     if config["model"]["strategy"] == "xgb_weighted":
@@ -52,7 +56,7 @@ def validate_config(config):
     mode = config.get("training", {}).get("mode", "train_only")
     if mode not in ("train_only", "train_validation"):
         raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
-    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted", "xgb_analog") or cv_protocol(config)):
+    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted", "xgb_analog", "xgb_tail") or cv_protocol(config)):
         raise ValueError("Final mode supports only fixed concentration XGBoost variants")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
@@ -110,7 +114,7 @@ def data_hashes(config=None):
     names = ["train.csv", "validation.csv", "splits.json"]
     if (ROOT / "data/processed/kaggle_reference.csv").exists():
         names.append("kaggle_reference.csv")
-    if config is not None and config["model"]["strategy"] in ("xgb_weighted", "xgb_analog"):
+    if config is not None and config["model"]["strategy"] in ("xgb_weighted", "xgb_analog", "xgb_tail"):
         names.append("public_quality.csv")
     return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}
 
@@ -147,6 +151,7 @@ def train(config):
     print(f"[train] features={matrix.shape}; holdout unused", flush=True)
     cv_result = None
     analog_result = None
+    tail_result = None
     if cv_protocol(config):
         from src.hybrid_cv import select_on_train
         cv_result = select_on_train(frame, matrix, reference, settings.get("params"))
@@ -161,7 +166,14 @@ def train(config):
             model.blend_weight = analog_result["selection"]["alpha"]
         print(f"[weights] raw min={weights.min():.4g}, max={weights.max():.4g}, "
               f"full-weight rows={int((weights == 1).sum())}; normalizing each head to mean 1", flush=True)
-        model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"), sample_weight=weights)
+        fitting_weights = weights
+        if isinstance(model, XGBTail):
+            from src.tail_compare import run
+            tail_result = run(config, frame, matrix, quality)
+            model.profile = tail_result["selection"]["selected"]
+            fitting_weights = tail_weights(frame, weights, model.profile)
+            print(f"[tail final] profile={model.profile}; boosted IC50 rows={int((fitting_weights['IC50'] > weights).sum())}", flush=True)
+        model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"), sample_weight=fitting_weights)
     else:
         model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"))
     if isinstance(model, XGBHybrid):
@@ -193,6 +205,8 @@ def train(config):
         bundle["train_cv"] = cv_result
     if analog_result is not None:
         bundle["analog_selection"] = analog_result["selection"]
+    if tail_result is not None:
+        bundle["tail_selection"] = tail_result["selection"]
     if is_final(config):
         bundle["training"] = {"parts": training_parts, "rows": len(frame),
             "source_rows": frame.source.value_counts().to_dict(),
@@ -209,6 +223,9 @@ def train(config):
             bundle["training"]["analogs"] = {"settings": model.neighbor_settings, "alpha": model.blend_weight,
                 "bank_sizes": {name: len(bank["log_values"]) for name, bank in model.bank.items()},
                 "selection": bundle["analog_selection"]}
+        if isinstance(model, XGBTail):
+            bundle["training"]["tail"] = {"profile": model.profile, "selection": bundle["tail_selection"],
+                "weight_formula": "reliability * clip(sqrt((CC50/IC50)/100), 1, cap); exact measured pairs only"}
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]

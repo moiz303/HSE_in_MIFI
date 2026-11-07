@@ -76,10 +76,15 @@ class XGBTwoHead:
 
     def fit(self, features, ic50, cc50, sample_weight=None):
         features = np.asarray(features)
-        weights = None if sample_weight is None else np.asarray(sample_weight, dtype=float)
-        if weights is not None and (weights.shape != (len(features),) or
-                not np.isfinite(weights).all() or (weights <= 0).any()):
-            raise ValueError("sample_weight must have one positive finite value per row")
+        if isinstance(sample_weight, dict) and set(sample_weight) != {"IC50", "CC50"}:
+            raise ValueError("sample_weight mapping must contain IC50 and CC50")
+        weights = {name: None if sample_weight is None else np.asarray(
+            sample_weight[name] if isinstance(sample_weight, dict) else sample_weight, dtype=float)
+            for name in ("IC50", "CC50")}
+        for values in weights.values():
+            if values is not None and (values.shape != (len(features),) or
+                    not np.isfinite(values).all() or (values <= 0).any()):
+                raise ValueError("sample_weight must have one positive finite value per row")
         targets = {"IC50": np.asarray(ic50, dtype=float), "CC50": np.asarray(cc50, dtype=float)}
         masks = {}
         for name, values in targets.items():
@@ -96,10 +101,10 @@ class XGBTwoHead:
             print(f"[fit] {type(self).__name__} {name}: {int(mask.sum())} targets, "
                   f"{int((~mask).sum())} skipped; params={self.params}", flush=True)
             model = self._build_head()
-            if weights is None:
+            if weights[name] is None:
                 model.fit(features[mask], np.log10(values[mask]))
             else:
-                head_weights = weights[mask] / weights[mask].mean()
+                head_weights = weights[name][mask] / weights[name][mask].mean()
                 self.weight_summary[name] = {"min": float(head_weights.min()),
                     "max": float(head_weights.max()), "mean": float(head_weights.mean())}
                 model.fit(features[mask], np.log10(values[mask]), sample_weight=head_weights)

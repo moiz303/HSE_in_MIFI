@@ -1,0 +1,451 @@
+{
+  "metric": "raw SI MSE on original competition OOF rows",
+  "folds": 3,
+  "repeats": 3,
+  "seed": 20261106,
+  "holdout_used": false,
+  "development_structures": 1007,
+  "original_competition_rows": 267,
+  "profiles": {
+    "weighted": [
+      1,
+      false
+    ],
+    "ic2": [
+      2,
+      false
+    ],
+    "ic4": [
+      4,
+      false
+    ],
+    "both2": [
+      2,
+      true
+    ]
+  },
+  "protocols": {
+    "molecule": {
+      "weighted": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79205227.65536514,
+          "rmse": 8899.731886712383,
+          "mae": 7180.1364914438955,
+          "bias": -7176.087550573128,
+          "rmse_log10": 2.4755194449121003
+        }
+      },
+      "ic2": {
+        "n": 801,
+        "mse": 29631920.75413313,
+        "rmse": 5443.520988673887,
+        "mae": 2700.2677604122573,
+        "bias": -2669.5574982490416,
+        "rmse_log10": 1.613934431437804,
+        "repeat_mse": [
+          29620837.124002952,
+          29658311.08338324,
+          29616614.055013184
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6657364.658196826,
+          "rmse": 2580.1869424901806,
+          "mae": 309.92235613751797,
+          "bias": -269.12812729384433,
+          "rmse_log10": 0.8358712266851089
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 6874.2031449656715,
+          "rmse": 82.91081440298166,
+          "mae": 27.739912034204416,
+          "bias": 18.569853006741102,
+          "rmse_log10": 0.7480296301472051
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79105748.49428335,
+          "rmse": 8894.141245465093,
+          "mae": 7163.389267203603,
+          "bias": -7158.730174846199,
+          "rmse_log10": 2.453635772628512
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": 34931.57904555294,
+          "ci95": [
+            3039.216228819905,
+            78025.69301833886
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "ic4": {
+        "n": 801,
+        "mse": 29606141.018287405,
+        "rmse": 5441.152545030088,
+        "mae": 2698.642188071685,
+        "bias": -2661.544364828054,
+        "rmse_log10": 1.6142976661826876,
+        "repeat_mse": [
+          29592753.82054101,
+          29626596.039317477,
+          29599073.195003726
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6632409.060134509,
+          "rmse": 2575.3463961445086,
+          "mae": 308.23216376794755,
+          "bias": -258.9529657279002,
+          "rmse_log10": 0.8462046778281305
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 11447.121088458429,
+          "rmse": 106.99121967927289,
+          "mae": 32.36449119058939,
+          "bias": 23.02421587434737,
+          "rmse_log10": 0.7626540499720161
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79029279.82660966,
+          "rmse": 8889.841383658633,
+          "mae": 7151.325941863114,
+          "bias": -7144.773894601064,
+          "rmse_log10": 2.446745648012234
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": 60711.31489127451,
+          "ci95": [
+            5199.873984048111,
+            138169.7979102459
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "both2": {
+        "n": 801,
+        "mse": 29618049.279045485,
+        "rmse": 5442.2467124383,
+        "mae": 2699.456887681587,
+        "bias": -2666.3336425884745,
+        "rmse_log10": 1.6079698966297842,
+        "repeat_mse": [
+          29613962.651163403,
+          29645540.812023252,
+          29594644.373949792
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6644878.825220858,
+          "rmse": 2577.766247203353,
+          "mae": 309.1433184958389,
+          "bias": -265.14378396916607,
+          "rmse_log10": 0.8319289367321513
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 8905.939584433085,
+          "rmse": 94.37128580470377,
+          "mae": 29.363270677056306,
+          "bias": 20.39992103582197,
+          "rmse_log10": 0.751701266194168
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79065318.65594544,
+          "rmse": 8891.868119576753,
+          "mae": 7158.513228079153,
+          "bias": -7153.178693841049,
+          "rmse_log10": 2.4412748489057865
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": 48803.05413319681,
+          "ci95": [
+            7359.667538058447,
+            104504.42565196025
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "weighted": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477972,
+          "bias": 20.27150399889362,
+          "rmse_log10": 0.82984927730235
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79226050.63057259,
+          "rmse": 8900.901675143512,
+          "mae": 7192.838790253719,
+          "bias": -7188.192957033009,
+          "rmse_log10": 2.5344258457591544
+        }
+      },
+      "ic2": {
+        "n": 801,
+        "mse": 29681477.12144073,
+        "rmse": 5448.070954148884,
+        "mae": 2715.9176460879935,
+        "bias": -2669.3326469554795,
+        "rmse_log10": 1.6827955937487682,
+        "repeat_mse": [
+          29644657.52535748,
+          29761769.55422975,
+          29638004.284734953
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6738954.813761845,
+          "rmse": 2595.949693996755,
+          "mae": 331.50643286767286,
+          "bias": -269.62486685582644,
+          "rmse_log10": 0.9690050524295238
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 50017.26847312604,
+          "rmse": 223.64540789635282,
+          "mae": 40.988890090947685,
+          "bias": 30.127275969264332,
+          "rmse_log10": 0.8538263425528176
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79166015.07589664,
+          "rmse": 8897.528593710538,
+          "mae": 7183.048668603059,
+          "bias": -7177.430718239801,
+          "rmse_log10": 2.5186199119364012
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": 190.87134949734073,
+          "ci95": [
+            -51634.95495257316,
+            37272.24902786342
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "ic4": {
+        "n": 801,
+        "mse": 29725632.266983222,
+        "rmse": 5452.121813292805,
+        "mae": 2724.8554052609375,
+        "bias": -2655.821985714133,
+        "rmse_log10": 1.688932808659471,
+        "repeat_mse": [
+          29718827.366989244,
+          29848684.197627325,
+          29609385.236333117
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6806673.910740049,
+          "rmse": 2608.9603122201856,
+          "mae": 343.84070798098924,
+          "bias": -252.13959843374207,
+          "rmse_log10": 0.9762034415104577
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 151792.37642682012,
+          "rmse": 389.60541118780696,
+          "mae": 54.82242735289415,
+          "bias": 44.1233447881103,
+          "rmse_log10": 0.8683052481632888
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79113944.88421243,
+          "rmse": 8894.602008196456,
+          "mae": 7183.810478367369,
+          "bias": -7164.730687652879,
+          "rmse_log10": 2.5213202651040576
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": -43964.27419300198,
+          "ci95": [
+            -236305.0118929762,
+            69945.03939318896
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "both2": {
+        "n": 801,
+        "mse": 29675643.963981487,
+        "rmse": 5447.535586297852,
+        "mae": 2718.942349262761,
+        "bias": -2662.632522922515,
+        "rmse_log10": 1.6741183470544299,
+        "repeat_mse": [
+          29656345.398196436,
+          29744473.554065555,
+          29626112.939682458
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6742066.006289244,
+          "rmse": 2596.548864606488,
+          "mae": 336.0707515820749,
+          "bias": -261.2711315181654,
+          "rmse_log10": 0.9671968442014186
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 59635.867011378,
+          "rmse": 244.20455976778567,
+          "mae": 45.49531306264979,
+          "bias": 34.883763255848464,
+          "rmse_log10": 0.8599434652484638
+        },
+        "high_si": {
+          "n": 300,
+          "mse": 79134377.48592156,
+          "rmse": 8895.750529658617,
+          "mae": 7183.598899716948,
+          "bias": -7167.484720840383,
+          "rmse_log10": 2.4996330262128197
+        },
+        "paired_gain_vs_weighted": {
+          "mean_mse_gain": 6024.0288087443,
+          "ci95": [
+            -59353.8147874359,
+            51430.59893900959
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "selection": {
+    "selected": "weighted",
+    "rule": ">=2% molecule MSE gain; wins in >=2/3 repeats; <=2% scaffold, measured and SI<=100 deterioration",
+    "note": "Exploratory OOF selection, not an independent estimate or official Kaggle score"
+  },
+  "config": {
+    "name": "xgb-bounded-tail-experiment",
+    "seed": 20261106,
+    "training": {
+      "mode": "train_validation"
+    },
+    "tail_comparison": {
+      "folds": 3,
+      "repeats": 3
+    },
+    "data": {
+      "sources": [
+        "kaggle_train",
+        "chembl"
+      ],
+      "censored": "keep",
+      "chembl": {
+        "limit": null,
+        "drop_invalid": true
+      },
+      "kaggle_train": {
+        "sentinels": "keep"
+      }
+    },
+    "splits": {
+      "seed": 20261106,
+      "fractions": {
+        "train": 0.7,
+        "validation": 0.15,
+        "holdout": 0.15
+      }
+    },
+    "features": {
+      "morgan": true,
+      "descriptors": true
+    },
+    "model": {
+      "strategy": "xgb_tail",
+      "params": {},
+      "clip_si": null
+    },
+    "submission": {
+      "competition": "molecular-activity-prediction-hack",
+      "test_csv": "data/raw/kaggle/test.csv",
+      "smiles_column": "SMILES",
+      "id_column": "index",
+      "target_column": "SI VACV",
+      "output": "reports/submission_xgb_tail.csv",
+      "model_file": "artifacts/xgb_tail.joblib"
+    }
+  },
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "elapsed_seconds": 166.0497153000033
+}
