@@ -83,7 +83,7 @@ fi
 # shellcheck disable=SC1091
 source "$VENV/bin/activate"
 
-if python -c 'import rdkit, sklearn, pandas, scipy' 2>/dev/null; then
+if python -c 'import catboost, rdkit, sklearn, pandas, scipy' 2>/dev/null; then
   ok "зависимости на месте, pip не нужен"
 else
   printf '  %sставлю зависимости, это долго только в первый раз…%s\n' "$DIM" "$R"

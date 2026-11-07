@@ -58,7 +58,7 @@ source ../env/Scripts/activate      # Git Bash
 ../env/Scripts/python.exe -V        # Python 3.14.7
 ```
 
-Already present: `rdkit`, `scikit-learn`, `xgboost`, `pandas`, `scipy`, `numpy`, `chembl_webresource_client`, `requests-cache`, `joblib`, `matplotlib`, `tensorflow`/`keras`, `jupyter`.
+Already present: `rdkit`, `scikit-learn`, `catboost`, `pandas`, `scipy`, `numpy`, `chembl_webresource_client`, `requests-cache`, `joblib`, `matplotlib`, `tensorflow`/`keras`, `jupyter`.
 
 Not present: `torch`, `chemprop`, `transformers`. README stages 5–6 (Chemprop D-MPNN, ChemBERTa-2) therefore need an install first, and on **Python 3.14** wheels for those may not exist yet — budget for a separate 3.11/3.12 env for those branches rather than assuming `pip install` will work in this one.
 

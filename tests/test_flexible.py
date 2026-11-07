@@ -3,17 +3,10 @@
 import unittest
 
 import numpy as np
+from catboost import CatBoostRegressor
 
 import sweep
 from src.models.flexible import FlexibleSI
-
-
-def _xgboost_loads() -> bool:
-    try:
-        import xgboost  # noqa: F401
-    except Exception:
-        return False
-    return True
 
 
 def data(n: int = 40, seed: int = 11):
@@ -140,11 +133,6 @@ class Grid(unittest.TestCase):
     def test_every_combination_in_the_grid_trains(self):
         features, si = data(n=30)
         for settings in sweep.candidates("full"):
-            # XGBoost на маке требует libomp (brew install libomp); без него
-            # библиотека не загружается. Это окружение, а не ошибка сетки —
-            # остальные комбинации проверяем, эту помечаем пропущенной.
-            if settings.get("learner") == "xgb" and not _xgboost_loads():
-                self.skipTest("xgboost не загружается: нет libomp")
             model = FlexibleSI(**settings).fit(features, si)
             predicted = model.predict_si(features)
             self.assertTrue(np.isfinite(predicted).all(), settings)
@@ -162,7 +150,7 @@ class ScreenParams(unittest.TestCase):
 
     def test_sweep_screen_params_fit_every_learner(self):
         features, si = data(n=30)
-        for learner in ("hgb", "rf", "extra"):
+        for learner in ("hgb", "catboost", "rf", "extra"):
             model = FlexibleSI(learner=learner, params=dict(sweep.SCREEN_PARAMS))
             model.fit(features, si)
             self.assertTrue(np.isfinite(model.predict_si(features)).all(), learner)
@@ -202,6 +190,65 @@ class Forests(unittest.TestCase):
         learners = {item.get("learner", "hgb") for item in sweep.candidates("base")}
         self.assertIn("rf", learners)
         self.assertIn("extra", learners)
+
+
+class CatBoost(unittest.TestCase):
+    def test_catboost_trains_with_sample_weights_and_predicts(self):
+        features, si = data(n=30)
+        weights = np.linspace(0.5, 1.5, len(si))
+        model = FlexibleSI(
+            learner="catboost",
+            params={"iterations": 20, "depth": 3},
+            clip_si=20000.0,
+        ).fit(features, si, sample_weight=weights)
+        predicted = model.predict_si(features)
+        self.assertIsInstance(model.model, CatBoostRegressor)
+        self.assertTrue(np.isfinite(predicted).all())
+        self.assertLessEqual(predicted.max(), 20000.0)
+
+    def test_catboost_model_round_trips_through_joblib(self):
+        import tempfile
+        from pathlib import Path
+
+        import joblib
+
+        features, si = data(n=30)
+        model = FlexibleSI(
+            learner="catboost",
+            params={"iterations": 10, "depth": 3},
+        ).fit(features, si)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "model.joblib"
+            joblib.dump(model, path)
+            restored = joblib.load(path)
+        np.testing.assert_allclose(
+            restored.predict_si(features), model.predict_si(features)
+        )
+
+    def test_legacy_xgb_learner_name_uses_catboost(self):
+        model = FlexibleSI(learner="xgb")
+        self.assertEqual(model.learner, "catboost")
+
+    def test_catboost_quantile_objective_is_configured(self):
+        model = FlexibleSI(learner="catboost", loss="quantile", quantile=0.9)
+        self.assertEqual(model._build().get_params()["loss_function"], "Quantile:alpha=0.9")
+
+    def test_catboost_gamma_uses_the_nearest_supported_objective(self):
+        features, si = data(n=30)
+        model = FlexibleSI(
+            learner="catboost",
+            loss="gamma",
+            params={"iterations": 10, "depth": 3},
+        ).fit(features, si)
+        self.assertEqual(
+            model.model.get_params()["loss_function"],
+            "Tweedie:variance_power=1.999",
+        )
+        self.assertTrue(np.isfinite(model.predict_si(features)).all())
+
+    def test_catboost_is_in_the_full_grid(self):
+        learners = {item.get("learner") for item in sweep.candidates("full")}
+        self.assertIn("catboost", learners)
 
 
 if __name__ == "__main__":

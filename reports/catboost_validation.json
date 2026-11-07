@@ -1,0 +1,63 @@
+{
+  "training_rows": 829,
+  "validation_rows": 178,
+  "settings": {
+    "hist_gradient_boosting": {
+      "transform": "raw",
+      "loss": "squared_error",
+      "clip_si": 20000.0,
+      "learner": "hgb",
+      "params": {
+        "max_iter": 400,
+        "random_state": 20261106
+      }
+    },
+    "catboost": {
+      "transform": "raw",
+      "loss": "squared_error",
+      "clip_si": 20000.0,
+      "learner": "catboost",
+      "params": {
+        "iterations": 400,
+        "depth": 6,
+        "random_seed": 20261106
+      }
+    }
+  },
+  "results": {
+    "hist_gradient_boosting": {
+      "rmse_log10": 6.073256359270986,
+      "mae_log10": 4.706437289226831,
+      "r2_log10": -17.094079202833473,
+      "spearman": 0.34019042157543,
+      "n": 178,
+      "rmse_log10_ci95": [
+        5.538632370898262,
+        6.601062199754476
+      ],
+      "competition_mse": 102195131.51685312,
+      "competition_mse_in_distribution": 36608275.19139438,
+      "n_in_distribution": 64
+    },
+    "catboost": {
+      "rmse_log10": 5.3893152146743954,
+      "mae_log10": 4.007446944331727,
+      "r2_log10": -13.248214062224848,
+      "spearman": 0.3828115502913209,
+      "n": 178,
+      "rmse_log10_ci95": [
+        4.799940957827172,
+        5.894293424374021
+      ],
+      "competition_mse": 103977863.68355188,
+      "competition_mse_in_distribution": 38504360.75301868,
+      "n_in_distribution": 64
+    },
+    "comparison": {
+      "primary_metric": "competition_mse_in_distribution",
+      "catboost_relative_change": 0.051793905932777044,
+      "lower_is_better": true,
+      "interpretation": "CatBoost is not lower on this fixed validation split."
+    }
+  }
+}

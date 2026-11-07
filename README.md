@@ -57,6 +57,20 @@ python -m src.pipeline all         # всё, кроме выгрузки дан�
 python -m unittest discover -s tests -t . -v   # тесты и smoke-прогон
 ```
 
+Полная сетка `python sweep.py --grid full` включает CatBoost. Для конфигураций
+со старым `learner: "xgb"` сохранён совместимый псевдоним на CatBoost. У
+CatBoost нет точной Gamma-функции потерь: `loss: "gamma"` выполняется через
+Tweedie с `variance_power=1.999` — близкое приближение, не тождественная замена.
+
+Чтобы отдельно проверить перенос, на обучающей машине запустите
+`python compare_catboost.py`. Скрипт обучит CatBoost и прежний
+HistGradientBoosting на `train.csv`, оценит их на одном фиксированном
+`validation.csv`, выведет RMSE в log10 и MSE соревнования (включая подвыборку
+из распределения соревнования) и сохранит результаты в
+`reports/catboost_validation.json`. Это проверка на одном разбиении, а не
+доказательство превосходства модели; для устойчивого сравнения используйте
+`python sweep.py --grid full --repeats 3`.
+
 Те же команды есть в `Makefile` (`make data`, `make splits`, …) для тех, у кого
 установлен make. На Windows его обычно нет — запускаем напрямую.
 
