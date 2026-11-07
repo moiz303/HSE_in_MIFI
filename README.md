@@ -78,6 +78,14 @@ holdout остаётся закрыт. Лучший OOF mixed GP не продв
 ../env_arch/Scripts/python.exe -m src.current.notebook_report
 ```
 
+Текущий отдельный offline-эксперимент: `python -m src.current.bio_transfer`.
+Сначала он обучает и замораживает предиктор только публичных IC50/EC50/CC50,
+затем использует его выходы для SI-калибровки и сравнивает с теми же моделями
+без биологических признаков. Оба режима источников, прежние18 folds,8 контролируемых
+конфигураций. Это новый эксперимент, не подтверждённое улучшение; результаты
+появятся в `reports/current_bio_transfer/`. Частичные fold-файлы защищены
+fingerprint и не коммитятся; Kaggle не отправляется автоматически.
+
 ```powershell
 ../env_arch/Scripts/python.exe -m src.current.tail_controls --predict-artifact artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib --quantile 0.99 --out reports/current_tail/prediction.csv
 ```
