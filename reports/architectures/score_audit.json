@@ -1,0 +1,39 @@
+{
+  "can_recompute_exact_official_for_new_predictions": false,
+  "missing_inputs": [
+    "organizer test ground truth for all official-scored rows",
+    "organizer public/private row mask"
+  ],
+  "competition_files_available": [
+    "train_v2.csv",
+    "test.csv",
+    "sample_submit.csv"
+  ],
+  "metric_formula": "mean((prediction-target)**2)",
+  "local_reference": "468 exact endpoint ratios out of 597 IDs",
+  "identity_requirement": "Same true targets, same evaluated IDs, same aggregation; formula alone is insufficient",
+  "no_leaderboard_calibration": true,
+  "known_submissions": [
+    {
+      "path": "reports/submission_xgb_weighted.csv",
+      "ref": 58079620,
+      "sha256": "92a0ea69f93cc5c48663ec0b84d68f853ae4c486c5d0b55ee713f5c85b787169",
+      "public_score": 1967765.75828,
+      "local_subset_mse": 1944184.313892794,
+      "official_minus_local": 23581.444387205876,
+      "coverage": "468/597",
+      "official_source": "Previously scored exact submission bytes; lookup, not local recomputation"
+    },
+    {
+      "path": "reports/hypotheses/head_params/submission.csv",
+      "ref": 58090521,
+      "sha256": "81db8ace94c2ab564b35df3d27e8f0aa33773066a3aa56fd4c874cbe50760809",
+      "public_score": 2068464.49379,
+      "local_subset_mse": 1893853.2391688058,
+      "official_minus_local": 174611.2546211942,
+      "coverage": "468/597",
+      "official_source": "Previously scored exact submission bytes; lookup, not local recomputation"
+    }
+  ],
+  "selection_for_architectures": "Original measured TRAIN SI OOF MSE, molecule and scaffold protocols; conditional labels reported separately"
+}

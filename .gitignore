@@ -54,3 +54,7 @@ reports/*test_diagnostics*.csv
 # Данные соревнования не перераспространяем: качаются через
 # python -m src.pipeline kaggle
 data/raw/kaggle/
+
+# Reproducible pretrained weights and frozen structure-only embedding caches.
+artifacts/pretrained/
+data/architecture_cache/

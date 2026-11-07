@@ -1,0 +1,24 @@
+../env_arch/Scripts/python.exe : test_tanimoto_does_not_overflow_uint8_and_gp_handles_partial_labels
+(tests.test_architecture_models.GP.test_tanimoto_does_not_overflow_uint8_and_gp_handles_partial_labels) ... ok
+строка:2 знак:22
++ ... ONUTF8='1'; ../env_arch/Scripts/python.exe -m unittest tests.test_arc ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_tanimoto_d..._labels) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_missing_targets_do_not_enter_scaler_or_ridge_fit
+(tests.test_architecture_models.Heads.test_missing_targets_do_not_enter_scaler_or_ridge_fit) ... ok
+test_shared_and_domain_heads_have_masked_loss_and_only_fit_target_domain_when_requested (tests.test_architecture_models
+.Heads.test_shared_and_domain_heads_have_masked_loss_and_only_fit_target_domain_when_requested) ... ok
+test_architecture_selection_uses_measured_oof_and_excludes_random_controls
+(tests.test_architecture_models.Scores.test_architecture_selection_uses_measured_oof_and_excludes_random_controls) ...
+ok
+test_checkpoint_transfer_resumes_prefix_and_verifies_publisher_hash
+(tests.test_architecture_models.Scores.test_checkpoint_transfer_resumes_prefix_and_verifies_publisher_hash) ... ok
+test_exact_score_needs_true_targets_and_public_mask_and_aligns_ids
+(tests.test_architecture_models.Scores.test_exact_score_needs_true_targets_and_public_mask_and_aligns_ids) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 11.624s
+
+OK

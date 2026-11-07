@@ -1,0 +1,18 @@
+{
+  "seed": 20261106,
+  "folds": 3,
+  "repeats": 3,
+  "order": ["chemeleon", "joint_gp", "unimol", "domain_heads"],
+  "baseline_oof": "reports/tail_comparison_oof.csv",
+  "selection": "mean measured-original-TRAIN SI MSE over molecule/scaffold OOF; report all/conditional strata separately",
+  "neural": {"epochs": 160, "batch_size": 128, "learning_rate": 0.001, "weight_decay": 0.01, "hidden": 64, "dropout": 0.15},
+  "ridge_alphas": [10.0, 100.0],
+  "gp": {"maxiter": 30, "jitter": 0.000001},
+  "frozen_encoders": true,
+  "encoder_batch_size": 8,
+  "unimol_conformers": 1,
+  "unimol_seed": 42,
+  "submit_best_only": true,
+  "submit_if_local_subset_mse_strictly_below": 1900000,
+  "notes": "Same development structures and OOF groups for all four architectures; masked independent exact concentration targets; no holdout or test endpoints in fitting. Threshold applies to diagnostic local MSE, not an estimate of official public score."
+}

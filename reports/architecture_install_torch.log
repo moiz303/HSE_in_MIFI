@@ -1,0 +1,28 @@
+uv : Using Python 3.12.13 environment at: C:\Users\Bl1tz2200\Desktop\W\MIHIHAK2026\env_arch
+строка:2 знак:1
++ uv pip install --python ../env_arch/Scripts/python.exe torch==2.6.0 - ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Using Python 3....AK2026\env_arch:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Resolved 10 packages in 1.99s
+Downloading setuptools (1.2MiB)
+Downloading torch (196.9MiB)
+Downloading networkx (2.0MiB)
+ Downloaded setuptools
+Downloading sympy (5.9MiB)
+ Downloaded networkx
+ Downloaded sympy
+ Downloaded torch
+Prepared 10 packages in 53.17s
+Installed 10 packages in 18.77s
+ + filelock==4.2.4
+ + fsspec==2026.9.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.3
+ + mpmath==1.3.0
+ + networkx==3.7
+ + setuptools==78.1.0
+ + sympy==1.13.1
+ + torch==2.6.0+cpu
+ + typing-extensions==4.16.0
