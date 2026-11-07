@@ -81,7 +81,7 @@ def public_oof(reference, public, matrix_by_smiles, params, folds, seed):
         held_smiles = set(reference.iloc[validation].standard_smiles)
         held_scaffolds = {splits.murcko_scaffold(value) for value in held_smiles}
         train_smiles = set(reference.iloc[training].standard_smiles)
-        allowed = {splits.murcko_scaffold(value) for value in train_smiles}
+        allowed = {splits.murcko_scaffold(value) for value in public.standard_smiles}
         allowed -= held_scaffolds
         rows = public_training_rows(public, allowed)
         if rows.empty:
@@ -172,9 +172,20 @@ def run(config):
     matrix = workflow.features(pd.DataFrame({"standard_smiles": all_smiles}))
     matrix_by_smiles = dict(zip(all_smiles, matrix))
     settings = config.get("source_hierarchy", {})
-    report, oof = benchmark(frame, reference, public, matrix_by_smiles,
-                            config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261107),
-                            settings.get("ridge_alpha", 10.0))
+    reports, predictions = [], []
+    repeats = settings.get("repeats", 3)
+    for repeat in range(repeats):
+        current, rows = benchmark(frame, reference, public, matrix_by_smiles,
+            config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261106) + repeat,
+            settings.get("ridge_alpha", 10.0))
+        rows["repeat"] = repeat
+        reports.append(current)
+        predictions.append(rows)
+    oof = pd.concat(predictions, ignore_index=True)
+    report = {**reports[0], "repeats": repeats, "repeat_reports": reports,
+              "n_scored_original_rows": len(reference), "n_oof_predictions": len(oof),
+              "mse": score(oof.SI, oof.prediction)["mse"],
+              "kaggle_only_mse": score(oof.SI, oof.kaggle_only)["mse"]}
     # Final refit uses development structures only; evaluation above remains OOF.
     allowed = {splits.murcko_scaffold(value) for value in frame.standard_smiles}
     public_final = public_training_rows(public, allowed)

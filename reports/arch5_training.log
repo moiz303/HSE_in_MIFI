@@ -1,19 +1,19 @@
-[fit] XGBTwoHead IC50: 141 targets, 47 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 114 targets, 74 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 84 targets, 61 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 84 targets, 61 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 135 targets, 48 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 122 targets, 61 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 270 targets, 273 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 326 targets, 217 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 213 targets, 287 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 296 targets, 204 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 264 targets, 274 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 334 targets, 204 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead IC50: 309 targets, 304 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead CC50: 372 targets, 241 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead IC50: 125 targets, 35 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead CC50: 160 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 123 targets, 51 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 107 targets, 67 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 129 targets, 57 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 121 targets, 65 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 60 targets, 32 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 52 targets, 40 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 239 targets, 310 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 323 targets, 226 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 245 targets, 316 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 337 targets, 224 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 176 targets, 291 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 268 targets, 199 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 8.818043539804421e-08.
   dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 3.860808206468391e-08.
@@ -22,12 +22,12 @@
 [fit] XGBTwoHead CC50: 356 targets, 245 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead IC50: 139 targets, 50 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead CC50: 189 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 74 targets, 74 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 90 targets, 58 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 50 targets, 62 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 73 targets, 39 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 40 targets, 72 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 53 targets, 59 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 183 targets, 331 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 292 targets, 222 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 159 targets, 319 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 275 targets, 203 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 149 targets, 329 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 255 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 9.324191552195771e-08.
   dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 4.599530356586001e-08.
@@ -36,12 +36,84 @@
 [fit] XGBTwoHead CC50: 310 targets, 242 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead IC50: 138 targets, 47 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 [fit] XGBTwoHead CC50: 185 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 102 targets, 64 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 103 targets, 63 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 151 targets, 93 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 153 targets, 91 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead IC50: 165 targets, 95 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
-[fit] XGBTwoHead CC50: 152 targets, 108 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 249 targets, 257 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 319 targets, 187 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 262 targets, 277 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 336 targets, 203 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 203 targets, 277 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 296 targets, 184 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 299 targets, 300 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 376 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 142 targets, 35 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 177 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 177 targets, 317 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 294 targets, 200 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 259 targets, 314 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 353 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 226 targets, 309 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 310 targets, 225 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 5.031969507740541e-08.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+[fit] XGBTwoHead IC50: 270 targets, 335 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 362 targets, 243 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 131 targets, 54 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 185 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 192 targets, 349 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 291 targets, 250 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 177 targets, 332 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 276 targets, 233 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 153 targets, 298 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 231 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 9.292941882677042e-08.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 5.278675274666966e-08.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+[fit] XGBTwoHead IC50: 203 targets, 359 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 300 targets, 262 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 129 targets, 43 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 172 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 248 targets, 277 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 341 targets, 184 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 261 targets, 296 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 351 targets, 206 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 149 targets, 271 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 263 targets, 157 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 1.0005914674593441e-07.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 4.570079426002849e-08.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+[fit] XGBTwoHead IC50: 280 targets, 313 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 373 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 141 targets, 49 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 190 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 209 targets, 313 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 297 targets, 225 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 227 targets, 293 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 300 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 257 targets, 319 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 322 targets, 254 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+/Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 7.691861725334093e-08.
+  dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
+[fit] XGBTwoHead IC50: 280 targets, 325 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 348 targets, 257 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 127 targets, 37 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 164 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 202 targets, 318 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 297 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 165 targets, 329 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 261 targets, 233 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 180 targets, 314 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 274 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 212 targets, 356 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 317 targets, 251 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 134 targets, 46 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 180 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 279 targets, 435 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 418 targets, 296 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 328 targets, 464 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 468 targets, 324 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 342 targets, 466 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 467 targets, 341 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 5.564940153135467e-08.
   dual_coef = linalg.solve(K, y, assume_a="pos", overwrite_a=False)
 /Users/f37/HSE_arch_env/lib/python3.12/site-packages/sklearn/linear_model/_ridge.py:264: LinAlgWarning: An ill-conditioned matrix detected: slice 0 has rcond = 4.150873778030473e-08.
@@ -55,8 +127,8 @@
   "holdout_used": false,
   "test_endpoints_used": false,
   "n_scored_original_rows": 267,
-  "mse": 52030412.16180871,
-  "kaggle_only_mse": 29676212.936545376,
+  "mse": 29579318.707282834,
+  "kaggle_only_mse": 29619524.358914945,
   "residual_alpha": 10.0,
   "fold_scores": [
     {
@@ -64,7 +136,7 @@
       "n_public_train": 613,
       "n_kaggle_train": 160,
       "n_score": 107,
-      "hierarchical_mse": 73841181.19113047,
+      "hierarchical_mse": 40945444.88568842,
       "kaggle_only_mse": 41189125.69715965
     },
     {
@@ -72,7 +144,7 @@
       "n_public_train": 601,
       "n_kaggle_train": 189,
       "n_score": 78,
-      "hierarchical_mse": 52610639.99842116,
+      "hierarchical_mse": 20651503.203890923,
       "kaggle_only_mse": 20739821.455660637
     },
     {
@@ -80,10 +152,125 @@
       "n_public_train": 552,
       "n_kaggle_train": 185,
       "n_score": 82,
-      "hierarchical_mse": 23018094.388720892,
+      "hierarchical_mse": 23156205.238566924,
       "kaggle_only_mse": 23153735.742926855
     }
   ],
+  "repeats": 3,
+  "repeat_reports": [
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29553515.66380015,
+      "kaggle_only_mse": 29676212.936545376,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 613,
+          "n_kaggle_train": 160,
+          "n_score": 107,
+          "hierarchical_mse": 40945444.88568842,
+          "kaggle_only_mse": 41189125.69715965
+        },
+        {
+          "fold": "1",
+          "n_public_train": 601,
+          "n_kaggle_train": 189,
+          "n_score": 78,
+          "hierarchical_mse": 20651503.203890923,
+          "kaggle_only_mse": 20739821.455660637
+        },
+        {
+          "fold": "2",
+          "n_public_train": 552,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 23156205.238566924,
+          "kaggle_only_mse": 23153735.742926855
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29693352.503141657,
+      "kaggle_only_mse": 29611581.393066444,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 599,
+          "n_kaggle_train": 177,
+          "n_score": 90,
+          "hierarchical_mse": 34828989.87170781,
+          "kaggle_only_mse": 34947530.631053165
+        },
+        {
+          "fold": "1",
+          "n_public_train": 605,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 14623761.564155567,
+          "kaggle_only_mse": 14277856.079337243
+        },
+        {
+          "fold": "2",
+          "n_public_train": 562,
+          "n_kaggle_train": 172,
+          "n_score": 95,
+          "hierarchical_mse": 37835448.227624886,
+          "kaggle_only_mse": 37791897.6489295
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29491087.95490669,
+      "kaggle_only_mse": 29570778.747133017,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 593,
+          "n_kaggle_train": 190,
+          "n_score": 77,
+          "hierarchical_mse": 22093800.78785983,
+          "kaggle_only_mse": 21858833.34700422
+        },
+        {
+          "fold": "1",
+          "n_public_train": 605,
+          "n_kaggle_train": 164,
+          "n_score": 103,
+          "hierarchical_mse": 40579540.85958205,
+          "kaggle_only_mse": 40629290.79963273
+        },
+        {
+          "fold": "2",
+          "n_public_train": 568,
+          "n_kaggle_train": 180,
+          "n_score": 87,
+          "hierarchical_mse": 22910403.617907226,
+          "kaggle_only_mse": 23304032.246011723
+        }
+      ]
+    }
+  ],
+  "n_oof_predictions": 801,
   "final_refit": {
     "development_rows": 1007,
     "public_records": 883,

@@ -7,6 +7,26 @@ from src.arch5_compare import exact_logs, fit_residuals, public_training_rows, s
 
 
 class SourceHierarchyTests(unittest.TestCase):
+    def test_inner_oof_keeps_unrelated_public_scaffolds(self):
+        from unittest.mock import patch
+        from src.arch5_compare import public_oof
+        reference = pd.DataFrame({'standard_smiles': ['c1ccccc1', 'c1ccncc1', 'C1CCCCC1']})
+        public = pd.DataFrame({'standard_smiles': [*reference.standard_smiles, 'C1CCCC1']})
+        features = {s: np.zeros(2) for s in public.standard_smiles}
+        used = []
+        class FakeHead:
+            def predict_log_concentrations(self, x):
+                return {'IC50': np.zeros(len(x)), 'CC50': np.ones(len(x))}
+        def fit(rows, matrix, params):
+            used.append(set(rows.standard_smiles))
+            return FakeHead()
+        with patch('src.arch5_compare.fit_public', side_effect=fit):
+            result = public_oof(reference, public, features, None, 3, 41)
+        self.assertEqual(len(used), 3)
+        self.assertTrue(all('C1CCCC1' in rows for rows in used))
+        self.assertTrue(all(len(rows) == 3 for rows in used))
+        self.assertTrue(np.isfinite(result['IC50']).all())
+
     def test_public_training_excludes_every_row_on_held_scaffold(self):
         public = pd.DataFrame({"standard_smiles": ["c1ccccc1", "Cc1ccccc1", "c1ccncc1"]})
         allowed = {"c1ccccc1"}

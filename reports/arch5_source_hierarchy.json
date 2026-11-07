@@ -5,8 +5,8 @@
   "holdout_used": false,
   "test_endpoints_used": false,
   "n_scored_original_rows": 267,
-  "mse": 52030412.16180871,
-  "kaggle_only_mse": 29676212.936545376,
+  "mse": 29579318.707282834,
+  "kaggle_only_mse": 29619524.358914945,
   "residual_alpha": 10.0,
   "fold_scores": [
     {
@@ -14,7 +14,7 @@
       "n_public_train": 613,
       "n_kaggle_train": 160,
       "n_score": 107,
-      "hierarchical_mse": 73841181.19113047,
+      "hierarchical_mse": 40945444.88568842,
       "kaggle_only_mse": 41189125.69715965
     },
     {
@@ -22,7 +22,7 @@
       "n_public_train": 601,
       "n_kaggle_train": 189,
       "n_score": 78,
-      "hierarchical_mse": 52610639.99842116,
+      "hierarchical_mse": 20651503.203890923,
       "kaggle_only_mse": 20739821.455660637
     },
     {
@@ -30,10 +30,125 @@
       "n_public_train": 552,
       "n_kaggle_train": 185,
       "n_score": 82,
-      "hierarchical_mse": 23018094.388720892,
+      "hierarchical_mse": 23156205.238566924,
       "kaggle_only_mse": 23153735.742926855
     }
   ],
+  "repeats": 3,
+  "repeat_reports": [
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29553515.66380015,
+      "kaggle_only_mse": 29676212.936545376,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 613,
+          "n_kaggle_train": 160,
+          "n_score": 107,
+          "hierarchical_mse": 40945444.88568842,
+          "kaggle_only_mse": 41189125.69715965
+        },
+        {
+          "fold": "1",
+          "n_public_train": 601,
+          "n_kaggle_train": 189,
+          "n_score": 78,
+          "hierarchical_mse": 20651503.203890923,
+          "kaggle_only_mse": 20739821.455660637
+        },
+        {
+          "fold": "2",
+          "n_public_train": 552,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 23156205.238566924,
+          "kaggle_only_mse": 23153735.742926855
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29693352.503141657,
+      "kaggle_only_mse": 29611581.393066444,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 599,
+          "n_kaggle_train": 177,
+          "n_score": 90,
+          "hierarchical_mse": 34828989.87170781,
+          "kaggle_only_mse": 34947530.631053165
+        },
+        {
+          "fold": "1",
+          "n_public_train": 605,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 14623761.564155567,
+          "kaggle_only_mse": 14277856.079337243
+        },
+        {
+          "fold": "2",
+          "n_public_train": 562,
+          "n_kaggle_train": 172,
+          "n_score": 95,
+          "hierarchical_mse": 37835448.227624886,
+          "kaggle_only_mse": 37791897.6489295
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29491087.95490669,
+      "kaggle_only_mse": 29570778.747133017,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 593,
+          "n_kaggle_train": 190,
+          "n_score": 77,
+          "hierarchical_mse": 22093800.78785983,
+          "kaggle_only_mse": 21858833.34700422
+        },
+        {
+          "fold": "1",
+          "n_public_train": 605,
+          "n_kaggle_train": 164,
+          "n_score": 103,
+          "hierarchical_mse": 40579540.85958205,
+          "kaggle_only_mse": 40629290.79963273
+        },
+        {
+          "fold": "2",
+          "n_public_train": 568,
+          "n_kaggle_train": 180,
+          "n_score": 87,
+          "hierarchical_mse": 22910403.617907226,
+          "kaggle_only_mse": 23304032.246011723
+        }
+      ]
+    }
+  ],
+  "n_oof_predictions": 801,
   "final_refit": {
     "development_rows": 1007,
     "public_records": 883,
