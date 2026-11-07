@@ -1,0 +1,14 @@
+{
+  "name": "tanimoto-kernel-ridge-two-concentration-heads",
+  "seed": 20261106,
+  "data": {
+    "train": "data/processed/train.csv",
+    "validation": "data/processed/validation.csv"
+  },
+  "features": {"kind": "morgan", "radius": 2, "bits": 2048},
+  "model": {"strategy": "tanimoto_krr", "params": {"alpha": 1.0}, "clip_si": null},
+  "outputs": {
+    "model": "artifacts/tanimoto_krr.joblib",
+    "report": "reports/tanimoto_krr_validation.json"
+  }
+}
