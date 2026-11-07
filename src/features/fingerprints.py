@@ -1,11 +1,7 @@
-"""Признаки: Morgan fingerprints, MACCS keys и RDKit 2D дескрипторы.
+"""Molecular features: Morgan fingerprints and RDKit 2D descriptors.
 
-Владелец: B (стадия 3).
-
-Набор признаков — такой же перебираемый параметр, как функция потерь. Пресеты
-собраны в PRESETS и перебираются в sweep.py: 41% ошибки метрики приходится на
-класс «неактивно», а это задача классификации, где состав признаков обычно
-важнее вида потерь.
+The XGBoost workflow uses the default Morgan 2048 + 13-descriptor preset.
+Other feature helpers remain available for future controlled comparisons.
 """
 
 from __future__ import annotations

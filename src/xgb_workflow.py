@@ -1,0 +1,158 @@
+"""Воспроизводимый запуск XGBoost без переборов и без обращения к holdout."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+import joblib
+import numpy as np
+import pandas as pd
+
+from src import splits
+from src.data.standardize import standardize_smiles
+from src.features.fingerprints import featurize
+from src.models.xgb_two_head import XGBTwoHead, exact_target
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def validate_config(config):
+    if config["model"]["strategy"] != "xgb_two_head":
+        raise ValueError("поддерживается только стратегия xgb_two_head")
+    if config["features"] != {"morgan": True, "descriptors": True}:
+        raise ValueError("признаки зафиксированы: Morgan 2048 + 13 дескрипторов, без метаданных")
+
+
+def features(frame, column="standard_smiles"):
+    smiles = [standardize_smiles(value) for value in frame[column]]
+    invalid = [i for i, value in enumerate(smiles) if value is None]
+    if invalid:
+        raise ValueError(f"невалидные SMILES, индексы строк: {invalid[:10]}")
+    return featurize(smiles)
+
+
+def competition_rows(frame):
+    return frame["source"].fillna("").str.split(";").apply(lambda v: "kaggle_train" in v).to_numpy()
+
+
+def load_parts():
+    directory = ROOT / "data/processed"
+    dataset = pd.read_csv(directory / "dataset.csv")
+    manifest = splits.load_manifest(directory / "splits.json")
+    if set(manifest) != {"train", "validation", "holdout"}:
+        raise ValueError("неполный манифест разбиения")
+    indices = [i for part in manifest.values() for i in part]
+    if sorted(indices) != list(range(len(dataset))):
+        raise ValueError("манифест содержит повторы или не соответствует датасету")
+    smiles = [standardize_smiles(value) for value in dataset.standard_smiles]
+    if any(value is None for value in smiles):
+        raise ValueError("невалидный SMILES в датасете")
+    splits.assert_no_leaks(smiles, manifest)
+    parts = {}
+    for name in ("train", "validation"):
+        parts[name] = pd.read_csv(directory / f"{name}.csv")
+        expected = dataset.iloc[manifest[name]].reset_index(drop=True)
+        pd.testing.assert_frame_equal(parts[name], expected, check_dtype=False)
+    # Проверка индексов/структур holdout не вычисляет его метрики и не обучает на нём.
+    return parts
+
+
+def metric(truth, predicted):
+    truth, predicted = np.asarray(truth, dtype=float), np.asarray(predicted, dtype=float)
+    mask = np.isfinite(truth) & (truth > 0)
+    if not mask.any():
+        return {"n": 0, "mse": None, "rmse_log10": None}
+    actual, forecast = truth[mask], predicted[mask]
+    if not np.isfinite(forecast).all() or (forecast <= 0).any():
+        raise ValueError("некорректные прогнозы для метрик")
+    return {"n": int(mask.sum()), "mse": float(np.mean((actual - forecast) ** 2)),
+            "rmse_log10": float(np.sqrt(np.mean((np.log10(actual) - np.log10(forecast)) ** 2)))}
+
+
+def data_hashes():
+    return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes()).hexdigest()
+            for name in ("train.csv", "validation.csv", "splits.json")}
+
+
+def train(config):
+    validate_config(config)
+    parts = load_parts()
+    frame = parts["train"]
+    settings = config["model"]
+    model = XGBTwoHead(settings.get("params"), settings.get("clip_si"))
+    model.fit(features(frame), exact_target(frame, "IC50"), exact_target(frame, "CC50"))
+    mask = competition_rows(frame)
+    si = pd.to_numeric(frame.SI, errors="coerce").to_numpy(float)
+    usable = mask & np.isfinite(si) & (si > 0)
+    if not usable.any():
+        raise ValueError("нет обучающих SI соревнования для константного сравнения")
+    import xgboost
+    from rdkit import rdBase
+    bundle = {"model": model, "config": config, "data_sha256": data_hashes(),
+              "constant_si": float(si[usable].mean()),
+              "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
+    path = ROOT / config["submission"]["model_file"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(bundle, path)
+    print(f"[train] {model.n_train} -> {path}", flush=True)
+
+
+def load_bundle(config):
+    validate_config(config)
+    path = ROOT / config["submission"]["model_file"]
+    bundle = joblib.load(path)
+    if not isinstance(bundle["model"], XGBTwoHead) or bundle["config"] != config:
+        raise ValueError("артефакт не соответствует XGBoost-конфигу; переобучите на Mac")
+    return bundle
+
+
+def evaluate(config):
+    bundle = load_bundle(config)
+    if bundle["data_sha256"] != data_hashes():
+        raise ValueError("данные изменились после обучения")
+    parts = load_parts()
+    report = {"config": config, "data_sha256": bundle["data_sha256"],
+              "versions": bundle["versions"], "n_train": bundle["model"].n_train,
+              "note": "Fixed validation; no tuning, significance claim or holdout evaluation."}
+    model = bundle["model"]
+    predictions = None
+    for name, frame in parts.items():
+        matrix = features(frame)
+        logs = model.predict_log_concentrations(matrix)
+        si = model.predict_si(matrix)
+        mask = competition_rows(frame)
+        targets = pd.to_numeric(frame.SI, errors="coerce").to_numpy(float)
+        report[name] = {
+            target: metric(exact_target(frame, target), 10.0 ** logs[target])
+            for target in ("IC50", "CC50")
+        }
+        report[name]["SI_all"] = metric(targets, si)
+        report[name]["SI_competition"] = metric(targets[mask], si[mask])
+        report[name]["constant_competition"] = metric(
+            targets[mask], np.full(mask.sum(), bundle["constant_si"]))
+        if name == "validation":
+            predictions = pd.DataFrame({"standard_smiles": frame.standard_smiles,
+                "IC50_pred_uM": 10.0 ** logs["IC50"], "CC50_pred_uM": 10.0 ** logs["CC50"],
+                "SI_pred": si, "SI_true": targets, "competition": mask})
+    directory = ROOT / "reports"
+    directory.mkdir(exist_ok=True)
+    (directory / "xgb_metrics.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
+    predictions.to_csv(directory / "xgb_validation.csv", index=False)
+    print(json.dumps(report["validation"], indent=2), flush=True)
+
+
+def submission(config):
+    settings = config["submission"]
+    bundle = load_bundle(config)
+    # Read only identifiers and SMILES: no concentrations or derived flags from test.
+    frame = pd.read_csv(ROOT / settings["test_csv"], usecols=[settings["smiles_column"], settings["id_column"]])
+    if frame[settings["id_column"]].isna().any() or frame[settings["id_column"]].duplicated().any():
+        raise ValueError("пустые или повторяющиеся идентификаторы теста")
+    predicted = bundle["model"].predict_si(features(frame, settings["smiles_column"]))
+    target = ROOT / settings["output"]
+    target.parent.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame({settings["id_column"]: frame[settings["id_column"]],
+                  settings["target_column"]: predicted}).to_csv(target, index=False)
+    print(f"[submission] {len(frame)} rows -> {target}", flush=True)

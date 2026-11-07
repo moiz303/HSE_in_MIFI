@@ -1,6 +1,0 @@
-transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,строк_оценки,повторов,learner,weight_power
-raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,19978172.078900546,1421907.9060340961,92623139.52166378,260,2,,
-raw,squared_error,20000.0,extra · raw · squared_error · clip=20000,21262803.350824304,1474733.4273709129,93290737.05380943,260,2,extra,
-raw,squared_error,20000.0,rf · raw · squared_error · clip=20000,21542864.58170906,1322734.4162319577,92825723.53582823,260,2,rf,
-raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.25 · clip=20000,22986813.16344122,3524861.384158304,94608983.27309112,260,2,,0.25
-raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.5 · clip=20000,26978873.718291983,3629114.946047596,97262185.94104934,260,2,,0.5

@@ -26,7 +26,7 @@ eval:
 	$(PYTHON) -m src.pipeline evaluate --config $(CONFIG)
 
 submission:
-	$(PYTHON) -m src.pipeline all --config $(CONFIG)
+	$(PYTHON) -m src.pipeline submission --config $(CONFIG)
 
 test:
 	$(PYTHON) -m unittest discover -s tests -t . -v

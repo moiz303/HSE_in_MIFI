@@ -21,12 +21,10 @@ import json
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 from src import splits as splits_module
-from src.features import fingerprints
-from src.models import baseline
+from src import xgb_workflow
 
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
@@ -150,162 +148,21 @@ def step_export(config: dict) -> None:
           f"намеренно — он только в {MANIFEST.relative_to(ROOT)}")
 
 
-def _features(dataset: pd.DataFrame, config: dict, smiles_column: str | None = None) -> np.ndarray:
-    """Признаки одной сборкой: структура плюс метаданные анализа.
-
-    Метаданные (клеточная линия, штамм, состав панели) входят только если
-    включены в конфиге. Включать их нужно вместе с обучением: модель, обученная
-    на другом наборе колонок, молча даст мусор, поэтому ниже стоит проверка
-    ширины матрицы.
-    """
-    column = smiles_column or ("standard_smiles" if "standard_smiles" in dataset.columns else "smiles")
-    blocks = [fingerprints.featurize(
-        dataset[column].astype(str).tolist(),
-        use_morgan=config["features"]["morgan"],
-        use_descriptors=config["features"]["descriptors"],
-    )]
-
-    settings = config["features"].get("metadata") or {}
-    if any(settings.get(key) for key in ("cells", "strain", "flags")):
-        from src.features import metadata
-
-        blocks.append(metadata.metadata_matrix(
-            dataset,
-            use_cells=bool(settings.get("cells")),
-            use_strain=bool(settings.get("strain")),
-            use_flags=bool(settings.get("flags")),
-        ))
-    return np.hstack(blocks)
-
-
 def step_train(config: dict) -> None:
-    import joblib
-
-    dataset = load_dataset()
-    split = splits_module.load_manifest(MANIFEST)
-    features = _features(dataset, config)
-    train_index = split["train"]
-
-    strategy = config["model"]["strategy"]
-    model = baseline.build(
-        strategy, config["model"].get("params"), config["model"].get("clip_si")
-    )
-    if strategy == "two_head":
-        model.fit(
-            features[train_index],
-            dataset["IC50"].to_numpy()[train_index],
-            dataset["CC50"].to_numpy()[train_index],
-        )
-    else:
-        model.fit(features[train_index], dataset["SI"].to_numpy()[train_index])
-
-    ARTIFACTS.mkdir(parents=True, exist_ok=True)
-    joblib.dump({"model": model, "config": config}, ARTIFACTS / "model.joblib")
-    print(f"[train] стратегия {strategy}, обучено на {len(train_index)} молекулах")
+    xgb_workflow.train(config)
 
 
 def step_evaluate(config: dict) -> None:
-    import joblib
-
-    from src import evaluate as evaluate_module
-
-    dataset = load_dataset()
-    split = splits_module.load_manifest(MANIFEST)
-    features = _features(dataset, config)
-    model = joblib.load(ARTIFACTS / "model.joblib")["model"]
-
-    report: dict[str, dict] = {}
-    for part in ("train", "validation"):
-        index = split[part]
-        true = baseline.to_log(dataset["SI"].to_numpy()[index])
-        pred = model.predict_log_si(features[index])
-        values = evaluate_module.metrics(true, pred)
-        low, high = evaluate_module.bootstrap_ci(true, pred)
-        values["rmse_log10_ci95"] = [low, high]
-        report[part] = values
-        print(f"[evaluate] {part}: rmse_log10={values['rmse_log10']:.3f} "
-              f"[{low:.3f}; {high:.3f}], spearman={values['spearman']:.3f}")
-
-    REPORTS.mkdir(parents=True, exist_ok=True)
-    (REPORTS / "metrics.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-
-
-def step_kaggle(config: dict) -> None:
-    """Скачать данные соревнования."""
-    from src.data import kaggle_data
-
-    directory = kaggle_data.download(
-        config["submission"].get("competition", kaggle_data.COMPETITION)
-    )
-    train = kaggle_data.load("train")
-    print(f"[kaggle] файлы в {directory}, train: {len(train)} строк")
+    xgb_workflow.evaluate(config)
 
 
 def step_submission(config: dict) -> None:
-    """Собрать файл для Kaggle: предсказание модели по SMILES.
+    xgb_workflow.submission(config)
 
-    Организаторы запретили выводить целевую переменную из колонок тестового
-    файла. В test.csv лежат CC50_uM и IC50_uM_VACV, то есть SI считался бы
-    делением без всякой модели — этот путь закрыт и в коде отсутствует.
 
-    Поэтому здесь используется только структура молекулы. Колонки CC50_uM и
-    IC50_uM_VACV из теста не читаются вообще, включая соглашения организаторов
-    о метках пропусков: они тоже опираются на эти колонки.
-
-    SI = CC50 / IC50 остаётся законным при сборке ОБУЧАЮЩИХ данных из
-    литературы и баз (см. schema.selectivity_index) — запрет про тестовый файл.
-    """
-    import joblib
-
-    settings = config["submission"]
-    test_path = ROOT / settings["test_csv"]
-    if not test_path.exists():
-        raise SystemExit(f"нет файла теста: {test_path}. Запустите: python -m src.pipeline kaggle")
-
-    test = pd.read_csv(test_path)
-
-    strategy = config["model"]["strategy"]
-    # submission.model_file задаёт файл напрямую: модели из sweep.py называются
-    # по месту в рейтинге, а не по стратегии.
-    explicit = settings.get("model_file")
-    candidates = (
-        [ROOT / explicit] if explicit
-        else [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
-    )
-    model_path = next((path for path in candidates if path.exists()), None)
-    if model_path is None:
-        raise SystemExit(
-            f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
-            "на маке ./run_mac.sh, см. README"
-        )
-    bundle = joblib.load(model_path)
-    model = bundle["model"]
-    description = bundle.get("описание") or bundle.get("strategy") or strategy
-    print(f"[submission] модель: {model_path.name} — {description}")
-
-    features = _features(test, config, smiles_column=settings["smiles_column"])
-
-    # Модель, обученная на другом наборе колонок, молча выдаст мусор: проверяем
-    # ширину, а не надеемся, что конфиг совпал с тем, на чём учили.
-    inner = getattr(model, "model", None)
-    expected = getattr(inner, "n_features_in_", None) or getattr(model, "n_features_in_", None)
-    if expected is not None and expected != features.shape[1]:
-        raise SystemExit(
-            f"модель ждёт {expected} признаков, собрано {features.shape[1]}. "
-            "Проверьте features.metadata в конфиге: он должен совпадать с обучением"
-        )
-
-    predicted = (model.predict_si(features) if hasattr(model, "predict_si")
-                 else baseline.from_log(model.predict_log_si(features)))
-
-    out = pd.DataFrame({
-        settings["id_column"]: test[settings["id_column"]],
-        settings["target_column"]: predicted,
-    })
-    target = ROOT / settings["output"]
-    target.parent.mkdir(parents=True, exist_ok=True)
-    out.to_csv(target, index=False)
-    print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
+def step_kaggle(config: dict) -> None:
+    from src.data import kaggle_data
+    kaggle_data.download(config["submission"].get("competition", kaggle_data.COMPETITION))
 
 
 STEPS = {
@@ -326,7 +183,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_config(args.config)
-    order = ["splits", "train", "evaluate", "submission"] if args.step == "all" else [args.step]
+    order = ["train", "evaluate", "submission"] if args.step == "all" else [args.step]
     for name in order:
         STEPS[name](config)
     return 0

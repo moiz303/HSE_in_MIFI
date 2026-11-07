@@ -1,5 +1,5 @@
 {
-  "name": "baseline-morgan-hgb",
+  "name": "xgb-two-head-log-concentrations",
   "seed": 20261106,
   "data": {
     "sources": [
@@ -25,17 +25,12 @@
   },
   "features": {
     "morgan": true,
-    "descriptors": true,
-    "metadata": {
-      "cells": true,
-      "strain": true,
-      "flags": true
-    }
+    "descriptors": true
   },
   "model": {
-    "strategy": "raw",
+    "strategy": "xgb_two_head",
     "params": {},
-    "clip_si": 36066.7
+    "clip_si": null
   },
   "submission": {
     "competition": "molecular-activity-prediction-hack",
@@ -44,6 +39,6 @@
     "id_column": "index",
     "target_column": "SI VACV",
     "output": "reports/submission.csv",
-    "model_file": "artifacts/model_metadata.joblib"
+    "model_file": "artifacts/xgb_two_head.joblib"
   }
 }
