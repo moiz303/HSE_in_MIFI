@@ -1,0 +1,261 @@
+[fit] XGBTwoHead IC50: 270 targets, 290 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 343 targets, 217 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 213 targets, 303 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 312 targets, 204 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 264 targets, 287 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 347 targets, 204 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 309 targets, 321 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 389 targets, 241 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 125 targets, 35 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 160 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 239 targets, 326 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 339 targets, 226 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 245 targets, 330 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 351 targets, 224 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 176 targets, 305 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 282 targets, 199 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 272 targets, 345 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 372 targets, 245 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 139 targets, 50 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 189 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 183 targets, 344 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 305 targets, 222 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 159 targets, 332 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 288 targets, 203 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 149 targets, 341 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 267 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 191 targets, 374 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 323 targets, 242 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 138 targets, 47 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 185 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 249 targets, 270 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 332 targets, 187 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 262 targets, 289 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 348 targets, 203 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 203 targets, 290 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 309 targets, 184 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 299 targets, 313 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 389 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 142 targets, 35 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 177 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 177 targets, 331 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 308 targets, 200 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 259 targets, 329 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 368 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 226 targets, 324 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 325 targets, 225 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 270 targets, 351 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 378 targets, 243 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 131 targets, 54 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 185 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 192 targets, 361 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 303 targets, 250 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 177 targets, 349 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 293 targets, 233 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 153 targets, 315 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 248 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 203 targets, 376 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 317 targets, 262 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 129 targets, 43 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 172 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 248 targets, 291 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 355 targets, 184 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 261 targets, 313 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 368 targets, 206 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 149 targets, 286 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 278 targets, 157 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 280 targets, 330 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 390 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 141 targets, 49 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 190 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 209 targets, 325 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 309 targets, 225 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 227 targets, 309 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 316 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 257 targets, 335 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 338 targets, 254 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 280 targets, 341 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 364 targets, 257 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 127 targets, 37 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 164 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 202 targets, 331 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 310 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 165 targets, 342 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 274 targets, 233 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 180 targets, 326 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 286 targets, 220 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 212 targets, 369 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 330 targets, 251 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 134 targets, 46 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 180 targets, 0 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 279 targets, 451 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 434 targets, 296 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 328 targets, 477 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 481 targets, 324 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 342 targets, 483 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 484 targets, 341 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead IC50: 386 targets, 514 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBTwoHead CC50: 536 targets, 364 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+{
+  "metric": "raw SI MSE on original Kaggle targets",
+  "protocol": "Murcko scaffold CV",
+  "folds": 3,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "n_scored_original_rows": 267,
+  "mse": 32442107.645997673,
+  "kaggle_only_mse": 29619524.358914945,
+  "residual_alpha": 10.0,
+  "fold_scores": [
+    {
+      "fold": "0",
+      "n_public_train": 630,
+      "n_kaggle_train": 160,
+      "n_score": 107,
+      "hierarchical_mse": 40860093.61976107,
+      "kaggle_only_mse": 41189125.69715965
+    },
+    {
+      "fold": "1",
+      "n_public_train": 617,
+      "n_kaggle_train": 189,
+      "n_score": 78,
+      "hierarchical_mse": 21797348.009726766,
+      "kaggle_only_mse": 20739821.455660637
+    },
+    {
+      "fold": "2",
+      "n_public_train": 565,
+      "n_kaggle_train": 185,
+      "n_score": 82,
+      "hierarchical_mse": 23136180.346146,
+      "kaggle_only_mse": 23153735.742926855
+    }
+  ],
+  "repeats": 3,
+  "repeat_reports": [
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29847902.43616889,
+      "kaggle_only_mse": 29676212.936545376,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 630,
+          "n_kaggle_train": 160,
+          "n_score": 107,
+          "hierarchical_mse": 40860093.61976107,
+          "kaggle_only_mse": 41189125.69715965
+        },
+        {
+          "fold": "1",
+          "n_public_train": 617,
+          "n_kaggle_train": 189,
+          "n_score": 78,
+          "hierarchical_mse": 21797348.009726766,
+          "kaggle_only_mse": 20739821.455660637
+        },
+        {
+          "fold": "2",
+          "n_public_train": 565,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 23136180.346146,
+          "kaggle_only_mse": 23153735.742926855
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29784088.192962833,
+      "kaggle_only_mse": 29611581.393066444,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 612,
+          "n_kaggle_train": 177,
+          "n_score": 90,
+          "hierarchical_mse": 35032558.078702845,
+          "kaggle_only_mse": 34947530.631053165
+        },
+        {
+          "fold": "1",
+          "n_public_train": 621,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 14724535.74868311,
+          "kaggle_only_mse": 14277856.079337243
+        },
+        {
+          "fold": "2",
+          "n_public_train": 579,
+          "n_kaggle_train": 172,
+          "n_score": 95,
+          "hierarchical_mse": 37810625.14785058,
+          "kaggle_only_mse": 37791897.6489295
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 37694332.30886131,
+      "kaggle_only_mse": 29570778.747133017,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 610,
+          "n_kaggle_train": 190,
+          "n_score": 77,
+          "hierarchical_mse": 39143435.525394276,
+          "kaggle_only_mse": 21858833.34700422
+        },
+        {
+          "fold": "1",
+          "n_public_train": 621,
+          "n_kaggle_train": 164,
+          "n_score": 103,
+          "hierarchical_mse": 40622485.176522,
+          "kaggle_only_mse": 40629290.79963273
+        },
+        {
+          "fold": "2",
+          "n_public_train": 581,
+          "n_kaggle_train": 180,
+          "n_score": 87,
+          "hierarchical_mse": 32945128.940561403,
+          "kaggle_only_mse": 23304032.246011723
+        }
+      ]
+    }
+  ],
+  "n_oof_predictions": 801,
+  "final_refit": {
+    "development_rows": 1007,
+    "public_records": 900,
+    "artifact": "artifacts/arch5_source_hierarchy_new_dataset.joblib"
+  },
+  "supplement": {
+    "enabled": true,
+    "exact_cc50_observations": 17,
+    "ec50_relabelled_as_ic50": false
+  },
+  "architecture": "public exact log-concentration heads + Ridge residuals trained on nested scaffold OOF"
+}

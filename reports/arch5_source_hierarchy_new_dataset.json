@@ -1,0 +1,163 @@
+{
+  "metric": "raw SI MSE on original Kaggle targets",
+  "protocol": "Murcko scaffold CV",
+  "folds": 3,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "n_scored_original_rows": 267,
+  "mse": 32442107.645997673,
+  "kaggle_only_mse": 29619524.358914945,
+  "residual_alpha": 10.0,
+  "fold_scores": [
+    {
+      "fold": "0",
+      "n_public_train": 630,
+      "n_kaggle_train": 160,
+      "n_score": 107,
+      "hierarchical_mse": 40860093.61976107,
+      "kaggle_only_mse": 41189125.69715965
+    },
+    {
+      "fold": "1",
+      "n_public_train": 617,
+      "n_kaggle_train": 189,
+      "n_score": 78,
+      "hierarchical_mse": 21797348.009726766,
+      "kaggle_only_mse": 20739821.455660637
+    },
+    {
+      "fold": "2",
+      "n_public_train": 565,
+      "n_kaggle_train": 185,
+      "n_score": 82,
+      "hierarchical_mse": 23136180.346146,
+      "kaggle_only_mse": 23153735.742926855
+    }
+  ],
+  "repeats": 3,
+  "repeat_reports": [
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29847902.43616889,
+      "kaggle_only_mse": 29676212.936545376,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 630,
+          "n_kaggle_train": 160,
+          "n_score": 107,
+          "hierarchical_mse": 40860093.61976107,
+          "kaggle_only_mse": 41189125.69715965
+        },
+        {
+          "fold": "1",
+          "n_public_train": 617,
+          "n_kaggle_train": 189,
+          "n_score": 78,
+          "hierarchical_mse": 21797348.009726766,
+          "kaggle_only_mse": 20739821.455660637
+        },
+        {
+          "fold": "2",
+          "n_public_train": 565,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 23136180.346146,
+          "kaggle_only_mse": 23153735.742926855
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 29784088.192962833,
+      "kaggle_only_mse": 29611581.393066444,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 612,
+          "n_kaggle_train": 177,
+          "n_score": 90,
+          "hierarchical_mse": 35032558.078702845,
+          "kaggle_only_mse": 34947530.631053165
+        },
+        {
+          "fold": "1",
+          "n_public_train": 621,
+          "n_kaggle_train": 185,
+          "n_score": 82,
+          "hierarchical_mse": 14724535.74868311,
+          "kaggle_only_mse": 14277856.079337243
+        },
+        {
+          "fold": "2",
+          "n_public_train": 579,
+          "n_kaggle_train": 172,
+          "n_score": 95,
+          "hierarchical_mse": 37810625.14785058,
+          "kaggle_only_mse": 37791897.6489295
+        }
+      ]
+    },
+    {
+      "metric": "raw SI MSE on original Kaggle targets",
+      "protocol": "Murcko scaffold CV",
+      "folds": 3,
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "n_scored_original_rows": 267,
+      "mse": 37694332.30886131,
+      "kaggle_only_mse": 29570778.747133017,
+      "residual_alpha": 10.0,
+      "fold_scores": [
+        {
+          "fold": "0",
+          "n_public_train": 610,
+          "n_kaggle_train": 190,
+          "n_score": 77,
+          "hierarchical_mse": 39143435.525394276,
+          "kaggle_only_mse": 21858833.34700422
+        },
+        {
+          "fold": "1",
+          "n_public_train": 621,
+          "n_kaggle_train": 164,
+          "n_score": 103,
+          "hierarchical_mse": 40622485.176522,
+          "kaggle_only_mse": 40629290.79963273
+        },
+        {
+          "fold": "2",
+          "n_public_train": 581,
+          "n_kaggle_train": 180,
+          "n_score": 87,
+          "hierarchical_mse": 32945128.940561403,
+          "kaggle_only_mse": 23304032.246011723
+        }
+      ]
+    }
+  ],
+  "n_oof_predictions": 801,
+  "final_refit": {
+    "development_rows": 1007,
+    "public_records": 900,
+    "artifact": "artifacts/arch5_source_hierarchy_new_dataset.joblib"
+  },
+  "supplement": {
+    "enabled": true,
+    "exact_cc50_observations": 17,
+    "ec50_relabelled_as_ic50": false
+  },
+  "architecture": "public exact log-concentration heads + Ridge residuals trained on nested scaffold OOF"
+}

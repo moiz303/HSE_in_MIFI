@@ -79,10 +79,8 @@ def public_oof(reference, public, matrix_by_smiles, params, folds, seed):
     split = scaffold_folds(reference.standard_smiles.tolist(), folds, seed)
     for name, validation in split.items():
         validation = np.asarray(validation, dtype=int)
-        training = np.setdiff1d(np.arange(len(reference)), validation)
         held_smiles = set(reference.iloc[validation].standard_smiles)
         held_scaffolds = {splits.murcko_scaffold(value) for value in held_smiles}
-        train_smiles = set(reference.iloc[training].standard_smiles)
         allowed = {splits.murcko_scaffold(value) for value in public.standard_smiles}
         allowed -= held_scaffolds
         rows = public_training_rows(public, allowed)
@@ -107,7 +105,7 @@ def fit_residuals(features, reference, baseline_logs, alpha=10.0):
 
 
 def benchmark(frame, reference, public, matrix_by_smiles, params=None, folds=3, seed=20261107,
-              residual_alpha=10.0):
+              residual_alpha=10.0, supplement=None):
     if frame.standard_smiles.duplicated().any():
         raise ValueError("Development rows must have unique standardized structures")
     if public.empty or reference.empty:
@@ -125,6 +123,10 @@ def benchmark(frame, reference, public, matrix_by_smiles, params=None, folds=3, 
         allowed = {splits.murcko_scaffold(value) for value in train_smiles}
         allowed -= {splits.murcko_scaffold(value) for value in held_smiles}
         public_train = public_training_rows(public, allowed)
+        if supplement is not None:
+            from src.data.vacv_supplement import eligible_supplement
+            extra = eligible_supplement(supplement, held_smiles, "scaffold")
+            public_train = pd.concat([public_train, extra], ignore_index=True)
         if public_train.empty:
             raise ValueError("No public measurements remain after outer scaffold exclusion")
         train_ref = reference[reference.standard_smiles.isin(train_smiles)].reset_index(drop=True)
@@ -168,9 +170,17 @@ def run(config):
     from src.data.standardize import add_standard_smiles
     public, _ = add_standard_smiles(public)
     public = public[public.source.eq("chembl")].reset_index(drop=True)
+    supplement = None
+    if config.get("supplement", False):
+        from src.data.vacv_supplement import load_supplement
+        supplement = load_supplement(workflow.ROOT)
+        supplement = supplement[np.isfinite(exact_target(supplement, "CC50"))].copy()
+    suffix = "_new_dataset" if supplement is not None else ""
     reference = pd.read_csv(workflow.ROOT / "data/processed/kaggle_reference.csv")
     reference = reference[reference.standard_smiles.isin(frame.standard_smiles)].copy()
     all_smiles = list(dict.fromkeys([*frame.standard_smiles, *public.standard_smiles]))
+    if supplement is not None:
+        all_smiles = list(dict.fromkeys([*all_smiles, *supplement.standard_smiles]))
     matrix = workflow.features(pd.DataFrame({"standard_smiles": all_smiles}))
     matrix_by_smiles = dict(zip(all_smiles, matrix))
     settings = config.get("source_hierarchy", {})
@@ -179,7 +189,7 @@ def run(config):
     for repeat in range(repeats):
         current, rows = benchmark(frame, reference, public, matrix_by_smiles,
             config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261106) + repeat,
-            settings.get("ridge_alpha", 10.0))
+            settings.get("ridge_alpha", 10.0), supplement=supplement)
         rows["repeat"] = repeat
         reports.append(current)
         predictions.append(rows)
@@ -191,6 +201,8 @@ def run(config):
     # Final refit uses development structures only; evaluation above remains OOF.
     allowed = {splits.murcko_scaffold(value) for value in frame.standard_smiles}
     public_final = public_training_rows(public, allowed)
+    if supplement is not None:
+        public_final = pd.concat([public_final, supplement], ignore_index=True)
     inner_logs = public_oof(reference, public_final, matrix_by_smiles,
                             config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261107))
     residual = fit_residuals(np.vstack(reference.standard_smiles.map(matrix_by_smiles)),
@@ -201,14 +213,17 @@ def run(config):
                  "config": config, "holdout_used": False, "training_rows": len(frame),
                  "features": "standardized Morgan 2048 + RDKit13",
                  "prediction": "10**((public_CC50+residual_CC50)-(public_IC50+residual_IC50))"},
-                workflow.ROOT / "artifacts/arch5_source_hierarchy.joblib")
+                workflow.ROOT / f"artifacts/arch5_source_hierarchy{suffix}.joblib")
     report["final_refit"] = {"development_rows": len(frame), "public_records": len(public_final),
-                              "artifact": "artifacts/arch5_source_hierarchy.joblib"}
+                              "artifact": f"artifacts/arch5_source_hierarchy{suffix}.joblib"}
+    report["supplement"] = {"enabled": supplement is not None,
+                            "exact_cc50_observations": len(supplement) if supplement is not None else 0,
+                            "ec50_relabelled_as_ic50": False}
     report["architecture"] = "public exact log-concentration heads + Ridge residuals trained on nested scaffold OOF"
     output = workflow.ROOT / "reports"
     output.mkdir(exist_ok=True)
-    (output / "arch5_source_hierarchy.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
-    oof.to_csv(output / "arch5_source_hierarchy_oof.csv", index=False)
+    (output / f"arch5_source_hierarchy{suffix}.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
+    oof.to_csv(output / f"arch5_source_hierarchy{suffix}_oof.csv", index=False)
     print(json.dumps(report, indent=2), flush=True)
 
 
