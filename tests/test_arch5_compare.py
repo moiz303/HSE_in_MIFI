@@ -7,6 +7,35 @@ from src.arch5_compare import exact_logs, fit_residuals, public_training_rows, s
 
 
 class SourceHierarchyTests(unittest.TestCase):
+    def test_benchmark_excludes_held_structures_and_scores_original_rows_once(self):
+        from unittest.mock import patch
+        from src.arch5_compare import benchmark
+        smiles = ['c1ccccc1', 'c1ccncc1', 'C1CCCCC1', 'C1CCCC1', 'C1CCC1',
+                  'C1CC1', 'c1ccc2ccccc2c1', 'c1ccoc1', 'c1ccsc1']
+        frame = pd.DataFrame({'standard_smiles': smiles})
+        reference = pd.DataFrame({'standard_smiles': [*smiles, smiles[0]],
+            'original_row': np.arange(10), 'IC50': np.ones(10),
+            'CC50': np.ones(10)*10, 'SI': np.ones(10)*10})
+        matrix = {s: np.array([i, i*i], dtype=float) for i, s in enumerate(smiles)}
+        class FakeHead:
+            def __init__(self, x):
+                self.seen = set(x[:, 0])
+            def predict_log_concentrations(self, x):
+                if self.seen & set(x[:, 0]):
+                    raise AssertionError('Held structure leaked into public fit')
+                return {'IC50': np.zeros(len(x)), 'CC50': np.ones(len(x))}
+            def predict_si(self, x):
+                self.predict_log_concentrations(x)
+                return np.ones(len(x))*10
+        def fit(rows, x, params):
+            return FakeHead(x)
+        with patch('src.arch5_compare.fit_public', side_effect=fit), patch('src.arch5_compare.fit_kaggle', side_effect=fit):
+            report, oof = benchmark(frame, reference, frame, matrix, folds=3)
+        self.assertEqual(report['n_scored_original_rows'], 10)
+        self.assertEqual(oof.original_row.nunique(), 10)
+        self.assertEqual(len(oof), 10)
+        self.assertFalse(report['holdout_used'])
+
     def test_inner_oof_keeps_unrelated_public_scaffolds(self):
         from unittest.mock import patch
         from src.arch5_compare import public_oof

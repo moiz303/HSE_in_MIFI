@@ -7,6 +7,8 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Ridge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from src import splits
 from src.local_score import score
@@ -100,7 +102,7 @@ def fit_residuals(features, reference, baseline_logs, alpha=10.0):
         mask = np.isfinite(target)
         if not mask.any():
             raise ValueError(f"No exact Kaggle {endpoint} targets for residual fit")
-        models[endpoint] = Ridge(alpha=alpha).fit(features[mask], target[mask])
+        models[endpoint] = make_pipeline(StandardScaler(), Ridge(alpha=alpha)).fit(features[mask], target[mask])
     return models
 
 
