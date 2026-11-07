@@ -95,3 +95,26 @@ class Race(unittest.TestCase):
             folds=4, min_repeats=2, max_repeats=8, deadline=0.0,
         )
         self.assertIn("бюджет", verdict["остановка"])
+
+
+class NanGuards(unittest.TestCase):
+    """Защита от NaN: на этом классе ошибок я уже спотыкался дважды."""
+
+    def test_nan_candidate_never_becomes_leader(self):
+        # bool(nan) истинно, а любое сравнение с nan ложно, поэтому
+        # min(scores, key=scores.get) возвращал кандидата без прогнозов, и
+        # дальше все сравнения шли против мусора — молча.
+        scores = {0: float("nan"), 1: 5.0, 2: 7.0}
+        finite = {k: v for k, v in scores.items() if np.isfinite(v)}
+        self.assertEqual(min(finite, key=finite.get), 1)
+
+    def test_paired_interval_survives_all_nan(self):
+        low, high = sweep.paired_interval(np.array([np.nan, np.nan]))
+        self.assertTrue(np.isnan(low) and np.isnan(high))
+
+    def test_harness_mse_on_empty_mask_is_nan_not_a_crash(self):
+        from src.experiments import harness
+
+        value = harness.mse_of(np.array([1.0, 2.0]), np.array([1.0, 2.0]),
+                               np.zeros(2, dtype=bool))
+        self.assertTrue(np.isnan(value))

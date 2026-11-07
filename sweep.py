@@ -27,7 +27,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src import evaluate, splits
+from src import splits
+from src.experiments.harness import (
+    BASE_SETTINGS,
+    SCREEN_PARAMS,
+    fold_indices,
+    load_pool,
+    model_variant,
+    oof_predictions as oof_generic,
+    paired_interval,
+)
 from src.features import fingerprints
 from src.models.flexible import FlexibleSI
 
@@ -38,10 +47,6 @@ REPORTS = ROOT / "reports"
 ARTIFACTS = ROOT / "artifacts"
 
 CLIP_FROM_TRAIN = 36066.7
-
-# Скрининг идёт на урезанных параметрах: нам нужен порядок величин, а не
-# финальное качество. Победитель доучивается полными.
-SCREEN_PARAMS = {"max_iter": 150, "n_estimators": 200}
 FEATURE_CACHE = Path("data/interim/features_cache.npz")
 
 _STARTED = time.monotonic()
@@ -117,22 +122,6 @@ def candidates(grid: str) -> list[dict]:
     return unique
 
 
-def load_frame() -> tuple[pd.DataFrame, np.ndarray]:
-    """Объединённые train и validation плюс маска строк в распределении теста."""
-    for path in (TRAIN_CSV, VALIDATION_CSV):
-        if not path.exists():
-            raise SystemExit(f"нет {path}. На машине с данными: python -m src.pipeline export")
-    frame = pd.concat(
-        [pd.read_csv(TRAIN_CSV), pd.read_csv(VALIDATION_CSV)], ignore_index=True
-    )
-    in_distribution = (
-        frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
-        if "source" in frame.columns
-        else np.ones(len(frame), dtype=bool)
-    )
-    return frame, in_distribution
-
-
 def featurize_cached(smiles: list[str], name: str, preset: dict) -> np.ndarray:
     """Признаки с кэшем на диске: RDKit пересчитывает их десятками секунд."""
     cache: dict[str, np.ndarray] = {}
@@ -149,39 +138,6 @@ def featurize_cached(smiles: list[str], name: str, preset: dict) -> np.ndarray:
     return matrix
 
 
-def load_data() -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
-    for path in (TRAIN_CSV, VALIDATION_CSV):
-        if not path.exists():
-            raise SystemExit(f"нет {path}. На машине с данными: python -m src.pipeline export")
-    frame = pd.concat(
-        [pd.read_csv(TRAIN_CSV), pd.read_csv(VALIDATION_CSV)], ignore_index=True
-    )
-    log(f"объединено {len(frame)} молекул, считаю признаки…")
-    features = featurize_cached(
-        frame["standard_smiles"].astype(str).tolist(), "morgan2048+desc13", {}
-    )
-    in_distribution = (
-        frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
-        if "source" in frame.columns
-        else np.ones(len(frame), dtype=bool)
-    )
-    log(f"матрица {features.shape[0]}×{features.shape[1]}, "
-        f"в распределении соревнования: {int(in_distribution.sum())}")
-    return frame, features, in_distribution
-
-
-def fold_indices(smiles: list[str], folds: int, seed: int) -> list[np.ndarray]:
-    """Scaffold-фолды по всем строкам сразу.
-
-    Разбиение строится по всем 1184 строкам, поэтому строка ChEMBL с каркасом
-    из отложенного fold тоже оказывается отложенной — утечки каркасов нет.
-    """
-    fractions = {f"f{number}": 1.0 / folds for number in range(folds)}
-    split = splits.scaffold_split(smiles, fractions, seed=seed)
-    splits.assert_no_leaks(smiles, split)
-    return [np.array(positions, dtype=int) for positions in split.values()]
-
-
 def oof_predictions(
     settings: dict,
     features: np.ndarray,
@@ -189,42 +145,10 @@ def oof_predictions(
     fold_list: list[np.ndarray],
     screen: bool = True,
 ) -> np.ndarray:
-    """Out-of-fold прогноз на всех строках для одного набора фолдов."""
-    active = dict(settings)
-    if screen:
-        params = dict(active.get("params") or {})
-        params.update(SCREEN_PARAMS)
-        active["params"] = params
-
-    prediction = np.full(len(si), np.nan)
-    for held in fold_list:
-        # Фолд может оказаться пустым: если почти все молекулы делят один
-        # каркас, групповое разбиение сложит их в одну часть.
-        if held.size == 0:
-            continue
-        rest = np.setdiff1d(np.arange(len(si)), held)
-        if rest.size < 30:
-            continue
-        model = FlexibleSI(**active).fit(features[rest], si[rest])
-        prediction[held] = model.predict_si(features[held])
-    return prediction
-
-
-def paired_interval(
-    differences: np.ndarray, draws: int = 10000, seed: int = 7
-) -> tuple[float, float]:
-    """95% интервал для среднего парной разницы — ресэмплинг по строкам.
-
-    Парное сравнение потому, что все кандидаты предсказывают одни и те же
-    молекулы на одних и тех же фолдах. Разница по строке убирает дисперсию от
-    того, какие именно выбросы попали в отложенную часть, — а она у нас и
-    съедала измерения: абсолютная MSE гуляла на треть, хотя кандидаты
-    отличались на проценты.
-    """
-    rng = np.random.default_rng(seed)
-    indices = rng.integers(0, len(differences), size=(draws, len(differences)))
-    means = differences[indices].mean(axis=1)
-    return float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
+    """Out-of-fold прогноз для набора настроек — обёртка над каркасом."""
+    return oof_generic(
+        model_variant(settings, features, si, screen=screen), len(si), fold_list
+    )
 
 
 def race(
@@ -283,7 +207,19 @@ def race(
 
         scores = {index: float(np.nanmean(mean_errors(index)[in_distribution]))
                   for index in alive}
-        leader = min(scores, key=scores.get)
+        # min по словарю с NaN выбирает NaN: в Python сравнения с ним всегда
+        # ложны, и лидером стал бы кандидат, у которого вообще нет прогнозов.
+        # Дальше все сравнения шли бы против мусора, молча.
+        finite = {index: value for index, value in scores.items() if np.isfinite(value)}
+        if not finite:
+            log("ни у одного кандидата нет годных прогнозов — гонка прервана", indent=2)
+            stopped = "нет годных прогнозов"
+            break
+        for index in [i for i in alive if i not in finite]:
+            log(f"выбывает: {FlexibleSI(**grid[index]).describe():<46} нет годных прогнозов",
+                indent=2)
+        alive = list(finite)
+        leader = min(finite, key=finite.get)
         log(f"лидер: {grid[leader]['описание'] if 'описание' in grid[leader] else FlexibleSI(**grid[leader]).describe()}"
             f"  MSE {scores[leader]:.4g}", indent=2)
 
@@ -377,7 +313,10 @@ def main(argv: list[str] | None = None) -> int:
                         help="второй этап по наборам признаков (закрытое направление)")
     args = parser.parse_args(argv)
 
-    frame, features, in_distribution = load_data()
+    frame, in_distribution = load_pool()
+    features = featurize_cached(
+        frame["standard_smiles"].astype(str).tolist(), "morgan2048+desc13", {}
+    )
     smiles = frame["standard_smiles"].astype(str).tolist()
 
     log(f"оценка out-of-fold на {int(in_distribution.sum())} строках соревнования; "

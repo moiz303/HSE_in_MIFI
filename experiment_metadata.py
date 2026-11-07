@@ -31,7 +31,10 @@ import pandas as pd
 from src import splits
 from src.features import fingerprints, metadata
 from src.models.flexible import FlexibleSI
-from sweep import SCREEN_PARAMS, fold_indices, oof_predictions, paired_interval
+from src.experiments.harness import (
+    SCREEN_PARAMS, fold_indices, model_variant, oof_predictions as oof_generic,
+    paired_interval,
+)
 
 ROOT = Path(__file__).resolve().parent
 TRAIN_CSV = ROOT / "data" / "processed" / "train.csv"
@@ -140,7 +143,9 @@ def main(argv: list[str] | None = None) -> int:
         fold_list = fold_indices(smiles, args.folds, splits.DEFAULT_SEED + repeat)
         for name, matrix in matrices.items():
             started = time.monotonic()
-            prediction = oof_predictions(BASE_SETTINGS, matrix, si, fold_list)
+            prediction = oof_generic(
+                model_variant(BASE_SETTINGS, matrix, si), len(si), fold_list
+            )
             done = np.isfinite(prediction)
             errors = np.full(len(si), np.nan)
             errors[done] = (prediction[done] - si[done]) ** 2
@@ -182,9 +187,11 @@ def main(argv: list[str] | None = None) -> int:
     for _, row in table.iterrows():
         verdict = ""
         if row["вариант"] != "структура":
-            if row.get("достоверно_лучше"):
+            # bool(nan) истинно, поэтому проверяем через is True, а не на
+            # истинность: у базовой строки этих ключей нет, и они приходят NaN.
+            if row.get("достоверно_лучше") is True:
                 verdict = "  <- достоверно лучше"
-            elif row.get("достоверно_хуже"):
+            elif row.get("достоверно_хуже") is True:
                 verdict = "  достоверно хуже"
             else:
                 verdict = "  в пределах шума"
