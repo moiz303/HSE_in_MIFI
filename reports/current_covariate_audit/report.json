@@ -1,0 +1,135 @@
+{
+  "source_classifier": "5-fold molecule-grouped OOF logistic regression C=.01; train-fold CheMeleon scaling",
+  "source_classifier_uses_SI": false,
+  "source_classifier_uses_test_endpoints": false,
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "source_auc": 0.5376508008205823,
+  "source_log_loss": 0.7301251681624358,
+  "folds": [
+    {
+      "fold": 0,
+      "fit_rows": 694,
+      "held_rows": 170,
+      "molecule_overlap": 0,
+      "auc": 0.568374060150376
+    },
+    {
+      "fold": 1,
+      "fit_rows": 691,
+      "held_rows": 173,
+      "molecule_overlap": 0,
+      "auc": 0.483451536643026
+    },
+    {
+      "fold": 2,
+      "fit_rows": 690,
+      "held_rows": 174,
+      "molecule_overlap": 0,
+      "auc": 0.5282407407407406
+    },
+    {
+      "fold": 3,
+      "fit_rows": 691,
+      "held_rows": 173,
+      "molecule_overlap": 0,
+      "auc": 0.5801587301587302
+    },
+    {
+      "fold": 4,
+      "fit_rows": 690,
+      "held_rows": 174,
+      "molecule_overlap": 0,
+      "auc": 0.5459876026135031
+    }
+  ],
+  "constant_source_prior_log_loss": 0.618320559905618,
+  "density_weights_recommended_for_training": false,
+  "recommendation_reason": "Source AUC near chance and source log-loss worse than constant prior; estimated weights reduce effective sample size and do not explain leaderboard disagreement.",
+  "weights": "n_train/n_test * p_test/(1-p_test), clip [.1,10], normalize training mean1",
+  "effective_sample_size": 110.39888906824993,
+  "row14_weight": 0.21185063344396204,
+  "weight_min": 0.048909535694691725,
+  "weight_max": 4.890953569469172,
+  "shared_development_test_structures": 22,
+  "assumptions": "Requires stable P(SI|SMILES). Does not fix assay/source target shift; estimated weights may increase variance.",
+  "changes_primary_score_or_model_selection": false,
+  "kaggle_submitted": false,
+  "holdout_used": false,
+  "code_sha256": "4ae176774772eae11f78bec57c6c085ca84b5035f8a6fec0766de9ccb8ad2325",
+  "data_audit": {
+    "version": "train_v2_exact_public_v1",
+    "feature_columns": [
+      "SMILES"
+    ],
+    "kaggle_columns_read": [
+      "SMILES",
+      "SI VACV"
+    ],
+    "forbidden_columns_read": [],
+    "kaggle_rows": 320,
+    "kaggle_development_rows": 267,
+    "reserved_competition_rows": 53,
+    "development_zeros": 66,
+    "legacy_unmapped_competition_structures_excluded": 2,
+    "public_collected_pairs": 109,
+    "public_collected_structures": 87,
+    "public_fit_pairs": 80,
+    "public_fit_structures": 63,
+    "public_missing_doi": 0,
+    "public_rejection_counts": {
+      "censored_measurement": 2930,
+      "no_exact_partner_same_document_and_cell_line": 1748,
+      "endpoint_type_not_IC50_or_CC50": 1292,
+      "unknown_cell_line": 184
+    },
+    "public_target_types": [
+      "IC50",
+      "CC50"
+    ],
+    "public_virus": "VACV whole-organism targets only",
+    "public_weight_rule": "0.5/number of records of a structure",
+    "competition_targets_aggregated_with_public": false,
+    "holdout_used": false,
+    "source_sha256": {
+      "data/raw/kaggle/train_v2.csv": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+      "data/experiments/independent_endpoints.csv": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+      "data/experiments/independent_collection.json": "3c89589e9e306622057fe870e3e5c12602b53e7cd9444a166935af1363cd6200",
+      "data/raw/chembl.csv": "4bfc3758ba657774ebcc140ce729701fa40e694ca1192662a5bf7bd02357afb0",
+      "data/processed/splits.json": "8dc017aaa86dc037bccb9cd29703b2368d0332896226b29f5300ea4399634f80",
+      "data/processed/dataset.csv": "2c56548919a0fdf386e93295c078d5460b9159509134eb201925cbe1c450d58d"
+    },
+    "source_content_sha256": {
+      "data/raw/kaggle/train_v2.csv": "16b861ef36b77c98acfb6870ea1ff25751e8add55debc650b4903c8f38f79e53",
+      "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+      "data/experiments/independent_collection.json": "105bac5f2d5cc639b79d29ff8232164add04b859225adb3495f9315167661040",
+      "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+      "data/processed/splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+      "data/processed/dataset.csv": "e7cf2826f9ace628f46b3264271c3d390d4dfd42ec8ab55156c175370171127e"
+    },
+    "output_content_sha256": {
+      "development_mixed.csv": "11b3a768d4af49171d5a34bad25af2987201c5a29037fd9bb396abae22b65f8e",
+      "kaggle_development.csv": "5c613e49049434fbed42c820f4a69a97f13ecbcfe9685f65ac07cd214115131a",
+      "public_dataset.csv": "a0a280b8ba4f680d6145f92180f40d34a29f6b6ab13348bc14e26d3da519df1c",
+      "public_development.csv": "da9ba8e41f8e9a4ff05fd710214872c4fa9db4a17d3497a5c93c36eb809f8d01",
+      "public_rejected.csv": "88de8aaa0b9c06b10261bcb7eb95569c5f0d7376852566a0d9e77a8468a7f3e2"
+    }
+  },
+  "encoder": {
+    "checkpoint": {
+      "url": "https://zenodo.org/records/15460715/files/chemeleon_mp.pt",
+      "file": "artifacts/pretrained/chemeleon_mp.pt",
+      "sha256": "c376624d3407204e780a0ed13a9ac097cc9bb1c13ef89cdbc633c1715c183651",
+      "bytes": 34859448
+    },
+    "random_control": false,
+    "frozen": true,
+    "dimensions": 2048,
+    "elapsed_seconds": 280.6719999999914,
+    "smiles_sha256": "7fe9646e6a644c0e21f53d90093a062a351dfdfad7f552f33ecdb912050bb4bd",
+    "rows": 944,
+    "cache": "data/architecture_cache/chemeleon_7fe9646e6a644c0e21f53d90093a062a351dfdfad7f552f33ecdb912050bb4bd.npz"
+  }
+}
