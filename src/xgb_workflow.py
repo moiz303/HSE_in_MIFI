@@ -18,6 +18,7 @@ from src.models.catboost_two_head import CatBoostTwoHead
 from src.models.xgb_hybrid import XGBHybrid, select_hybrid
 from src.models.xgb_ensemble import XGBEnsemble
 from src.models.xgb_weighted import XGBWeightedTwoHead
+from src.models.xgb_weighted_ensemble import XGBWeightedEnsemble
 from src.models.xgb_analog import XGBAnalog
 from src.models.xgb_tail import XGBTail, tail_weights
 
@@ -26,6 +27,7 @@ MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
 MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 MODEL_TYPES["xgb_ensemble"] = XGBEnsemble
 MODEL_TYPES["xgb_weighted"] = XGBWeightedTwoHead
+MODEL_TYPES["xgb_weighted_ensemble"] = XGBWeightedEnsemble
 MODEL_TYPES["xgb_analog"] = XGBAnalog
 MODEL_TYPES["xgb_tail"] = XGBTail
 
@@ -35,6 +37,8 @@ def is_final(config):
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_weighted_ensemble":
+        return "xgb_weighted_ensemble"
     if config["model"]["strategy"] == "xgb_tail":
         return "xgb_tail"
     if config["model"]["strategy"] == "xgb_analog":
@@ -56,7 +60,7 @@ def validate_config(config):
     mode = config.get("training", {}).get("mode", "train_only")
     if mode not in ("train_only", "train_validation"):
         raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
-    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted", "xgb_analog", "xgb_tail") or cv_protocol(config)):
+    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted", "xgb_weighted_ensemble", "xgb_analog", "xgb_tail") or cv_protocol(config)):
         raise ValueError("Final mode supports only fixed concentration XGBoost variants")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
@@ -114,7 +118,7 @@ def data_hashes(config=None):
     names = ["train.csv", "validation.csv", "splits.json"]
     if (ROOT / "data/processed/kaggle_reference.csv").exists():
         names.append("kaggle_reference.csv")
-    if config is not None and config["model"]["strategy"] in ("xgb_weighted", "xgb_analog", "xgb_tail"):
+    if config is not None and config["model"]["strategy"] in ("xgb_weighted", "xgb_weighted_ensemble", "xgb_analog", "xgb_tail"):
         names.append("public_quality.csv")
     return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}
 
@@ -212,7 +216,7 @@ def train(config):
             "source_rows": frame.source.value_counts().to_dict(),
             "n_train": model.n_train, "parameters": model.params,
             "independent_evaluation": False, "holdout_used": False}
-        if isinstance(model, XGBEnsemble):
+        if isinstance(model, (XGBEnsemble, XGBWeightedEnsemble)):
             bundle["training"]["ensemble"] = {"seeds": model.seeds, "members": len(model.members),
                 "aggregation": "arithmetic_mean_of_member_SI", "trees_per_head": model.params["n_estimators"]}
         if isinstance(model, XGBWeightedTwoHead):
@@ -336,7 +340,7 @@ def submission(config):
         raise ValueError("пустые или повторяющиеся идентификаторы теста")
     matrix = features(frame, settings["smiles_column"])
     model = bundle["model"]
-    members = model.predict_members_si(matrix) if isinstance(model, XGBEnsemble) else None
+    members = model.predict_members_si(matrix) if hasattr(model, "predict_members_si") else None
     analog_components = model.predict_components(matrix) if isinstance(model, XGBAnalog) else None
     predicted = (analog_components["SI_selected"] if analog_components is not None else
                  members.mean(axis=1) if members is not None else model.predict_si(matrix))
