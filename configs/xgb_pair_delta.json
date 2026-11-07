@@ -1,0 +1,13 @@
+{
+  "name": "paired-query-reference-concentration-deltas",
+  "seed": 20261106,
+  "pair_delta": {
+    "folds": 3,
+    "repeats": 3,
+    "max_references": 12,
+    "min_similarity": 0.35,
+    "pair_params": {}
+  },
+  "model": {"params": {}},
+  "entrypoint": "python -m src.pair_delta_compare --config configs/xgb_pair_delta.json"
+}
