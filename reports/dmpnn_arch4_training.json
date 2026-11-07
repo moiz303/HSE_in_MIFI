@@ -1,0 +1,251 @@
+{
+  "model": "shared D-MPNN, direct SI + masked/bounded log10 IC50 and CC50",
+  "metric": "raw SI MSE on original Kaggle training targets",
+  "config": {
+    "name": "dmpnn-arch4-direct-si-multitask",
+    "seed": 20261106,
+    "split": {
+      "protocol": "scaffold",
+      "folds": 3,
+      "inner_folds": 5
+    },
+    "model": {
+      "hidden": 64,
+      "depth": 3,
+      "dropout": 0.1
+    },
+    "training": {
+      "aux_weight_candidates": [
+        0.1,
+        0.3
+      ],
+      "batch_size": 64,
+      "max_epochs": 60,
+      "early_stopping_patience": 8,
+      "learning_rate": 0.003,
+      "weight_decay": 0.0001,
+      "device": "cpu"
+    },
+    "data": {
+      "parts": [
+        "train",
+        "validation"
+      ],
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "si_target": "original kaggle_reference SI; duplicate structures weighted by original row count",
+      "concentration_targets": "positive IC50 and CC50; exact MSE plus one-sided censor-bound loss"
+    },
+    "outputs": {
+      "artifact": "artifacts/dmpnn_arch4.pt",
+      "oof_predictions": "reports/dmpnn_arch4_oof.csv",
+      "report": "reports/dmpnn_arch4_training.json"
+    }
+  },
+  "protocol": "3-fold scaffold OOF, nested inner scaffold split for loss weight and early stopping",
+  "development_structures": 1007,
+  "original_kaggle_targets": 267,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "settings": {
+    "hidden": 64,
+    "depth": 3,
+    "dropout": 0.1,
+    "candidate_aux_weights": [
+      0.1,
+      0.3
+    ],
+    "selected_aux_weight": 0.3,
+    "selected_epochs": 29,
+    "batch_size": 64
+  },
+  "versions": {
+    "python": "3.12.10",
+    "torch": "2.11.0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "rdkit": "2026.9.1"
+  },
+  "oof_metrics": {
+    "all": {
+      "n": 267,
+      "mse": 23912715.08868615,
+      "rmse": 4890.062892099257,
+      "mae": 3568.3216955574317,
+      "bias": -56.9417049920674,
+      "rmse_log10": 2.1186566814508856
+    },
+    "service_label": {
+      "n": 66,
+      "mse": 49691462.99728495,
+      "rmse": 7049.21719038965,
+      "mae": 6682.075555974787,
+      "bias": -6682.075555974787,
+      "rmse_log10": 0.6865587059123016
+    },
+    "measured": {
+      "n": 201,
+      "mse": 15448051.596310422,
+      "rmse": 3930.400945999075,
+      "mae": 2545.8950548233747,
+      "bias": 2118.4753804052434,
+      "rmse_log10": 2.409944766403106
+    }
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "train_structures": 671,
+      "oof_structures": 336,
+      "oof_targets": 107,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 17,
+          "inner_mse": 16474200.17406751
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 31,
+          "inner_mse": 16325368.101756044
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.3,
+        "best_epoch": 31,
+        "inner_mse": 16325368.101756044
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 107,
+          "mse": 31300465.61239151,
+          "rmse": 5594.681904486752,
+          "mae": 3705.918430427325,
+          "bias": -1445.8200574614746,
+          "rmse_log10": 2.0352490538742036
+        },
+        "service_label": {
+          "n": 31,
+          "mse": 61821641.35167985,
+          "rmse": 7862.673931410347,
+          "mae": 7703.396100444178,
+          "bias": -7703.396100444178,
+          "rmse_log10": 0.8047870759805035
+        },
+        "measured": {
+          "n": 76,
+          "mse": 18851038.666102845,
+          "rmse": 4341.778283849009,
+          "mae": 2075.3683281836084,
+          "bias": 1106.6122758604174,
+          "rmse_log10": 2.359586807999923
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "train_structures": 671,
+      "oof_structures": 336,
+      "oof_targets": 78,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 29,
+          "inner_mse": 11889850.556311924
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 37,
+          "inner_mse": 12700941.353254648
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.1,
+        "best_epoch": 29,
+        "inner_mse": 11889850.556311924
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 78,
+          "mse": 19418751.56235438,
+          "rmse": 4406.671256442257,
+          "mae": 3161.4418499843573,
+          "bias": 450.12918203516955,
+          "rmse_log10": 2.1945579851849604
+        },
+        "service_label": {
+          "n": 16,
+          "mse": 48532178.3860443,
+          "rmse": 6966.504028997923,
+          "mae": 6289.717769622803,
+          "bias": -6289.717769622803,
+          "rmse_log10": 0.7024099065574209
+        },
+        "measured": {
+          "n": 62,
+          "mse": 11905609.156240853,
+          "rmse": 3450.450572931143,
+          "mae": 2354.1448384647583,
+          "bias": 2189.444524398518,
+          "rmse_log10": 2.435492053672666
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "train_structures": 672,
+      "oof_structures": 335,
+      "oof_targets": 82,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 4,
+          "inner_mse": 18687714.91282461
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 22,
+          "inner_mse": 16515413.182235328
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.3,
+        "best_epoch": 22,
+        "inner_mse": 16515413.182235328
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 82,
+          "mse": 18547347.393776447,
+          "rmse": 4306.663139110888,
+          "mae": 3775.8067848698865,
+          "bias": 1273.0394477652753,
+          "rmse_log10": 2.151602876996526
+        },
+        "service_label": {
+          "n": 19,
+          "mse": 30876359.039053828,
+          "rmse": 5556.649983493096,
+          "mae": 5346.117014031661,
+          "bias": -5346.117014031661,
+          "rmse_log10": 0.40637837844728975
+        },
+        "measured": {
+          "n": 63,
+          "mse": 14829074.04043882,
+          "rmse": 3850.8536768408662,
+          "mae": 3302.22116020205,
+          "bias": 3269.2929838627642,
+          "rmse_log10": 2.444536054147355
+        }
+      }
+    }
+  ],
+  "artifact": "artifacts/dmpnn_arch4.pt",
+  "oof_predictions": "reports/dmpnn_arch4_oof.csv",
+  "elapsed_seconds": 15.307687282562256,
+  "strata_counts": {
+    "service_label": 66,
+    "measured": 201
+  }
+}

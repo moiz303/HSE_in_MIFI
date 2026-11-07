@@ -1,0 +1,27 @@
+{
+  "name": "dmpnn-arch4-direct-si-multitask",
+  "seed": 20261106,
+  "split": {"protocol": "scaffold", "folds": 3, "inner_folds": 5},
+  "model": {"hidden": 64, "depth": 3, "dropout": 0.1},
+  "training": {
+    "aux_weight_candidates": [0.1, 0.3],
+    "batch_size": 64,
+    "max_epochs": 60,
+    "early_stopping_patience": 8,
+    "learning_rate": 0.003,
+    "weight_decay": 0.0001,
+    "device": "cpu"
+  },
+  "data": {
+    "parts": ["train", "validation"],
+    "holdout_used": false,
+    "test_endpoints_used": false,
+    "si_target": "original kaggle_reference SI; duplicate structures weighted by original row count",
+    "concentration_targets": "positive IC50 and CC50; exact MSE plus one-sided censor-bound loss"
+  },
+  "outputs": {
+    "artifact": "artifacts/dmpnn_arch4.pt",
+    "oof_predictions": "reports/dmpnn_arch4_oof.csv",
+    "report": "reports/dmpnn_arch4_training.json"
+  }
+}

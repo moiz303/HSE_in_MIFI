@@ -459,6 +459,19 @@ python -m unittest discover -s tests -t . -v
 
 ## Результаты и submission
 
+Эксперимент архитектуры 4 (общий D-MPNN с прямой SI-головой) запускается
+отдельно от действующего XGBoost default:
+
+```bash
+PYTHONPATH=/Users/f37/HSE_arch_env/lib/python3.12/site-packages:$PWD python3 -m src.dmpnn_workflow
+```
+
+Настройки лежат в `configs/dmpnn_arch4.json`. Эксперимент использует nested
+scaffold OOF на исходных Kaggle train-метках и затем отдельно переобучает модель
+на train+validation. Полная OOF MSE ниже baseline за счёт служебных меток,
+ошибка на измеренных целях выше; эксперимент не меняет default. Метрики и
+ограничения записаны в [отчёте архитектуры 4](docs/dmpnn_arch4.md).
+
 - `artifacts/xgb_two_head.joblib`: обе головы, конфигурация, версии библиотек, SHA256 входов и train-only константа.
 - `reports/xgb_metrics.json`: метрики концентраций и SI, число используемых строк.
 - `reports/xgb_validation.csv`: отдельные прогнозы концентраций и SI для разбора ошибок.
