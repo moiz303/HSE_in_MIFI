@@ -1,0 +1,58 @@
+{
+  "method": "median(reference log concentration + learned query-reference delta)",
+  "fallback": "weighted XGB when an endpoint has no eligible reference",
+  "folds": 3,
+  "repeats": 3,
+  "holdout_used": false,
+  "reference_bank": "fold train rows only",
+  "protocols": {
+    "molecule": {
+      "pair_delta": {
+        "n": 801,
+        "mse": 29644997.193231553,
+        "rmse": 5444.721957385111,
+        "mae": 2724.6395133125484,
+        "bias": -2650.7698537669576,
+        "rmse_log10": 1.5976120517448495
+      },
+      "weighted_baseline": {
+        "n": 801,
+        "mse": 29659649.914501876,
+        "rmse": 5446.067380642832,
+        "mae": 2703.7587144463087,
+        "bias": -2678.1345518730727,
+        "rmse_log10": 1.6169115634107034
+      },
+      "pair_coverage": 0.8789013732833958,
+      "repeat_mse": [
+        29615124.465751484,
+        29681853.238224894,
+        29638013.875718284
+      ]
+    },
+    "scaffold": {
+      "pair_delta": {
+        "n": 801,
+        "mse": 29706825.57812125,
+        "rmse": 5450.396827582488,
+        "mae": 2743.8119431307573,
+        "bias": -2640.6416703839573,
+        "rmse_log10": 1.7276236211849108
+      },
+      "weighted_baseline": {
+        "n": 801,
+        "mse": 29682392.136115637,
+        "rmse": 5448.154929525742,
+        "mae": 2713.028688697781,
+        "bias": -2681.4685838312125,
+        "rmse_log10": 1.6831568730916573
+      },
+      "pair_coverage": 0.7415730337078652,
+      "repeat_mse": [
+        29770670.509415697,
+        29659878.977311853,
+        29689927.247636195
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "config": {
+    "name": "paired-query-reference-concentration-deltas",
+    "seed": 20261106,
+    "pair_delta": {
+      "folds": 3,
+      "repeats": 3,
+      "max_references": 12,
+      "min_similarity": 0.35,
+      "pair_params": {}
+    },
+    "model": {
+      "params": {}
+    },
+    "entrypoint": "python -m src.pair_delta_compare --config configs/xgb_pair_delta.json"
+  },
+  "development_structures": 1007,
+  "training_rows": {
+    "IC50": 465,
+    "CC50": 682
+  },
+  "pair_rows": {
+    "IC50": 3640,
+    "CC50": 6189
+  },
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "oof_report": "reports/pair_delta_comparison.json",
+  "artifact": "artifacts/xgb_pair_delta.joblib"
+}

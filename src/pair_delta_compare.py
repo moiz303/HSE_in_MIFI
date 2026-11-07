@@ -2,7 +2,7 @@
 
 import argparse
 import json
-from pathlib import Path
+import joblib
 
 import numpy as np
 import pandas as pd
@@ -82,6 +82,24 @@ def run(config):
     (out / "pair_delta_comparison.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
     (out / "pair_delta_splits.json").write_text(json.dumps(manifests, indent=2), encoding="utf-8")
     oof.to_csv(out / "pair_delta_oof.csv", index=False)
+
+    # Only after the fold evaluation, refit on the allowed development pool.
+    weights = row_weights(frame, pd.read_csv(base / "public_quality.csv"))
+    targets = {name: exact_target(frame, name) for name in ("IC50", "CC50")}
+    final_model = XGBPairDelta(config["model"].get("params"), config["pair_delta"].get("pair_params"),
+        config["pair_delta"]["max_references"], config["pair_delta"]["min_similarity"])
+    matrix = workflow.features(frame)
+    final_model.fit(matrix, targets["IC50"], targets["CC50"], weights)
+    artifacts = workflow.ROOT / "artifacts"
+    artifacts.mkdir(exist_ok=True)
+    model_path = artifacts / "xgb_pair_delta.joblib"
+    joblib.dump(final_model, model_path)
+    training = {"config": config, "development_structures": len(frame),
+        "training_rows": {name: int(np.isfinite(values).sum()) for name, values in targets.items()},
+        "pair_rows": final_model.n_pairs, "holdout_used": False, "test_endpoints_used": False,
+        "oof_report": "reports/pair_delta_comparison.json", "artifact": "artifacts/xgb_pair_delta.joblib"}
+    (out / "xgb_pair_delta_training.json").write_text(json.dumps(training, indent=2, allow_nan=False), encoding="utf-8")
+    report["artifact"] = training["artifact"]
     print(json.dumps(report, indent=2), flush=True)
     return report
 
