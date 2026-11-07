@@ -1,0 +1,99 @@
+[fit] XGBWeightedTwoHead IC50: 302 targets, 369 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 450 targets, 221 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 0 0 21926762.95722624
+[fit] XGBWeightedTwoHead IC50: 325 targets, 346 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 468 targets, 203 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 0 1 35840601.6318878
+[fit] XGBWeightedTwoHead IC50: 303 targets, 369 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 446 targets, 226 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 0 2 34148219.74590814
+[fit] XGBWeightedTwoHead IC50: 294 targets, 377 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 458 targets, 213 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 1 0 26635544.784407053
+[fit] XGBWeightedTwoHead IC50: 315 targets, 356 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 458 targets, 213 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 1 1 33955005.042229734
+[fit] XGBWeightedTwoHead IC50: 321 targets, 351 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 448 targets, 224 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 1 2 29179818.16200694
+[fit] XGBWeightedTwoHead IC50: 322 targets, 349 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 453 targets, 218 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 2 0 38378512.38225513
+[fit] XGBWeightedTwoHead IC50: 311 targets, 360 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 462 targets, 209 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 2 1 34413522.77939348
+[fit] XGBWeightedTwoHead IC50: 297 targets, 375 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 449 targets, 223 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+molecule 2 2 15892006.568035645
+[fit] XGBWeightedTwoHead IC50: 336 targets, 335 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 456 targets, 215 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 0 0 41304373.32947851
+[fit] XGBWeightedTwoHead IC50: 312 targets, 359 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 463 targets, 208 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 0 1 20736545.107946746
+[fit] XGBWeightedTwoHead IC50: 282 targets, 390 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 445 targets, 227 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 0 2 23172620.353440966
+[fit] XGBWeightedTwoHead IC50: 340 targets, 331 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 474 targets, 197 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 1 0 35055109.90984905
+[fit] XGBWeightedTwoHead IC50: 303 targets, 368 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 465 targets, 206 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 1 1 14657509.165464843
+[fit] XGBWeightedTwoHead IC50: 287 targets, 385 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 425 targets, 247 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 1 2 37837691.69118284
+[fit] XGBWeightedTwoHead IC50: 311 targets, 360 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 478 targets, 193 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 2 0 22087592.267070495
+[fit] XGBWeightedTwoHead IC50: 330 targets, 341 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 446 targets, 225 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 2 1 40949003.124894634
+[fit] XGBWeightedTwoHead IC50: 289 targets, 383 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBWeightedTwoHead CC50: 440 targets, 232 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+scaffold 2 2 23219224.372340925
+{
+  "architecture": "Tanimoto KRR alpha=1",
+  "folds": 3,
+  "repeats": 3,
+  "holdout_used": false,
+  "test_data_used": false,
+  "protocols": {
+    "molecule": {
+      "tanimoto": {
+        "n": 801,
+        "mse": 29740969.160853468,
+        "rmse": 5453.528138815594,
+        "mae": 2710.8813657037044,
+        "bias": -2695.335486904117,
+        "rmse_log10": 1.6770811161890473
+      },
+      "weighted_baseline": {
+        "n": 801,
+        "mse": 29659649.914501876,
+        "rmse": 5446.067380642832,
+        "mae": 2703.7587144463087,
+        "bias": -2678.1345518730727,
+        "rmse_log10": 1.6169115634107034
+      }
+    },
+    "scaffold": {
+      "tanimoto": {
+        "n": 801,
+        "mse": 29746809.156798184,
+        "rmse": 5454.063545357551,
+        "mae": 2712.7498340346942,
+        "bias": -2697.520452161959,
+        "rmse_log10": 1.736674041002256
+      },
+      "weighted_baseline": {
+        "n": 801,
+        "mse": 29682392.136115637,
+        "rmse": 5448.154929525742,
+        "mae": 2713.028688697781,
+        "bias": -2681.4685838312125,
+        "rmse_log10": 1.6831568730916573
+      }
+    }
+  }
+}

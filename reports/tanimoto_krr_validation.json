@@ -1,0 +1,27 @@
+{
+  "experiment": "tanimoto-kernel-ridge-two-concentration-heads",
+  "training_rows": 829,
+  "validation_rows": 178,
+  "validation_competition_targets": 64,
+  "validation_raw_si_mse": 51400850.01563599,
+  "n_train": {
+    "IC50": 365,
+    "IC50_skipped": 464,
+    "CC50": 565,
+    "CC50_skipped": 264
+  },
+  "holdout_used": false,
+  "test_data_used": false,
+  "model": {
+    "strategy": "tanimoto_krr",
+    "params": {
+      "alpha": 1.0
+    },
+    "clip_si": null
+  },
+  "feature": {
+    "kind": "morgan",
+    "radius": 2,
+    "bits": 2048
+  }
+}

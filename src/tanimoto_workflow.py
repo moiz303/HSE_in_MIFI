@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def exact_target(frame: pd.DataFrame, name: str) -> np.ndarray:
-    values = pd.to_numeric(frame[name], errors="coerce").to_numpy(dtype=float)
+    values = pd.to_numeric(frame[name], errors="coerce").to_numpy(dtype=float, copy=True)
     qualifier = name + "_qualifier"
     if qualifier not in frame:
         raise ValueError(f"missing {qualifier}; cannot distinguish exact from censored {name}")

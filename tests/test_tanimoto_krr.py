@@ -6,6 +6,15 @@ from src.models.tanimoto_krr import TanimotoKRR, tanimoto_kernel
 
 
 class TanimotoKRRTests(unittest.TestCase):
+    def test_exact_target_masks_without_mutating_source(self):
+        import pandas as pd
+        from src.tanimoto_workflow import exact_target
+        frame = pd.DataFrame({'IC50': [1., 2.], 'IC50_qualifier': ['', '>']})
+        actual = exact_target(frame, 'IC50')
+        self.assertEqual(actual[0], 1.)
+        self.assertTrue(np.isnan(actual[1]))
+        self.assertEqual(frame.IC50.tolist(), [1., 2.])
+
     def test_tanimoto_kernel_matches_set_similarity(self):
         fingerprints = np.array([[1, 1, 0, 0], [1, 0, 1, 0], [0, 0, 0, 0]], dtype=np.uint8)
         kernel = tanimoto_kernel(fingerprints)
