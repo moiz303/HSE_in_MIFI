@@ -22,4 +22,3 @@ model,local_subset_mse,official_kaggle_mse,submission_ref,coverage,submission
 "CatBoost, две концентрационные головы",2031629.2355157677,,,468/597,reports/submission_catboost.csv
 "XGBoost, CV-гибрид с классификатором",4930732.572208351,6944427.34748,58078674,468/597,reports/submission_xgb_cv.csv
 "Ранний XGBoost-гибрид",7906119.1716723265,,,468/597,reports/submission_xgb_hybrid.csv
-

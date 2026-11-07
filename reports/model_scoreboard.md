@@ -40,4 +40,3 @@ OOF-усиление хвоста и аналоговая коррекция, в
 
 Источники: `test_diagnostics.csv` (локальный gitignored архив), `hypotheses/comparison.csv`, `architectures/comparison.csv`, `finetune/comparison.csv`, реестры завершённых заявок Kaggle.
 CSV содержит исходную точность локальных значений и пути файлов. Новые официальные результаты связаны с SHA256 в `architectures/kaggle_submissions.json`.
-
