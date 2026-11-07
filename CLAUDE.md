@@ -13,3 +13,5 @@ The previous HGB, sentinel, mixture, calibration and sweep implementations were 
 Keep raw data and source provenance. Concentrations are ?M; model log10(IC50) and log10(CC50), then subtract to obtain log10(SI). Mask missing/nonpositive/nonfinite and censored targets independently for each head. Never derive missing concentrations from an SI label.
 
 Preserve the committed scaffold split. Fit on train only; report validation without claiming superiority from a single split. Holdout is reserved for final release. Do not derive predictions or assay flags from test concentrations.
+
+User now explicitly authorizes post-inference LOCAL error diagnostics using test CC50/IC50. Use src/test_diagnostics.py on saved predictions only; do not import it into training or inference. No guessing missing endpoints/labels, no automated selection from this diagnostic, no exact Kaggle-score claim. Outputs are gitignored aggregates; derived per-row test targets are not exported.

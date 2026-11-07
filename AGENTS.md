@@ -42,3 +42,5 @@ History mixes informal messages with `feat(scope):`, `fix(scope):`, and `refacto
 User workflow: after each completed, verified edit, commit and push to `origin/main`. Never force-push or discard unrelated changes.
 
 Kaggle submission quota is limited. Do not submit files automatically during fixes or experiments; require a separate explicit user instruction for each submission.
+
+User explicitly permits test CC50/IC50 ONLY for the separate post-inference local diagnostic (`src/test_diagnostics.py`). Never feed them or derived targets into training, features, inference, or automatic model promotion. Report available-pair coverage; do not label subset ratio MSE as the official hidden Kaggle score. Diagnostic outputs stay local and are gitignored.

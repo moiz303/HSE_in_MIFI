@@ -47,6 +47,8 @@ data/interim/features_cache.npz
 data/raw/.http_cache*
 reports/submission.csv
 reports/metrics.json
+reports/*test_diagnostics*.json
+reports/*test_diagnostics*.csv
 .kaggle/kaggle.json
 
 # Данные соревнования не перераспространяем: качаются через

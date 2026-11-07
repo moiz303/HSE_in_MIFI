@@ -36,6 +36,9 @@ echo "Log: $LOG_FILE"
   TEST_CSV="$(python -c 'import sys; from src.pipeline import load_config; print(load_config(sys.argv[1])["submission"]["test_csv"])' "$CONFIG")"
   if [[ -f "$TEST_CSV" ]]; then
     python -u -m src.pipeline submission --config "$CONFIG"
+    SUBMISSION_CSV="$(python -c 'import sys; from src.pipeline import load_config; print(load_config(sys.argv[1])["submission"]["output"])' "$CONFIG")"
+    echo "[LOCAL DIAGNOSTIC] Predictions saved; now checking available test endpoint ratios separately"
+    python -u -m src.test_diagnostics --test "$TEST_CSV" --submission "$SUBMISSION_CSV" --output-prefix "reports/${MODEL_PREFIX}_test_diagnostics"
   else
     echo "No test CSV: training/evaluation complete; submission skipped."
     echo "On the machine with test data: python -m src.pipeline submission --config $CONFIG"
