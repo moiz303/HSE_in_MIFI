@@ -17,11 +17,13 @@ from src.models.xgb_two_head import XGBTwoHead, exact_target
 from src.models.catboost_two_head import CatBoostTwoHead
 from src.models.xgb_hybrid import XGBHybrid, select_hybrid
 from src.models.xgb_ensemble import XGBEnsemble
+from src.models.xgb_weighted import XGBWeightedTwoHead
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
 MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 MODEL_TYPES["xgb_ensemble"] = XGBEnsemble
+MODEL_TYPES["xgb_weighted"] = XGBWeightedTwoHead
 
 
 def is_final(config):
@@ -29,6 +31,8 @@ def is_final(config):
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_weighted":
+        return "xgb_weighted"
     if config["model"]["strategy"] == "xgb_ensemble":
         return "xgb_ensemble"
     if is_final(config):
@@ -44,8 +48,8 @@ def validate_config(config):
     mode = config.get("training", {}).get("mode", "train_only")
     if mode not in ("train_only", "train_validation"):
         raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
-    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble") or cv_protocol(config)):
-        raise ValueError("Final mode supports fixed concentration XGBoost heads or their seed ensemble")
+    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted") or cv_protocol(config)):
+        raise ValueError("Final mode supports only fixed concentration XGBoost variants")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
     if config["features"] != {"morgan": True, "descriptors": True}:
@@ -98,10 +102,12 @@ def metric(truth, predicted):
             "rmse_log10": float(np.sqrt(np.mean((np.log10(actual) - np.log10(forecast)) ** 2)))}
 
 
-def data_hashes():
+def data_hashes(config=None):
     names = ["train.csv", "validation.csv", "splits.json"]
     if (ROOT / "data/processed/kaggle_reference.csv").exists():
         names.append("kaggle_reference.csv")
+    if config is not None and config["model"]["strategy"] == "xgb_weighted":
+        names.append("public_quality.csv")
     return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}
 
 
@@ -140,7 +146,15 @@ def train(config):
         from src.hybrid_cv import select_on_train
         cv_result = select_on_train(frame, matrix, reference, settings.get("params"))
         print("[CV result] " + json.dumps(cv_result), flush=True)
-    model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"))
+    if isinstance(model, XGBWeightedTwoHead):
+        from src.data.quality_weights import row_weights
+        quality = pd.read_csv(ROOT / "data/processed/public_quality.csv")
+        weights = row_weights(frame, quality)
+        print(f"[weights] raw min={weights.min():.4g}, max={weights.max():.4g}, "
+              f"full-weight rows={int((weights == 1).sum())}; normalizing each head to mean 1", flush=True)
+        model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"), sample_weight=weights)
+    else:
+        model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"))
     if isinstance(model, XGBHybrid):
         labels = np.full(len(frame), np.nan)
         pure = competition_rows(frame) if cv_result is not None else frame.source.eq("kaggle_train").to_numpy()
@@ -163,7 +177,7 @@ def train(config):
     import xgboost
     import importlib.metadata
     from rdkit import rdBase
-    bundle = {"model": model, "config": config, "data_sha256": data_hashes(),
+    bundle = {"model": model, "config": config, "data_sha256": data_hashes(config),
               "constant_si": constant_si,
               "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
     if cv_result is not None:
@@ -176,6 +190,10 @@ def train(config):
         if isinstance(model, XGBEnsemble):
             bundle["training"]["ensemble"] = {"seeds": model.seeds, "members": len(model.members),
                 "aggregation": "arithmetic_mean_of_member_SI", "trees_per_head": model.params["n_estimators"]}
+        if isinstance(model, XGBWeightedTwoHead):
+            bundle["training"]["weights"] = {"profile": "Kaggle=1; public=0.5 * conservative pairing confidence",
+                "normalized_per_head": model.weight_summary,
+                "raw_counts": {str(value): int(count) for value, count in zip(*np.unique(weights, return_counts=True))}}
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
@@ -207,7 +225,7 @@ def evaluate(config):
     if is_final(config):
         raise ValueError("Final model trained on train+validation: independent validation evaluation is unavailable; holdout remains reserved")
     bundle = load_bundle(config)
-    if bundle["data_sha256"] != data_hashes():
+    if bundle["data_sha256"] != data_hashes(config):
         raise ValueError("данные изменились после обучения")
     parts, reference = reference_parts(load_parts(), config)
     report = {"config": config, "data_sha256": bundle["data_sha256"],

@@ -74,8 +74,12 @@ class XGBTwoHead:
                 head.load_model(raw)
                 self.heads[name] = head
 
-    def fit(self, features, ic50, cc50):
+    def fit(self, features, ic50, cc50, sample_weight=None):
         features = np.asarray(features)
+        weights = None if sample_weight is None else np.asarray(sample_weight, dtype=float)
+        if weights is not None and (weights.shape != (len(features),) or
+                not np.isfinite(weights).all() or (weights <= 0).any()):
+            raise ValueError("sample_weight must have one positive finite value per row")
         targets = {"IC50": np.asarray(ic50, dtype=float), "CC50": np.asarray(cc50, dtype=float)}
         masks = {}
         for name, values in targets.items():
@@ -85,13 +89,20 @@ class XGBTwoHead:
             if not masks[name].any():
                 raise ValueError(f"{name}: нет точных положительных измерений")
         self.heads = {}
+        self.weight_summary = {}
         self.n_features_in_ = features.shape[1]
         for name, values in targets.items():
             mask = masks[name]
             print(f"[fit] {type(self).__name__} {name}: {int(mask.sum())} targets, "
                   f"{int((~mask).sum())} skipped; params={self.params}", flush=True)
             model = self._build_head()
-            model.fit(features[mask], np.log10(values[mask]))
+            if weights is None:
+                model.fit(features[mask], np.log10(values[mask]))
+            else:
+                head_weights = weights[mask] / weights[mask].mean()
+                self.weight_summary[name] = {"min": float(head_weights.min()),
+                    "max": float(head_weights.max()), "mean": float(head_weights.mean())}
+                model.fit(features[mask], np.log10(values[mask]), sample_weight=head_weights)
             self.heads[name] = model
             self.n_train[name] = int(mask.sum())
             self.n_train[name + "_skipped"] = int((~mask).sum())

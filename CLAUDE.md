@@ -4,7 +4,7 @@ Read README.md. Default is configs/baseline.json, using recovered concentration 
 
 User authorized final refit on train+validation (option 1), available explicitly via configs/xgb_final.json with fixed baseline parameters and separate artifacts. Do not report validation as independent after this refit. Pipeline inference defaults to the preserved verified baseline unless another config is explicitly supplied. No Kaggle submission without separate user instruction.
 
-Current training default is option 2, configs/xgb_ensemble.json: five concentration pairs with seeds 20261106..20261110 on the SAME train+validation rows as option 1. Arithmetic mean of member SI predictions, no classifier. Preserve option 1 artifacts; do not claim ensemble improvement before evaluation. Holdout remains excluded.
+Current training default is option 3, configs/xgb_weighted.json: fixed reliability-weighted concentration heads. The Mac run first compares options 1/2/3 using original Kaggle OOF targets in molecule and scaffold protocols (3 folds, 3 repeats), then fits option 3 on train+validation. See docs/local_scoring.md. Preserve previous artifacts. No automatic promotion or Kaggle submissions. Holdout remains excluded.
 
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 
