@@ -1,0 +1,116 @@
+{
+  "config": {
+    "name": "xgb-two-head-log-concentrations",
+    "seed": 20261106,
+    "data": {
+      "sources": [
+        "kaggle_train",
+        "chembl"
+      ],
+      "censored": "keep",
+      "chembl": {
+        "limit": null,
+        "drop_invalid": true
+      },
+      "kaggle_train": {
+        "sentinels": "keep"
+      }
+    },
+    "splits": {
+      "seed": 20261106,
+      "fractions": {
+        "train": 0.7,
+        "validation": 0.15,
+        "holdout": 0.15
+      }
+    },
+    "features": {
+      "morgan": true,
+      "descriptors": true
+    },
+    "model": {
+      "strategy": "xgb_two_head",
+      "params": {},
+      "clip_si": null
+    },
+    "submission": {
+      "competition": "molecular-activity-prediction-hack",
+      "test_csv": "data/raw/kaggle/test.csv",
+      "smiles_column": "SMILES",
+      "id_column": "index",
+      "target_column": "SI VACV",
+      "output": "reports/submission.csv",
+      "model_file": "artifacts/xgb_two_head.joblib"
+    }
+  },
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678"
+  },
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "n_train": {
+    "IC50": 365,
+    "IC50_skipped": 464,
+    "CC50": 565,
+    "CC50_skipped": 264
+  },
+  "note": "Fixed validation; no tuning, significance claim or holdout evaluation.",
+  "train": {
+    "IC50": {
+      "n": 365,
+      "mse": 26844.138316761375,
+      "rmse_log10": 0.4586306739188656
+    },
+    "CC50": {
+      "n": 565,
+      "mse": 77036.25563852304,
+      "rmse_log10": 0.3486955070915868
+    },
+    "SI_all": {
+      "n": 829,
+      "mse": 89306154.51296154,
+      "rmse_log10": 0.9982400936926785
+    },
+    "SI_competition": {
+      "n": 196,
+      "mse": 22595760.532854255,
+      "rmse_log10": 1.520302974966733
+    },
+    "constant_competition": {
+      "n": 196,
+      "mse": 17104102.624231264,
+      "rmse_log10": 2.406876717600286
+    }
+  },
+  "validation": {
+    "IC50": {
+      "n": 100,
+      "mse": 11109.885856936606,
+      "rmse_log10": 0.8124321478947015
+    },
+    "CC50": {
+      "n": 117,
+      "mse": 43752.32545587441,
+      "rmse_log10": 0.5858965385337175
+    },
+    "SI_all": {
+      "n": 178,
+      "mse": 105698138.8665435,
+      "rmse_log10": 1.260998045090224
+    },
+    "SI_competition": {
+      "n": 64,
+      "mse": 51450275.87329185,
+      "rmse_log10": 1.8429443135436945
+    },
+    "constant_competition": {
+      "n": 64,
+      "mse": 39455476.55166698,
+      "rmse_log10": 2.0880291634451025
+    }
+  }
+}
