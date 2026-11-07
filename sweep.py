@@ -278,10 +278,16 @@ def race(
             continue
         errors = np.nanmean(np.vstack(squared[index]), axis=0)
         inside = errors[in_distribution]
+        repeat_mse = [
+            float(np.nanmean(repeat_errors[in_distribution]))
+            for repeat_errors in squared[index]
+            if np.isfinite(repeat_errors[in_distribution]).any()
+        ]
         row = {
             **grid[index],
             "описание": FlexibleSI(**grid[index]).describe(),
             "mse_в_распределении": float(np.nanmean(inside)),
+            "mse_в_распределении_std": float(np.std(repeat_mse)),
             "mse_вся_валидация": float(np.nanmean(errors)),
             "повторов": len(squared[index]),
         }
