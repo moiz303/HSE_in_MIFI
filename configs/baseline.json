@@ -6,7 +6,6 @@
       "kaggle_train",
       "chembl"
     ],
-    "starter_csv": "data/raw/starter.csv",
     "censored": "keep",
     "chembl": {
       "limit": null,
@@ -26,7 +25,12 @@
   },
   "features": {
     "morgan": true,
-    "descriptors": true
+    "descriptors": true,
+    "metadata": {
+      "cells": true,
+      "strain": true,
+      "flags": true
+    }
   },
   "model": {
     "strategy": "raw",
@@ -40,6 +44,6 @@
     "id_column": "index",
     "target_column": "SI VACV",
     "output": "reports/submission.csv",
-    "model_file": "artifacts/model_sweep1.joblib"
+    "model_file": "artifacts/model_metadata.joblib"
   }
 }

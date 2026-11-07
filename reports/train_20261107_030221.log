@@ -1,0 +1,4 @@
+usage: sweep.py [-h] [--min-repeats MIN_REPEATS] [--max-repeats MAX_REPEATS]
+                [--folds FOLDS] [--grid {base,full}] [--top TOP]
+                [--max-minutes MAX_MINUTES] [--features]
+sweep.py: error: unrecognized arguments: --repeats 0

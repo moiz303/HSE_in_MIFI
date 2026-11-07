@@ -111,7 +111,13 @@ def descriptor_matrix(smiles: list[str], which: str = "small") -> np.ndarray:
                 rows[index, position] = float(function(mol))
             except Exception:
                 rows[index, position] = 0.0
-    return np.nan_to_num(rows, nan=0.0, posinf=0.0, neginf=0.0)
+    rows = np.nan_to_num(rows, nan=0.0, posinf=0.0, neginf=0.0)
+    # Часть дескрипторов RDKit (например Ipc) даёт значения порядка 1e40 и
+    # больше: при приведении к float32 они переполняются в бесконечность, и
+    # обучение идёт по мусору. Поэтому зажимаем в диапазон float32 здесь, а не
+    # надеемся на nan_to_num после приведения.
+    limit = float(np.finfo(np.float32).max) / 16.0
+    return np.clip(rows, -limit, limit)
 
 
 def featurize(

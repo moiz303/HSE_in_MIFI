@@ -8,6 +8,14 @@ import sweep
 from src.models.flexible import FlexibleSI
 
 
+def _xgboost_loads() -> bool:
+    try:
+        import xgboost  # noqa: F401
+    except Exception:
+        return False
+    return True
+
+
 def data(n: int = 40, seed: int = 11):
     rng = np.random.default_rng(seed)
     features = rng.random((n, 6))
@@ -132,10 +140,68 @@ class Grid(unittest.TestCase):
     def test_every_combination_in_the_grid_trains(self):
         features, si = data(n=30)
         for settings in sweep.candidates("full"):
+            # XGBoost на маке требует libomp (brew install libomp); без него
+            # библиотека не загружается. Это окружение, а не ошибка сетки —
+            # остальные комбинации проверяем, эту помечаем пропущенной.
+            if settings.get("learner") == "xgb" and not _xgboost_loads():
+                self.skipTest("xgboost не загружается: нет libomp")
             model = FlexibleSI(**settings).fit(features, si)
             predicted = model.predict_si(features)
             self.assertTrue(np.isfinite(predicted).all(), settings)
             self.assertTrue(model.describe())
+
+
+class ScreenParams(unittest.TestCase):
+    """Общий набор параметров скрининга должен подходить всем обучателям.
+
+    Регрессия: sweep.py передаёт один словарь с max_iter и n_estimators каждой
+    комбинации. HistGradientBoosting падал на n_estimators, sweep ловил это
+    в except и печатал «пропущено» — вся ветка hgb (в том числе лучшая на
+    сегодня конфигурация) молча выпадала из таблицы.
+    """
+
+    def test_sweep_screen_params_fit_every_learner(self):
+        features, si = data(n=30)
+        for learner in ("hgb", "rf", "extra"):
+            model = FlexibleSI(learner=learner, params=dict(sweep.SCREEN_PARAMS))
+            model.fit(features, si)
+            self.assertTrue(np.isfinite(model.predict_si(features)).all(), learner)
+
+    def test_whole_base_grid_trains_under_screen_params(self):
+        features, si = data(n=30)
+        for settings in sweep.candidates("base"):
+            active = dict(settings)
+            active["params"] = dict(sweep.SCREEN_PARAMS)
+            model = FlexibleSI(**active).fit(features, si)
+            self.assertTrue(np.isfinite(model.predict_si(features)).all(), settings)
+
+
+class Forests(unittest.TestCase):
+    """Лес как baseline: классика QSAR на фингерпринтах, которой у нас не было."""
+
+    def test_forest_learners_train_and_predict(self):
+        features, si = data(n=30)
+        for learner in ("rf", "extra"):
+            model = FlexibleSI(learner=learner, clip_si=20000.0).fit(features, si)
+            predicted = model.predict_si(features)
+            self.assertTrue(np.isfinite(predicted).all(), learner)
+            self.assertLessEqual(predicted.max(), 20000.0, learner)
+
+    def test_losses_the_forest_cannot_express_are_rejected(self):
+        # Лес предсказывает среднее по листу: квантиль и гамма ему недоступны,
+        # у него настраивается только критерий расщепления.
+        for loss in ("quantile", "gamma"):
+            with self.assertRaises(ValueError, msg=loss):
+                FlexibleSI(learner="rf", loss=loss)
+
+    def test_forest_criteria_that_exist_are_accepted(self):
+        for loss in ("squared_error", "absolute_error", "poisson"):
+            FlexibleSI(learner="rf", loss=loss)
+
+    def test_forest_is_in_the_base_grid(self):
+        learners = {item.get("learner", "hgb") for item in sweep.candidates("base")}
+        self.assertIn("rf", learners)
+        self.assertIn("extra", learners)
 
 
 if __name__ == "__main__":

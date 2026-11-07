@@ -499,14 +499,6 @@ def from_bindingdb(config: dict | None = None) -> pd.DataFrame:
     raise NotImplementedError("A: выгрузка BindingDB")
 
 
-def from_starter_csv(config: dict | None = None) -> pd.DataFrame:
-    """Стартовый датасет организаторов. Приводим к тому же формату."""
-    path = (config or {}).get("starter_csv", "data/raw/starter.csv")
-    frame = pd.read_csv(path)
-    frame["source"] = "starter"
-    return frame
-
-
 def from_kaggle_train(config: dict | None = None) -> pd.DataFrame:
     """train.csv соревнования — обучающие данные в распределении теста.
 
@@ -539,7 +531,6 @@ def from_kaggle_train(config: dict | None = None) -> pd.DataFrame:
 
 
 SOURCES = {
-    "starter": from_starter_csv,
     "kaggle_train": from_kaggle_train,
     "chembl": from_chembl,
     "pubchem": from_pubchem,

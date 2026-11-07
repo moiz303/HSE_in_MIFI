@@ -27,7 +27,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src import evaluate, splits
+from src import splits
+from src.experiments.harness import (
+    BASE_SETTINGS,
+    SCREEN_PARAMS,
+    fold_indices,
+    load_pool,
+    model_variant,
+    oof_predictions as oof_generic,
+    paired_interval,
+)
 from src.features import fingerprints
 from src.models.flexible import FlexibleSI
 
@@ -38,6 +47,7 @@ REPORTS = ROOT / "reports"
 ARTIFACTS = ROOT / "artifacts"
 
 CLIP_FROM_TRAIN = 36066.7
+FEATURE_CACHE = Path("data/interim/features_cache.npz")
 
 _STARTED = time.monotonic()
 
@@ -50,44 +60,61 @@ def log(message: str, indent: int = 0) -> None:
 def candidates(grid: str) -> list[dict]:
     """Комбинации для перебора.
 
-    Базовая сетка — то, что по теории должно двигать именно эту метрику:
-    масштаб цели, функция потерь для положительных правоскошенных величин,
-    порог обрезки. Полная добавляет веса и XGBoost.
+    `base` — живые гипотезы, быстрый прогон.
+
+    `full` — включая направления, ранее отвергнутые. Это не повтор зря: они
+    отвергались старым измерителем, где в распределении соревнования было 64
+    строки и std доходил до трети среднего. На такой точности «в пределах
+    шума» значило «не знаем», а не «хуже». Кросс-валидация на 310 строках
+    сужает погрешность примерно в 2.2 раза, и часть отказов может
+    перевернуться. Исключение — масштаб цели: там разрыв был втрое больше
+    погрешности (raw 2.54e7 против log 3.69e7), и перепроверять нечего, но
+    опорная точка в сетке остаётся.
     """
     items: list[dict] = []
 
-    # Масштаб цели против функции потерь, на одном пороге обрезки.
-    for transform, loss in [
-        ("raw", "squared_error"),
-        ("raw", "absolute_error"),
-        ("raw", "poisson"),
-        ("raw", "gamma"),
-        ("sqrt", "squared_error"),
-        ("sqrt", "absolute_error"),
-        ("log", "squared_error"),
-        ("log", "absolute_error"),
-    ]:
-        items.append({"transform": transform, "loss": loss, "clip_si": CLIP_FROM_TRAIN})
+    # Опора: лучшее на сейчас.
+    items.append({"transform": "raw", "loss": "squared_error", "clip_si": 20000.0})
 
-    # Высокие квантили: приближение среднего сверху на скошенном распределении.
+    # Лес и ExtraTrees: отвергнуты с разрывом 0.1e7 при std 0.5-0.7e7.
+    for learner in ("rf", "extra"):
+        items.append({"transform": "raw", "loss": "squared_error", "learner": learner,
+                      "clip_si": 20000.0})
+
+    # Вес больших SI: вклад строки в метрику растёт как SI^2.
+    for power in (0.25, 0.5):
+        items.append({"transform": "raw", "loss": "squared_error",
+                      "weight_power": power, "clip_si": 20000.0})
+
+    if grid == "base":
+        return items
+
+    # Потери: отвергнуты на шумном измерителе.
+    for loss in ("absolute_error", "poisson", "gamma"):
+        items.append({"transform": "raw", "loss": loss, "clip_si": 20000.0})
     for quantile in (0.7, 0.8, 0.9):
         items.append({"transform": "raw", "loss": "quantile", "quantile": quantile,
-                      "clip_si": CLIP_FROM_TRAIN})
+                      "clip_si": 20000.0})
 
-    # Порог обрезки — такой же параметр, как остальные.
-    for clip in (3000.0, 10000.0, 20000.0, CLIP_FROM_TRAIN, None):
+    # Порог обрезки: сетка шире прежней, оптимум мог оказаться между точками.
+    for clip in (5000.0, 10000.0, 15000.0, 30000.0, CLIP_FROM_TRAIN, None):
         items.append({"transform": "raw", "loss": "squared_error", "clip_si": clip})
 
-    if grid == "full":
-        for power, loss in itertools.product((0.25, 0.5, 1.0), ("squared_error", "absolute_error")):
-            items.append({"transform": "raw", "loss": loss, "weight_power": power,
-                          "clip_si": CLIP_FROM_TRAIN})
-        for transform, loss in [("raw", "squared_error"), ("raw", "gamma"),
-                                ("sqrt", "squared_error")]:
-            items.append({"transform": transform, "loss": loss, "learner": "xgb",
-                          "clip_si": CLIP_FROM_TRAIN})
+    # Масштаб цели: опорные точки, разрыв был велик и вряд ли перевернётся.
+    for transform in ("sqrt", "log"):
+        items.append({"transform": transform, "loss": "squared_error",
+                      "clip_si": 20000.0})
 
-    # Убираем дубликаты, сохраняя порядок.
+    # Лес с другими критериями и обрезкой, XGBoost, сильный вес.
+    items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "poisson", "learner": "rf",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
+                  "clip_si": 20000.0})
+    items.append({"transform": "raw", "loss": "squared_error", "weight_power": 1.0,
+                  "clip_si": 20000.0})
+
     unique: list[dict] = []
     for item in items:
         if item not in unique:
@@ -95,108 +122,221 @@ def candidates(grid: str) -> list[dict]:
     return unique
 
 
-def load_frame() -> tuple[pd.DataFrame, np.ndarray]:
-    """Объединённые train и validation плюс маска строк в распределении теста."""
-    for path in (TRAIN_CSV, VALIDATION_CSV):
-        if not path.exists():
-            raise SystemExit(f"нет {path}. На машине с данными: python -m src.pipeline export")
-    frame = pd.concat(
-        [pd.read_csv(TRAIN_CSV), pd.read_csv(VALIDATION_CSV)], ignore_index=True
-    )
-    in_distribution = (
-        frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
-        if "source" in frame.columns
-        else np.ones(len(frame), dtype=bool)
-    )
-    return frame, in_distribution
+def featurize_cached(smiles: list[str], name: str, preset: dict) -> np.ndarray:
+    """Признаки с кэшем на диске: RDKit пересчитывает их десятками секунд."""
+    cache: dict[str, np.ndarray] = {}
+    if FEATURE_CACHE.exists():
+        with np.load(FEATURE_CACHE) as stored:
+            cache = {key: stored[key] for key in stored.files}
+    key = f"{name}|{len(smiles)}"
+    if key in cache:
+        return cache[key]
+    matrix = fingerprints.featurize(smiles, **preset)
+    cache[key] = matrix
+    FEATURE_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(FEATURE_CACHE, **cache)
+    return matrix
 
 
-def load_data() -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
-    for path in (TRAIN_CSV, VALIDATION_CSV):
-        if not path.exists():
-            raise SystemExit(f"нет {path}. На машине с данными: python -m src.pipeline export")
-    frame = pd.concat(
-        [pd.read_csv(TRAIN_CSV), pd.read_csv(VALIDATION_CSV)], ignore_index=True
-    )
-    log(f"объединено {len(frame)} молекул, считаю признаки…")
-    features = fingerprints.featurize(frame["standard_smiles"].astype(str).tolist())
-    in_distribution = (
-        frame["source"].fillna("").str.contains("kaggle_train").to_numpy()
-        if "source" in frame.columns
-        else np.ones(len(frame), dtype=bool)
-    )
-    log(f"матрица {features.shape[0]}×{features.shape[1]}, "
-        f"в распределении соревнования: {int(in_distribution.sum())}")
-    return frame, features, in_distribution
-
-
-def evaluate_candidate(
+def oof_predictions(
     settings: dict,
+    features: np.ndarray,
+    si: np.ndarray,
+    fold_list: list[np.ndarray],
+    screen: bool = True,
+) -> np.ndarray:
+    """Out-of-fold прогноз для набора настроек — обёртка над каркасом."""
+    return oof_generic(
+        model_variant(settings, features, si, screen=screen), len(si), fold_list
+    )
+
+
+def race(
+    grid: list[dict],
     frame: pd.DataFrame,
     features: np.ndarray,
     in_distribution: np.ndarray,
-    split_list: list[dict[str, list[int]]],
-) -> dict:
-    """Один набор настроек на всех разбиениях."""
+    smiles: list[str],
+    folds: int,
+    min_repeats: int,
+    max_repeats: int,
+    deadline: float,
+    shrink: float = 0.1,
+) -> tuple[list[dict], dict]:
+    """Отбор кандидатов по метрике, а не по времени.
+
+    Схема: все выжившие кандидаты считаются на одном и том же наборе фолдов,
+    затем каждый сравнивается с действующим лидером построчно. Кандидат
+    выбывает, когда интервал парной разницы целиком выше нуля, то есть он
+    достоверно хуже. Лидер меняется, когда интервал целиком ниже нуля.
+
+    Повторы добавляются, пока есть неопределённые кандидаты. Прогон кончается
+    по одной из трёх причин, и все они про метрику, а не про время:
+
+    * остался один кандидат;
+    * все остальные достоверно хуже лидера;
+    * интервалы неопределённых перестали сужаться — очередной повтор уменьшил
+      ширину меньше чем на `shrink` долю. Значит разницы попросту нет, и
+      добивать до верхней границы повторов бессмысленно.
+    """
     si = frame["SI"].to_numpy(float)
-    scores: list[float] = []
-    overall: list[float] = []
+    squared: dict[int, list[np.ndarray]] = {index: [] for index in range(len(grid))}
+    alive = list(range(len(grid)))
+    leader = 0
+    history: list[dict] = []
+    stopped = "исчерпаны повторы"
+    previous_width: float | None = None
 
-    for split in split_list:
-        train_index = np.array(split["train"])
-        validation_index = np.array(split["validation"])
-        model = FlexibleSI(**settings).fit(features[train_index], si[train_index])
-        predicted = model.predict_si(features[validation_index])
-        true = si[validation_index]
+    for repeat in range(max_repeats):
+        if time.monotonic() > deadline:
+            stopped = "бюджет по времени"
+            break
 
-        overall.append(float(((predicted - true) ** 2).mean()))
-        mask = in_distribution[validation_index]
-        if mask.sum() >= 10:
-            scores.append(float(((predicted[mask] - true[mask]) ** 2).mean()))
+        fold_list = fold_indices(smiles, folds, splits.DEFAULT_SEED + repeat)
+        log(f"повтор {repeat + 1}: кандидатов в гонке {len(alive)}")
 
-    return {
-        **settings,
-        "описание": FlexibleSI(**settings).describe(),
-        "mse_в_распределении": float(np.mean(scores)) if scores else float("nan"),
-        "mse_в_распределении_std": float(np.std(scores, ddof=1)) if len(scores) > 1 else 0.0,
-        "mse_вся_валидация": float(np.mean(overall)),
-        "разбиений": len(split_list),
-    }
+        for index in alive:
+            prediction = oof_predictions(grid[index], features, si, fold_list)
+            done = np.isfinite(prediction)
+            errors = np.full(len(si), np.nan)
+            errors[done] = (prediction[done] - si[done]) ** 2
+            squared[index].append(errors)
+
+        def mean_errors(index: int) -> np.ndarray:
+            return np.nanmean(np.vstack(squared[index]), axis=0)
+
+        scores = {index: float(np.nanmean(mean_errors(index)[in_distribution]))
+                  for index in alive}
+        # min по словарю с NaN выбирает NaN: в Python сравнения с ним всегда
+        # ложны, и лидером стал бы кандидат, у которого вообще нет прогнозов.
+        # Дальше все сравнения шли бы против мусора, молча.
+        finite = {index: value for index, value in scores.items() if np.isfinite(value)}
+        if not finite:
+            log("ни у одного кандидата нет годных прогнозов — гонка прервана", indent=2)
+            stopped = "нет годных прогнозов"
+            break
+        for index in [i for i in alive if i not in finite]:
+            log(f"выбывает: {FlexibleSI(**grid[index]).describe():<46} нет годных прогнозов",
+                indent=2)
+        alive = list(finite)
+        leader = min(finite, key=finite.get)
+        log(f"лидер: {grid[leader]['описание'] if 'описание' in grid[leader] else FlexibleSI(**grid[leader]).describe()}"
+            f"  MSE {scores[leader]:.4g}", indent=2)
+
+        if repeat + 1 < min_repeats:
+            continue
+
+        leader_errors = mean_errors(leader)[in_distribution]
+        survivors: list[int] = [leader]
+        undecided = 0
+        width = 0.0
+        for index in alive:
+            if index == leader:
+                continue
+            differences = mean_errors(index)[in_distribution] - leader_errors
+            usable = np.isfinite(differences)
+            low, high = paired_interval(differences[usable])
+            if low > 0:
+                log(f"выбывает: {FlexibleSI(**grid[index]).describe():<46} "
+                    f"хуже на {differences[usable].mean():.4g} [{low:.4g}; {high:.4g}]",
+                    indent=2)
+                continue
+            survivors.append(index)
+            if high >= 0:
+                undecided += 1
+                width = max(width, high - low)
+
+        alive = survivors
+        history.append({"повтор": repeat + 1, "в_гонке": len(alive),
+                        "лидер": FlexibleSI(**grid[leader]).describe(),
+                        "mse_лидера": scores[leader], "неопределённых": undecided,
+                        "ширина_интервала": width})
+
+        if len(alive) == 1:
+            stopped = "остался один кандидат"
+            break
+        if undecided == 0:
+            stopped = "все остальные достоверно хуже лидера"
+            break
+
+        # Сходимость: если ширина интервала почти не уменьшилась, разницы нет,
+        # и новые повторы только жгут время.
+        if previous_width is not None and width > previous_width * (1.0 - shrink):
+            stopped = (
+                f"интервалы перестали сужаться ({previous_width:.4g} -> {width:.4g}), "
+                f"разницы между выжившими нет"
+            )
+            break
+        previous_width = width
+
+    log("")
+    log(f"гонка остановлена: {stopped}")
+
+    results: list[dict] = []
+    for index in range(len(grid)):
+        if not squared[index]:
+            continue
+        errors = np.nanmean(np.vstack(squared[index]), axis=0)
+        inside = errors[in_distribution]
+        row = {
+            **grid[index],
+            "описание": FlexibleSI(**grid[index]).describe(),
+            "mse_в_распределении": float(np.nanmean(inside)),
+            "mse_вся_валидация": float(np.nanmean(errors)),
+            "повторов": len(squared[index]),
+        }
+        if index != leader:
+            differences = inside - np.nanmean(np.vstack(squared[leader]), axis=0)[in_distribution]
+            usable = np.isfinite(differences)
+            low, high = paired_interval(differences[usable])
+            row["разница_с_лидером"] = float(differences[usable].mean())
+            row["разница_интервал_95"] = [low, high]
+            row["достоверно_хуже"] = bool(low > 0)
+        results.append(row)
+
+    return results, {"остановка": stopped, "история": history,
+                     "лидер": FlexibleSI(**grid[leader]).describe()}
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Перебор методов по метрике соревнования")
-    parser.add_argument("--repeats", type=int, default=3)
+    parser.add_argument("--min-repeats", type=int, default=2,
+                        help="сколько повторов пройти до первого отсева")
+    parser.add_argument("--max-repeats", type=int, default=8,
+                        help="верхняя граница; гонка обычно кончается раньше")
+    parser.add_argument("--folds", type=int, default=5)
     parser.add_argument("--grid", choices=["base", "full"], default="base")
     parser.add_argument("--top", type=int, default=3, help="сколько лучших сохранить")
+    parser.add_argument("--max-minutes", type=float, default=0.0,
+                        help="жёсткий бюджет в минутах; 0 — без ограничения")
+    parser.add_argument("--features", action="store_true",
+                        help="второй этап по наборам признаков (закрытое направление)")
     args = parser.parse_args(argv)
 
-    frame, features, in_distribution = load_data()
+    frame, in_distribution = load_pool()
+    features = featurize_cached(
+        frame["standard_smiles"].astype(str).tolist(), "morgan2048+desc13", {}
+    )
     smiles = frame["standard_smiles"].astype(str).tolist()
 
-    log(f"готовлю {args.repeats} scaffold-разбиений…")
-    split_list = []
-    for index in range(args.repeats):
-        split = splits.scaffold_split(smiles, seed=splits.DEFAULT_SEED + index)
-        splits.assert_no_leaks(smiles, split)
-        split_list.append(split)
+    log(f"оценка out-of-fold на {int(in_distribution.sum())} строках соревнования; "
+        f"сравнение парное, построчно")
 
     grid = candidates(args.grid)
-    log(f"комбинаций: {len(grid)}, обучений: {len(grid) * args.repeats}\n")
+    log(f"комбинаций: {len(grid)}, фолдов {args.folds}, "
+        f"повторов от {args.min_repeats} до {args.max_repeats}")
+    log("остановка по метрике: кандидат выбывает, когда интервал парной разницы")
+    log("целиком выше нуля; гонка кончается, когда неопределённых не осталось", indent=2)
+    log("")
 
-    results: list[dict] = []
-    for number, settings in enumerate(grid, start=1):
-        started = time.monotonic()
-        try:
-            result = evaluate_candidate(settings, frame, features, in_distribution, split_list)
-        except Exception as error:  # комбинация может быть недопустимой или падать
-            log(f"[{number}/{len(grid)}] {settings} — пропущено: {error}")
-            continue
-        results.append(result)
-        log(f"[{number}/{len(grid)}] {result['описание']:<46} "
-            f"MSE {result['mse_в_распределении']:.4g} ± {result['mse_в_распределении_std']:.3g}  "
-            f"({time.monotonic() - started:.0f} с)")
+    deadline = (
+        time.monotonic() + args.max_minutes * 60 if args.max_minutes > 0 else float("inf")
+    )
 
+    results, verdict = race(
+        grid, frame, features, in_distribution, smiles,
+        args.folds, args.min_repeats, args.max_repeats, deadline,
+    )
     if not results:
         raise SystemExit("ни одна комбинация не отработала")
 
@@ -204,6 +344,9 @@ def main(argv: list[str] | None = None) -> int:
     REPORTS.mkdir(parents=True, exist_ok=True)
     table.to_csv(REPORTS / "sweep.csv", index=False)
 
+    (REPORTS / "sweep_race.json").write_text(
+        json.dumps(verdict, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     log("")
     log("лучшие по метрике соревнования:")
     for position, row in table.head(10).iterrows():
@@ -212,8 +355,9 @@ def main(argv: list[str] | None = None) -> int:
 
     # Доучиваем лучшие на train.csv и сохраняем: отправлять нужно модель.
     si = pd.read_csv(TRAIN_CSV)["SI"].to_numpy(float)
-    train_features = fingerprints.featurize(
-        pd.read_csv(TRAIN_CSV)["standard_smiles"].astype(str).tolist()
+    train_features = featurize_cached(
+        pd.read_csv(TRAIN_CSV)["standard_smiles"].astype(str).tolist(),
+        "morgan2048+desc13_train", {}
     )
     import joblib
 
@@ -224,7 +368,7 @@ def main(argv: list[str] | None = None) -> int:
     for position in range(min(args.top, len(table))):
         row = table.iloc[position]
         settings = {k: row[k] for k in keys if k in row and pd.notna(row[k])}
-        model = FlexibleSI(**settings).fit(train_features, si)
+        model = FlexibleSI(**settings).fit(train_features, si)  # полные параметры
         name = f"model_sweep{position + 1}.joblib"
         joblib.dump({"model": model, "settings": settings, "описание": row["описание"]},
                     ARTIFACTS / name)
@@ -246,17 +390,30 @@ def main(argv: list[str] | None = None) -> int:
     # ------------------------------------------------------------------------
     best_settings = {k: table.iloc[0][k] for k in keys
                      if k in table.columns and pd.notna(table.iloc[0][k])}
-    log("")
-    log(f"этап 2: признаки при фиксированной модели ({table.iloc[0]['описание']})")
 
     feature_rows: list[dict] = []
-    for name, preset in fingerprints.PRESETS.items():
+    if not args.features:
+        log("")
+        log("этап признаков пропущен: направление закрыто (--features включает)")
+    else:
+        log("")
+        log(f"этап 2: признаки при фиксированной модели ({table.iloc[0]['описание']})")
+
+    for name, preset in (fingerprints.PRESETS.items() if args.features else []):
+        if time.monotonic() > deadline:
+            log("бюджет исчерпан, остальные наборы признаков не проверены", indent=2)
+            break
         started = time.monotonic()
         try:
-            matrix = fingerprints.featurize(smiles, **preset)
-            result = evaluate_candidate(
-                best_settings, frame, matrix, in_distribution, split_list
-            )
+            matrix = featurize_cached(smiles, name, preset)
+            fold_list = fold_indices(smiles, args.folds, splits.DEFAULT_SEED)
+            si_all = frame["SI"].to_numpy(float)
+            prediction = oof_predictions(best_settings, matrix, si_all, fold_list)
+            done = np.isfinite(prediction) & in_distribution
+            result = {
+                "mse_в_распределении": float(((prediction[done] - si_all[done]) ** 2).mean()),
+                "mse_в_распределении_std": 0.0,
+            }
         except Exception as error:
             log(f"{name} — пропущено: {error}", indent=2)
             continue
