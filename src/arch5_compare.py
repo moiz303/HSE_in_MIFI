@@ -1,5 +1,6 @@
 """Leakage-controlled source hierarchy: public concentration heads + Kaggle residuals."""
 import argparse
+import joblib
 import json
 from collections import defaultdict
 
@@ -166,6 +167,7 @@ def run(config):
     public, _ = add_standard_smiles(public)
     public = public[public.source.eq("chembl")].reset_index(drop=True)
     reference = pd.read_csv(workflow.ROOT / "data/processed/kaggle_reference.csv")
+    reference = reference[reference.standard_smiles.isin(frame.standard_smiles)].copy()
     all_smiles = list(dict.fromkeys([*frame.standard_smiles, *public.standard_smiles]))
     matrix = workflow.features(pd.DataFrame({"standard_smiles": all_smiles}))
     matrix_by_smiles = dict(zip(all_smiles, matrix))
@@ -173,6 +175,22 @@ def run(config):
     report, oof = benchmark(frame, reference, public, matrix_by_smiles,
                             config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261107),
                             settings.get("ridge_alpha", 10.0))
+    # Final refit uses development structures only; evaluation above remains OOF.
+    allowed = {splits.murcko_scaffold(value) for value in frame.standard_smiles}
+    public_final = public_training_rows(public, allowed)
+    inner_logs = public_oof(reference, public_final, matrix_by_smiles,
+                            config["model"].get("params"), settings.get("folds", 3), config.get("seed", 20261107))
+    residual = fit_residuals(np.vstack(reference.standard_smiles.map(matrix_by_smiles)),
+                             reference, inner_logs, alpha=settings.get("ridge_alpha", 10.0))
+    public_model = fit_public(public_final, np.vstack(public_final.standard_smiles.map(matrix_by_smiles)),
+                               config["model"].get("params"))
+    joblib.dump({"public_model": public_model, "residual_heads": residual,
+                 "config": config, "holdout_used": False, "training_rows": len(frame),
+                 "features": "standardized Morgan 2048 + RDKit13",
+                 "prediction": "10**((public_CC50+residual_CC50)-(public_IC50+residual_IC50))"},
+                workflow.ROOT / "artifacts/arch5_source_hierarchy.joblib")
+    report["final_refit"] = {"development_rows": len(frame), "public_records": len(public_final),
+                              "artifact": "artifacts/arch5_source_hierarchy.joblib"}
     report["architecture"] = "public exact log-concentration heads + Ridge residuals trained on nested scaffold OOF"
     output = workflow.ROOT / "reports"
     output.mkdir(exist_ok=True)

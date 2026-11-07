@@ -1,0 +1,43 @@
+{
+  "metric": "raw SI MSE on original Kaggle targets",
+  "protocol": "Murcko scaffold CV",
+  "folds": 3,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "n_scored_original_rows": 267,
+  "mse": 52030412.16180871,
+  "kaggle_only_mse": 29676212.936545376,
+  "residual_alpha": 10.0,
+  "fold_scores": [
+    {
+      "fold": "0",
+      "n_public_train": 613,
+      "n_kaggle_train": 160,
+      "n_score": 107,
+      "hierarchical_mse": 73841181.19113047,
+      "kaggle_only_mse": 41189125.69715965
+    },
+    {
+      "fold": "1",
+      "n_public_train": 601,
+      "n_kaggle_train": 189,
+      "n_score": 78,
+      "hierarchical_mse": 52610639.99842116,
+      "kaggle_only_mse": 20739821.455660637
+    },
+    {
+      "fold": "2",
+      "n_public_train": 552,
+      "n_kaggle_train": 185,
+      "n_score": 82,
+      "hierarchical_mse": 23018094.388720892,
+      "kaggle_only_mse": 23153735.742926855
+    }
+  ],
+  "final_refit": {
+    "development_rows": 1007,
+    "public_records": 883,
+    "artifact": "artifacts/arch5_source_hierarchy.joblib"
+  },
+  "architecture": "public exact log-concentration heads + Ridge residuals trained on nested scaffold OOF"
+}
