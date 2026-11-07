@@ -58,6 +58,21 @@ class ValidateTable(unittest.TestCase):
         self.assertEqual(len(accepted), 0)
         self.assertIn("SI", rejected.iloc[0]["reason"])
 
+    def test_missing_or_false_label_flags_do_not_bypass_validation(self):
+        for flag in (float("nan"), pd.NA, None, False, "False", "false", "0"):
+            with self.subTest(flag=str(flag)):
+                accepted, rejected = schema.validate_table(self.frame(SI=3.0, target_is_label=flag))
+                self.assertEqual(len(accepted), 0)
+                self.assertEqual(len(rejected), 1)
+
+    def test_actual_label_keeps_missing_ic50(self):
+        for flag in (True, "True", "1"):
+            with self.subTest(flag=flag):
+                accepted, rejected = schema.validate_table(
+                    self.frame(IC50=float("nan"), SI=10000.0, target_is_label=flag))
+                self.assertEqual(len(accepted), 1)
+                self.assertEqual(len(rejected), 0)
+
     def test_non_numeric_is_rejected_with_reason(self):
         accepted, rejected = schema.validate_table(self.frame(IC50="нет"))
         self.assertEqual(len(accepted), 0)

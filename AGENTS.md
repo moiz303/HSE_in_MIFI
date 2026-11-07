@@ -35,3 +35,5 @@ Preserve seeded Murcko-scaffold splits; fit transformations on train only. Reser
 ## Commit & Pull Request Guidelines
 
 History mixes informal messages with `feat(scope):`, `fix(scope):`, and `refactor:`; prefer descriptive messages in the latter style. Keep each branch/PR focused on one stage. Describe behavior changes, relevant issues, validation commands/results, and reproducibility impacts. Model changes require comparison on identical splits before promotion; failed gates must be fixed before advancing.
+
+User workflow: after each completed, verified edit, commit and push to `origin/main`. Never force-push or discard unrelated changes.

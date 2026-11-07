@@ -167,7 +167,16 @@ def validate_table(frame: pd.DataFrame, si_tolerance: float = 0.25) -> tuple[pd.
         # Строки, где цель задана меткой организаторов, а не измерена: с них
         # нельзя требовать согласованности SI = CC50 / IC50 и наличия IC50.
         # Проверяем только структуру и положительность цели.
-        if bool(getattr(row, "target_is_label", False)):
+        label_flag = getattr(row, "target_is_label", False)
+        # concat sources introduces NaN for sources without this flag.
+        # bool(float('nan')) is True and previously bypassed validation.
+        if pd.isna(label_flag):
+            is_label = False
+        elif isinstance(label_flag, str):
+            is_label = label_flag.strip().lower() in ("true", "1")
+        else:
+            is_label = bool(label_flag)
+        if is_label:
             target, _ = parse_measurement(getattr(row, "SI", None))
             if smiles is None or not str(smiles).strip():
                 reason = "пустой smiles"
