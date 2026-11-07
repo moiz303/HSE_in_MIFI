@@ -1,0 +1,190 @@
+{
+  "config": {
+    "name": "xgb-original-targets-train-scaffold-cv",
+    "seed": 20261106,
+    "data": {
+      "sources": [
+        "kaggle_train",
+        "chembl"
+      ],
+      "censored": "keep",
+      "chembl": {
+        "limit": null,
+        "drop_invalid": true
+      },
+      "kaggle_train": {
+        "sentinels": "keep"
+      }
+    },
+    "splits": {
+      "seed": 20261106,
+      "fractions": {
+        "train": 0.7,
+        "validation": 0.15,
+        "holdout": 0.15
+      }
+    },
+    "features": {
+      "morgan": true,
+      "descriptors": true
+    },
+    "model": {
+      "strategy": "xgb_hybrid",
+      "selection_protocol": "train_scaffold_cv",
+      "params": {},
+      "clip_si": null
+    },
+    "submission": {
+      "competition": "molecular-activity-prediction-hack",
+      "test_csv": "data/raw/kaggle/test.csv",
+      "smiles_column": "SMILES",
+      "id_column": "index",
+      "target_column": "SI VACV",
+      "output": "reports/submission_xgb_cv.csv",
+      "model_file": "artifacts/xgb_cv.joblib"
+    }
+  },
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86"
+  },
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "n_train": {
+    "IC50": 384,
+    "IC50_skipped": 445,
+    "CC50": 583,
+    "CC50_skipped": 246,
+    "classifier": 196,
+    "classifier_positive": 44
+  },
+  "note": "Validation used for two-candidate selection; no independent performance claim. Holdout unused.",
+  "selection": {
+    "baseline_mse": 52108985.868613206,
+    "candidate_mse": 38111329.28898662,
+    "selected": "hybrid",
+    "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation",
+    "weight": 1.0,
+    "targets": "original competition training rows, matched to fixed validation"
+  },
+  "train_cv": {
+    "weight": 1.0,
+    "weights": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "folds": [
+      {
+        "fold": "0",
+        "n_competition": 50,
+        "mse": [
+          27993211.598249007,
+          27468753.623848606,
+          26799632.835449427,
+          25997941.31665462,
+          25570220.011079315
+        ]
+      },
+      {
+        "fold": "1",
+        "n_competition": 73,
+        "mse": [
+          26252915.030172072,
+          25033302.862373825,
+          23342701.981800307,
+          20895213.5038414,
+          17388410.259162165
+        ]
+      },
+      {
+        "fold": "2",
+        "n_competition": 77,
+        "mse": [
+          14509189.360739712,
+          13678364.373668207,
+          12674622.28310974,
+          11648373.172309052,
+          12020828.851195518
+        ]
+      }
+    ],
+    "rule": ">=2% lower mean fold MSE and wins in >=2/3 train folds"
+  },
+  "train": {
+    "IC50": {
+      "n": 384,
+      "mse": 23314.950553020117,
+      "rmse_log10": 0.47331248043473284
+    },
+    "CC50": {
+      "n": 583,
+      "mse": 75067.47775046696,
+      "rmse_log10": 0.35169018578243205
+    },
+    "SI_all": {
+      "n": 829,
+      "mse": 87723005.94957775,
+      "rmse_log10": 2.681261675789951
+    },
+    "SI_competition": {
+      "n": 196,
+      "mse": 7085685.216179675,
+      "rmse_log10": 2.023857592175656
+    },
+    "constant_competition": {
+      "n": 196,
+      "mse": 17112571.43901377,
+      "rmse_log10": 2.396395458897484
+    },
+    "SI_kaggle_original": {
+      "n": 200,
+      "mse": 6961187.384324695
+    },
+    "constant_kaggle_original": {
+      "n": 200,
+      "mse": 16876153.031374935
+    }
+  },
+  "validation": {
+    "IC50": {
+      "n": 101,
+      "mse": 9562.03775921196,
+      "rmse_log10": 0.7833884139491177
+    },
+    "CC50": {
+      "n": 118,
+      "mse": 43497.16284775236,
+      "rmse_log10": 0.6056878613027805
+    },
+    "SI_all": {
+      "n": 178,
+      "mse": 103304790.65593591,
+      "rmse_log10": 2.5902354349244074
+    },
+    "SI_competition": {
+      "n": 64,
+      "mse": 39041686.6102875,
+      "rmse_log10": 1.9067398681074987
+    },
+    "constant_competition": {
+      "n": 64,
+      "mse": 40445513.67248396,
+      "rmse_log10": 2.0626980423873964
+    },
+    "SI_kaggle_original": {
+      "n": 67,
+      "mse": 38111329.28898662
+    },
+    "constant_kaggle_original": {
+      "n": 67,
+      "mse": 39686236.36429302
+    }
+  }
+}
