@@ -1,6 +1,6 @@
 # Project instructions
 
-Read README.md. Default is configs/xgb_cv.json: original competition targets restored in memory, mixture weight selected on three scaffold folds inside train, then checked on original fixed-validation targets. Reference rows are scored individually. Holdout stays excluded. Previous configs remain available explicitly.
+Read README.md. Default is configs/baseline.json, using recovered concentration XGBoost heads. Kaggle CV-hybrid score 6944427.34748 was worse than previous 1975037.74735. Hybrid promotion is disabled unless model.promote_candidate=true explicitly. Never claim a validation gain implies a leaderboard gain. Research configs remain available; holdout stays excluded.
 
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 

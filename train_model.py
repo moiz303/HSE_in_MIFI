@@ -9,7 +9,7 @@ from src import xgb_workflow
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="CatBoost / XGBoost CC50/IC50 -> SI (train on Mac)")
-    parser.add_argument("--config", default="configs/xgb_cv.json")
+    parser.add_argument("--config", default="configs/baseline.json")
     parser.add_argument("--predict", help="Optional test CSV for submission after training")
     parser.add_argument("--out", default="reports/submission.csv")
     args = parser.parse_args(argv)

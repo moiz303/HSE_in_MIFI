@@ -1,7 +1,7 @@
 # Обёртка над python -m src.pipeline. На Windows make может быть не установлен —
 # тогда запускаем те же команды напрямую, они перечислены в README.
 PYTHON ?= python
-CONFIG ?= configs/xgb_cv.json
+CONFIG ?= configs/baseline.json
 
 .PHONY: help data splits train eval submission test clean
 

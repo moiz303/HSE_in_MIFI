@@ -87,7 +87,7 @@ def data_hashes():
     names = ["train.csv", "validation.csv", "splits.json"]
     if (ROOT / "data/processed/kaggle_reference.csv").exists():
         names.append("kaggle_reference.csv")
-    return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes()).hexdigest() for name in names}
+    return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}
 
 
 def cv_protocol(config):
@@ -189,8 +189,11 @@ def evaluate(config):
         if reference is not None:
             base = original_mse(validation, model.predict_baseline_si(matrix), reference)["mse"]
             candidate = original_mse(validation, model.predict_candidate_si(matrix), reference)["mse"]
-        model.use_classifier = select_hybrid(base, candidate)
+        eligible = select_hybrid(base, candidate)
+        model.use_classifier = eligible and config["model"].get("promote_candidate", False)
         bundle["selection"] = {"baseline_mse": base, "candidate_mse": candidate,
+            "eligible_on_validation": bool(eligible),
+            "promotion_enabled": bool(config["model"].get("promote_candidate", False)),
             "selected": "hybrid" if model.use_classifier else "baseline",
             "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
         report["selection"] = bundle["selection"]

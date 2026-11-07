@@ -38,7 +38,7 @@
     "smiles_column": "SMILES",
     "id_column": "index",
     "target_column": "SI VACV",
-    "output": "reports/submission.csv",
-    "model_file": "artifacts/xgb_two_head.joblib"
+    "output": "reports/submission_xgb_baseline.csv",
+    "model_file": "artifacts/xgb_baseline.joblib"
   }
 }
