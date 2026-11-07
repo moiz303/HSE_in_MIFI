@@ -60,6 +60,14 @@ Check it and current team submissions before any new upload; never duplicate a s
 Initial four authorized attempts are used (20/20 team submissions on2026-11-07).
 User expects reset2026-11-08 03:00Europe/Moscow /00:00UTC. Verify live remaining
 quota after reset and upload only selected, reproducible hypotheses.
+One selected biological candidate is queued for2026-11-08 00:00:05UTC:
+reports/current/queued_submission_plan.json. Its separate process has one upload
+call, bounded network/score waits, a one-shot lock, and live quota/hash/dedup checks.
+If user pauses/cancels the goal before upload, create logs/cancel_queued_bio_20261108
+and stop the confirmed live queue process. Do not relaunch merely because a state
+file is stale: inspect the tool session/process and remote submission history.
+Queue state/log/lock live under logs/; API refs/scores are appended to the tracked
+reports/current/kaggle_goal_submissions.json. Never duplicate an ambiguous upload.
 No messages to organizers/others without explicit authorization.
 Holdout reserved. Test endpoint diagnostics allowed only separately after saved
 predictions via src.test_diagnostics; never fit, tune, infer labels or promote
