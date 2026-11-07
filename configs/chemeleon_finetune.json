@@ -1,0 +1,17 @@
+{
+  "seed": 20261106,
+  "folds": 3,
+  "repeats": 3,
+  "baseline_oof": "reports/architectures/chemeleon/oof.csv",
+  "baseline_artifact": "artifacts/architectures/chemeleon.joblib",
+  "warm_head": {"epochs": 160, "batch_size": 128, "learning_rate": 0.001, "weight_decay": 0.01, "hidden": 64, "dropout": 0.15},
+  "adaptation": {"epochs": 40, "batch_size": 32, "rank": 8, "alpha": 8.0, "head_lr": 0.0001, "encoder_lr": 0.0003, "weight_decay": 0.01, "feature_anchor": 0.01},
+  "encoder_batch_size": 8,
+  "candidates": ["frozen", "continue", "lora", "original_warm", "original_continue", "original_lora"],
+  "selection": "Original measured TRAIN SI OOF MSE on both molecule/scaffold protocols; >=1% gain, wins in >=2/3 repeats, <=2% scaffold and <=20% SI<=100 deterioration; otherwise frozen",
+  "data_policy": "Original exact competition endpoint precedence when available, per head; keep independent public fallback; no row-specific removal or SI-imputed concentrations",
+  "holdout_used": false,
+  "test_endpoints_used_for_selection": false,
+  "kaggle_submission_authorized": false,
+  "notes": "Partial encoder fine-tuning: low-rank update to author W_o graph readout, with frozen W_i/W_h prefix and matched head-only continuation controls. Not full end-to-end message-passing fine-tuning."
+}

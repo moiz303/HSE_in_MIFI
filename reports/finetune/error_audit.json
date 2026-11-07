@@ -1,0 +1,37 @@
+{
+  "purpose": "Retrospective development OOF audit, not independent evaluation",
+  "test_endpoints_used": false,
+  "holdout_evaluated": false,
+  "development_rows": 1007,
+  "original_training_rows": 267,
+  "measured_original_rows": 201,
+  "oof_predictions_per_original_row": [
+    6
+  ],
+  "measured_pooled_mse": 6932963.119615424,
+  "top1_loss_fraction": 0.9240721737914673,
+  "top5_loss_fraction": 0.9845298476272822,
+  "top10_loss_fraction": 0.9955542098900043,
+  "mixed_public_competition_structures": 51,
+  "original_priority_changes": {
+    "IC50": {
+      "original_available": 195,
+      "changed": 32,
+      "unmasked_exact": 21
+    },
+    "CC50": {
+      "original_available": 260,
+      "changed": 29,
+      "unmasked_exact": 19
+    }
+  },
+  "baseline_exact_targets": {
+    "IC50": 465,
+    "CC50": 682
+  },
+  "original_priority_exact_targets": {
+    "IC50": 486,
+    "CC50": 701
+  },
+  "rule_to_test": "Exact original competition endpoints take precedence when available; public fallback retained; no row-specific edits, target invention or validation-label changes"
+}
