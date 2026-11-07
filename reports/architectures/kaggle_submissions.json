@@ -1,0 +1,22 @@
+{
+  "source": "Kaggle API competitions submissions JSON; COMPLETE result verified 2026-11-07",
+  "submissions": [
+    {
+      "competition": "molecular-activity-prediction-hack",
+      "ref": 58092002,
+      "date": "2026-11-07T12:40:24.067000",
+      "status": "SubmissionStatus.COMPLETE",
+      "method": "chemeleon",
+      "selected": "mlp",
+      "submission": "reports/architectures/chemeleon/submission.csv",
+      "submission_sha256": "76e73dec47d6ccb67c4f4b5e52ce6429c35319a71dd9c965ed33a8e28764e7ab",
+      "public_score": 1750683.92577,
+      "local_subset_mse": 1830471.4703635473,
+      "coverage": "468/597",
+      "authorization": "Best of four new architectures with local subset MSE strictly below 1900000; one accepted submission only",
+      "previous_best_public_score": 1967765.75828,
+      "public_improvement_percent": 11.031893994321177,
+      "authentication": "Initial pre-upload authentication failure; cached OAuth refreshed, read-only history confirmed no submission, then one successful upload"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+method,name,selected,local_subset_mse,n_evaluated,n_test,official_kaggle_score,submission,eligible,molecule_measured_oof_mse,scaffold_measured_oof_mse,molecule_all_oof_mse,scaffold_all_oof_mse,passes_local_threshold,submitted
+weighted,"Взвешенный XGBoost, отправленный ранее",historical control,1944184.313892794,468,597,1967765.75828,reports/submission_xgb_weighted.csv,False,,,,,,
+weighted_windows,Текущий weighted Windows,historical control,1932650.98144585,468,597,,reports/submission_xgb_tail.csv,False,,,,,,
+head_params,XGBoost с отдельными параметрами голов,historical control,1893853.2391688058,468,597,2068464.49379,reports/hypotheses/head_params/submission.csv,False,,,,,,
+chemeleon,CheMeleon (frozen 2D),mlp,1830471.4703635473,468,597,1750683.92577,reports/architectures/chemeleon/submission.csv,False,6804535.850555668,7061390.38867518,29752177.848433387,29923920.94534774,True,True
+joint_gp,Совместный GP/Tanimoto,mean,2109241.954678262,468,597,,reports/architectures/joint_gp/submission.csv,False,6513967.800828741,6652364.796650031,29075967.189483576,29088179.59436959,False,False
+unimol,Uni-Mol (frozen 3D),ridge_100,1972949.5044215566,468,597,,reports/architectures/unimol/submission.csv,False,6820524.459554093,6799878.501895264,29711861.20229793,29690023.494657215,False,False
+domain_heads,Доменные головы CheMeleon,domain,3456049.301264165,468,597,,reports/architectures/domain_heads/submission.csv,False,6778390.689786175,6815961.417949812,29727065.9649833,29711188.190254737,False,False

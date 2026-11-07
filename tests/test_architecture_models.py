@@ -13,6 +13,16 @@ from src.score_audit import official_reference_mse
 
 
 class Scores(unittest.TestCase):
+    def test_completed_or_pending_same_file_is_not_recommended_for_duplicate_submission(self):
+        from src.architecture_results import submission_decision
+        row = {"competition": "molecular-activity-prediction-hack", "submission_sha256": "same", "ref": 123, "status": "PENDING"}
+        decision = submission_decision(1800000., "same", [row], 1900000.)
+        self.assertTrue(decision["passes_local_threshold"])
+        self.assertTrue(decision["submitted"])
+        self.assertFalse(decision["eligible"])
+        self.assertTrue(submission_decision(1800000., "new", [row], 1900000.)["eligible"])
+        self.assertFalse(submission_decision(1900000., "new", [], 1900000.)["eligible"])
+
     def test_checkpoint_transfer_resumes_prefix_and_verifies_publisher_hash(self):
         from src import architecture_features as features
         payload = b"author-checkpoint-bytes"

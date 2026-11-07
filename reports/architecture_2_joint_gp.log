@@ -1,0 +1,55 @@
+[architecture] joint_gp: molecule repeat=1/3 fold=1/3
+[architecture] median: measured MSE=300178.1376; all MSE=21876500.2013; 0.6s
+[architecture] mean: measured MSE=180863.1802; all MSE=21294932.6929; 0.0s
+[architecture] joint_gp: molecule repeat=1/3 fold=2/3
+[architecture] median: measured MSE=476411.6501; all MSE=35825601.3433; 0.5s
+[architecture] mean: measured MSE=246443.2188; all MSE=34889741.5113; 0.0s
+[architecture] joint_gp: molecule repeat=1/3 fold=3/3
+[architecture] median: measured MSE=18370250.3272; all MSE=34106994.0852; 0.5s
+[architecture] mean: measured MSE=18175683.9717; all MSE=33777029.0284; 0.0s
+[architecture] joint_gp: molecule repeat=2/3 fold=1/3
+[architecture] median: measured MSE=394476.0038; all MSE=26557321.7329; 0.5s
+[architecture] mean: measured MSE=235924.0574; all MSE=26102358.3732; 0.0s
+[architecture] joint_gp: molecule repeat=2/3 fold=2/3
+[architecture] median: measured MSE=19324373.4254; all MSE=33849682.8915; 0.5s
+[architecture] mean: measured MSE=18843841.4051; all MSE=33018574.9475; 0.0s
+[architecture] joint_gp: molecule repeat=2/3 fold=3/3
+[architecture] median: measured MSE=44489.9972; all MSE=29174349.9706; 0.5s
+[architecture] mean: measured MSE=119146.3944; all MSE=28669201.5241; 0.0s
+[architecture] joint_gp: molecule repeat=3/3 fold=1/3
+[architecture] median: measured MSE=286110.5475; all MSE=38364558.8618; 0.5s
+[architecture] mean: measured MSE=205531.0470; all MSE=37564824.2109; 0.0s
+[architecture] joint_gp: molecule repeat=3/3 fold=2/3
+[architecture] median: measured MSE=19017441.1994; all MSE=34188489.4860; 0.5s
+[architecture] mean: measured MSE=18554910.0197; all MSE=33314916.7557; 0.0s
+[architecture] joint_gp: molecule repeat=3/3 fold=3/3
+[architecture] median: measured MSE=21821.0938; all MSE=15887810.5442; 0.5s
+[architecture] mean: measured MSE=178957.1915; all MSE=15665580.3035; 0.0s
+[architecture] joint_gp: scaffold repeat=1/3 fold=1/3
+[architecture] median: measured MSE=17248873.5410; all MSE=41172733.1105; 0.5s
+[architecture] mean: measured MSE=16908497.9120; all MSE=40272319.2638; 0.0s
+[architecture] joint_gp: scaffold repeat=1/3 fold=2/3
+[architecture] median: measured MSE=182391.0947; all MSE=20593140.4017; 0.5s
+[architecture] mean: measured MSE=564189.0609; all MSE=20481355.0909; 0.0s
+[architecture] joint_gp: scaffold repeat=1/3 fold=3/3
+[architecture] median: measured MSE=98414.3464; all MSE=23174053.4389; 0.5s
+[architecture] mean: measured MSE=127285.8746; all MSE=22640032.7772; 0.0s
+[architecture] joint_gp: scaffold repeat=2/3 fold=1/3
+[architecture] median: measured MSE=780470.8233; all MSE=34887694.1688; 0.7s
+[architecture] mean: measured MSE=909471.9865; all MSE=34201275.1383; 0.0s
+[architecture] joint_gp: scaffold repeat=2/3 fold=2/3
+[architecture] median: measured MSE=66664.1599; all MSE=14655294.7183; 1.0s
+[architecture] mean: measured MSE=161741.2150; all MSE=14408306.9544; 0.0s
+[architecture] joint_gp: scaffold repeat=2/3 fold=3/3
+[architecture] median: measured MSE=17985421.5001; all MSE=37771419.1934; 0.5s
+[architecture] mean: measured MSE=17729811.8468; all MSE=37054484.0829; 0.0s
+[architecture] joint_gp: scaffold repeat=3/3 fold=1/3
+[architecture] median: measured MSE=113525.9855; all MSE=22063840.6206; 0.5s
+[architecture] mean: measured MSE=525854.5243; all MSE=21564730.0951; 0.0s
+[architecture] joint_gp: scaffold repeat=3/3 fold=2/3
+[architecture] median: measured MSE=17782340.3451; all MSE=40889948.1946; 0.5s
+[architecture] mean: measured MSE=17478186.4601; all MSE=40302947.8741; 0.0s
+[architecture] joint_gp: scaffold repeat=3/3 fold=3/3
+[architecture] median: measured MSE=141741.9023; all MSE=23030071.0325; 0.4s
+[architecture] mean: measured MSE=251748.4248; all MSE=22356385.5185; 0.0s
+[architecture done] joint_gp: selected=mean; seconds=19.9

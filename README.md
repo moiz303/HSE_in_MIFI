@@ -2,9 +2,16 @@
 
 ## Четыре архитектуры и аудит Score
 
+**Лучший подтверждённый Kaggle Score: 1 750 683.92577**, CheMeleon + общий MLP,
+заявка **58092002**. Улучшение к прежнему public-результату — **11.03%**.
+Локально: **1 830 471.47** на 468/597 строках. Все четыре архитектуры обучены;
+отправлен один лучший файл, прошедший новый порог 1.9 млн.
+Модель: `artifacts/architectures/chemeleon.joblib`, метаданные и команда
+инференса: `reports/architectures/best_model.json`.
+
 Новый запуск: [docs/architecture_runs.md](docs/architecture_runs.md),
 `configs/architectures.json`, отдельное окружение `../env_arch` на Python 3.12.
-Проверяются замороженный CheMeleon, совместный GP, замороженный Uni-Mol и
+Проверены замороженный CheMeleon, совместный GP, замороженный Uni-Mol и
 доменные головы. Код, протокол и модели сохраняются отдельно от XGBoost.
 Итоговая таблица: `reports/architectures/comparison.md`.
 

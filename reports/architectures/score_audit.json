@@ -33,6 +33,16 @@
       "official_minus_local": 174611.2546211942,
       "coverage": "468/597",
       "official_source": "Previously scored exact submission bytes; lookup, not local recomputation"
+    },
+    {
+      "path": "reports/architectures/chemeleon/submission.csv",
+      "ref": 58092002,
+      "sha256": "76e73dec47d6ccb67c4f4b5e52ce6429c35319a71dd9c965ed33a8e28764e7ab",
+      "public_score": 1750683.92577,
+      "local_subset_mse": 1830471.4703635473,
+      "official_minus_local": -79787.54459354724,
+      "coverage": "468/597",
+      "official_source": "Previously scored exact submission bytes; lookup, not local recomputation"
     }
   ],
   "selection_for_architectures": "Original measured TRAIN SI OOF MSE, molecule and scaffold protocols; conditional labels reported separately"

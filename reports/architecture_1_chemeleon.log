@@ -1,0 +1,144 @@
+[weights] downloading https://zenodo.org/records/15460715/files/chemeleon_mp.pt
+[encoder] CheMeleon 8/1604; 0.3s
+[encoder] CheMeleon 72/1604; 2.3s
+[encoder] CheMeleon 136/1604; 4.6s
+[encoder] CheMeleon 200/1604; 7.9s
+[encoder] CheMeleon 264/1604; 10.0s
+[encoder] CheMeleon 328/1604; 12.3s
+[encoder] CheMeleon 392/1604; 15.9s
+[encoder] CheMeleon 456/1604; 18.0s
+[encoder] CheMeleon 520/1604; 20.2s
+[encoder] CheMeleon 584/1604; 22.8s
+[encoder] CheMeleon 648/1604; 24.6s
+[encoder] CheMeleon 712/1604; 27.1s
+[encoder] CheMeleon 776/1604; 30.6s
+[encoder] CheMeleon 840/1604; 32.7s
+[encoder] CheMeleon 904/1604; 35.7s
+[encoder] CheMeleon 968/1604; 38.8s
+[encoder] CheMeleon 1032/1604; 41.0s
+[encoder] CheMeleon 1096/1604; 43.4s
+[encoder] CheMeleon 1160/1604; 46.1s
+[encoder] CheMeleon 1224/1604; 48.2s
+[encoder] CheMeleon 1288/1604; 51.7s
+[encoder] CheMeleon 1352/1604; 53.8s
+[encoder] CheMeleon 1416/1604; 55.7s
+[encoder] CheMeleon 1480/1604; 58.6s
+[encoder] CheMeleon 1544/1604; 61.1s
+[encoder] CheMeleon 1604/1604; 63.1s
+[encoder] random control 8/1604; 0.5s
+[encoder] random control 72/1604; 3.4s
+[encoder] random control 136/1604; 5.5s
+[encoder] random control 200/1604; 8.3s
+[encoder] random control 264/1604; 11.0s
+[encoder] random control 328/1604; 13.3s
+[encoder] random control 392/1604; 17.0s
+[encoder] random control 456/1604; 19.0s
+[encoder] random control 520/1604; 21.2s
+[encoder] random control 584/1604; 23.7s
+[encoder] random control 648/1604; 25.9s
+[encoder] random control 712/1604; 28.4s
+[encoder] random control 776/1604; 31.9s
+[encoder] random control 840/1604; 34.1s
+[encoder] random control 904/1604; 37.1s
+[encoder] random control 968/1604; 40.3s
+[encoder] random control 1032/1604; 42.5s
+[encoder] random control 1096/1604; 45.0s
+[encoder] random control 1160/1604; 47.9s
+[encoder] random control 1224/1604; 49.9s
+[encoder] random control 1288/1604; 53.3s
+[encoder] random control 1352/1604; 55.7s
+[encoder] random control 1416/1604; 58.2s
+[encoder] random control 1480/1604; 61.0s
+[encoder] random control 1544/1604; 63.1s
+[encoder] random control 1604/1604; 66.2s
+[architecture] chemeleon: molecule repeat=1/3 fold=1/3
+[architecture] ridge_10: measured MSE=70100788.7377; all MSE=76470288.2908; 0.1s
+[architecture] ridge_100: measured MSE=1092252.8501; all MSE=22465981.4344; 0.1s
+[architecture] mlp: measured MSE=297837.1972; all MSE=21864177.7494; 5.2s
+[architecture] random_control: measured MSE=290309.1636; all MSE=21864191.8354; 5.1s
+[architecture] chemeleon: molecule repeat=1/3 fold=2/3
+[architecture] ridge_10: measured MSE=10198.3912; all MSE=35491182.1128; 0.1s
+[architecture] ridge_100: measured MSE=190811.8552; all MSE=35634619.2748; 0.1s
+[architecture] mlp: measured MSE=384208.0941; all MSE=35790531.4945; 4.7s
+[architecture] random_control: measured MSE=485272.9972; all MSE=35795146.8572; 6.2s
+[architecture] chemeleon: molecule repeat=1/3 fold=3/3
+[architecture] ridge_10: measured MSE=18207054.1544; all MSE=33924604.3663; 0.1s
+[architecture] ridge_100: measured MSE=18312187.0970; all MSE=34049933.2450; 0.1s
+[architecture] mlp: measured MSE=18340721.7393; all MSE=34081998.0173; 4.9s
+[architecture] random_control: measured MSE=18299514.6892; all MSE=34063195.7722; 5.0s
+[architecture] chemeleon: molecule repeat=2/3 fold=1/3
+[architecture] ridge_10: measured MSE=165712.8411; all MSE=26377030.5885; 0.1s
+[architecture] ridge_100: measured MSE=425216.8372; all MSE=26564821.5356; 0.1s
+[architecture] mlp: measured MSE=256815.4413; all MSE=26429930.6389; 5.0s
+[architecture] random_control: measured MSE=454436.8902; all MSE=26584101.6788; 4.8s
+[architecture] chemeleon: molecule repeat=2/3 fold=2/3
+[architecture] ridge_10: measured MSE=1555081678.1125; all MSE=1292007875.2498; 0.1s
+[architecture] ridge_100: measured MSE=166337454.0942; all MSE=154282122.8654; 0.1s
+[architecture] mlp: measured MSE=20001370.8567; all MSE=34381816.7635; 5.4s
+[architecture] random_control: measured MSE=19396211.5969; all MSE=33911573.6213; 7.4s
+[architecture] chemeleon: molecule repeat=2/3 fold=3/3
+[architecture] ridge_10: measured MSE=894702.6373; all MSE=29645092.0179; 0.1s
+[architecture] ridge_100: measured MSE=65788.9662; all MSE=29136961.0419; 0.1s
+[architecture] mlp: measured MSE=97554.7433; all MSE=29191725.8777; 4.1s
+[architecture] random_control: measured MSE=39195.1999; all MSE=29138901.8683; 5.3s
+[architecture] chemeleon: molecule repeat=3/3 fold=1/3
+[architecture] ridge_10: measured MSE=685542.8974; all MSE=38260834.6283; 0.1s
+[architecture] ridge_100: measured MSE=285172.6161; all MSE=38200438.4705; 0.1s
+[architecture] mlp: measured MSE=153220.4920; all MSE=38114756.9220; 4.6s
+[architecture] random_control: measured MSE=302047.9296; all MSE=38187712.7020; 4.8s
+[architecture] chemeleon: molecule repeat=3/3 fold=2/3
+[architecture] ridge_10: measured MSE=86210801.9143; all MSE=88703752.9683; 0.1s
+[architecture] ridge_100: measured MSE=19821239.5769; all MSE=34855541.9630; 0.1s
+[architecture] mlp: measured MSE=19771043.5023; all MSE=34824280.5627; 7.1s
+[architecture] random_control: measured MSE=19416041.6559; all MSE=34533988.7711; 5.0s
+[architecture] chemeleon: molecule repeat=3/3 fold=3/3
+[architecture] ridge_10: measured MSE=230945708.1674; all MSE=210051305.4525; 0.1s
+[architecture] ridge_100: measured MSE=2583612.3087; all MSE=18025508.5065; 0.1s
+[architecture] mlp: measured MSE=11629.3032; all MSE=15869524.8506; 4.7s
+[architecture] random_control: measured MSE=19718.0979; all MSE=15882095.1697; 4.8s
+[architecture] chemeleon: scaffold repeat=1/3 fold=1/3
+[architecture] ridge_10: measured MSE=16657623.8886; all MSE=40692387.9838; 0.1s
+[architecture] ridge_100: measured MSE=17291025.3220; all MSE=41144020.3086; 0.1s
+[architecture] mlp: measured MSE=17114978.9414; all MSE=41063717.8771; 5.2s
+[architecture] random_control: measured MSE=17391543.7928; all MSE=41283261.6036; 4.8s
+[architecture] chemeleon: scaffold repeat=1/3 fold=2/3
+[architecture] ridge_10: measured MSE=287937456.9104; all MSE=249340108.4038; 0.1s
+[architecture] ridge_100: measured MSE=13122517.4126; all MSE=30898372.3946; 0.1s
+[architecture] mlp: measured MSE=3160474.7958; all MSE=22978000.8745; 6.1s
+[architecture] random_control: measured MSE=286563.9461; all MSE=20575353.4601; 4.7s
+[architecture] chemeleon: scaffold repeat=1/3 fold=3/3
+[architecture] ridge_10: measured MSE=3594524481.1154; all MSE=2784688227.4143; 0.1s
+[architecture] ridge_100: measured MSE=764885.0048; all MSE=23661150.0448; 0.1s
+[architecture] mlp: measured MSE=95249.4407; all MSE=23041871.1650; 4.9s
+[architecture] random_control: measured MSE=83104.1892; all MSE=23161073.5773; 5.6s
+[architecture] chemeleon: scaffold repeat=2/3 fold=1/3
+[architecture] ridge_10: measured MSE=944908.0941; all MSE=35029403.9296; 0.1s
+[architecture] ridge_100: measured MSE=950634.6021; all MSE=35004916.9366; 0.1s
+[architecture] mlp: measured MSE=782681.0996; all MSE=34879432.8772; 6.0s
+[architecture] random_control: measured MSE=1062008.3721; all MSE=35042869.9609; 8.2s
+[architecture] chemeleon: scaffold repeat=2/3 fold=2/3
+[architecture] ridge_10: measured MSE=235458549.3893; all MSE=214881565.3051; 0.1s
+[architecture] ridge_100: measured MSE=117950.2790; all MSE=14444984.3118; 0.1s
+[architecture] mlp: measured MSE=188736.1502; all MSE=14736238.3452; 8.0s
+[architecture] random_control: measured MSE=86730.7280; all MSE=14636909.7204; 5.7s
+[architecture] chemeleon: scaffold repeat=2/3 fold=3/3
+[architecture] ridge_10: measured MSE=535655764023.8651; all MSE=405994054934.0885; 0.1s
+[architecture] ridge_100: measured MSE=66416035.2860; all MSE=74274418.8990; 0.1s
+[architecture] mlp: measured MSE=17997800.1219; all MSE=37625648.2187; 4.9s
+[architecture] random_control: measured MSE=17376611.8642; all MSE=37253859.2553; 5.8s
+[architecture] chemeleon: scaffold repeat=3/3 fold=1/3
+[architecture] ridge_10: measured MSE=288756.5251; all MSE=21858924.6734; 0.1s
+[architecture] ridge_100: measured MSE=182003.4229; all MSE=21830224.1256; 0.1s
+[architecture] mlp: measured MSE=1416003.8301; all MSE=23076152.7930; 5.0s
+[architecture] random_control: measured MSE=990880.5648; all MSE=22800187.1850; 4.9s
+[architecture] chemeleon: scaffold repeat=3/3 fold=2/3
+[architecture] ridge_10: measured MSE=30382839.3318; all MSE=49862243.7643; 0.1s
+[architecture] ridge_100: measured MSE=17385483.1967; all MSE=40547463.5413; 0.1s
+[architecture] mlp: measured MSE=17654659.5235; all MSE=40778664.2001; 4.8s
+[architecture] random_control: measured MSE=17549643.1155; all MSE=40718511.1519; 5.2s
+[architecture] chemeleon: scaffold repeat=3/3 fold=3/3
+[architecture] ridge_10: measured MSE=93455.8115; all MSE=22905419.3502; 0.1s
+[architecture] ridge_100: measured MSE=414825.8198; all MSE=23138723.7500; 0.1s
+[architecture] mlp: measured MSE=129753.6419; all MSE=22925311.4820; 5.4s
+[architecture] random_control: measured MSE=528249.6665; all MSE=23291084.6762; 6.1s
+[architecture done] chemeleon: selected=mlp; seconds=367.4

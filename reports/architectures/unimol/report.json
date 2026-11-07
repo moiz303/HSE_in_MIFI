@@ -1,0 +1,1001 @@
+{
+  "method": "unimol",
+  "status": "complete",
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "order": [
+      "chemeleon",
+      "joint_gp",
+      "unimol",
+      "domain_heads"
+    ],
+    "baseline_oof": "reports/tail_comparison_oof.csv",
+    "selection": "mean measured-original-TRAIN SI MSE over molecule/scaffold OOF; report all/conditional strata separately",
+    "neural": {
+      "epochs": 160,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "weight_decay": 0.01,
+      "hidden": 64,
+      "dropout": 0.15
+    },
+    "ridge_alphas": [
+      10.0,
+      100.0
+    ],
+    "gp": {
+      "maxiter": 30,
+      "jitter": 1e-06
+    },
+    "frozen_encoders": true,
+    "encoder_batch_size": 8,
+    "unimol_conformers": 1,
+    "unimol_seed": 42,
+    "submit_best_only": true,
+    "submit_if_local_subset_mse_strictly_below": 1900000,
+    "notes": "Same development structures and OOF groups for all four architectures; masked independent exact concentration targets; no holdout or test endpoints in fitting. Threshold applies to diagnostic local MSE, not an estimate of official public score."
+  },
+  "candidates": {
+    "ridge_10": {
+      "kind": "ridge",
+      "alpha": 10.0
+    },
+    "ridge_100": {
+      "kind": "ridge",
+      "alpha": 100.0
+    },
+    "mlp": {
+      "kind": "mlp"
+    }
+  },
+  "selected": "ridge_100",
+  "selection_metric": "mean measured-original-TRAIN SI MSE over molecule/scaffold OOF; report all/conditional strata separately",
+  "selection_used_test_endpoints": false,
+  "protocols": {
+    "molecule": {
+      "baseline": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        }
+      },
+      "ridge_10": {
+        "n": 801,
+        "mse": 31611510.565494407,
+        "rmse": 5622.411454660216,
+        "mae": 2801.8587739324853,
+        "bias": -2527.5889780274574,
+        "rmse_log10": 1.9214196587943393,
+        "repeat_mse": [
+          29320311.78356168,
+          31072200.21566772,
+          34442019.697253816
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 9591439.149307707,
+          "rmse": 3097.0048674982263,
+          "mae": 462.299045664718,
+          "bias": -97.97051080580067,
+          "rmse_log10": 1.1853813176154324
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3542465.6135572507,
+          "rmse": 1882.1438875806627,
+          "mae": 201.20802205656216,
+          "bias": 189.46011911413038,
+          "rmse_log10": 1.1840531111824044
+        },
+        "paired_gain": {
+          "mean_mse_gain": -1944658.2323157273,
+          "ci95": [
+            -6075542.449227075,
+            359755.5409749303
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "ridge_100": {
+        "n": 801,
+        "mse": 29711861.20229793,
+        "rmse": 5450.8587582414875,
+        "mae": 2726.029225960839,
+        "bias": -2677.9414960706754,
+        "rmse_log10": 1.7590748295136092,
+        "repeat_mse": [
+          29639859.495627057,
+          29795016.238294818,
+          29700707.872971915
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6820524.459554093,
+          "rmse": 2611.6133824810463,
+          "mae": 347.0958907535671,
+          "bias": -283.2181600039471,
+          "rmse_log10": 0.9798092683468914
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 64842.44781068612,
+          "rmse": 254.64180295208035,
+          "mae": 41.16352563868086,
+          "bias": 29.357744361007573,
+          "rmse_log10": 0.9095255729627366
+        },
+        "paired_gain": {
+          "mean_mse_gain": -45008.86911925062,
+          "ci95": [
+            -201091.27372611323,
+            105668.95767832155
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mlp": {
+        "n": 801,
+        "mse": 114068178.59559421,
+        "rmse": 10680.270530075266,
+        "mae": 3092.819177573658,
+        "bias": -2245.933248949265,
+        "rmse_log10": 1.8245410952226777,
+        "repeat_mse": [
+          29610031.97374927,
+          279711583.91557413,
+          32882919.897459265
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 118806698.93708123,
+          "rmse": 10899.848574043643,
+          "mae": 830.7833290354803,
+          "bias": 294.1845463014009,
+          "rmse_log10": 0.9912770556248405
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 133173098.87263766,
+          "rmse": 11540.064942305899,
+          "mae": 590.6879478691724,
+          "bias": 578.3841105059544,
+          "rmse_log10": 0.9297953686001386
+        },
+        "paired_gain": {
+          "mean_mse_gain": -84401326.26241554,
+          "ci95": [
+            -280766250.021038,
+            79453.13894799004
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "baseline": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477975,
+          "bias": 20.271503998893618,
+          "rmse_log10": 0.82984927730235
+        }
+      },
+      "ridge_10": {
+        "n": 801,
+        "mse": 29775241.949344397,
+        "rmse": 5456.669492405088,
+        "mae": 2788.7776877014453,
+        "bias": -2549.489638096566,
+        "rmse_log10": 2.000486341574671,
+        "repeat_mse": [
+          29802547.43813264,
+          29714319.276883036,
+          29808859.133017514
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 7184208.272444502,
+          "rmse": 2680.337343030631,
+          "mae": 445.06205609781534,
+          "bias": -127.20181110028837,
+          "rmse_log10": 1.3371325915078733
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 316796.27334368974,
+          "rmse": 562.8465806449301,
+          "mae": 143.17593426712816,
+          "bias": 129.47268946847166,
+          "rmse_log10": 1.296060090739719
+        },
+        "paired_gain": {
+          "mean_mse_gain": -93573.95655417036,
+          "ci95": [
+            -587800.6379228388,
+            283867.4645998341
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "ridge_100": {
+        "n": 801,
+        "mse": 29690023.494657215,
+        "rmse": 5448.855246256521,
+        "mae": 2726.0981269006934,
+        "bias": -2678.3098392230627,
+        "rmse_log10": 1.7800917329377812,
+        "repeat_mse": [
+          29647004.22048177,
+          29730898.798223898,
+          29692167.465265974
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6799878.501895264,
+          "rmse": 2607.6576657788623,
+          "mae": 347.5543993892213,
+          "bias": -284.0744351607267,
+          "rmse_log10": 1.0525408222300336
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 12142.240529851457,
+          "rmse": 110.19183513242466,
+          "mae": 37.4688250699823,
+          "bias": 24.424442247107166,
+          "rmse_log10": 0.9628306883280413
+        },
+        "paired_gain": {
+          "mean_mse_gain": -8355.501866985778,
+          "ci95": [
+            -116304.73042736299,
+            98483.69970377575
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mlp": {
+        "n": 801,
+        "mse": 34361247.40532623,
+        "rmse": 5861.846757236684,
+        "mae": 2933.1899006343815,
+        "bias": -2418.120732108187,
+        "rmse_log10": 1.8685643275221695,
+        "repeat_mse": [
+          31790487.356282316,
+          36396023.278784096,
+          34897231.58091227
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 12978181.329105435,
+          "rmse": 3602.5242995856997,
+          "mae": 621.3199666877357,
+          "bias": 62.87639150377639,
+          "rmse_log10": 1.1024984038140886
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 2979945.8533612527,
+          "rmse": 1726.2519669391409,
+          "mae": 223.0590870566934,
+          "bias": 209.9318234936352,
+          "rmse_log10": 1.0173097388415606
+        },
+        "paired_gain": {
+          "mean_mse_gain": -4679579.412536002,
+          "ci95": [
+            -11177917.861563345,
+            -512040.21623046155
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "fit_audits": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        302,
+        450
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        302,
+        450
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        302,
+        450
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        325,
+        468
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        325,
+        468
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        325,
+        468
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        303,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        303,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        303,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        294,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        294,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        294,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        315,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        315,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        315,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        321,
+        448
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        321,
+        448
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        321,
+        448
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        322,
+        453
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        322,
+        453
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        322,
+        453
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        311,
+        462
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        311,
+        462
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        311,
+        462
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        297,
+        449
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        297,
+        449
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        297,
+        449
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        336,
+        456
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        336,
+        456
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        336,
+        456
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        312,
+        463
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        312,
+        463
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        312,
+        463
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        282,
+        445
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        282,
+        445
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        282,
+        445
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        340,
+        474
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        340,
+        474
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        340,
+        474
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        303,
+        465
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        303,
+        465
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        303,
+        465
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        287,
+        425
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        287,
+        425
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        287,
+        425
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "ridge_10",
+      "targets": [
+        311,
+        478
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "ridge_100",
+      "targets": [
+        311,
+        478
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "mlp",
+      "targets": [
+        311,
+        478
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "ridge_10",
+      "targets": [
+        330,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "ridge_100",
+      "targets": [
+        330,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "mlp",
+      "targets": [
+        330,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "ridge_10",
+      "targets": [
+        289,
+        440
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "ridge_100",
+      "targets": [
+        289,
+        440
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "mlp",
+      "targets": [
+        289,
+        440
+      ],
+      "optimization": null
+    }
+  ],
+  "final_targets": [
+    465,
+    682
+  ],
+  "optimization": null,
+  "development_rows": 1007,
+  "original_training_reference_rows": 267,
+  "holdout_used": false,
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "versions": {
+    "numpy": "2.2.6",
+    "pandas": "2.2.3",
+    "scipy": "1.15.3",
+    "rdkit": "2026.9.1",
+    "torch": "2.6.0+cpu",
+    "chemprop": "2.2.1",
+    "unimol-tools": "0.1.6"
+  },
+  "representations": {
+    "unimol": {
+      "checkpoints": [
+        {
+          "url": "https://huggingface.co/dptech/Uni-Mol-Models/resolve/9f19c45c718192888a1c8a1c905f69f0755ea502/mol_pre_no_h_220816.pt",
+          "file": "artifacts/pretrained/unimol/mol_pre_no_h_220816.pt",
+          "sha256": "da27196af09a8c6d089e10b7764b6a716bcc33da227fc118f5b45b0e484585e9",
+          "bytes": 190540187
+        },
+        {
+          "url": "https://huggingface.co/dptech/Uni-Mol-Models/resolve/9f19c45c718192888a1c8a1c905f69f0755ea502/mol.dict.txt",
+          "file": "artifacts/pretrained/unimol/mol.dict.txt",
+          "sha256": "94135cb9a9198f988de684cb61e2c372882a3bd59b8320effbae704c38057127",
+          "bytes": 91
+        }
+      ],
+      "revision": "9f19c45c718192888a1c8a1c905f69f0755ea502",
+      "frozen": true,
+      "dimensions": 513,
+      "conformers": 1,
+      "seed": 42,
+      "encoder_keys_verified": 193,
+      "zero_embedding_fallback_rows": [],
+      "elapsed_seconds": 295.39100000000326,
+      "smiles_sha256": "52df2cb25683b9626fefc39f195c9b46a8c215fc9922b878b572dc44dc0b22ca",
+      "rows": 1604,
+      "cache": "data/architecture_cache/unimol_52df2cb25683b9626fefc39f195c9b46a8c215fc9922b878b572dc44dc0b22ca.npz"
+    }
+  },
+  "submission": "reports/architectures/unimol/submission.csv",
+  "artifact": "artifacts/architectures/unimol.joblib",
+  "submission_sha256": "cc9b53326c4c554e548650396e6ea7a4ae2bf23005c859998dde6c7c70d61a79",
+  "elapsed_seconds": 396.39100000000326
+}

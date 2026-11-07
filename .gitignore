@@ -58,3 +58,4 @@ data/raw/kaggle/
 # Reproducible pretrained weights and frozen structure-only embedding caches.
 artifacts/pretrained/
 data/architecture_cache/
+logs/

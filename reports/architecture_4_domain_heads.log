@@ -1,0 +1,73 @@
+[architecture] domain_heads: molecule repeat=1/3 fold=1/3
+[architecture] domain: measured MSE=371631.2250; all MSE=21875969.4058; 10.0s
+[architecture] pooled_control: measured MSE=297837.1972; all MSE=21864177.7494; 4.3s
+[architecture] kaggle_only_control: measured MSE=370003.7501; all MSE=21926588.7097; 1.3s
+[architecture] domain_heads: molecule repeat=1/3 fold=2/3
+[architecture] domain: measured MSE=611800.6045; all MSE=35922153.2245; 4.6s
+[architecture] pooled_control: measured MSE=384208.0941; all MSE=35790531.4945; 5.6s
+[architecture] kaggle_only_control: measured MSE=576068.7539; all MSE=35904758.2009; 1.5s
+[architecture] domain_heads: molecule repeat=1/3 fold=3/3
+[architecture] domain: measured MSE=18328389.9340; all MSE=34049181.9896; 4.7s
+[architecture] pooled_control: measured MSE=18340721.7393; all MSE=34081998.0173; 4.4s
+[architecture] kaggle_only_control: measured MSE=18383758.3516; all MSE=34110931.1520; 1.5s
+[architecture] domain_heads: molecule repeat=2/3 fold=1/3
+[architecture] domain: measured MSE=439044.7741; all MSE=26557111.0817; 4.8s
+[architecture] pooled_control: measured MSE=256815.4413; all MSE=26429930.6389; 4.4s
+[architecture] kaggle_only_control: measured MSE=443309.9210; all MSE=26580031.0706; 1.5s
+[architecture] domain_heads: molecule repeat=2/3 fold=2/3
+[architecture] domain: measured MSE=19494130.9243; all MSE=33967231.1433; 5.5s
+[architecture] pooled_control: measured MSE=20001370.8567; all MSE=34381816.7635; 4.7s
+[architecture] kaggle_only_control: measured MSE=19497850.0039; all MSE=33985479.1462; 1.4s
+[architecture] domain_heads: molecule repeat=2/3 fold=3/3
+[architecture] domain: measured MSE=72445.5648; all MSE=29161585.9822; 4.7s
+[architecture] pooled_control: measured MSE=97554.7433; all MSE=29191725.8777; 4.5s
+[architecture] kaggle_only_control: measured MSE=48782.8777; all MSE=29195438.8214; 1.5s
+[architecture] domain_heads: molecule repeat=3/3 fold=1/3
+[architecture] domain: measured MSE=294753.7511; all MSE=38271447.1690; 4.9s
+[architecture] pooled_control: measured MSE=153220.4920; all MSE=38114756.9220; 4.8s
+[architecture] kaggle_only_control: measured MSE=309325.4734; all MSE=38311763.9622; 2.0s
+[architecture] domain_heads: molecule repeat=3/3 fold=2/3
+[architecture] domain: measured MSE=19443898.1346; all MSE=34548963.6367; 4.9s
+[architecture] pooled_control: measured MSE=19771043.5023; all MSE=34824280.5627; 4.6s
+[architecture] kaggle_only_control: measured MSE=19513784.8574; all MSE=34630114.7952; 1.5s
+[architecture] domain_heads: molecule repeat=3/3 fold=3/3
+[architecture] domain: measured MSE=92311.9468; all MSE=15933148.2659; 4.6s
+[architecture] pooled_control: measured MSE=11629.3032; all MSE=15869524.8506; 4.6s
+[architecture] kaggle_only_control: measured MSE=31746.4538; all MSE=15895378.4123; 1.7s
+[architecture] domain_heads: scaffold repeat=1/3 fold=1/3
+[architecture] domain: measured MSE=17374761.8142; all MSE=41154321.6488; 4.7s
+[architecture] pooled_control: measured MSE=17114978.9414; all MSE=41063717.8771; 5.3s
+[architecture] kaggle_only_control: measured MSE=17341463.5305; all MSE=41212939.8125; 1.4s
+[architecture] domain_heads: scaffold repeat=1/3 fold=2/3
+[architecture] domain: measured MSE=712199.6286; all MSE=21000191.8160; 5.1s
+[architecture] pooled_control: measured MSE=3160474.7958; all MSE=22978000.8745; 4.7s
+[architecture] kaggle_only_control: measured MSE=535830.6855; all MSE=20889813.9362; 1.4s
+[architecture] domain_heads: scaffold repeat=1/3 fold=3/3
+[architecture] domain: measured MSE=94217.6856; all MSE=23097403.5897; 4.6s
+[architecture] pooled_control: measured MSE=95249.4407; all MSE=23041871.1650; 4.6s
+[architecture] kaggle_only_control: measured MSE=98952.7818; all MSE=23159466.2603; 1.4s
+[architecture] domain_heads: scaffold repeat=2/3 fold=1/3
+[architecture] domain: measured MSE=1064851.6317; all MSE=34993889.2861; 5.6s
+[architecture] pooled_control: measured MSE=782681.0996; all MSE=34879432.8772; 4.4s
+[architecture] kaggle_only_control: measured MSE=1063345.3348; all MSE=35055007.7496; 1.6s
+[architecture] domain_heads: scaffold repeat=2/3 fold=2/3
+[architecture] domain: measured MSE=109261.9487; all MSE=14590328.4652; 4.6s
+[architecture] pooled_control: measured MSE=188736.1502; all MSE=14736238.3452; 4.6s
+[architecture] kaggle_only_control: measured MSE=111712.7258; all MSE=14667033.0947; 1.7s
+[architecture] domain_heads: scaffold repeat=2/3 fold=3/3
+[architecture] domain: measured MSE=18062674.3526; all MSE=37645319.9340; 4.8s
+[architecture] pooled_control: measured MSE=17997800.1219; all MSE=37625648.2187; 5.4s
+[architecture] kaggle_only_control: measured MSE=18067668.6136; all MSE=37666627.9835; 1.6s
+[architecture] domain_heads: scaffold repeat=3/3 fold=1/3
+[architecture] domain: measured MSE=224613.5583; all MSE=22133863.0797; 5.0s
+[architecture] pooled_control: measured MSE=1416003.8301; all MSE=23076152.7930; 4.6s
+[architecture] kaggle_only_control: measured MSE=181770.7576; all MSE=22127424.0902; 1.5s
+[architecture] domain_heads: scaffold repeat=3/3 fold=2/3
+[architecture] domain: measured MSE=17804782.3360; all MSE=40867852.4138; 4.6s
+[architecture] pooled_control: measured MSE=17654659.5235; all MSE=40778664.2001; 4.5s
+[architecture] kaggle_only_control: measured MSE=17888019.6459; all MSE=40945432.5805; 1.4s
+[architecture] domain_heads: scaffold repeat=3/3 fold=3/3
+[architecture] domain: measured MSE=558700.0530; all MSE=23302168.3747; 5.6s
+[architecture] pooled_control: measured MSE=129753.6419; all MSE=22925311.4820; 4.8s
+[architecture] kaggle_only_control: measured MSE=523384.0934; all MSE=23288770.8177; 1.8s
+[architecture done] domain_heads: selected=domain; seconds=222.4

@@ -1,0 +1,14 @@
+{
+  "criterion": "Best verified public Kaggle score in the recorded experiment history",
+  "method": "chemeleon",
+  "encoder": "Frozen author CheMeleon D-MPNN",
+  "head": "Shared MLP, independent masked log IC50 and log CC50 targets",
+  "artifact": "artifacts/architectures/chemeleon.joblib",
+  "submission": "reports/architectures/chemeleon/submission.csv",
+  "local_subset_mse": 1830471.4703635473,
+  "local_coverage": "468/597",
+  "public_score": 1750683.92577,
+  "submission_ref": 58092002,
+  "inference": "../env_arch/Scripts/python.exe -m src.architecture_workflow --predict-artifact artifacts/architectures/chemeleon.joblib --out reports/chemeleon_prediction.csv",
+  "note": "Requires the isolated architecture environment and MD5-checked author weights; previous XGBoost environment and defaults preserved"
+}

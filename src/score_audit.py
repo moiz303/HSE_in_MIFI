@@ -38,6 +38,9 @@ def official_reference_mse(prediction, reference):
 
 def run():
     official = json.loads((ROOT / "reports/hypotheses/kaggle_submissions.json").read_text(encoding="utf-8"))["submissions"]
+    architecture_scores = ROOT / "reports/architectures/kaggle_submissions.json"
+    if architecture_scores.exists():
+        official += json.loads(architecture_scores.read_text(encoding="utf-8"))["submissions"]
     known = [{"path": "reports/submission_xgb_weighted.csv", "ref": 58079620,
         "sha256": "92a0ea69f93cc5c48663ec0b84d68f853ae4c486c5d0b55ee713f5c85b787169", "public_score": 1967765.75828}]
     known += [{"path": r["submission"], "ref": r["ref"], "sha256": r["submission_sha256"],

@@ -13,6 +13,10 @@ test_shared_and_domain_heads_have_masked_loss_and_only_fit_target_domain_when_re
 test_architecture_selection_uses_measured_oof_and_excludes_random_controls
 (tests.test_architecture_models.Scores.test_architecture_selection_uses_measured_oof_and_excludes_random_controls) ...
 ok
+test_checkpoint_transfer_resumes_prefix_and_verifies_publisher_hash
+(tests.test_architecture_models.Scores.test_checkpoint_transfer_resumes_prefix_and_verifies_publisher_hash) ... ok
+test_completed_or_pending_same_file_is_not_recommended_for_duplicate_submission (tests.test_architecture_models.Scores.
+test_completed_or_pending_same_file_is_not_recommended_for_duplicate_submission) ... ok
 test_exact_score_needs_true_targets_and_public_mask_and_aligns_ids
 (tests.test_architecture_models.Scores.test_exact_score_needs_true_targets_and_public_mask_and_aligns_ids) ... ok
 test_changed_config_or_data_rejects_artifact
@@ -264,6 +268,6 @@ test_worst_pairing_is_used_and_competition_rows_keep_full_weight
 (tests.test_xgb_weighted.Weights.test_worst_pairing_is_used_and_competition_rows_keep_full_weight) ... ok
 
 ----------------------------------------------------------------------
-Ran 149 tests in 25.796s
+Ran 151 tests in 22.489s
 
 OK

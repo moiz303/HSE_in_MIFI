@@ -1,0 +1,36 @@
+{
+  "test_inputs": [
+    "index",
+    "SMILES"
+  ],
+  "models": [
+    {
+      "method": "chemeleon",
+      "rows": 597,
+      "predictions_match": true,
+      "submission_sha256": "76e73dec47d6ccb67c4f4b5e52ce6429c35319a71dd9c965ed33a8e28764e7ab",
+      "artifact_sha256": "d123954bc7bc465006499009a91046d1378f02df87cc8480f72173418a78bab8"
+    },
+    {
+      "method": "joint_gp",
+      "rows": 597,
+      "predictions_match": true,
+      "submission_sha256": "e1ad40aec0b72e2fdedd57c7320d0d53ffc44350e0e270f3bf35492f6be05645",
+      "artifact_sha256": "a1dfc8962293061126ac1b8f6feab0b57460417fc161773dc3b9765e3d4e8b0e"
+    },
+    {
+      "method": "unimol",
+      "rows": 597,
+      "predictions_match": true,
+      "submission_sha256": "cc9b53326c4c554e548650396e6ea7a4ae2bf23005c859998dde6c7c70d61a79",
+      "artifact_sha256": "c8ef607bf9de609f954afee7cb1d581a9b6e410ac00e41eda090593366029339"
+    },
+    {
+      "method": "domain_heads",
+      "rows": 597,
+      "predictions_match": true,
+      "submission_sha256": "b053d4482e59da5c7dc2205d691926b303e492bbe4725ebcab052863d094b2ac",
+      "artifact_sha256": "91dfdab6760939341214df4d4ee63f1147a39c8ffc7af40442c410d9ef3e855c"
+    }
+  ]
+}

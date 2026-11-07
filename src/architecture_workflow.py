@@ -167,10 +167,27 @@ def run(method, config):
 def predict(artifact, test_csv, output):
     bundle = joblib.load(ROOT / artifact)
     test = pd.read_csv(ROOT / test_csv, usecols=["index", "SMILES"])
+    if test["index"].isna().any() or test["index"].duplicated().any():
+        raise ValueError("Invalid inference IDs")
     smiles = [standardize_smiles(s) for s in test.SMILES]
-    matrices, _ = matrix_for(bundle["method"], smiles, bundle["config"])
-    prediction = bundle["model"].predict_si(matrices[bundle["encoder"]])
-    pd.DataFrame({"index": test["index"], "SI VACV": prediction}).to_csv(ROOT / output, index=False)
+    if any(s is None for s in smiles):
+        raise ValueError("Invalid inference SMILES")
+    if bundle["method"] == "joint_gp":
+        matrix = morgan_matrix(smiles)
+    else:
+        matrix, metadata = representations(smiles, bundle["encoder"], bundle["config"]["encoder_batch_size"])
+        expected = bundle["representations"][bundle["encoder"]]
+        def hashes(meta):
+            checkpoints = [meta["checkpoint"]] if "checkpoint" in meta else meta["checkpoints"]
+            return [record["sha256"] for record in checkpoints]
+        if hashes(metadata) != hashes(expected):
+            raise ValueError("Encoder weights differ from the saved model; restore the checkpoint URLs/revision in its report")
+    prediction = bundle["model"].predict_si(matrix)
+    if len(prediction) != len(test) or not np.isfinite(prediction).all() or (prediction < 0).any():
+        raise ValueError("Invalid inference predictions")
+    path = ROOT / output
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame({"index": test["index"], "SI VACV": prediction}).to_csv(path, index=False)
 
 
 def main():

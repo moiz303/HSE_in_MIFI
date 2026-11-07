@@ -1,3 +1,4 @@
 path,ref,sha256,public_score,local_subset_mse,official_minus_local,coverage,official_source
 reports/submission_xgb_weighted.csv,58079620,92a0ea69f93cc5c48663ec0b84d68f853ae4c486c5d0b55ee713f5c85b787169,1967765.75828,1944184.313892794,23581.444387205876,468/597,"Previously scored exact submission bytes; lookup, not local recomputation"
 reports/hypotheses/head_params/submission.csv,58090521,81db8ace94c2ab564b35df3d27e8f0aa33773066a3aa56fd4c874cbe50760809,2068464.49379,1893853.2391688058,174611.2546211942,468/597,"Previously scored exact submission bytes; lookup, not local recomputation"
+reports/architectures/chemeleon/submission.csv,58092002,76e73dec47d6ccb67c4f4b5e52ce6429c35319a71dd9c965ed33a8e28764e7ab,1750683.92577,1830471.4703635473,-79787.54459354724,468/597,"Previously scored exact submission bytes; lookup, not local recomputation"

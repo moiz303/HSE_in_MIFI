@@ -1,0 +1,19 @@
+{
+  "observed_utc": "2026-11-07T12:46:21.408547+00:00",
+  "source": "Kaggle public leaderboard API",
+  "rows_returned": 43,
+  "team": {
+    "rank": 22,
+    "teamId": 17306831,
+    "teamName": "HSE_in_MIFI",
+    "submissionDate": "2026-11-07T12:40:24.066000",
+    "score": "1750683.92577"
+  },
+  "fifth_place": {
+    "teamId": 17307064,
+    "teamName": "\u041a\u0443\u0431\u0438\u043a",
+    "submissionDate": "2026-11-07T12:25:36.403000",
+    "score": "838628.08777"
+  },
+  "note": "Leaderboard snapshot; may change and may lag a newly scored submission"
+}

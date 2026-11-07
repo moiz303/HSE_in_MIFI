@@ -1,0 +1,14 @@
+{
+  "user_threshold_local_mse_strictly_below": 1900000,
+  "best_new_method": "chemeleon",
+  "selected": "mlp",
+  "local_subset_mse": 1830471.4703635473,
+  "coverage": "468/597",
+  "threshold_met": true,
+  "accepted_submissions": 1,
+  "submission_ref": 58092002,
+  "status": "COMPLETE",
+  "official_public_score": 1750683.92577,
+  "exact_official_recomputation_available": false,
+  "reason": "Unknown official test ground truth and public mask; official result recorded from Kaggle for the exact submitted file"
+}

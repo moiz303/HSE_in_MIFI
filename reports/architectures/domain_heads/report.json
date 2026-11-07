@@ -1,0 +1,989 @@
+{
+  "method": "domain_heads",
+  "status": "complete",
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "order": [
+      "chemeleon",
+      "joint_gp",
+      "unimol",
+      "domain_heads"
+    ],
+    "baseline_oof": "reports/tail_comparison_oof.csv",
+    "selection": "mean measured-original-TRAIN SI MSE over molecule/scaffold OOF; report all/conditional strata separately",
+    "neural": {
+      "epochs": 160,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "weight_decay": 0.01,
+      "hidden": 64,
+      "dropout": 0.15
+    },
+    "ridge_alphas": [
+      10.0,
+      100.0
+    ],
+    "gp": {
+      "maxiter": 30,
+      "jitter": 1e-06
+    },
+    "frozen_encoders": true,
+    "encoder_batch_size": 8,
+    "unimol_conformers": 1,
+    "unimol_seed": 42,
+    "submit_best_only": true,
+    "submit_if_local_subset_mse_strictly_below": 1900000,
+    "notes": "Same development structures and OOF groups for all four architectures; masked independent exact concentration targets; no holdout or test endpoints in fitting. Threshold applies to diagnostic local MSE, not an estimate of official public score."
+  },
+  "candidates": {
+    "domain": {
+      "kind": "domain"
+    },
+    "pooled_control": {
+      "kind": "mlp",
+      "control_only": true
+    },
+    "kaggle_only_control": {
+      "kind": "kaggle_only",
+      "control_only": true
+    }
+  },
+  "selected": "domain",
+  "selection_metric": "mean measured-original-TRAIN SI MSE over molecule/scaffold OOF; report all/conditional strata separately",
+  "selection_used_test_endpoints": false,
+  "protocols": {
+    "molecule": {
+      "baseline": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        }
+      },
+      "domain": {
+        "n": 801,
+        "mse": 29727065.9649833,
+        "rmse": 5452.253292445546,
+        "mae": 2724.858205568824,
+        "bias": -2676.46455043203,
+        "rmse_log10": 1.6608732342065757,
+        "repeat_mse": [
+          29728456.76961293,
+          29728789.850427993,
+          29723951.27490897
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6778390.689786175,
+          "rmse": 2603.5342689863282,
+          "mae": 342.32149400860635,
+          "bias": -278.03738494629835,
+          "rmse_log10": 0.8902950281207164
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 27816.507959909795,
+          "rmse": 166.78281674054372,
+          "mae": 40.40691009951745,
+          "bias": 29.445123149117073,
+          "rmse_log10": 0.7749706592137958
+        },
+        "paired_gain": {
+          "mean_mse_gain": -60213.631804619,
+          "ci95": [
+            -181497.80200373946,
+            30134.458903628314
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "pooled_control": {
+        "n": 801,
+        "mse": 29752177.848433387,
+        "rmse": 5454.555696702839,
+        "mae": 2710.063028895892,
+        "bias": -2639.9383400371544,
+        "rmse_log10": 1.6919801740236138,
+        "repeat_mse": [
+          29698604.74179861,
+          29822463.689821195,
+          29735465.113680363
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6804535.850555668,
+          "rmse": 2608.5505267400263,
+          "mae": 322.3119739386554,
+          "bias": -229.1612678427203,
+          "rmse_log10": 0.8283106002760263
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 12315.24729709314,
+          "rmse": 110.9740838984181,
+          "mae": 27.771884720708503,
+          "bias": 18.537892791849824,
+          "rmse_log10": 0.7436228609018075
+        },
+        "paired_gain": {
+          "mean_mse_gain": -85325.51525470766,
+          "ci95": [
+            -402516.0169255815,
+            96810.0039241427
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "kaggle_only_control": {
+        "n": 801,
+        "mse": 29756527.265346475,
+        "rmse": 5454.954377934473,
+        "mae": 2723.0343977527214,
+        "bias": -2679.991376240043,
+        "rmse_log10": 1.7321832439160378,
+        "repeat_mse": [
+          29764148.66395516,
+          29753901.78256486,
+          29751531.349519406
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6782309.240265854,
+          "rmse": 2604.2867046978245,
+          "mae": 338.13156914619515,
+          "bias": -280.95501818159244,
+          "rmse_log10": 0.8950877277248153
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 15536.016613697811,
+          "rmse": 124.64355825191213,
+          "mae": 35.14100750506804,
+          "bias": 22.76553139865687,
+          "rmse_log10": 0.7485521583078207
+        },
+        "paired_gain": {
+          "mean_mse_gain": -89674.93216779582,
+          "ci95": [
+            -202984.56411160546,
+            -12259.669291016526
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "baseline": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477975,
+          "bias": 20.271503998893618,
+          "rmse_log10": 0.82984927730235
+        }
+      },
+      "domain": {
+        "n": 801,
+        "mse": 29711188.190254737,
+        "rmse": 5450.79702339527,
+        "mae": 2731.501622880157,
+        "bias": -2675.662677181087,
+        "rmse_log10": 1.7182707362432046,
+        "repeat_mse": [
+          29721027.986597925,
+          29671020.08845695,
+          29741516.495709322
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6815961.417949812,
+          "rmse": 2610.7396304399663,
+          "mae": 354.1496884002223,
+          "bias": -279.97556650145737,
+          "rmse_log10": 1.0016632224725701
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 57556.41381773314,
+          "rmse": 239.90917826905485,
+          "mae": 49.763318436599164,
+          "bias": 36.947956821546626,
+          "rmse_log10": 0.834346667408638
+        },
+        "paired_gain": {
+          "mean_mse_gain": -29520.197464506058,
+          "ci95": [
+            -174846.68255781004,
+            106373.6585363896
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "pooled_control": {
+        "n": 801,
+        "mse": 29923920.94534774,
+        "rmse": 5470.2761306306775,
+        "mae": 2744.4597617017876,
+        "bias": -2629.387698401691,
+        "rmse_log10": 1.787991517125869,
+        "repeat_mse": [
+          30245450.62391496,
+          29670251.251078896,
+          29856060.961049363
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 7061390.38867518,
+          "rmse": 2657.327678077203,
+          "mae": 369.50305705431214,
+          "bias": -216.64613714821468,
+          "rmse_log10": 0.9847861628171637
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 216646.6969993498,
+          "rmse": 465.4532167676466,
+          "mae": 71.3183361844297,
+          "bias": 58.553688441596776,
+          "rmse_log10": 0.8280426117028169
+        },
+        "paired_gain": {
+          "mean_mse_gain": -242252.95255751236,
+          "ci95": [
+            -750060.228930297,
+            102995.05965898457
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "kaggle_only_control": {
+        "n": 801,
+        "mse": 29739772.31192453,
+        "rmse": 5453.418406093973,
+        "mae": 2726.509132078974,
+        "bias": -2685.1832905313668,
+        "rmse_log10": 1.7796439644589346,
+        "repeat_mse": [
+          29731334.383182153,
+          29722760.560526896,
+          29765221.99206452
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6796886.559386812,
+          "rmse": 2607.0839187465394,
+          "mae": 344.6356784161524,
+          "bias": -289.74015755440644,
+          "rmse_log10": 0.9983644405803898
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 31634.494472493097,
+          "rmse": 177.8608851672933,
+          "mae": 39.343976468394125,
+          "bias": 25.793510384551624,
+          "rmse_log10": 0.8083316243640186
+        },
+        "paired_gain": {
+          "mean_mse_gain": -58104.31913429781,
+          "ci95": [
+            -181709.8719807151,
+            56109.05824833647
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "fit_audits": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        302,
+        450
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        302,
+        450
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        103,
+        145
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        325,
+        468
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        325,
+        468
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        136,
+        174
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        303,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        303,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        111,
+        163
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        294,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        294,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        113,
+        155
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        315,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        315,
+        458
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        115,
+        167
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        321,
+        448
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        321,
+        448
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        122,
+        160
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        322,
+        453
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        322,
+        453
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        126,
+        156
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        311,
+        462
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        311,
+        462
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        114,
+        165
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        297,
+        449
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        297,
+        449
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        110,
+        161
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        336,
+        456
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        336,
+        456
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        111,
+        144
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        312,
+        463
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        312,
+        463
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        119,
+        167
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        282,
+        445
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        282,
+        445
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        120,
+        171
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        340,
+        474
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        340,
+        474
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        127,
+        163
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        303,
+        465
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        303,
+        465
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        115,
+        164
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        287,
+        425
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        287,
+        425
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        108,
+        155
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "domain",
+      "targets": [
+        311,
+        478
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "pooled_control",
+      "targets": [
+        311,
+        478
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        118,
+        168
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "domain",
+      "targets": [
+        330,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "pooled_control",
+      "targets": [
+        330,
+        446
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        118,
+        152
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "domain",
+      "targets": [
+        289,
+        440
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "pooled_control",
+      "targets": [
+        289,
+        440
+      ],
+      "optimization": null
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "kaggle_only_control",
+      "targets": [
+        114,
+        162
+      ],
+      "optimization": null
+    }
+  ],
+  "final_targets": [
+    465,
+    682
+  ],
+  "optimization": null,
+  "development_rows": 1007,
+  "original_training_reference_rows": 267,
+  "holdout_used": false,
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "versions": {
+    "numpy": "2.2.6",
+    "pandas": "2.2.3",
+    "scipy": "1.15.3",
+    "rdkit": "2026.9.1",
+    "torch": "2.6.0+cpu",
+    "chemprop": "2.2.1",
+    "unimol-tools": "0.1.6"
+  },
+  "representations": {
+    "chemeleon": {
+      "checkpoint": {
+        "url": "https://zenodo.org/records/15460715/files/chemeleon_mp.pt",
+        "file": "artifacts/pretrained/chemeleon_mp.pt",
+        "sha256": "c376624d3407204e780a0ed13a9ac097cc9bb1c13ef89cdbc633c1715c183651",
+        "bytes": 34859448
+      },
+      "random_control": false,
+      "frozen": true,
+      "dimensions": 2048,
+      "elapsed_seconds": 63.062000000005355,
+      "smiles_sha256": "c7d78401146c4dff71f35e702a18a36a43db630ede10bcc500362236d807c14b",
+      "rows": 1604,
+      "cache": "data/architecture_cache/chemeleon_c7d78401146c4dff71f35e702a18a36a43db630ede10bcc500362236d807c14b.npz"
+    }
+  },
+  "submission": "reports/architectures/domain_heads/submission.csv",
+  "artifact": "artifacts/architectures/domain_heads.joblib",
+  "submission_sha256": "b053d4482e59da5c7dc2205d691926b303e492bbe4725ebcab052863d094b2ac",
+  "elapsed_seconds": 222.42199999999139
+}

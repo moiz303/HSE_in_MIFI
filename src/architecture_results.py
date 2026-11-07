@@ -11,6 +11,13 @@ NAMES = {"chemeleon": "CheMeleon (frozen 2D)", "joint_gp": "Совместный
          "unimol": "Uni-Mol (frozen 3D)", "domain_heads": "Доменные головы CheMeleon"}
 
 
+def submission_decision(local_score, digest, submissions, threshold):
+    submitted = any(row.get("competition") == "molecular-activity-prediction-hack"
+                    and row.get("submission_sha256") == digest and row.get("ref") for row in submissions)
+    passes = bool(local_score < threshold)
+    return {"passes_local_threshold": passes, "submitted": bool(submitted), "eligible": passes and not submitted}
+
+
 def main():
     config = json.loads((ROOT / "configs/architectures.json").read_text(encoding="utf-8"))
     baselines = [("weighted", "Взвешенный XGBoost, отправленный ранее", "reports/submission_xgb_weighted.csv"),
@@ -42,7 +49,8 @@ def main():
             "molecule_all_oof_mse": report["protocols"]["molecule"][selected]["mse"],
             "scaffold_all_oof_mse": report["protocols"]["scaffold"][selected]["mse"],
             "official_kaggle_score": official_score_for(ROOT / report["submission"], official), "submission": report["submission"],
-            "eligible": bool(metric["mse_ratio_subset"] < config["submit_if_local_subset_mse_strictly_below"])})
+            **submission_decision(metric["mse_ratio_subset"], report["submission_sha256"], official,
+                                  config["submit_if_local_subset_mse_strictly_below"])})
     qualifying = sorted([row for row in rows if row["eligible"]], key=lambda r: r["local_subset_mse"])
     result = {"formula": "raw SI mean squared error; lower is better", "local_reference_coverage": diagnostic["coverage_by_status"],
         "can_compute_identical_official_score_for_new_predictions": False,
@@ -50,6 +58,7 @@ def main():
         "no_score_calibration_to_leaderboard": True, "threshold": config["submit_if_local_subset_mse_strictly_below"],
         "selection_of_internal_variants": config["selection"], "selection_used_test_endpoints": False,
         "post_inference_submission_choice_authorized_by_user": True,
+        "best_new_method": min([r for r in rows if r["method"] in config["order"]], key=lambda r: r["local_subset_mse"]),
         "best_eligible": qualifying[0] if qualifying else None, "results": rows}
     directory = ROOT / "reports/architectures"
     (directory / "comparison.json").write_text(json.dumps(result, indent=2, allow_nan=False), encoding="utf-8")
