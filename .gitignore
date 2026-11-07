@@ -64,3 +64,8 @@ logs/
 reports/finetune/oof_*_*.csv
 reports/finetune/audit_*.json
 reports/finetune_diagnostics.log
+
+# Local incremental checkpoints; the consolidated current OOF and reports are versioned.
+reports/current/oof_*_*.csv
+reports/current/audit_*.json
+.venv-current/

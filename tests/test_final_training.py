@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 import pandas as pd
 from src import xgb_workflow as workflow, pipeline
-import train_model
+from legacy import train_model_v1 as train_model
 from tests import test_xgb_two_head as fixtures
 
 

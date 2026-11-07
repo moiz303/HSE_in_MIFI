@@ -1,0 +1,8 @@
+{
+  "selected": "chemeleon_domain_log1p__public_plus_kaggle",
+  "rule": "Mean raw SI MSE across molecule/scaffold OOF on ALL original development competition rows, including zeros; before separate test diagnostics. No automatic promotion or Kaggle upload.",
+  "test_endpoints_used": false,
+  "official_score_known": false,
+  "automatic_promotion": false,
+  "kaggle_submitted": false
+}

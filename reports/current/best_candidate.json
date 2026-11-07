@@ -1,0 +1,19 @@
+{
+  "candidate": "chemeleon_domain_log1p__public_plus_kaggle",
+  "method": "chemeleon_domain_log1p",
+  "regime": "public_plus_kaggle",
+  "artifact": "artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib",
+  "submission": "reports/current/submission_chemeleon_domain_log1p__public_plus_kaggle.csv",
+  "submission_sha256": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3",
+  "fit_rows": 347,
+  "competition_rows": 267,
+  "public_rows": 80,
+  "zero_targets": 66,
+  "official_kaggle_score": null,
+  "selected": "chemeleon_domain_log1p__public_plus_kaggle",
+  "rule": "Mean raw SI MSE across molecule/scaffold OOF on ALL original development competition rows, including zeros; before separate test diagnostics. No automatic promotion or Kaggle upload.",
+  "test_endpoints_used": false,
+  "official_score_known": false,
+  "automatic_promotion": false,
+  "kaggle_submitted": false
+}

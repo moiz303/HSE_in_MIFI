@@ -1,0 +1,126 @@
+[
+  {
+    "original": "reports/architecture_1_chemeleon.log",
+    "archived": "reports/archive/logs/architecture_1_chemeleon.log"
+  },
+  {
+    "original": "reports/architecture_2_joint_gp.log",
+    "archived": "reports/archive/logs/architecture_2_joint_gp.log"
+  },
+  {
+    "original": "reports/architecture_3_unimol_resume.log",
+    "archived": "reports/archive/logs/architecture_3_unimol_resume.log"
+  },
+  {
+    "original": "reports/architecture_4_domain_heads.log",
+    "archived": "reports/archive/logs/architecture_4_domain_heads.log"
+  },
+  {
+    "original": "reports/architecture_all_tests.log",
+    "archived": "reports/archive/logs/architecture_all_tests.log"
+  },
+  {
+    "original": "reports/architecture_focused_tests.log",
+    "archived": "reports/archive/logs/architecture_focused_tests.log"
+  },
+  {
+    "original": "reports/architecture_install_packages.log",
+    "archived": "reports/archive/logs/architecture_install_packages.log"
+  },
+  {
+    "original": "reports/architecture_install_torch.log",
+    "archived": "reports/archive/logs/architecture_install_torch.log"
+  },
+  {
+    "original": "reports/catboost_20261107_065315.log",
+    "archived": "reports/archive/logs/catboost_20261107_065315.log"
+  },
+  {
+    "original": "reports/finetune_cache_verification.log",
+    "archived": "reports/archive/logs/finetune_cache_verification.log"
+  },
+  {
+    "original": "reports/finetune_final.log",
+    "archived": "reports/archive/logs/finetune_final.log"
+  },
+  {
+    "original": "reports/finetune_prefix.log",
+    "archived": "reports/archive/logs/finetune_prefix.log"
+  },
+  {
+    "original": "reports/finetune_tail_audit.log",
+    "archived": "reports/archive/logs/finetune_tail_audit.log"
+  },
+  {
+    "original": "reports/finetune_tests.log",
+    "archived": "reports/archive/logs/finetune_tests.log"
+  },
+  {
+    "original": "reports/finetune_worker0.log",
+    "archived": "reports/archive/logs/finetune_worker0.log"
+  },
+  {
+    "original": "reports/finetune_worker1.log",
+    "archived": "reports/archive/logs/finetune_worker1.log"
+  },
+  {
+    "original": "reports/finetune_worker2.log",
+    "archived": "reports/archive/logs/finetune_worker2.log"
+  },
+  {
+    "original": "reports/hypotheses_broad_source_audit.log",
+    "archived": "reports/archive/logs/hypotheses_broad_source_audit.log"
+  },
+  {
+    "original": "reports/hypotheses_focused_tests.log",
+    "archived": "reports/archive/logs/hypotheses_focused_tests.log"
+  },
+  {
+    "original": "reports/hypotheses_run.log",
+    "archived": "reports/archive/logs/hypotheses_run.log"
+  },
+  {
+    "original": "reports/hypotheses_tests.log",
+    "archived": "reports/archive/logs/hypotheses_tests.log"
+  },
+  {
+    "original": "reports/independent_collection.log",
+    "archived": "reports/archive/logs/independent_collection.log"
+  },
+  {
+    "original": "reports/tail_tests.log",
+    "archived": "reports/archive/logs/tail_tests.log"
+  },
+  {
+    "original": "reports/xgb_20261107_062536.log",
+    "archived": "reports/archive/logs/xgb_20261107_062536.log"
+  },
+  {
+    "original": "reports/xgb_analog_windows_20261107_080948.log",
+    "archived": "reports/archive/logs/xgb_analog_windows_20261107_080948.log"
+  },
+  {
+    "original": "reports/xgb_cv_20261107_071033.log",
+    "archived": "reports/archive/logs/xgb_cv_20261107_071033.log"
+  },
+  {
+    "original": "reports/xgb_ensemble_20261107_072843.log",
+    "archived": "reports/archive/logs/xgb_ensemble_20261107_072843.log"
+  },
+  {
+    "original": "reports/xgb_final_20261107_072329.log",
+    "archived": "reports/archive/logs/xgb_final_20261107_072329.log"
+  },
+  {
+    "original": "reports/xgb_hybrid_20261107_070107.log",
+    "archived": "reports/archive/logs/xgb_hybrid_20261107_070107.log"
+  },
+  {
+    "original": "reports/xgb_tail_windows_20261107.log",
+    "archived": "reports/archive/logs/xgb_tail_windows_20261107.log"
+  },
+  {
+    "original": "reports/xgb_weighted_20261107_074155.log",
+    "archived": "reports/archive/logs/xgb_weighted_20261107_074155.log"
+  }
+]

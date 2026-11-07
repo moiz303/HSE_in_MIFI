@@ -1,0 +1,44 @@
+{
+  "checked_date": "2026-11-07",
+  "source_access": "Authenticated read-only Kaggle API pages, competition metadata and file list; ChEMBL target API",
+  "competition_url": "https://www.kaggle.com/competitions/molecular-activity-prediction-hack",
+  "metadata": {
+    "title": "Molecular Activity Prediction",
+    "evaluation_metric": "Mean Squared Error",
+    "deadline": "2026-11-08 06:00:00",
+    "max_daily_submissions": "20",
+    "is_kernels_submissions_only": "False",
+    "license_name": "Subject to Competition Rules"
+  },
+  "strict_official_endpoint_ban": true,
+  "user_confirmed_no_exception": true,
+  "official_training_columns": [
+    "SMILES",
+    "SI VACV"
+  ],
+  "inference_columns": [
+    "index",
+    "SMILES"
+  ],
+  "submission_columns": [
+    "index",
+    "SI VACV"
+  ],
+  "dataset_audit": "data/current/audit.json",
+  "dataset_train_sha256": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+  "public_dataset": "data/current/public_dataset.csv",
+  "public_collector": "src/current/collect.py",
+  "full_public_recollection_this_run": false,
+  "public_target_ids": [
+    "CHEMBL613493",
+    "CHEMBL613168"
+  ],
+  "fitted_variants": 14,
+  "inference_verification": "reports/current/inference_verification.json",
+  "unit_tests_passed": 169,
+  "kaggle_submissions_this_task": 0,
+  "new_official_score": null,
+  "historical_concentration_heads_current_protocol_eligible": false,
+  "scope": "Technical repository/data audit, not a guarantee of organizer admission",
+  "protocol": "docs/current_protocol.md"
+}

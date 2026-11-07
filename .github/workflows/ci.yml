@@ -6,6 +6,24 @@ on:
   pull_request:
 
 jobs:
+  current:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install current CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-current.txt
+      - name: Current protocol, censoring, zeros and leakage
+        run: python -m unittest tests.test_current tests.test_kaggle_data tests.test_schema tests.test_standardize tests.test_download tests.test_splits -v
+      - name: Current entry points are self-documenting
+        run: |
+          python train_model.py --help
+          python -m src.current.collect --help
   tests:
     runs-on: ubuntu-latest
     steps:

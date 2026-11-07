@@ -11,5 +11,9 @@
   "public_score": 1614079.37878,
   "submission_ref": 58094437,
   "inference": "../env_arch/Scripts/python.exe -m src.architecture_workflow --predict-artifact artifacts/architectures/domain_heads.joblib --out reports/chemeleon_domain_prediction.csv",
-  "note": "Best verified public result after one explicitly authorized domain-head submission, despite worse local endpoint-ratio MSE. Earlier models, files, OOF selections and training defaults preserved. Requires isolated architecture environment and MD5-checked author weights."
+  "note": "Best verified public result after one explicitly authorized domain-head submission, despite worse local endpoint-ratio MSE. Earlier models, files, OOF selections and training defaults preserved. Requires isolated architecture environment and MD5-checked author weights.",
+  "historical_only": true,
+  "current_protocol_eligible": false,
+  "current_candidate_pointer": "reports/current/best_candidate.json",
+  "ineligibility_reason": "Historical model used official concentration columns as training targets, excluded under the user-confirmed strict protocol"
 }

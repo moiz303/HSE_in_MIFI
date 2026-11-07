@@ -1,0 +1,14 @@
+[
+  {
+    "source": "data/architecture_cache/chemeleon_atoms_14bfe8634089fcb7fe0e9f19d978f0e3140e55b7358664bcb9ad4e7089137e49",
+    "archived_outside_repository": true,
+    "bytes": 716445656,
+    "regenerated_with": "python -m src.chemeleon_states"
+  },
+  {
+    "source": "data/architecture_cache/chemeleon_atoms_c02938bfee08a1db625b5ee1ebf7880ca0443bd6a271db0f5f8da6cb4fef0058",
+    "archived_outside_repository": true,
+    "bytes": 257660799,
+    "regenerated_with": "python -m src.chemeleon_states"
+  }
+]
