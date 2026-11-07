@@ -1,0 +1,13 @@
+{
+  "seed": 20261107,
+  "inner_folds": 3,
+  "public_weights": [0.0, 0.5, 2.0],
+  "ensemble_public_weight": 0.5,
+  "ensemble_seeds": [20261106, 20261107, 20261108],
+  "base_catboost_depth": 5,
+  "base_catboost_iterations": 600,
+  "catboost_depths": [4, 6],
+  "catboost_iterations": [400, 800],
+  "tuned_public_weight": 0.5,
+  "calibration_slopes": [0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0]
+}

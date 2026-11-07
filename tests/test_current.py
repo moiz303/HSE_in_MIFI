@@ -10,6 +10,11 @@ from src.current.data import public_pairs,read_kaggle_training
 from src.current.workflow import select_fit_rows
 from src.current.models import SIModel
 from src.current.results import paired_gain
+from src.current.robustness import (
+    _inner_splits, _weighted_frame, apply_calibration, build_variants,
+    calibration_candidates,
+)
+from src.splits import murcko_scaffold
 
 
 class DataTests(unittest.TestCase):
@@ -82,6 +87,62 @@ class RidgeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'m.joblib';joblib.dump(model,path)
             np.testing.assert_array_equal(model.predict(x),joblib.load(path).predict(x))
+
+
+class RobustnessTests(unittest.TestCase):
+    def test_calibration_candidates_are_nonnegative_and_include_zero_shrinkage(self):
+        y=np.array([0.,2.,4.,6.])
+        prediction=np.array([1.,2.,3.,4.])
+        candidates=calibration_candidates(y,prediction,[0.,.5,1.])
+        self.assertIn('affine_ols',[row['name'] for row in candidates])
+        shrinkage=next(row for row in candidates if row['name']=='affine_0.5')
+        calibrated=apply_calibration(prediction,shrinkage)
+        self.assertTrue(np.isfinite(calibrated).all())
+        self.assertTrue((calibrated>=0).all())
+        self.assertTrue((apply_calibration(prediction,{'slope':1.,'intercept':-10.})==0).all())
+
+    def test_public_weight_is_normalized_per_structure(self):
+        frame=pd.DataFrame({
+            'source':['kaggle','chembl','chembl','chembl'],
+            'standard_smiles':['C','CC','CC','CCC'],
+            'weight':[1.,.5,.5,.5],
+        })
+        weighted=_weighted_frame(frame,2.)
+        public=weighted.source.ne('kaggle')
+        totals=weighted.loc[public].groupby('standard_smiles').weight.sum()
+        self.assertEqual(totals.to_dict(),{'CC':2.,'CCC':2.})
+        self.assertEqual(weighted.loc[~public,'weight'].tolist(),[1.])
+
+    def test_inner_folds_keep_molecules_and_scaffolds_together(self):
+        frame=pd.DataFrame({
+            'standard_smiles':['c1ccccc1','c1ccccc1','c1ccncc1',
+                               'C1CCCCC1','C1CCCCC1','C1CCNCC1',
+                               'CCO','CCN','CCC','CCF','CCCl','CCBr'],
+        })
+        for protocol in ('molecule','scaffold'):
+            for train_indices,validation_indices in _inner_splits(frame,protocol,3,7):
+                train=frame.iloc[train_indices].standard_smiles
+                validation=frame.iloc[validation_indices].standard_smiles
+                self.assertTrue(set(train).isdisjoint(set(validation)))
+                if protocol=='scaffold':
+                    train_scaffolds=set(train.map(murcko_scaffold))
+                    validation_scaffolds=set(validation.map(murcko_scaffold))
+                    self.assertTrue(train_scaffolds.isdisjoint(validation_scaffolds))
+
+    def test_search_space_covers_source_weights_hurdle_ensemble_and_tuning(self):
+        settings={
+            'public_weights':[0.,.5,2.], 'ensemble_public_weight':.5,
+            'ensemble_seeds':[1,2,3], 'seed':1, 'base_catboost_depth':5,
+            'base_catboost_iterations':600, 'catboost_depths':[4,6],
+            'catboost_iterations':[400,800], 'tuned_public_weight':.5,
+        }
+        variants=build_variants(settings)
+        names=[variant['name'] for variant in variants]
+        self.assertEqual(len(names),len(set(names)))
+        self.assertTrue(any('ensemble' in name for name in names))
+        self.assertTrue(any(variant['kind']=='hurdle' for variant in variants))
+        self.assertTrue(any('d4_i800' in name for name in names))
+        self.assertTrue(any('public_2' in name for name in names))
 
 
 @unittest.skipUnless(importlib.util.find_spec('torch'),'Architecture environment required')
