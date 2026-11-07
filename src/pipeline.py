@@ -150,13 +150,32 @@ def step_export(config: dict) -> None:
           f"намеренно — он только в {MANIFEST.relative_to(ROOT)}")
 
 
-def _features(dataset: pd.DataFrame, config: dict) -> np.ndarray:
-    column = "standard_smiles" if "standard_smiles" in dataset.columns else "smiles"
-    return fingerprints.featurize(
+def _features(dataset: pd.DataFrame, config: dict, smiles_column: str | None = None) -> np.ndarray:
+    """Признаки одной сборкой: структура плюс метаданные анализа.
+
+    Метаданные (клеточная линия, штамм, состав панели) входят только если
+    включены в конфиге. Включать их нужно вместе с обучением: модель, обученная
+    на другом наборе колонок, молча даст мусор, поэтому ниже стоит проверка
+    ширины матрицы.
+    """
+    column = smiles_column or ("standard_smiles" if "standard_smiles" in dataset.columns else "smiles")
+    blocks = [fingerprints.featurize(
         dataset[column].astype(str).tolist(),
         use_morgan=config["features"]["morgan"],
         use_descriptors=config["features"]["descriptors"],
-    )
+    )]
+
+    settings = config["features"].get("metadata") or {}
+    if any(settings.get(key) for key in ("cells", "strain", "flags")):
+        from src.features import metadata
+
+        blocks.append(metadata.metadata_matrix(
+            dataset,
+            use_cells=bool(settings.get("cells")),
+            use_strain=bool(settings.get("strain")),
+            use_flags=bool(settings.get("flags")),
+        ))
+    return np.hstack(blocks)
 
 
 def step_train(config: dict) -> None:
@@ -264,12 +283,20 @@ def step_submission(config: dict) -> None:
     description = bundle.get("описание") or bundle.get("strategy") or strategy
     print(f"[submission] модель: {model_path.name} — {description}")
 
-    features = fingerprints.featurize(
-        test[settings["smiles_column"]].astype(str).tolist(),
-        use_morgan=config["features"]["morgan"],
-        use_descriptors=config["features"]["descriptors"],
-    )
-    predicted = baseline.from_log(model.predict_log_si(features))
+    features = _features(test, config, smiles_column=settings["smiles_column"])
+
+    # Модель, обученная на другом наборе колонок, молча выдаст мусор: проверяем
+    # ширину, а не надеемся, что конфиг совпал с тем, на чём учили.
+    inner = getattr(model, "model", None)
+    expected = getattr(inner, "n_features_in_", None) or getattr(model, "n_features_in_", None)
+    if expected is not None and expected != features.shape[1]:
+        raise SystemExit(
+            f"модель ждёт {expected} признаков, собрано {features.shape[1]}. "
+            "Проверьте features.metadata в конфиге: он должен совпадать с обучением"
+        )
+
+    predicted = (model.predict_si(features) if hasattr(model, "predict_si")
+                 else baseline.from_log(model.predict_log_si(features)))
 
     out = pd.DataFrame({
         settings["id_column"]: test[settings["id_column"]],

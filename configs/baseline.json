@@ -26,7 +26,12 @@
   },
   "features": {
     "morgan": true,
-    "descriptors": true
+    "descriptors": true,
+    "metadata": {
+      "cells": false,
+      "strain": false,
+      "flags": false
+    }
   },
   "model": {
     "strategy": "raw",
