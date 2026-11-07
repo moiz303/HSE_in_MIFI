@@ -1,0 +1,9 @@
+{
+  "name": "arch5-public-concentration-plus-kaggle-residual",
+  "seed": 20261107,
+  "features": {"morgan": true, "descriptors": true},
+  "model": {"strategy": "xgb_two_head", "params": {}, "clip_si": null},
+  "source_hierarchy": {"enabled": true, "folds": 3, "residual": "ridge", "ridge_alpha": 10.0,
+    "public_source": "chembl", "public_targets": "exact uncensored log IC50 and CC50",
+    "kaggle_targets": "original training concentration endpoints; residuals trained on nested scaffold OOF"}
+}
