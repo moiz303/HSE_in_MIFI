@@ -1,0 +1,117 @@
+{
+  "config": {
+    "name": "catboost-two-head-log-concentrations",
+    "seed": 20261106,
+    "data": {
+      "sources": [
+        "kaggle_train",
+        "chembl"
+      ],
+      "censored": "keep",
+      "chembl": {
+        "limit": null,
+        "drop_invalid": true
+      },
+      "kaggle_train": {
+        "sentinels": "keep"
+      }
+    },
+    "splits": {
+      "seed": 20261106,
+      "fractions": {
+        "train": 0.7,
+        "validation": 0.15,
+        "holdout": 0.15
+      }
+    },
+    "features": {
+      "morgan": true,
+      "descriptors": true
+    },
+    "model": {
+      "strategy": "catboost_two_head",
+      "params": {},
+      "clip_si": null
+    },
+    "submission": {
+      "competition": "molecular-activity-prediction-hack",
+      "test_csv": "data/raw/kaggle/test.csv",
+      "smiles_column": "SMILES",
+      "id_column": "index",
+      "target_column": "SI VACV",
+      "output": "reports/submission_catboost.csv",
+      "model_file": "artifacts/catboost_two_head.joblib"
+    }
+  },
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678"
+  },
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1",
+    "catboost": "1.2.10"
+  },
+  "n_train": {
+    "IC50": 365,
+    "IC50_skipped": 464,
+    "CC50": 565,
+    "CC50_skipped": 264
+  },
+  "note": "Fixed validation; no tuning, significance claim or holdout evaluation.",
+  "train": {
+    "IC50": {
+      "n": 365,
+      "mse": 28594.292646199963,
+      "rmse_log10": 0.43025842983294144
+    },
+    "CC50": {
+      "n": 565,
+      "mse": 75055.87410947726,
+      "rmse_log10": 0.3466935017182549
+    },
+    "SI_all": {
+      "n": 829,
+      "mse": 87862749.1540443,
+      "rmse_log10": 0.9877464868691641
+    },
+    "SI_competition": {
+      "n": 196,
+      "mse": 22658944.700379197,
+      "rmse_log10": 1.505327228265929
+    },
+    "constant_competition": {
+      "n": 196,
+      "mse": 17104102.624231264,
+      "rmse_log10": 2.406876717600286
+    }
+  },
+  "validation": {
+    "IC50": {
+      "n": 100,
+      "mse": 13366.421204793007,
+      "rmse_log10": 0.8166103035317837
+    },
+    "CC50": {
+      "n": 117,
+      "mse": 47685.83519335157,
+      "rmse_log10": 0.6086103093546288
+    },
+    "SI_all": {
+      "n": 178,
+      "mse": 108052810.19620587,
+      "rmse_log10": 1.2690092052194581
+    },
+    "SI_competition": {
+      "n": 64,
+      "mse": 51466751.17422807,
+      "rmse_log10": 1.8703346151709144
+    },
+    "constant_competition": {
+      "n": 64,
+      "mse": 39455476.55166698,
+      "rmse_log10": 2.0880291634451025
+    }
+  }
+}
