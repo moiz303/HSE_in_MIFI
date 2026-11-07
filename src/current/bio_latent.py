@@ -11,6 +11,8 @@ import time
 import joblib
 import numpy as np
 import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 from src.current.data import ROOT,DIRECTORY,sha
 from src.current.workflow import feature_inputs,select_fit_rows,metrics
@@ -36,10 +38,19 @@ def latent_features(learner,x):
     return hidden
 
 
-def make_features(kind,raw,encoded,logs,hidden,source):
+def fit_projection(encoded):
+    scaler=StandardScaler().fit(encoded)
+    pca=PCA(n_components=min(64,len(encoded)-1,encoded.shape[1]),svd_solver='full').fit(scaler.transform(encoded))
+    return {'scaler':scaler,'pca':pca}
+
+
+def make_features(kind,raw,encoded,logs,hidden,source,projection=None):
     if kind=='latent_small':base=np.asarray(raw)[:,2048:]
     elif kind=='latent_fp':base=np.asarray(raw)
-    elif kind=='latent_chem':base=np.column_stack([encoded,np.asarray(raw)[:,2048:]])
+    elif kind=='latent_chem':
+        if projection is None:raise ValueError('Train-fitted chemical projection required')
+        chemical=projection['pca'].transform(projection['scaler'].transform(encoded))
+        base=np.column_stack([chemical,np.asarray(raw)[:,2048:]])
     else:raise ValueError('Unknown biological latent design')
     return np.column_stack([base,hidden,logs,logs[:,2]-logs[:,0],logs[:,2]-logs[:,1],np.asarray(source,float)])
 
@@ -55,7 +66,7 @@ def run():
         'encoded_features':sha(ROOT/encoder['cache'])}
     provenance={'code_sha256':sha(Path(__file__)),'feature_sources':feature_sources,'data':audit,'encoder':encoder,'config':cfg,
         'kinds':KINDS,'regimes':REGIMES,'target':'log1p(SI), CatBoost600/depth5; source indicator',
-        'novel_factor':'32 public-task-trained hidden features in addition to 3 public output logs, keeping training/splits/objective fixed',
+        'novel_factor':'32 public-task-trained hidden features; chemical-input variant uses train-only PCA64; training/splits/objective otherwise fixed',
         'reference':'bio_fp__kaggle_only, mean OOF5014266.299876882',
         'selection':'ALL-row raw SI MSE, zero/bulk <=1.2x fixed Bio reference; no automatic upload',
         'queued_candidate_changed':False,'holdout_used':False,'official_endpoint_columns_read':[]}
@@ -69,13 +80,20 @@ def run():
         held=kaggle[kaggle.original_row.isin(split['held_original_rows'])]
         supplemental=extra[~extra.standard_smiles.isin(held.standard_smiles)].copy()
         if split['protocol']=='scaffold':supplemental=supplemental[~supplemental.standard_smiles.map(murcko_scaffold).isin(set(held.standard_smiles.map(murcko_scaffold)))]
-        key=hashlib.sha256(json.dumps({'sources':feature_sources,'split':split},sort_keys=True).encode()).hexdigest()
+        key=hashlib.sha256(json.dumps({'sources':feature_sources,'public_training_row_ids':supplemental.index.tolist()},sort_keys=True).encode()).hexdigest()
         cache=ROOT/'data/architecture_cache'/('public_bio_state_'+key+'.joblib')
         started=time.monotonic();print(f'[latent] fold{ordinal+1}/18 {stamp}, public measurements={len(supplemental)}',flush=True)
+        old_key=hashlib.sha256(json.dumps({'sources':feature_sources,'split':split},sort_keys=True).encode()).hexdigest()
+        old_cache=ROOT/'data/architecture_cache'/('public_bio_state_'+old_key+'.joblib')
         if cache.exists():learner=joblib.load(cache)['learner']
+        elif old_cache.exists():
+            saved=joblib.load(old_cache)
+            if saved['sources']!=feature_sources or saved['split']!=split or saved['public_fit_rows']!=len(supplemental):raise ValueError('Legacy state mismatch')
+            learner=saved['learner']
+            joblib.dump({**saved,'public_training_row_ids':supplemental.index.tolist(),'reused_from':old_cache.name},cache,compress=3)
         else:
             learner=BiologicalEncoder().fit(external[supplemental.feature_row.to_numpy(int)],supplemental)
-            joblib.dump({'learner':learner,'sources':feature_sources,'split':split,'public_fit_rows':len(supplemental)},cache,compress=3)
+            joblib.dump({'learner':learner,'sources':feature_sources,'public_training_row_ids':supplemental.index.tolist(),'public_fit_rows':len(supplemental)},cache,compress=3)
         logs=learner.predict_logs(encoded);hidden=latent_features(learner,encoded)
         # The correct hidden tap must reconstruct the existing public head.
         reconstructed=(hidden@learner.state['5.weight'].T+learner.state['5.bias'])*np.asarray(learner.scales)+np.asarray(learner.centers)
@@ -89,8 +107,9 @@ def run():
         for regime in REGIMES:
             fit=select_fit_rows(kaggle,public,split['held_original_rows'],split['protocol'],regime);fi=fit.matrix_row.to_numpy(int)
             for kind in KINDS:
-                model=SIModel('catboost_log1p',cfg).fit(make_features(kind,raw[fi],encoded[fi],logs[fi],hidden[fi],fit.source.eq('kaggle')),fit.SI,fit.weight,fit.source.eq('kaggle'))
-                name=kind+'__'+regime;rows[name]=model.predict(make_features(kind,raw[hi],encoded[hi],logs[hi],hidden[hi],np.ones(len(held))))
+                projection=fit_projection(encoded[fi]) if kind=='latent_chem' else None
+                model=SIModel('catboost_log1p',cfg).fit(make_features(kind,raw[fi],encoded[fi],logs[fi],hidden[fi],fit.source.eq('kaggle'),projection),fit.SI,fit.weight,fit.source.eq('kaggle'))
+                name=kind+'__'+regime;rows[name]=model.predict(make_features(kind,raw[hi],encoded[hi],logs[hi],hidden[hi],np.ones(len(held)),projection))
                 print(f"[latent OOF] {stamp} {name} MSE={metrics(held.SI,rows[name])['mse']:.2f}",flush=True)
         rows.to_csv(path,index=False);marker.write_text(json.dumps({'fingerprint':fingerprint,'state_cache':cache.relative_to(ROOT).as_posix(),'control_reproduced':True,'seconds':time.monotonic()-started}),encoding='utf-8');chunks.append(rows)
     oof=pd.concat(chunks,ignore_index=True);ranking=[]
@@ -103,10 +122,11 @@ def run():
     learner=joblib.load(ROOT/'artifacts/current_bio_transfer/bio_fp__kaggle_only.joblib')['biology'];logs=learner.predict_logs(encoded);hidden=latent_features(learner,encoded);begin=len(kaggle)+len(public)
     for row in ranking:
         fit=pd.concat([kaggle,public],ignore_index=True) if row['regime']=='public_plus_kaggle' else kaggle;fi=fit.matrix_row.to_numpy(int);kind=row['kind']
-        model=SIModel('catboost_log1p',cfg).fit(make_features(kind,raw[fi],encoded[fi],logs[fi],hidden[fi],fit.source.eq('kaggle')),fit.SI,fit.weight,fit.source.eq('kaggle'))
-        path=ARTIFACTS/(row['candidate']+'.joblib');joblib.dump({'biology':learner,'head':model,'kind':kind,'provenance':provenance},path,compress=3)
+        projection=fit_projection(encoded[fi]) if kind=='latent_chem' else None
+        model=SIModel('catboost_log1p',cfg).fit(make_features(kind,raw[fi],encoded[fi],logs[fi],hidden[fi],fit.source.eq('kaggle'),projection),fit.SI,fit.weight,fit.source.eq('kaggle'))
+        path=ARTIFACTS/(row['candidate']+'.joblib');joblib.dump({'biology':learner,'head':model,'kind':kind,'projection':projection,'provenance':provenance},path,compress=3)
         restored=joblib.load(path);test_logs=restored['biology'].predict_logs(encoded[begin:]);test_hidden=latent_features(restored['biology'],encoded[begin:])
-        values=restored['head'].predict(make_features(kind,raw[begin:],encoded[begin:],test_logs,test_hidden,np.ones(len(test))))
+        values=restored['head'].predict(make_features(kind,raw[begin:],encoded[begin:],test_logs,test_hidden,np.ones(len(test)),restored['projection']))
         submission=REPORTS/('submission_'+row['candidate']+'.csv');pd.DataFrame({'index':test['index'],'SI VACV':values}).to_csv(submission,index=False)
         row.update(artifact=path.relative_to(ROOT).as_posix(),submission=submission.relative_to(ROOT).as_posix(),submission_sha256=sha(submission))
     (REPORTS/'report.json').write_text(json.dumps(report,indent=2),encoding='utf-8');pd.DataFrame(ranking).to_csv(REPORTS/'comparison.csv',index=False)

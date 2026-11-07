@@ -1,5 +1,5 @@
 {
-  "code_sha256": "3350bf1fa1f861d7877843e6f9683fe67d1d9cc0e14f553f3a4678fed2c7e2c5",
+  "code_sha256": "6369457f36be2da139388d3441706adaad71263ac672b7af3be4d4066382b475",
   "feature_sources": {
     "public_data": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
     "public_pretraining_code": "5859deaa85bc14678930b5da5bf350407a7103473060c36788c9cb8e50ba50ca",
@@ -143,7 +143,7 @@
     "public_plus_kaggle"
   ],
   "target": "log1p(SI), CatBoost600/depth5; source indicator",
-  "novel_factor": "32 public-task-trained hidden features in addition to 3 public output logs, keeping training/splits/objective fixed",
+  "novel_factor": "32 public-task-trained hidden features; chemical-input variant uses train-only PCA64; training/splits/objective otherwise fixed",
   "reference": "bio_fp__kaggle_only, mean OOF5014266.299876882",
   "selection": "ALL-row raw SI MSE, zero/bulk <=1.2x fixed Bio reference; no automatic upload",
   "queued_candidate_changed": false,

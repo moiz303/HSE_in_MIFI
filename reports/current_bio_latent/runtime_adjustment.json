@@ -1,0 +1,8 @@
+{
+  "reason": "Full2048D dense CheMeleon CatBoost made the first fold too expensive; no final accuracy conclusion was drawn. Reuse identical public training sets and use train-fold PCA64 for chemical features.",
+  "old_source_sha256": "3350bf1fa1f861d7877843e6f9683fe67d1d9cc0e14f553f3a4678fed2c7e2c5",
+  "public_pretraining_parameters_changed": false,
+  "SI_target_or_official_columns_changed": false,
+  "queued_candidate_changed": false,
+  "partial_old_oof_reused": false
+}
