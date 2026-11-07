@@ -3,15 +3,17 @@
 Владелец: D.
 
 Воспроизводимость проверяют именно здесь: клон репозитория, одна команда,
-csv на выходе. Поэтому ни один шаг не ходит в сеть, кроме шага data, и ни
-один не зависит от того, что лежит в чьей-то локальной папке.
+csv на выходе. В сеть ходят только шаги data и kaggle; all использует
+закоммиченный dataset.csv и уже скачанный файл соревнования test.csv.
 
     python -m src.pipeline data        # выгрузка и очистка          (A)
     python -m src.pipeline splits      # scaffold-разбиение          (B)
     python -m src.pipeline train       # обучение по конфигу         (B C)
     python -m src.pipeline evaluate    # метрики на validation       (B D)
     python -m src.pipeline submission  # предсказания для Kaggle     (D)
-    python -m src.pipeline all         # всё, кроме data
+    python -m src.pipeline all         # splits, train, evaluate, submission, release
+    python -m src.pipeline release     # чексуммы артефактов и отчётов
+    python -m src.pipeline holdout     # однократно, после фиксации модели
 """
 
 from __future__ import annotations
@@ -24,9 +26,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src import splits as splits_module
+from src import evaluate, splits as splits_module
 from src.features import fingerprints
 from src.models import baseline
+from src.run_record import checksum, record_run
 
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
@@ -38,7 +41,13 @@ DEFAULT_CONFIG = ROOT / "configs" / "baseline.json"
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG) -> dict:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    path = Path(path)
+    if not path.is_file():
+        raise SystemExit(f"нет конфигурации {path}")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise SystemExit(f"ошибка в конфигурации {path}: {error}") from error
 
 
 def load_dataset() -> pd.DataFrame:
@@ -47,6 +56,26 @@ def load_dataset() -> pd.DataFrame:
             f"нет {DATASET.relative_to(ROOT)} — сначала `python -m src.pipeline data` (владелец A)"
         )
     return pd.read_csv(DATASET)
+
+
+def require_file(path: Path, instruction: str) -> None:
+    if not path.is_file():
+        raise SystemExit(f"нет {path.relative_to(ROOT)} — {instruction}")
+
+
+def save_submission(test, predicted, id_column, target_column, path):
+    if id_column == target_column:
+        raise SystemExit("ошибка сабмита: колонки идентификатора и прогноза должны различаться")
+    if len(predicted) != len(test):
+        raise SystemExit(
+            f"ошибка сабмита: тест содержит {len(test)} строк, модель вернула {len(predicted)} прогнозов"
+        )
+    values = pd.to_numeric(pd.Series(predicted), errors="coerce").to_numpy(dtype=float)
+    if not np.isfinite(values).all():
+        raise SystemExit("ошибка сабмита: есть пустые или нечисловые прогнозы")
+    submission = pd.DataFrame({id_column: test[id_column], target_column: predicted})
+    path.parent.mkdir(parents=True, exist_ok=True)
+    submission.to_csv(path, index=False)
 
 
 def step_data(config: dict) -> None:
@@ -136,6 +165,7 @@ def step_export(config: dict) -> None:
     обучающим, рано или поздно попадёт в обучение.
     """
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
 
     for part in ("train", "validation"):
@@ -178,10 +208,49 @@ def _features(dataset: pd.DataFrame, config: dict, smiles_column: str | None = N
     return np.hstack(blocks)
 
 
+def model_path(config):
+    path = ROOT / config["submission"].get("model_file", "artifacts/model.joblib")
+    require_file(path, "сначала обучите модель или проверьте submission.model_file")
+    return path
+
+
+def provenance(config):
+    path = model_path(config)
+    return {
+        "model_file": str(path.relative_to(ROOT)),
+        "model_sha256": checksum(path),
+        "dataset_sha256": checksum(DATASET),
+        "split_sha256": checksum(MANIFEST),
+        "training_csv_sha256": checksum(PROCESSED / "train.csv"),
+        "config": config,
+    }
+
+
+def training_smiles(bundle):
+    if "train_smiles" in bundle:
+        return bundle["train_smiles"]
+    # Модели sweep до добавления метаданных обучались на экспортированном train.csv.
+    path = PROCESSED / "train.csv"
+    require_file(path, "для старой модели нужен исходный data/processed/train.csv")
+    return pd.read_csv(path)["standard_smiles"].astype(str).tolist()
+
+
+def applicability(smiles, train_smiles, identifiers, name):
+    similarity = evaluate.applicability_warning(
+        fingerprints.morgan_matrix(train_smiles), fingerprints.morgan_matrix(smiles)
+    )
+    REPORTS.mkdir(parents=True, exist_ok=True)
+    result = pd.DataFrame({"id": identifiers, "max_tanimoto": similarity,
+                           "outside_domain": similarity < 0.3})
+    result.to_csv(REPORTS / name, index=False)
+    return result
+
+
 def step_train(config: dict) -> None:
     import joblib
 
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
     features = _features(dataset, config)
     train_index = split["train"]
@@ -200,34 +269,94 @@ def step_train(config: dict) -> None:
         model.fit(features[train_index], dataset["SI"].to_numpy()[train_index])
 
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
-    joblib.dump({"model": model, "config": config}, ARTIFACTS / "model.joblib")
+    joblib.dump({"model": model, "config": config,
+                 "train_smiles": dataset.iloc[train_index]["standard_smiles"].astype(str).tolist()},
+                ARTIFACTS / "model.joblib")
     print(f"[train] стратегия {strategy}, обучено на {len(train_index)} молекулах")
 
 
-def step_evaluate(config: dict) -> None:
+def evaluate_parts(config, parts):
     import joblib
 
-    from src import evaluate as evaluate_module
-
     dataset = load_dataset()
+    require_file(MANIFEST, "сначала запустите `python -m src.pipeline splits`")
     split = splits_module.load_manifest(MANIFEST)
-    features = _features(dataset, config)
-    model = joblib.load(ARTIFACTS / "model.joblib")["model"]
+    bundle = joblib.load(model_path(config))
+    model_config = bundle.get("config", config)
+    train_smiles = training_smiles(bundle)
+    result = provenance(config)
+    for part in parts:
+        frame = dataset.iloc[split[part]]
+        smiles = frame["standard_smiles"].astype(str).tolist()
+        if part == "holdout":
+            # Проверяем и старые модели, у которых обучение описывает train.csv.
+            splits_module.assert_no_leaks(train_smiles + smiles, {
+                "train": list(range(len(train_smiles))),
+                "holdout": list(range(len(train_smiles), len(train_smiles) + len(smiles))),
+            })
+        true = baseline.to_log(frame["SI"].to_numpy())
+        pred = bundle["model"].predict_log_si(_features(frame, model_config))
+        result[part] = evaluate.report(true, pred)
+        if "source" in frame:
+            mask = frame["source"].fillna("").str.contains("kaggle_train", regex=False).to_numpy()
+            if mask.any():
+                result[part]["kaggle_train"] = evaluate.report(true[mask], pred[mask])
+        if part != "train":
+            applicability(smiles, train_smiles, frame.index, f"applicability_{part}.csv")
+        print(f"[evaluate] {part}: MSE={result[part]['competition_mse']:.4g}")
+    return result
 
-    report: dict[str, dict] = {}
-    for part in ("train", "validation"):
-        index = split[part]
-        true = baseline.to_log(dataset["SI"].to_numpy()[index])
-        pred = model.predict_log_si(features[index])
-        values = evaluate_module.metrics(true, pred)
-        low, high = evaluate_module.bootstrap_ci(true, pred)
-        values["rmse_log10_ci95"] = [low, high]
-        report[part] = values
-        print(f"[evaluate] {part}: rmse_log10={values['rmse_log10']:.3f} "
-              f"[{low:.3f}; {high:.3f}], spearman={values['spearman']:.3f}")
 
+def step_evaluate(config):
+    result = evaluate_parts(config, ("train", "validation"))
+    (REPORTS / "metrics.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+
+
+def step_holdout(config):
     REPORTS.mkdir(parents=True, exist_ok=True)
-    (REPORTS / "metrics.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    path = REPORTS / "holdout.json"
+    # Даже неудачный прогон оставляет запись: повтор требует явного решения команды.
+    try:
+        stream = path.open("x", encoding="utf-8")
+    except FileExistsError:
+        raise SystemExit(f"holdout уже запускался; см. {path}") from None
+    with stream:
+        stream.write(json.dumps({"status": "running"}))
+    try:
+        result = {**evaluate_parts(config, ("holdout",)), "status": "success"}
+    except BaseException as error:
+        path.write_text(json.dumps({"status": "failed", "error": str(error)}), encoding="utf-8")
+        raise
+    path.write_text(json.dumps(result, indent=2), encoding="utf-8")
+
+
+def step_release(config):
+    expected = provenance(config)
+    submission = ROOT / config["submission"]["output"]
+    paths = [model_path(config), DATASET, MANIFEST, ROOT / "requirements.txt",
+             REPORTS / "metrics.json", REPORTS / "submission.json", submission,
+             REPORTS / "applicability_validation.csv", REPORTS / "applicability_submission.csv",
+             REPORTS / "ranking.csv"]
+    for path in paths:
+        require_file(path, "сначала выполните evaluate и submission для выбранной модели")
+    for name in ("metrics.json", "submission.json"):
+        record = json.loads((REPORTS / name).read_text(encoding="utf-8"))
+        if any(record.get(key) != value for key, value in expected.items()):
+            raise SystemExit(f"{name} относится к другой модели, данным или конфигурации")
+    if record["submission_sha256"] != checksum(submission):
+        raise SystemExit("CSV изменился после сборки; повторите submission")
+    if record["test_sha256"] != checksum(ROOT / config["submission"]["test_csv"]):
+        raise SystemExit("тест изменился после сборки; повторите submission")
+    if (PROCESSED / "train.csv").exists():
+        paths.append(PROCESSED / "train.csv")
+    if (REPORTS / "holdout.json").exists():
+        held = json.loads((REPORTS / "holdout.json").read_text(encoding="utf-8"))
+        if held.get("status") != "success" or any(held.get(key) != value for key, value in expected.items()):
+            raise SystemExit("holdout не завершён или относится к другой модели/данным")
+        paths.append(REPORTS / "holdout.json")
+    result = {**expected, "sha256": {str(path.relative_to(ROOT)): checksum(path) for path in paths}}
+    (REPORTS / "release.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    print(f"[release] {REPORTS / 'release.json'}")
 
 
 def step_kaggle(config: dict) -> None:
@@ -264,26 +393,22 @@ def step_submission(config: dict) -> None:
 
     test = pd.read_csv(test_path)
 
-    strategy = config["model"]["strategy"]
-    # submission.model_file задаёт файл напрямую: модели из sweep.py называются
-    # по месту в рейтинге, а не по стратегии.
-    explicit = settings.get("model_file")
-    candidates = (
-        [ROOT / explicit] if explicit
-        else [ARTIFACTS / f"model_{strategy}.joblib", ARTIFACTS / "model.joblib"]
-    )
-    model_path = next((path for path in candidates if path.exists()), None)
-    if model_path is None:
+    required = (settings["id_column"], settings["smiles_column"])
+    missing = [column for column in required if column not in test.columns]
+    if missing:
         raise SystemExit(
-            f"нет обученной модели ({candidates[0].name}). Обучение запускается не здесь: "
-            "на маке ./run_mac.sh, см. README"
+            f"в {test_path.relative_to(ROOT)} нет колонок: {', '.join(missing)}; "
+            f"ожидались {', '.join(required)}"
         )
-    bundle = joblib.load(model_path)
-    model = bundle["model"]
-    description = bundle.get("описание") or bundle.get("strategy") or strategy
-    print(f"[submission] модель: {model_path.name} — {description}")
 
-    features = _features(test, config, smiles_column=settings["smiles_column"])
+    path = model_path(config)
+    bundle = joblib.load(path)
+    model = bundle["model"]
+    description = bundle.get("описание") or bundle.get("strategy") or config["model"]["strategy"]
+    print(f"[submission] модель: {path.name} — {description}")
+
+    model_config = bundle.get("config", config)
+    features = _features(test, model_config, smiles_column=settings["smiles_column"])
 
     # Модель, обученная на другом наборе колонок, молча выдаст мусор: проверяем
     # ширину, а не надеемся, что конфиг совпал с тем, на чём учили.
@@ -297,15 +422,25 @@ def step_submission(config: dict) -> None:
 
     predicted = (model.predict_si(features) if hasattr(model, "predict_si")
                  else baseline.from_log(model.predict_log_si(features)))
-
-    out = pd.DataFrame({
-        settings["id_column"]: test[settings["id_column"]],
-        settings["target_column"]: predicted,
-    })
     target = ROOT / settings["output"]
-    target.parent.mkdir(parents=True, exist_ok=True)
-    out.to_csv(target, index=False)
-    print(f"[submission] {len(out)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
+    save_submission(test, predicted, settings["id_column"], settings["target_column"], target)
+    domain = applicability(test[settings["smiles_column"]].astype(str).tolist(),
+                           training_smiles(bundle), test[settings["id_column"]],
+                           "applicability_submission.csv")
+    validation = load_dataset().iloc[splits_module.load_manifest(MANIFEST)["validation"]]
+    residual = np.abs(baseline.to_log(validation["SI"].to_numpy())
+                      - model.predict_log_si(_features(validation, model_config)))
+    if len(residual) == 0 or not np.isfinite(residual).all():
+        raise SystemExit("не удалось оценить неопределённость на validation")
+    factor = 10 ** np.quantile(residual, 0.9)
+    ranking = domain.assign(predicted_si=predicted, lower_si=predicted / factor,
+                            upper_si=predicted * factor)
+    ranking.sort_values("predicted_si", ascending=False, kind="stable").to_csv(
+        REPORTS / "ranking.csv", index=False)
+    metadata = {**provenance(config), "submission_sha256": checksum(target),
+                "test_sha256": checksum(test_path)}
+    (REPORTS / "submission.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    print(f"[submission] {len(test)} строк предсказано по SMILES → {target.relative_to(ROOT)}")
 
 
 STEPS = {
@@ -316,6 +451,8 @@ STEPS = {
     "train": step_train,
     "evaluate": step_evaluate,
     "submission": step_submission,
+    "release": step_release,
+    "holdout": step_holdout,
 }
 
 
@@ -323,12 +460,27 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Пайплайн VACV SI")
     parser.add_argument("step", choices=[*STEPS, "all"])
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
+    parser.add_argument("--model", help="артефакт для evaluate/submission/release/holdout")
     args = parser.parse_args(argv)
 
-    config = load_config(args.config)
-    order = ["splits", "train", "evaluate", "submission"] if args.step == "all" else [args.step]
-    for name in order:
-        STEPS[name](config)
+    config_path = Path(args.config)
+    config = load_config(config_path)
+    if args.model:
+        if args.step not in ("evaluate", "submission", "release", "holdout"):
+            parser.error("--model используется только с evaluate/submission/release/holdout")
+        config = {**config, "submission": {**config["submission"], "model_file": args.model}}
+    order = ["splits", "train", "evaluate", "submission", "release"] if args.step == "all" else [args.step]
+    if args.step == "all":
+        config = {**config, "submission": {**config["submission"], "model_file": "artifacts/model.joblib"}}
+    inputs = [config_path, DATASET, MANIFEST, PROCESSED / "train.csv"]
+    if args.step in ("evaluate", "submission", "release", "holdout"):
+        inputs.append(model_path(config))
+    if args.step in ("submission", "all", "release"):
+        inputs.append(ROOT / config["submission"]["test_csv"])
+    command = ["python", "-m", "src.pipeline", *(argv if argv is not None else sys.argv[1:])]
+    with record_run(command, config, inputs):
+        for name in order:
+            STEPS[name](config)
     return 0
 
 

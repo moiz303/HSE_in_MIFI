@@ -1,9 +1,6 @@
 name: ci
 
-on:
-  push:
-    branches: [main]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   tests:
@@ -21,7 +18,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Tests and smoke run
+      - name: Offline unit tests on synthetic fixtures
+        env:
+          KAGGLE_CONFIG_DIR: ${{ runner.temp }}/empty-kaggle-config
         run: python -m unittest discover -s tests -t . -v
 
       - name: Pipeline is importable and self-documenting

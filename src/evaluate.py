@@ -66,12 +66,22 @@ def bootstrap_ci(
     for _ in range(n_resamples):
         index = rng.integers(0, true.size, true.size)
         try:
-            values.append(metrics(true[index], pred[index])[metric])
+            value = (competition_mse(true[index], pred[index]) if metric == "competition_mse"
+                     else metrics(true[index], pred[index])[metric])
+            values.append(value)
         except ValueError:
             continue
     if not values:
         return float("nan"), float("nan")
     return float(np.percentile(values, 2.5)), float(np.percentile(values, 97.5))
+
+
+def report(log_true, log_pred):
+    result = metrics(log_true, log_pred)
+    result["competition_mse"] = competition_mse(log_true, log_pred)
+    for metric in ("rmse_log10", "competition_mse"):
+        result[f"{metric}_ci95"] = list(bootstrap_ci(log_true, log_pred, metric=metric))
+    return result
 
 
 def applicability_warning(

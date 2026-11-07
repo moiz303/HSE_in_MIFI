@@ -7,7 +7,7 @@
     python -m src.pipeline export        # это уже сделано, файлы в репозитории
     python train_model.py                # обе стратегии, сравнение
     python train_model.py --strategy direct --repeats 5
-    python train_model.py --predict data/raw/test.csv --out reports/submission.csv
+    python train_model.py --predict data/raw/kaggle/test.csv --id-column index --smiles-column SMILES --target-column "SI VACV"
 
 Что он решает. Открытый вопрос команды: предсказывать SI одной головой
 (`direct`) или считать его из двух прогнозов, log IC50 и log CC50 (`two_head`).
@@ -30,6 +30,8 @@ import pandas as pd
 from src import evaluate, splits
 from src.features import fingerprints
 from src.models import baseline
+from src.pipeline import load_config, save_submission
+from src.run_record import record_run
 
 ROOT = Path(__file__).resolve().parent
 TRAIN_CSV = ROOT / "data" / "processed" / "train.csv"
@@ -91,12 +93,7 @@ def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
 def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
     true = baseline.to_log(frame["SI"].to_numpy())
     predicted = model.predict_log_si(features)
-    result = evaluate.metrics(true, predicted)
-    low, high = evaluate.bootstrap_ci(true, predicted)
-    result["rmse_log10_ci95"] = [low, high]
-    # Метрика соревнования. На неё и смотрим: лидерборд считает MSE по сырому
-    # SI, а не по логарифму.
-    result["competition_mse"] = evaluate.competition_mse(true, predicted)
+    result = evaluate.report(true, predicted)
 
     # Наша валидация содержит хвост ChEMBL с SI до 2.2e5, которого в тесте нет:
     # на ней MSE была 7e7 при реальных 2.1e6 на лидерборде. Поэтому отдельно
@@ -255,6 +252,10 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
     """Предсказать для файла теста и записать csv для Kaggle."""
     import joblib
 
+    if not path.is_file():
+        raise SystemExit(
+            f"нет тестового файла {path}; скачайте его командой `python -m src.pipeline kaggle`"
+        )
     model_path = ARTIFACTS / f"model_{strategy}.joblib"
     if not model_path.exists():
         raise SystemExit(f"нет {model_path.name}: сначала обучите модель")
@@ -268,9 +269,7 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
             )
     features = fingerprints.featurize(test[smiles_column].astype(str).tolist())
     predicted = baseline.from_log(model.predict_log_si(features))
-
-    out.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame({id_column: test[id_column], target_column: predicted}).to_csv(out, index=False)
+    save_submission(test, predicted, id_column, target_column, out)
     log(f"предсказания: {len(test)} строк → {out}")
 
 
@@ -300,47 +299,53 @@ def main(argv: list[str] | None = None) -> int:
         strategies = ["sentinel_raw", "sentinel", "raw", "direct", "two_head"]
     else:
         strategies = [args.strategy]
-    params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None
+    params_path = Path(args.params) if args.params else None
+    params = load_config(params_path) if params_path else None
+    config_path = ROOT / "configs" / "baseline.json"
+    config = load_config(config_path)
+    run_config = {**config, "run_options": vars(args), "params": params}
+    inputs = [TRAIN_CSV, VALIDATION_CSV, config_path]
+    inputs.extend(Path(value) for value in (args.params, args.predict) if value)
+    command = ["python", "train_model.py", *(argv if argv is not None else sys.argv[1:])]
+    with record_run(command, run_config, inputs):
+        clip_si = None if args.no_clip else config["model"].get("clip_si")
+        log(f"ограничение прогноза: {'нет' if clip_si is None else f'SI <= {clip_si:g}'}")
 
-    config = json.loads((ROOT / "configs" / "baseline.json").read_text(encoding="utf-8"))
-    clip_si = None if args.no_clip else config["model"].get("clip_si")
-    log(f"ограничение прогноза: {'нет' if clip_si is None else f'SI <= {clip_si:g}'}")
+        report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
+                  else run_fixed(strategies, params, clip_si))
 
-    report = (run_repeats(strategies, args.repeats, params, clip_si) if args.repeats > 0
-              else run_fixed(strategies, params, clip_si))
+        # После сравнения по разбиениям моделей на диске не остаётся, а отправлять
+        # нужно именно модель. Поэтому лучшую стратегию доучиваем на train.csv и
+        # сохраняем — один прогон даёт и сравнение, и готовый артефакт.
+        if args.repeats > 0:
+            best = min(
+                report,
+                key=lambda name: (
+                    report[name].get("competition_mse_in_distribution_mean")
+                    if report[name].get("competition_mse_in_distribution_mean") is not None
+                    else report[name]["rmse_log10_mean"]
+                ),
+            )
+            log(f"доучиваю лучшую стратегию ({best}) на train.csv и сохраняю…")
+            train = load(TRAIN_CSV)
+            model = fit(best, featurize(train), train, params, clip_si)
+            ARTIFACTS.mkdir(parents=True, exist_ok=True)
+            import joblib
 
-    # После сравнения по разбиениям моделей на диске не остаётся, а отправлять
-    # нужно именно модель. Поэтому лучшую стратегию доучиваем на train.csv и
-    # сохраняем — один прогон даёт и сравнение, и готовый артефакт.
-    if args.repeats > 0:
-        best = min(
-            report,
-            key=lambda name: (
-                report[name].get("competition_mse_in_distribution_mean")
-                if report[name].get("competition_mse_in_distribution_mean") is not None
-                else report[name]["rmse_log10_mean"]
-            ),
-        )
-        log(f"доучиваю лучшую стратегию ({best}) на train.csv и сохраняю…")
-        train = load(TRAIN_CSV)
-        model = fit(best, featurize(train), train, params, clip_si)
-        ARTIFACTS.mkdir(parents=True, exist_ok=True)
-        import joblib
+            joblib.dump({"model": model, "strategy": best}, ARTIFACTS / f"model_{best}.joblib")
+            joblib.dump({"model": model, "strategy": best}, ARTIFACTS / "model.joblib")
+            log(f"модель → artifacts/model_{best}.joblib (и model.joblib)", indent=2)
+            report["best_strategy"] = best
 
-        joblib.dump({"model": model, "strategy": best}, ARTIFACTS / f"model_{best}.joblib")
-        joblib.dump({"model": model, "strategy": best}, ARTIFACTS / "model.joblib")
-        log(f"модель → artifacts/model_{best}.joblib (и model.joblib)", indent=2)
-        report["best_strategy"] = best
+        metrics_path = Path(args.metrics_out)
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        metrics_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        log(f"метрики → {metrics_path}")
 
-    metrics_path = Path(args.metrics_out)
-    metrics_path.parent.mkdir(parents=True, exist_ok=True)
-    metrics_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    log(f"метрики → {metrics_path}")
-
-    if args.predict:
-        predict(Path(args.predict), strategies[0], args.id_column,
-                args.smiles_column, args.target_column, Path(args.out))
-    return 0
+        if args.predict:
+            predict(Path(args.predict), strategies[0], args.id_column,
+                    args.smiles_column, args.target_column, Path(args.out))
+        return 0
 
 
 if __name__ == "__main__":
