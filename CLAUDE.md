@@ -6,6 +6,8 @@ User authorized final refit on train+validation (option 1), available explicitly
 
 Current training default is option 3, configs/xgb_weighted.json: fixed reliability-weighted concentration heads. The Mac run first compares options 1/2/3 using original Kaggle OOF targets in molecule and scaffold protocols (3 folds, 3 repeats), then fits option 3 on train+validation. See docs/local_scoring.md. Preserve previous artifacts. No automatic promotion or Kaggle submissions. Holdout remains excluded.
 
+Latest authorized experiment/default: configs/xgb_analog.json. Weighted XGBoost plus independent training-only IC50/CC50 neighbor banks; Morgan/Tanimoto, k=5, minimum similarity=0.5. Alpha 0/.1/.25/.5 selected only via original training OOF targets with scaffold/measured-target safeguards. Holdout and test endpoints never enter the banks or alpha selection. Preserve weighted and prior artifacts. Do not confuse this molecular-analogue experiment with the earlier five-seed option 2.
+
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 
 The previous HGB, sentinel, mixture, calibration and sweep implementations were removed. Do not restore their defaults or load historical model artifacts. Historical findings are summarized in `docs/previous_experiments.md`.

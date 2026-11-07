@@ -8,6 +8,7 @@ This Python project predicts vaccinia virus (VACV) selectivity index, `SI = CC50
 - `src/features/`, `src/models/`: molecular features and XGBoost concentration heads; hybrid and CatBoost remain explicit experiments.
 - `src/xgb_workflow.py`: fixed-split verification, training, evaluation, and SMILES-only submission. `docs/previous_experiments.md` records lessons from removed experiments.
 - `src/local_compare.py`: compare options 1/2/3 on original competition OOF targets; `docs/local_scoring.md` defines raw MSE and uncertainty. Current Mac default is `configs/xgb_weighted.json` (option 3), with fixed reliability weights and no automatic promotion.
+- Latest Mac default is `configs/xgb_analog.json`: conservative analogue correction to weighted XGBoost. `src/analog_compare.py` chooses alpha on development OOF only; no test endpoints or holdout in training/neighbor banks. Keep earlier configurations and artifacts.
 - `src/pipeline.py`: CLI; `configs/`: JSON run configurations.
 - `tests/`: unit and smoke tests. `data/`: raw, interim, and processed datasets plus source documentation. `reports/` and `artifacts/`: metrics, submissions, and models.
 

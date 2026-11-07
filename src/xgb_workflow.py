@@ -18,12 +18,14 @@ from src.models.catboost_two_head import CatBoostTwoHead
 from src.models.xgb_hybrid import XGBHybrid, select_hybrid
 from src.models.xgb_ensemble import XGBEnsemble
 from src.models.xgb_weighted import XGBWeightedTwoHead
+from src.models.xgb_analog import XGBAnalog
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
 MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 MODEL_TYPES["xgb_ensemble"] = XGBEnsemble
 MODEL_TYPES["xgb_weighted"] = XGBWeightedTwoHead
+MODEL_TYPES["xgb_analog"] = XGBAnalog
 
 
 def is_final(config):
@@ -31,6 +33,8 @@ def is_final(config):
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_analog":
+        return "xgb_analog"
     if config["model"]["strategy"] == "xgb_weighted":
         return "xgb_weighted"
     if config["model"]["strategy"] == "xgb_ensemble":
@@ -48,7 +52,7 @@ def validate_config(config):
     mode = config.get("training", {}).get("mode", "train_only")
     if mode not in ("train_only", "train_validation"):
         raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
-    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted") or cv_protocol(config)):
+    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble", "xgb_weighted", "xgb_analog") or cv_protocol(config)):
         raise ValueError("Final mode supports only fixed concentration XGBoost variants")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
@@ -106,7 +110,7 @@ def data_hashes(config=None):
     names = ["train.csv", "validation.csv", "splits.json"]
     if (ROOT / "data/processed/kaggle_reference.csv").exists():
         names.append("kaggle_reference.csv")
-    if config is not None and config["model"]["strategy"] == "xgb_weighted":
+    if config is not None and config["model"]["strategy"] in ("xgb_weighted", "xgb_analog"):
         names.append("public_quality.csv")
     return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}
 
@@ -142,6 +146,7 @@ def train(config):
     matrix = features(frame)
     print(f"[train] features={matrix.shape}; holdout unused", flush=True)
     cv_result = None
+    analog_result = None
     if cv_protocol(config):
         from src.hybrid_cv import select_on_train
         cv_result = select_on_train(frame, matrix, reference, settings.get("params"))
@@ -150,6 +155,10 @@ def train(config):
         from src.data.quality_weights import row_weights
         quality = pd.read_csv(ROOT / "data/processed/public_quality.csv")
         weights = row_weights(frame, quality)
+        if isinstance(model, XGBAnalog):
+            from src.analog_compare import run
+            analog_result = run(config, frame, matrix, quality)
+            model.blend_weight = analog_result["selection"]["alpha"]
         print(f"[weights] raw min={weights.min():.4g}, max={weights.max():.4g}, "
               f"full-weight rows={int((weights == 1).sum())}; normalizing each head to mean 1", flush=True)
         model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"), sample_weight=weights)
@@ -182,6 +191,8 @@ def train(config):
               "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
     if cv_result is not None:
         bundle["train_cv"] = cv_result
+    if analog_result is not None:
+        bundle["analog_selection"] = analog_result["selection"]
     if is_final(config):
         bundle["training"] = {"parts": training_parts, "rows": len(frame),
             "source_rows": frame.source.value_counts().to_dict(),
@@ -194,6 +205,10 @@ def train(config):
             bundle["training"]["weights"] = {"profile": "Kaggle=1; public=0.5 * conservative pairing confidence",
                 "normalized_per_head": model.weight_summary,
                 "raw_counts": {str(value): int(count) for value, count in zip(*np.unique(weights, return_counts=True))}}
+        if isinstance(model, XGBAnalog):
+            bundle["training"]["analogs"] = {"settings": model.neighbor_settings, "alpha": model.blend_weight,
+                "bank_sizes": {name: len(bank["log_values"]) for name, bank in model.bank.items()},
+                "selection": bundle["analog_selection"]}
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
@@ -305,7 +320,9 @@ def submission(config):
     matrix = features(frame, settings["smiles_column"])
     model = bundle["model"]
     members = model.predict_members_si(matrix) if isinstance(model, XGBEnsemble) else None
-    predicted = members.mean(axis=1) if members is not None else model.predict_si(matrix)
+    analog_components = model.predict_components(matrix) if isinstance(model, XGBAnalog) else None
+    predicted = (analog_components["SI_selected"] if analog_components is not None else
+                 members.mean(axis=1) if members is not None else model.predict_si(matrix))
     target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({settings["id_column"]: frame[settings["id_column"]],
@@ -318,4 +335,10 @@ def submission(config):
         diagnostic.to_csv(target.with_name(target.stem + "_members.csv"), index=False)
         print(f"[ensemble] median SI={np.median(predicted):.6g}; "
               f"median seed spread={np.median(members.std(axis=1)):.6g}", flush=True)
+    if analog_components is not None:
+        diagnostic = pd.DataFrame(analog_components)
+        diagnostic.insert(0, settings["id_column"], frame[settings["id_column"]].to_numpy())
+        diagnostic.to_csv(target.with_name("xgb_analog_neighbors.csv"), index=False)
+        print(f"[analogs] alpha={model.blend_weight}; both-head coverage="
+              f"{analog_components['analog_available'].mean():.1%}", flush=True)
     print(f"[submission] {len(frame)} rows -> {target}", flush=True)
