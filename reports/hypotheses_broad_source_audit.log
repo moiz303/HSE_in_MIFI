@@ -1,0 +1,41 @@
+[suite] independent extra endpoints=563: {'CC50': 315, 'IC50': 248}
+[suite] independent molecule repeat=1/3 fold=1/3; extra=563
+[suite] expanded MSE=62366647.0065
+[suite] independent molecule repeat=1/3 fold=2/3; extra=563
+[suite] expanded MSE=35614579.6119
+[suite] independent molecule repeat=1/3 fold=3/3; extra=563
+[suite] expanded MSE=33718332.4835
+[suite] independent molecule repeat=2/3 fold=1/3; extra=563
+[suite] expanded MSE=26526977.4807
+[suite] independent molecule repeat=2/3 fold=2/3; extra=563
+[suite] expanded MSE=37935726.3189
+[suite] independent molecule repeat=2/3 fold=3/3; extra=563
+[suite] expanded MSE=29185389.9495
+[suite] independent molecule repeat=3/3 fold=1/3; extra=563
+[suite] expanded MSE=38347652.9816
+[suite] independent molecule repeat=3/3 fold=2/3; extra=563
+[suite] expanded MSE=37988542.8268
+[suite] independent molecule repeat=3/3 fold=3/3; extra=563
+[suite] expanded MSE=15839941.0016
+[suite] independent scaffold repeat=1/3 fold=1/3; extra=483
+[suite] expanded MSE=41122207.3029
+[suite] independent scaffold repeat=1/3 fold=2/3; extra=484
+[suite] expanded MSE=20744719.6931
+[suite] independent scaffold repeat=1/3 fold=3/3; extra=468
+[suite] expanded MSE=23111028.9524
+[suite] independent scaffold repeat=2/3 fold=1/3; extra=487
+[suite] expanded MSE=34934229.7504
+[suite] independent scaffold repeat=2/3 fold=2/3; extra=484
+[suite] expanded MSE=28668658.9952
+[suite] independent scaffold repeat=2/3 fold=3/3; extra=464
+[suite] expanded MSE=37759040.6833
+[suite] independent scaffold repeat=3/3 fold=1/3; extra=480
+[suite] expanded MSE=22273259.2824
+[suite] independent scaffold repeat=3/3 fold=2/3; extra=460
+[suite] expanded MSE=40709545.9197
+[suite] independent scaffold repeat=3/3 fold=3/3; extra=495
+[suite] expanded MSE=23219862.7343
+[suite done] independent: {'selected': 'expanded', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=78.2s
+[suite] features molecule repeat=1/3 fold=1/3; extra=0
+[suite] counts MSE=21858801.7315
+[suite] radius3 MSE=21899136.0217

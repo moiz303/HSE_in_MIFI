@@ -1,0 +1,544 @@
+activity_id,endpoint,reason
+307186,IC50,ChEMBL validity flag
+309938,IC50,ChEMBL validity flag
+309942,IC50,ChEMBL validity flag
+315046,IC50,ChEMBL validity flag
+317595,IC50,ChEMBL validity flag
+318810,IC50,ChEMBL validity flag
+320064,IC50,ChEMBL validity flag
+324882,IC50,ChEMBL validity flag
+330127,IC50,ChEMBL validity flag
+334297,IC50,ChEMBL validity flag
+344399,IC50,ChEMBL validity flag
+405208,IC50,ChEMBL validity flag
+407657,IC50,ChEMBL validity flag
+407661,IC50,ChEMBL validity flag
+409851,IC50,ChEMBL validity flag
+412371,IC50,ChEMBL validity flag
+417156,IC50,ChEMBL validity flag
+512644,IC50,не положительное значение: 0.0
+514007,IC50,ChEMBL validity flag
+516529,IC50,нечисловое standard_value
+516546,IC50,не положительное значение: 0.0
+516597,IC50,нечисловое standard_value
+517763,IC50,ChEMBL validity flag
+519063,IC50,ChEMBL validity flag
+520361,IC50,ChEMBL validity flag
+521686,IC50,ChEMBL validity flag
+521704,IC50,ChEMBL validity flag
+523007,IC50,нечисловое standard_value
+524314,IC50,ChEMBL validity flag
+525590,IC50,ChEMBL validity flag
+525610,IC50,не положительное значение: 0.0
+526909,IC50,ChEMBL validity flag
+529727,IC50,не положительное значение: 0.0
+532362,IC50,ChEMBL validity flag
+532379,IC50,нечисловое standard_value
+532439,IC50,ChEMBL validity flag
+533647,IC50,ChEMBL validity flag
+533664,IC50,нечисловое standard_value
+533676,IC50,ChEMBL validity flag
+536360,IC50,нечисловое standard_value
+537733,IC50,ChEMBL validity flag
+537747,IC50,ChEMBL validity flag
+537764,IC50,ChEMBL validity flag
+537810,IC50,нечисловое standard_value
+538944,IC50,ChEMBL validity flag
+540271,IC50,ChEMBL validity flag
+540289,IC50,ChEMBL validity flag
+541544,IC50,ChEMBL validity flag
+543008,IC50,нечисловое standard_value
+544118,IC50,нечисловое standard_value
+546887,IC50,ChEMBL validity flag
+546903,IC50,нечисловое standard_value
+551532,IC50,нечисловое standard_value
+551565,IC50,ChEMBL validity flag
+552821,IC50,ChEMBL validity flag
+552839,IC50,нечисловое standard_value
+561371,IC50,ChEMBL validity flag
+564968,IC50,ChEMBL validity flag
+568671,IC50,ChEMBL validity flag
+571261,IC50,ChEMBL validity flag
+577402,IC50,ChEMBL validity flag
+578602,IC50,ChEMBL validity flag
+578628,IC50,ChEMBL validity flag
+636953,IC50,ChEMBL validity flag
+646771,IC50,ChEMBL validity flag
+650319,IC50,ChEMBL validity flag
+662319,IC50,ChEMBL validity flag
+908853,IC50,ChEMBL validity flag
+908869,IC50,ChEMBL validity flag
+908884,IC50,ChEMBL validity flag
+914288,IC50,ChEMBL validity flag
+915541,IC50,ChEMBL validity flag
+919329,IC50,ChEMBL validity flag
+919345,IC50,ChEMBL validity flag
+920451,IC50,ChEMBL validity flag
+920469,IC50,ChEMBL validity flag
+921594,IC50,ChEMBL validity flag
+922836,IC50,ChEMBL validity flag
+926948,IC50,ChEMBL validity flag
+931038,IC50,ChEMBL validity flag
+935280,IC50,ChEMBL validity flag
+943343,IC50,ChEMBL validity flag
+946007,IC50,ChEMBL validity flag
+1143087,IC50,ChEMBL validity flag
+1143088,IC50,ChEMBL validity flag
+1145639,IC50,ChEMBL validity flag
+1145640,IC50,ChEMBL validity flag
+1145666,IC50,ChEMBL validity flag
+1145667,IC50,ChEMBL validity flag
+1148314,IC50,ChEMBL validity flag
+1148315,IC50,ChEMBL validity flag
+1148345,IC50,ChEMBL validity flag
+1148346,IC50,ChEMBL validity flag
+1158375,IC50,ChEMBL validity flag
+1169309,IC50,ChEMBL validity flag
+1169310,IC50,ChEMBL validity flag
+1173061,IC50,ChEMBL validity flag
+1173062,IC50,ChEMBL validity flag
+1177107,IC50,ChEMBL validity flag
+1177108,IC50,ChEMBL validity flag
+1229390,IC50,ChEMBL validity flag
+1230616,IC50,ChEMBL validity flag
+1242195,IC50,ChEMBL validity flag
+1242223,IC50,ChEMBL validity flag
+1243468,IC50,ChEMBL validity flag
+1248541,IC50,ChEMBL validity flag
+1252275,IC50,ChEMBL validity flag
+1677458,IC50,ChEMBL validity flag
+1677461,IC50,ChEMBL validity flag
+1677462,IC50,ChEMBL validity flag
+1677463,IC50,ChEMBL validity flag
+1677464,IC50,ChEMBL validity flag
+1677465,IC50,ChEMBL validity flag
+1720202,IC50,ChEMBL validity flag
+1720203,IC50,ChEMBL validity flag
+1720204,IC50,ChEMBL validity flag
+1720205,IC50,ChEMBL validity flag
+1720206,IC50,ChEMBL validity flag
+1720207,IC50,ChEMBL validity flag
+1720211,IC50,ChEMBL validity flag
+1720212,IC50,ChEMBL validity flag
+1720214,IC50,нечисловое standard_value
+1720215,IC50,нечисловое standard_value
+1720216,IC50,нечисловое standard_value
+1720217,IC50,нечисловое standard_value
+1720218,IC50,нечисловое standard_value
+1720219,IC50,нечисловое standard_value
+1720220,IC50,нечисловое standard_value
+1720223,IC50,нечисловое standard_value
+1720224,IC50,нечисловое standard_value
+1726990,IC50,ChEMBL validity flag
+1800330,IC50,ChEMBL validity flag
+1800332,IC50,ChEMBL validity flag
+1800333,IC50,ChEMBL validity flag
+1800334,IC50,ChEMBL validity flag
+1800336,IC50,ChEMBL validity flag
+1820633,IC50,ChEMBL validity flag
+1820724,IC50,ChEMBL validity flag
+1820725,IC50,ChEMBL validity flag
+1820726,IC50,ChEMBL validity flag
+1820729,IC50,ChEMBL validity flag
+1820730,IC50,ChEMBL validity flag
+1885723,IC50,ChEMBL validity flag
+1885724,IC50,ChEMBL validity flag
+2370460,IC50,ChEMBL validity flag
+2371142,IC50,ChEMBL validity flag
+2371143,IC50,ChEMBL validity flag
+2371148,IC50,ChEMBL validity flag
+2371153,IC50,ChEMBL validity flag
+2371155,IC50,ChEMBL validity flag
+2371156,IC50,ChEMBL validity flag
+2371159,IC50,ChEMBL validity flag
+2371173,IC50,ChEMBL validity flag
+2371174,IC50,ChEMBL validity flag
+2371177,IC50,ChEMBL validity flag
+2371179,IC50,ChEMBL validity flag
+2371238,IC50,ChEMBL validity flag
+2371341,IC50,ChEMBL validity flag
+2371367,IC50,ChEMBL validity flag
+2371425,IC50,ChEMBL validity flag
+2371426,IC50,ChEMBL validity flag
+2371427,IC50,ChEMBL validity flag
+2371428,IC50,ChEMBL validity flag
+2371429,IC50,ChEMBL validity flag
+2371430,IC50,ChEMBL validity flag
+2371431,IC50,ChEMBL validity flag
+2371456,IC50,ChEMBL validity flag
+2371457,IC50,ChEMBL validity flag
+2371458,IC50,ChEMBL validity flag
+2371459,IC50,ChEMBL validity flag
+2371460,IC50,ChEMBL validity flag
+2371461,IC50,ChEMBL validity flag
+2372196,IC50,ChEMBL validity flag
+2372205,IC50,ChEMBL validity flag
+2372222,IC50,ChEMBL validity flag
+2416381,IC50,ChEMBL validity flag
+2601701,IC50,ChEMBL validity flag
+2601792,IC50,ChEMBL validity flag
+2601813,IC50,ChEMBL validity flag
+2601920,IC50,ChEMBL validity flag
+2601922,IC50,ChEMBL validity flag
+2602011,IC50,ChEMBL validity flag
+2602052,IC50,ChEMBL validity flag
+2602252,IC50,ChEMBL validity flag
+2602313,IC50,ChEMBL validity flag
+2602332,IC50,ChEMBL validity flag
+2643585,IC50,ChEMBL validity flag
+2643586,IC50,ChEMBL validity flag
+2643587,IC50,ChEMBL validity flag
+2643589,IC50,ChEMBL validity flag
+2643592,IC50,ChEMBL validity flag
+2643593,IC50,ChEMBL validity flag
+2643594,IC50,ChEMBL validity flag
+2643595,IC50,ChEMBL validity flag
+2643596,IC50,ChEMBL validity flag
+2643597,IC50,ChEMBL validity flag
+2643598,IC50,ChEMBL validity flag
+2643600,IC50,ChEMBL validity flag
+2643602,IC50,ChEMBL validity flag
+2727888,IC50,ChEMBL validity flag
+2727903,IC50,ChEMBL validity flag
+2727904,IC50,ChEMBL validity flag
+2727905,IC50,ChEMBL validity flag
+2727906,IC50,ChEMBL validity flag
+2727907,IC50,ChEMBL validity flag
+2994417,IC50,ChEMBL validity flag
+3250139,IC50,ChEMBL validity flag
+3502116,IC50,нечисловое standard_value
+3601091,IC50,ChEMBL validity flag
+3601092,IC50,ChEMBL validity flag
+3601093,IC50,ChEMBL validity flag
+3601964,IC50,ChEMBL validity flag
+5090171,IC50,нечисловое standard_value
+5090183,IC50,нечисловое standard_value
+5090191,IC50,нечисловое standard_value
+5090228,IC50,нечисловое standard_value
+5090229,IC50,нечисловое standard_value
+5090230,IC50,нечисловое standard_value
+5090231,IC50,нечисловое standard_value
+5090232,IC50,нечисловое standard_value
+5090233,IC50,нечисловое standard_value
+5095699,IC50,ChEMBL validity flag
+5111889,IC50,ChEMBL validity flag
+5111890,IC50,ChEMBL validity flag
+5111892,IC50,ChEMBL validity flag
+5111893,IC50,ChEMBL validity flag
+5111894,IC50,ChEMBL validity flag
+5111895,IC50,ChEMBL validity flag
+5111896,IC50,ChEMBL validity flag
+5111897,IC50,ChEMBL validity flag
+5111898,IC50,ChEMBL validity flag
+5111899,IC50,ChEMBL validity flag
+5111901,IC50,ChEMBL validity flag
+5111902,IC50,ChEMBL validity flag
+5111903,IC50,ChEMBL validity flag
+5111904,IC50,ChEMBL validity flag
+5111905,IC50,ChEMBL validity flag
+5111907,IC50,ChEMBL validity flag
+5111908,IC50,ChEMBL validity flag
+5111909,IC50,ChEMBL validity flag
+5111910,IC50,ChEMBL validity flag
+5111911,IC50,ChEMBL validity flag
+5111912,IC50,ChEMBL validity flag
+5205400,IC50,ChEMBL validity flag
+5205407,IC50,ChEMBL validity flag
+5205413,IC50,ChEMBL validity flag
+5205414,IC50,ChEMBL validity flag
+6188316,IC50,нечисловое standard_value
+6188318,IC50,ChEMBL validity flag
+6188319,IC50,ChEMBL validity flag
+6188322,IC50,нечисловое standard_value
+6188323,IC50,нечисловое standard_value
+6188324,IC50,ChEMBL validity flag
+6188328,IC50,ChEMBL validity flag
+6188333,IC50,ChEMBL validity flag
+6188334,IC50,ChEMBL validity flag
+6188335,IC50,ChEMBL validity flag
+6188336,IC50,ChEMBL validity flag
+6188337,IC50,нечисловое standard_value
+6193183,IC50,нечисловое standard_value
+6193184,IC50,нечисловое standard_value
+6193306,IC50,ChEMBL validity flag
+6193307,IC50,ChEMBL validity flag
+6287085,IC50,ChEMBL validity flag
+6287086,IC50,ChEMBL validity flag
+6287087,IC50,ChEMBL validity flag
+6287088,IC50,ChEMBL validity flag
+6287089,IC50,ChEMBL validity flag
+6287090,IC50,ChEMBL validity flag
+6287091,IC50,ChEMBL validity flag
+6287092,IC50,ChEMBL validity flag
+6287093,IC50,ChEMBL validity flag
+6297188,IC50,ChEMBL validity flag
+6308645,IC50,ChEMBL validity flag
+6308646,IC50,ChEMBL validity flag
+6308647,IC50,ChEMBL validity flag
+6308648,IC50,ChEMBL validity flag
+6308649,IC50,ChEMBL validity flag
+6308650,IC50,ChEMBL validity flag
+6308652,IC50,ChEMBL validity flag
+6308653,IC50,ChEMBL validity flag
+6308654,IC50,ChEMBL validity flag
+6308655,IC50,ChEMBL validity flag
+6308656,IC50,ChEMBL validity flag
+6308657,IC50,ChEMBL validity flag
+6308658,IC50,ChEMBL validity flag
+6308660,IC50,ChEMBL validity flag
+6308662,IC50,ChEMBL validity flag
+6308664,IC50,ChEMBL validity flag
+6372026,IC50,ChEMBL validity flag
+6372027,IC50,ChEMBL validity flag
+7973825,IC50,нечисловое standard_value
+7973826,IC50,нечисловое standard_value
+10875274,IC50,ChEMBL validity flag
+10879327,IC50,ChEMBL validity flag
+10907504,IC50,нечисловое standard_value
+10907518,IC50,нечисловое standard_value
+10908499,IC50,нечисловое standard_value
+10908527,IC50,нечисловое standard_value
+10908555,IC50,нечисловое standard_value
+10908583,IC50,нечисловое standard_value
+10909678,IC50,нечисловое standard_value
+10909706,IC50,нечисловое standard_value
+10956080,IC50,ChEMBL validity flag
+10965205,IC50,ChEMBL validity flag
+10965206,IC50,ChEMBL validity flag
+10965209,IC50,ChEMBL validity flag
+10965218,IC50,ChEMBL validity flag
+12042637,IC50,ChEMBL validity flag
+12191956,IC50,ChEMBL validity flag
+12412626,IC50,ChEMBL validity flag
+12412627,IC50,ChEMBL validity flag
+12412628,IC50,ChEMBL validity flag
+12412629,IC50,ChEMBL validity flag
+12412630,IC50,ChEMBL validity flag
+12412632,IC50,ChEMBL validity flag
+12412634,IC50,ChEMBL validity flag
+12412635,IC50,ChEMBL validity flag
+12412636,IC50,ChEMBL validity flag
+12412637,IC50,ChEMBL validity flag
+12412638,IC50,ChEMBL validity flag
+12412639,IC50,ChEMBL validity flag
+12454747,IC50,ChEMBL validity flag
+12475073,IC50,ChEMBL validity flag
+12475074,IC50,ChEMBL validity flag
+12475075,IC50,ChEMBL validity flag
+12475078,IC50,ChEMBL validity flag
+12475079,IC50,ChEMBL validity flag
+12475080,IC50,ChEMBL validity flag
+12475081,IC50,ChEMBL validity flag
+12475082,IC50,ChEMBL validity flag
+12475084,IC50,ChEMBL validity flag
+12475085,IC50,ChEMBL validity flag
+12475086,IC50,ChEMBL validity flag
+12475087,IC50,ChEMBL validity flag
+12479149,IC50,нечисловое standard_value
+12479150,IC50,ChEMBL validity flag
+12479154,IC50,ChEMBL validity flag
+12479155,IC50,ChEMBL validity flag
+12479157,IC50,ChEMBL validity flag
+12479158,IC50,ChEMBL validity flag
+12610818,IC50,ChEMBL validity flag
+12625920,IC50,ChEMBL validity flag
+12690051,IC50,ChEMBL validity flag
+12690052,IC50,ChEMBL validity flag
+12690053,IC50,ChEMBL validity flag
+13323950,IC50,ChEMBL validity flag
+13422526,IC50,ChEMBL validity flag
+13426865,IC50,ChEMBL validity flag
+14526187,IC50,ChEMBL validity flag
+14986422,IC50,ChEMBL validity flag
+15071143,IC50,нечисловое standard_value
+15627752,IC50,ChEMBL validity flag
+16387889,IC50,нечисловое standard_value
+16387890,IC50,нечисловое standard_value
+16387891,IC50,нечисловое standard_value
+16387892,IC50,нечисловое standard_value
+16387893,IC50,нечисловое standard_value
+16387894,IC50,нечисловое standard_value
+16387895,IC50,нечисловое standard_value
+16387896,IC50,нечисловое standard_value
+16387951,IC50,нечисловое standard_value
+16387956,IC50,нечисловое standard_value
+16608055,IC50,нечисловое standard_value
+16608056,IC50,нечисловое standard_value
+16608057,IC50,нечисловое standard_value
+16608058,IC50,нечисловое standard_value
+16608059,IC50,нечисловое standard_value
+16655056,IC50,ChEMBL validity flag
+17992021,IC50,ChEMBL validity flag
+18206787,IC50,ChEMBL validity flag
+18206788,IC50,ChEMBL validity flag
+18206791,IC50,ChEMBL validity flag
+18206792,IC50,ChEMBL validity flag
+18206800,IC50,ChEMBL validity flag
+18301101,IC50,ChEMBL validity flag
+18537979,IC50,ChEMBL validity flag
+18537980,IC50,нечисловое standard_value
+18537982,IC50,ChEMBL validity flag
+18731430,IC50,нечисловое standard_value
+18731432,IC50,нечисловое standard_value
+18731433,IC50,нечисловое standard_value
+18731434,IC50,нечисловое standard_value
+18731437,IC50,нечисловое standard_value
+18776013,IC50,ChEMBL validity flag
+18799350,IC50,ChEMBL validity flag
+19105549,IC50,нечисловое standard_value
+19105550,IC50,нечисловое standard_value
+19105555,IC50,нечисловое standard_value
+19105556,IC50,нечисловое standard_value
+19105557,IC50,нечисловое standard_value
+19105559,IC50,нечисловое standard_value
+19105560,IC50,нечисловое standard_value
+19105561,IC50,нечисловое standard_value
+19105562,IC50,нечисловое standard_value
+19282437,IC50,ChEMBL validity flag
+22820073,IC50,ChEMBL validity flag
+22820074,IC50,ChEMBL validity flag
+22820075,IC50,ChEMBL validity flag
+22820076,IC50,ChEMBL validity flag
+22820077,IC50,ChEMBL validity flag
+22820078,IC50,ChEMBL validity flag
+22820079,IC50,ChEMBL validity flag
+22820080,IC50,ChEMBL validity flag
+22820081,IC50,ChEMBL validity flag
+22820082,IC50,ChEMBL validity flag
+22820083,IC50,ChEMBL validity flag
+22820084,IC50,ChEMBL validity flag
+22820085,IC50,ChEMBL validity flag
+22820086,IC50,ChEMBL validity flag
+24710015,IC50,ChEMBL validity flag
+24978310,IC50,нечисловое standard_value
+24978311,IC50,нечисловое standard_value
+24978312,IC50,нечисловое standard_value
+24978316,IC50,нечисловое standard_value
+24978318,IC50,нечисловое standard_value
+24978319,IC50,нечисловое standard_value
+24978320,IC50,нечисловое standard_value
+24978322,IC50,нечисловое standard_value
+25566259,IC50,ChEMBL validity flag
+25566355,IC50,ChEMBL validity flag
+25566379,IC50,нет canonical_smiles в записи ChEMBL
+25566389,IC50,нет canonical_smiles в записи ChEMBL
+25881147,IC50,нечисловое standard_value
+25881148,IC50,нечисловое standard_value
+25881152,IC50,ChEMBL validity flag
+29121454,IC50,ChEMBL validity flag
+29121457,IC50,ChEMBL validity flag
+29121458,IC50,ChEMBL validity flag
+29121460,IC50,нечисловое standard_value
+29121461,IC50,нечисловое standard_value
+162402,CC50,ChEMBL validity flag
+162403,CC50,ChEMBL validity flag
+162406,CC50,ChEMBL validity flag
+554412,CC50,не указаны единицы измерения
+556779,CC50,не указаны единицы измерения
+558006,CC50,не указаны единицы измерения
+561373,CC50,не указаны единицы измерения
+564970,CC50,не указаны единицы измерения
+568673,CC50,не указаны единицы измерения
+571263,CC50,не указаны единицы измерения
+577404,CC50,не указаны единицы измерения
+578604,CC50,не указаны единицы измерения
+578630,CC50,не указаны единицы измерения
+579893,CC50,не указаны единицы измерения
+588391,CC50,не указаны единицы измерения
+1999698,CC50,единицы: неизвестные единицы: 'ucm'
+2306077,CC50,нечисловое standard_value
+2306080,CC50,нечисловое standard_value
+2306081,CC50,нечисловое standard_value
+5294528,CC50,нечисловое standard_value
+6188367,CC50,нечисловое standard_value
+6193164,CC50,нечисловое standard_value
+6193165,CC50,нечисловое standard_value
+6193166,CC50,нечисловое standard_value
+6193167,CC50,нечисловое standard_value
+6193168,CC50,нечисловое standard_value
+6193169,CC50,нечисловое standard_value
+6193170,CC50,нечисловое standard_value
+6193189,CC50,нечисловое standard_value
+6193190,CC50,нечисловое standard_value
+6308719,CC50,нечисловое standard_value
+6308720,CC50,нечисловое standard_value
+6308722,CC50,нечисловое standard_value
+6309334,CC50,нечисловое standard_value
+6309352,CC50,нечисловое standard_value
+6309353,CC50,нечисловое standard_value
+10907352,CC50,нечисловое standard_value
+10907366,CC50,нечисловое standard_value
+10907380,CC50,нечисловое standard_value
+10907478,CC50,нечисловое standard_value
+10907499,CC50,нечисловое standard_value
+10907506,CC50,нечисловое standard_value
+10907510,CC50,нечисловое standard_value
+10907513,CC50,нечисловое standard_value
+10907520,CC50,нечисловое standard_value
+10908445,CC50,нечисловое standard_value
+10908459,CC50,нечисловое standard_value
+10908473,CC50,нечисловое standard_value
+10908487,CC50,нечисловое standard_value
+10908491,CC50,нечисловое standard_value
+10908494,CC50,нечисловое standard_value
+10908743,CC50,нечисловое standard_value
+10908757,CC50,нечисловое standard_value
+10909652,CC50,нечисловое standard_value
+10909666,CC50,нечисловое standard_value
+10909670,CC50,нечисловое standard_value
+10909673,CC50,нечисловое standard_value
+10909694,CC50,нечисловое standard_value
+10909698,CC50,нечисловое standard_value
+10909701,CC50,нечисловое standard_value
+10909708,CC50,нечисловое standard_value
+10909722,CC50,нечисловое standard_value
+10909736,CC50,нечисловое standard_value
+10909796,CC50,нечисловое standard_value
+12042766,CC50,нечисловое standard_value
+12042779,CC50,нечисловое standard_value
+12479089,CC50,нечисловое standard_value
+12480857,CC50,нечисловое standard_value
+12480858,CC50,нечисловое standard_value
+12480859,CC50,нечисловое standard_value
+12480860,CC50,нечисловое standard_value
+12480861,CC50,нечисловое standard_value
+12480862,CC50,нечисловое standard_value
+16383853,CC50,нечисловое standard_value
+16383861,CC50,нечисловое standard_value
+16384532,CC50,нечисловое standard_value
+16384537,CC50,нечисловое standard_value
+16384545,CC50,нечисловое standard_value
+16384605,CC50,нечисловое standard_value
+16384610,CC50,нечисловое standard_value
+16384616,CC50,нечисловое standard_value
+16384617,CC50,нечисловое standard_value
+16384618,CC50,нечисловое standard_value
+16384621,CC50,нечисловое standard_value
+16384678,CC50,нечисловое standard_value
+16607929,CC50,нечисловое standard_value
+16607930,CC50,нечисловое standard_value
+16607931,CC50,нечисловое standard_value
+16607932,CC50,нечисловое standard_value
+16607975,CC50,нечисловое standard_value
+16607976,CC50,нечисловое standard_value
+18206829,CC50,нечисловое standard_value
+18206830,CC50,нечисловое standard_value
+18206836,CC50,нечисловое standard_value
+18206837,CC50,нечисловое standard_value
+18537907,CC50,нечисловое standard_value
+18537908,CC50,нечисловое standard_value
+18799328,CC50,нечисловое standard_value
+18799329,CC50,нечисловое standard_value
+18799331,CC50,нечисловое standard_value
+18799332,CC50,нечисловое standard_value
+19105585,CC50,нечисловое standard_value
+19105596,CC50,нечисловое standard_value
+19282500,CC50,нечисловое standard_value
+19282508,CC50,нечисловое standard_value
+19282509,CC50,нечисловое standard_value
+19282510,CC50,нечисловое standard_value
+19282511,CC50,нечисловое standard_value
+22820211,CC50,нечисловое standard_value
+22820213,CC50,нечисловое standard_value
+22820229,CC50,нечисловое standard_value
+22820230,CC50,нечисловое standard_value

@@ -1,0 +1,31 @@
+../env/Scripts/python.exe : test_extra_sources_respect_both_structure_and_scaffold_exclusions
+(tests.test_hypotheses.IndependentEndpoints.test_extra_sources_respect_both_structure_and_scaffold_exclusions) ... ok
+строка:2 знак:22
++ ... ONUTF8='1'; ../env/Scripts/python.exe -m unittest tests.test_hypothes ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_extra_sour...lusions) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_unpaired_endpoints_keep_provenance_without_made_up_partners
+(tests.test_hypotheses.IndependentEndpoints.test_unpaired_endpoints_keep_provenance_without_made_up_partners) ... ok
+test_user_submission_threshold_is_strict_and_smaller_is_better
+(tests.test_hypotheses.IndependentEndpoints.test_user_submission_threshold_is_strict_and_smaller_is_better) ... ok
+test_all_model_families_have_independent_masks_and_portable_native_heads
+(tests.test_hypotheses.Models.test_all_model_families_have_independent_masks_and_portable_native_heads) ... ok
+test_bounds_reject_ambiguous_aggregates_and_preserve_direction
+(tests.test_hypotheses.Models.test_bounds_reject_ambiguous_aggregates_and_preserve_direction) ... ok
+test_direct_si_fit_excludes_validation_and_conditional_labels
+(tests.test_hypotheses.Models.test_direct_si_fit_excludes_validation_and_conditional_labels) ... ok
+test_feature_representations_differ_and_are_finite
+(tests.test_hypotheses.Models.test_feature_representations_differ_and_are_finite) ... ok
+test_native_baseline_matches_existing_sklearn_model
+(tests.test_hypotheses.Models.test_native_baseline_matches_existing_sklearn_model) ... ok
+test_selection_is_based_on_oof_and_flags_ordinary_value_damage
+(tests.test_hypotheses.Models.test_selection_is_based_on_oof_and_flags_ordinary_value_damage) ... ok
+test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs
+(tests.test_hypotheses.Models.test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.686s
+
+OK

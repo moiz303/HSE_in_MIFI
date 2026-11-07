@@ -1,0 +1,252 @@
+../env/Scripts/python.exe : test_changed_config_or_data_rejects_artifact
+(tests.test_catboost_two_head.CatBoostWorkflow.test_changed_config_or_data_rejects_artifact) ... ok
+строка:2 знак:22
++ ... ONUTF8='1'; ../env/Scripts/python.exe -m unittest discover -s tests - ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_changed_co...rtifact) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_modified_export_and_overlap_fail_before_training
+(tests.test_catboost_two_head.CatBoostWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_native_heads_and_independent_masks
+(tests.test_catboost_two_head.CatBoostWorkflow.test_native_heads_and_independent_masks) ... ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak
+(tests.test_catboost_two_head.CatBoostWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... ok
+test_activity_without_a_pair_goes_to_the_journal
+(tests.test_download.BuildTable.test_activity_without_a_pair_goes_to_the_journal) ... ok
+test_chembl_flagged_values_are_dropped_with_a_reason
+(tests.test_download.BuildTable.test_chembl_flagged_values_are_dropped_with_a_reason) ... ok
+test_different_documents_do_not_pair (tests.test_download.BuildTable.test_different_documents_do_not_pair) ... ok
+test_flagged_values_are_kept_when_asked (tests.test_download.BuildTable.test_flagged_values_are_kept_when_asked) ... ok
+test_honest_pair_is_not_flagged_as_artifact
+(tests.test_download.BuildTable.test_honest_pair_is_not_flagged_as_artifact) ... ok
+test_pair_is_assembled_per_molecule_and_document
+(tests.test_download.BuildTable.test_pair_is_assembled_per_molecule_and_document) ... ok
+test_si_artifact_is_flagged (tests.test_download.BuildTable.test_si_artifact_is_flagged) ... ok
+test_si_matches_the_contract_formula (tests.test_download.BuildTable.test_si_matches_the_contract_formula) ... ok
+test_common_lines (tests.test_download.CellLineFromText.test_common_lines) ... ok
+test_hela_is_not_confused_with_hel (tests.test_download.CellLineFromText.test_hela_is_not_confused_with_hel) ... ok
+test_no_cell_line_mentioned (tests.test_download.CellLineFromText.test_no_cell_line_mentioned) ... ok
+test_admet_is_not_a_cell_line (tests.test_download.Measurement.test_admet_is_not_a_cell_line) ... ok
+test_assay_record_wins_over_description (tests.test_download.Measurement.test_assay_record_wins_over_description) ...
+ok
+test_censoring_sign_is_preserved (tests.test_download.Measurement.test_censoring_sign_is_preserved) ... ok
+test_exact_measurement_has_empty_qualifier
+(tests.test_download.Measurement.test_exact_measurement_has_empty_qualifier) ... ok
+test_mass_units_use_molecular_weight (tests.test_download.Measurement.test_mass_units_use_molecular_weight) ... ok
+test_mass_units_written_with_a_space (tests.test_download.Measurement.test_mass_units_written_with_a_space) ... ok
+test_missing_units_are_rejected_with_a_reason
+(tests.test_download.Measurement.test_missing_units_are_rejected_with_a_reason) ... ok
+test_nanomolar_becomes_micromolar (tests.test_download.Measurement.test_nanomolar_becomes_micromolar) ... ok
+test_toxicity_falls_back_to_target_as_cell_line
+(tests.test_download.Measurement.test_toxicity_falls_back_to_target_as_cell_line) ... ok
+test_value_outside_plausible_range_is_rejected
+(tests.test_download.Measurement.test_value_outside_plausible_range_is_rejected) ... ok
+test_virus_target_is_not_used_as_a_cell_line
+(tests.test_download.Measurement.test_virus_target_is_not_used_as_a_cell_line) ... ok
+test_zero_value_is_rejected (tests.test_download.Measurement.test_zero_value_is_rejected) ... ok
+test_same_cell_line_when_no_arm_mentions_vaccinia
+(tests.test_download.PickCytotoxicity.test_same_cell_line_when_no_arm_mentions_vaccinia) ... ok
+test_unknown_cell_line_falls_back_to_the_document
+(tests.test_download.PickCytotoxicity.test_unknown_cell_line_falls_back_to_the_document) ... ok
+test_vaccinia_arm_in_another_line_beats_a_different_virus
+(tests.test_download.PickCytotoxicity.test_vaccinia_arm_in_another_line_beats_a_different_virus) ... ok
+test_vaccinia_arm_in_the_same_cell_line_wins
+(tests.test_download.PickCytotoxicity.test_vaccinia_arm_in_the_same_cell_line_wins) ... ok
+test_all_censored_keeps_the_sign (tests.test_download.Representative.test_all_censored_keeps_the_sign) ... ok
+test_exact_measurements_win_over_censored
+(tests.test_download.Representative.test_exact_measurements_win_over_censored) ... ok
+test_median_is_taken_in_log_space (tests.test_download.Representative.test_median_is_taken_in_log_space) ... ok
+test_both_entrypoints_skip_validation_scoring
+(tests.test_final_training.FinalTraining.test_both_entrypoints_skip_validation_scoring) ... ok
+test_final_validation_scoring_and_invalid_modes_are_rejected
+(tests.test_final_training.FinalTraining.test_final_validation_scoring_and_invalid_modes_are_rejected) ... ok
+test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows
+(tests.test_final_training.FinalTraining.test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows) ... ok
+test_changed_config_or_data_rejects_artifact
+(tests.test_hybrid_cv.CVWorkflow.test_changed_config_or_data_rejects_artifact) ... ok
+test_hashes_ignore_platform_line_endings (tests.test_hybrid_cv.CVWorkflow.test_hashes_ignore_platform_line_endings)
+... ok
+test_modified_export_and_overlap_fail_before_training
+(tests.test_hybrid_cv.CVWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_selection_rule_and_native_classifier_roundtrip
+(tests.test_hybrid_cv.CVWorkflow.test_selection_rule_and_native_classifier_roundtrip) ... ok
+test_submission_requires_evaluation_and_selection_is_persisted
+(tests.test_hybrid_cv.CVWorkflow.test_submission_requires_evaluation_and_selection_is_persisted) ... ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak
+(tests.test_hybrid_cv.CVWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... ok
+test_validation_win_does_not_promote_by_default
+(tests.test_hybrid_cv.CVWorkflow.test_validation_win_does_not_promote_by_default) ... ok
+test_reference_overrides_mixed_targets_without_inventing_ic50
+(tests.test_hybrid_cv.OriginalTargets.test_reference_overrides_mixed_targets_without_inventing_ic50) ... ok
+test_score_preserves_original_rows_and_does_not_use_unmatched_targets
+(tests.test_hybrid_cv.OriginalTargets.test_score_preserves_original_rows_and_does_not_use_unmatched_targets) ... ok
+test_three_fold_real_toy_run_uses_original_targets
+(tests.test_hybrid_cv.OriginalTargets.test_three_fold_real_toy_run_uses_original_targets) ... ok
+test_weight_requires_fold_consistency_and_practical_gain
+(tests.test_hybrid_cv.OriginalTargets.test_weight_requires_fold_consistency_and_practical_gain) ... ok
+test_extra_sources_respect_both_structure_and_scaffold_exclusions
+(tests.test_hypotheses.IndependentEndpoints.test_extra_sources_respect_both_structure_and_scaffold_exclusions) ... ok
+test_submission_threshold_is_strict_and_requires_oof_safety
+(tests.test_hypotheses.IndependentEndpoints.test_submission_threshold_is_strict_and_requires_oof_safety) ... ok
+test_unpaired_endpoints_keep_provenance_without_made_up_partners
+(tests.test_hypotheses.IndependentEndpoints.test_unpaired_endpoints_keep_provenance_without_made_up_partners) ... ok
+test_all_model_families_have_independent_masks_and_portable_native_heads
+(tests.test_hypotheses.Models.test_all_model_families_have_independent_masks_and_portable_native_heads) ... ok
+test_bounds_reject_ambiguous_aggregates_and_preserve_direction
+(tests.test_hypotheses.Models.test_bounds_reject_ambiguous_aggregates_and_preserve_direction) ... ok
+test_direct_si_fit_excludes_validation_and_conditional_labels
+(tests.test_hypotheses.Models.test_direct_si_fit_excludes_validation_and_conditional_labels) ... ok
+test_feature_representations_differ_and_are_finite
+(tests.test_hypotheses.Models.test_feature_representations_differ_and_are_finite) ... ok
+test_native_baseline_matches_existing_sklearn_model
+(tests.test_hypotheses.Models.test_native_baseline_matches_existing_sklearn_model) ... ok
+test_selection_is_based_on_oof_and_flags_ordinary_value_damage
+(tests.test_hypotheses.Models.test_selection_is_based_on_oof_and_flags_ordinary_value_damage) ... ok
+test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs
+(tests.test_hypotheses.Models.test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs) ... ok
+test_cc50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_cc50_in_features_is_rejected) ... ok
+test_ic50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_ic50_in_features_is_rejected) ... ok
+test_smiles_only_frame_passes (tests.test_kaggle_data.ForbiddenFeatures.test_smiles_only_frame_passes) ... ok
+test_the_arithmetic_helpers_are_gone (tests.test_kaggle_data.ForbiddenFeatures.test_the_arithmetic_helpers_are_gone)
+... ok
+test_columns_are_renamed_to_the_contract
+(tests.test_kaggle_data.TrainingFrame.test_columns_are_renamed_to_the_contract) ... ok
+test_benchmark_scores_same_original_rows_without_fit_predict_overlap
+(tests.test_local_score.Scores.test_benchmark_scores_same_original_rows_without_fit_predict_overlap) ... ok
+test_bootstrap_does_not_treat_repeats_as_independent_observations
+(tests.test_local_score.Scores.test_bootstrap_does_not_treat_repeats_as_independent_observations) ... ok
+test_complete_runner_on_toy_data_excludes_holdout_and_writes_reports
+(tests.test_local_score.Scores.test_complete_runner_on_toy_data_excludes_holdout_and_writes_reports) ... ok
+test_groups_and_fold_reproducibility (tests.test_local_score.Scores.test_groups_and_fold_reproducibility) ... ok
+test_raw_mse_includes_zero_targets_and_differs_from_log_metric
+(tests.test_local_score.Scores.test_raw_mse_includes_zero_targets_and_differs_from_log_metric) ... ok
+test_censored_values_keep_the_qualifier (tests.test_schema.ParseMeasurement.test_censored_values_keep_the_qualifier)
+... ok
+test_garbage_is_not_silently_zero (tests.test_schema.ParseMeasurement.test_garbage_is_not_silently_zero) ... ok
+test_plain_number (tests.test_schema.ParseMeasurement.test_plain_number) ... ok
+test_mass_units_need_molecular_weight (tests.test_schema.UnitConversion.test_mass_units_need_molecular_weight) ... ok
+test_molar_scale (tests.test_schema.UnitConversion.test_molar_scale) ... ok
+test_unknown_unit_fails_loudly (tests.test_schema.UnitConversion.test_unknown_unit_fails_loudly) ... ok
+test_actual_label_keeps_missing_ic50 (tests.test_schema.ValidateTable.test_actual_label_keeps_missing_ic50) ... ok
+test_good_row_passes (tests.test_schema.ValidateTable.test_good_row_passes) ... ok
+test_inconsistent_si_is_rejected (tests.test_schema.ValidateTable.test_inconsistent_si_is_rejected) ... ok
+test_missing_or_false_label_flags_do_not_bypass_validation
+(tests.test_schema.ValidateTable.test_missing_or_false_label_flags_do_not_bypass_validation) ... ok
+test_missing_required_column_raises (tests.test_schema.ValidateTable.test_missing_required_column_raises) ... ok
+test_non_numeric_is_rejected_with_reason (tests.test_schema.ValidateTable.test_non_numeric_is_rejected_with_reason)
+... ok
+test_source_frame_is_not_mutated (tests.test_schema.ValidateTable.test_source_frame_is_not_mutated) ... ok
+test_unit_error_scale_is_rejected (tests.test_schema.ValidateTable.test_unit_error_scale_is_rejected) ... ok
+test_identical_molecules_give_identical_rows (tests.test_smoke.Features.test_identical_molecules_give_identical_rows)
+... ok
+test_invalid_smiles_does_not_crash_featurization
+(tests.test_smoke.Features.test_invalid_smiles_does_not_crash_featurization) ... ok
+test_shape_is_stable (tests.test_smoke.Features.test_shape_is_stable) ... ok
+test_applicability_similarity_is_one_for_a_known_molecule
+(tests.test_smoke.Metrics.test_applicability_similarity_is_one_for_a_known_molecule) ... ok
+test_bootstrap_interval_brackets_the_estimate (tests.test_smoke.Metrics.test_bootstrap_interval_brackets_the_estimate)
+... ok
+test_perfect_prediction_scores_zero_error (tests.test_smoke.Metrics.test_perfect_prediction_scores_zero_error) ... ok
+test_shape_mismatch_raises (tests.test_smoke.Metrics.test_shape_mismatch_raises) ... ok
+test_manifest_roundtrip (tests.test_smoke.SplitsWiring.test_manifest_roundtrip) ... ok
+test_a_chemical_series_stays_in_one_part (tests.test_splits.ScaffoldSplit.test_a_chemical_series_stays_in_one_part)
+... ok
+test_every_molecule_lands_exactly_once (tests.test_splits.ScaffoldSplit.test_every_molecule_lands_exactly_once) ... ok
+test_fractions_must_sum_to_one (tests.test_splits.ScaffoldSplit.test_fractions_must_sum_to_one) ... ok
+test_leak_detector_actually_fires (tests.test_splits.ScaffoldSplit.test_leak_detector_actually_fires) ... ok
+test_no_molecule_or_scaffold_crosses_the_border
+(tests.test_splits.ScaffoldSplit.test_no_molecule_or_scaffold_crosses_the_border) ... ok
+test_same_seed_gives_the_same_split (tests.test_splits.ScaffoldSplit.test_same_seed_gives_the_same_split) ... ok
+test_conflicting_measurements_collapse_to_log_median
+(tests.test_standardize.Aggregate.test_conflicting_measurements_collapse_to_log_median) ... ok
+test_distinct_structures_are_kept_apart (tests.test_standardize.Aggregate.test_distinct_structures_are_kept_apart) ...
+ok
+test_invalid_smiles_returns_none (tests.test_standardize.Standardize.test_invalid_smiles_returns_none) ... ok
+test_molecular_weight_is_available_for_unit_conversion
+(tests.test_standardize.Standardize.test_molecular_weight_is_available_for_unit_conversion) ... ok
+test_salt_is_stripped_to_the_largest_fragment
+(tests.test_standardize.Standardize.test_salt_is_stripped_to_the_largest_fragment) ... ok
+test_same_molecule_written_differently_collapses
+(tests.test_standardize.Standardize.test_same_molecule_written_differently_collapses) ... ok
+test_aggregate_report_only_and_input_files_unchanged
+(tests.test_test_diagnostics.LocalTestDiagnostic.test_aggregate_report_only_and_input_files_unchanged) ... ok
+test_missing_duplicate_or_bad_predictions_fail_instead_of_changing_coverage (tests.test_test_diagnostics.LocalTestDiagn
+ostic.test_missing_duplicate_or_bad_predictions_fail_instead_of_changing_coverage) ... ok
+test_ratio_coverage_and_id_alignment_without_guessing_missing_targets (tests.test_test_diagnostics.LocalTestDiagnostic.
+test_ratio_coverage_and_id_alignment_without_guessing_missing_targets) ... ok
+test_both_entrypoints_skip_validation_scoring
+(tests.test_xgb_analog.AnalogFinal.test_both_entrypoints_skip_validation_scoring) ... ok
+test_final_validation_scoring_and_invalid_modes_are_rejected
+(tests.test_xgb_analog.AnalogFinal.test_final_validation_scoring_and_invalid_modes_are_rejected) ... ok
+test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows
+(tests.test_xgb_analog.AnalogFinal.test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows) ... ok
+test_masks_similarity_accumulation_weighted_neighbors_and_portable_roundtrip
+(tests.test_xgb_analog.Analogs.test_masks_similarity_accumulation_weighted_neighbors_and_portable_roundtrip) ... ok
+test_oof_neighbor_bank_never_contains_validation_queries
+(tests.test_xgb_analog.Analogs.test_oof_neighbor_bank_never_contains_validation_queries) ... ok
+test_real_toy_oof_runner_writes_selection_and_reports
+(tests.test_xgb_analog.Analogs.test_real_toy_oof_runner_writes_selection_and_reports) ... ok
+test_selection_requires_main_gain_and_respects_stress_and_measured_guards
+(tests.test_xgb_analog.Analogs.test_selection_requires_main_gain_and_respects_stress_and_measured_guards) ... ok
+test_averaging_is_arithmetic_in_raw_si_space
+(tests.test_xgb_ensemble.Ensemble.test_averaging_is_arithmetic_in_raw_si_space) ... ok
+test_final_ensemble_serialization_members_and_submission
+(tests.test_xgb_ensemble.Ensemble.test_final_ensemble_serialization_members_and_submission) ... ok
+test_unfitted_ensemble_is_rejected (tests.test_xgb_ensemble.Ensemble.test_unfitted_ensemble_is_rejected) ... ok
+test_changed_config_or_data_rejects_artifact
+(tests.test_xgb_hybrid.HybridWorkflow.test_changed_config_or_data_rejects_artifact) ... ok
+test_hashes_ignore_platform_line_endings
+(tests.test_xgb_hybrid.HybridWorkflow.test_hashes_ignore_platform_line_endings) ... ok
+test_modified_export_and_overlap_fail_before_training
+(tests.test_xgb_hybrid.HybridWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_selection_rule_and_native_classifier_roundtrip
+(tests.test_xgb_hybrid.HybridWorkflow.test_selection_rule_and_native_classifier_roundtrip) ... ok
+test_submission_requires_evaluation_and_selection_is_persisted
+(tests.test_xgb_hybrid.HybridWorkflow.test_submission_requires_evaluation_and_selection_is_persisted) ... ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak
+(tests.test_xgb_hybrid.HybridWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... ok
+test_validation_win_does_not_promote_by_default
+(tests.test_xgb_hybrid.HybridWorkflow.test_validation_win_does_not_promote_by_default) ... ok
+test_both_entrypoints_skip_validation_scoring
+(tests.test_xgb_tail.TailFinal.test_both_entrypoints_skip_validation_scoring) ... ok
+test_final_validation_scoring_and_invalid_modes_are_rejected
+(tests.test_xgb_tail.TailFinal.test_final_validation_scoring_and_invalid_modes_are_rejected) ... ok
+test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows
+(tests.test_xgb_tail.TailFinal.test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows) ... ok
+test_head_specific_weights_are_masked_normalized_and_validated_before_fit
+(tests.test_xgb_tail.TailWeights.test_head_specific_weights_are_masked_normalized_and_validated_before_fit) ... ok
+test_only_exact_known_measured_pairs_are_boosted_and_capped
+(tests.test_xgb_tail.TailWeights.test_only_exact_known_measured_pairs_are_boosted_and_capped) ... ok
+test_oof_models_and_target_dependent_weights_only_see_fit_rows
+(tests.test_xgb_tail.TailWeights.test_oof_models_and_target_dependent_weights_only_see_fit_rows) ... ok
+test_selection_rejects_ordinary_value_damage_and_unstable_wins
+(tests.test_xgb_tail.TailWeights.test_selection_rejects_ordinary_value_damage_and_unstable_wins) ... ok
+test_bad_parameters_and_empty_head_fail (tests.test_xgb_two_head.Heads.test_bad_parameters_and_empty_head_fail) ... ok
+test_censoring_is_per_head_and_si_labels_do_not_invent_targets
+(tests.test_xgb_two_head.Heads.test_censoring_is_per_head_and_si_labels_do_not_invent_targets) ... ok
+test_independent_missing_targets_and_ratio (tests.test_xgb_two_head.Heads.test_independent_missing_targets_and_ratio)
+... ok
+test_standardization_matches_salts_and_rejects_garbage
+(tests.test_xgb_two_head.Heads.test_standardization_matches_salts_and_rejects_garbage) ... ok
+test_changed_config_or_data_rejects_artifact
+(tests.test_xgb_two_head.ToyWorkflow.test_changed_config_or_data_rejects_artifact) ... ok
+test_modified_export_and_overlap_fail_before_training
+(tests.test_xgb_two_head.ToyWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak
+(tests.test_xgb_two_head.ToyWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... ok
+test_both_entrypoints_skip_validation_scoring
+(tests.test_xgb_weighted.WeightedFinal.test_both_entrypoints_skip_validation_scoring) ... ok
+test_final_validation_scoring_and_invalid_modes_are_rejected
+(tests.test_xgb_weighted.WeightedFinal.test_final_validation_scoring_and_invalid_modes_are_rejected) ... ok
+test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows
+(tests.test_xgb_weighted.WeightedFinal.test_refit_uses_ten_development_rows_and_excludes_two_holdout_rows) ... ok
+test_each_head_receives_its_masked_normalized_weights
+(tests.test_xgb_weighted.Weights.test_each_head_receives_its_masked_normalized_weights) ... ok
+test_worst_pairing_is_used_and_competition_rows_keep_full_weight
+(tests.test_xgb_weighted.Weights.test_worst_pairing_is_used_and_competition_rows_keep_full_weight) ... ok
+
+----------------------------------------------------------------------
+Ran 141 tests in 15.673s
+
+OK

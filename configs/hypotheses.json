@@ -1,0 +1,13 @@
+{
+  "seed": 20261106,
+  "folds": 3,
+  "repeats": 3,
+  "order": ["independent", "features", "censoring", "direct_si", "clean_pairs", "head_params"],
+  "baseline_submission": "reports/submission_xgb_tail.csv",
+  "baseline_oof": "reports/tail_comparison_oof.csv",
+  "baseline_report": "reports/tail_comparison.json",
+  "baseline_training": "reports/xgb_tail_training.json",
+  "submission_improvement_fraction": 0.10,
+  "submission_policy": "best_qualifying_only_unless_user_requests_each",
+  "note": "Independent ablations, selected by development OOF before separate test diagnostics. No Kaggle calls in training."
+}

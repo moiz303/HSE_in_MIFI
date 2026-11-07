@@ -1,0 +1,21 @@
+{
+  "target_ids": [
+    "CHEMBL613493",
+    "CHEMBL613168"
+  ],
+  "excluded_protein_targets": 6,
+  "raw_antiviral": 2177,
+  "raw_toxicity": 4738,
+  "documents": 134,
+  "accepted": 6372,
+  "rejected": 543,
+  "endpoint_counts": {
+    "CC50": 4626,
+    "IC50": 1746
+  },
+  "exact_counts": {
+    "CC50": 2481,
+    "IC50": 961
+  },
+  "note": "CC50/TC50/CD50/GI50 and IC50/EC50 types retained explicitly; no SI or missing partners inferred"
+}
