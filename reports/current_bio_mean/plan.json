@@ -1,0 +1,144 @@
+{
+  "code_sha256": "74a6c6f337eade6df314ce1b32da72303a2673736e4cccd6b47e83245eb62a88",
+  "feature_sources": {
+    "public_source_sha256": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+    "biology_code_sha256": "5859deaa85bc14678930b5da5bf350407a7103473060c36788c9cb8e50ba50ca",
+    "public_preparation_code_sha256": "bca0cc2a39b7fa8830e445c07cd35efdb994f85cdb597927f30ab2da12a42ee1",
+    "encoded_feature_file_sha256": "f49f798bbbba84e6ea1194b2761e12f5b400029f780bd67cfb0ca20c179de791"
+  },
+  "data": {
+    "version": "train_v2_exact_public_v1",
+    "feature_columns": [
+      "SMILES"
+    ],
+    "kaggle_columns_read": [
+      "SMILES",
+      "SI VACV"
+    ],
+    "forbidden_columns_read": [],
+    "kaggle_rows": 320,
+    "kaggle_development_rows": 267,
+    "reserved_competition_rows": 53,
+    "development_zeros": 66,
+    "legacy_unmapped_competition_structures_excluded": 2,
+    "public_collected_pairs": 109,
+    "public_collected_structures": 87,
+    "public_fit_pairs": 80,
+    "public_fit_structures": 63,
+    "public_missing_doi": 0,
+    "public_rejection_counts": {
+      "censored_measurement": 2930,
+      "no_exact_partner_same_document_and_cell_line": 1748,
+      "endpoint_type_not_IC50_or_CC50": 1292,
+      "unknown_cell_line": 184
+    },
+    "public_target_types": [
+      "IC50",
+      "CC50"
+    ],
+    "public_virus": "VACV whole-organism targets only",
+    "public_weight_rule": "0.5/number of records of a structure",
+    "competition_targets_aggregated_with_public": false,
+    "holdout_used": false,
+    "source_sha256": {
+      "data/raw/kaggle/train_v2.csv": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+      "data/experiments/independent_endpoints.csv": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+      "data/experiments/independent_collection.json": "3c89589e9e306622057fe870e3e5c12602b53e7cd9444a166935af1363cd6200",
+      "data/raw/chembl.csv": "4bfc3758ba657774ebcc140ce729701fa40e694ca1192662a5bf7bd02357afb0",
+      "data/processed/splits.json": "8dc017aaa86dc037bccb9cd29703b2368d0332896226b29f5300ea4399634f80",
+      "data/processed/dataset.csv": "2c56548919a0fdf386e93295c078d5460b9159509134eb201925cbe1c450d58d"
+    },
+    "source_content_sha256": {
+      "data/raw/kaggle/train_v2.csv": "16b861ef36b77c98acfb6870ea1ff25751e8add55debc650b4903c8f38f79e53",
+      "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+      "data/experiments/independent_collection.json": "105bac5f2d5cc639b79d29ff8232164add04b859225adb3495f9315167661040",
+      "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+      "data/processed/splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+      "data/processed/dataset.csv": "e7cf2826f9ace628f46b3264271c3d390d4dfd42ec8ab55156c175370171127e"
+    },
+    "output_content_sha256": {
+      "development_mixed.csv": "11b3a768d4af49171d5a34bad25af2987201c5a29037fd9bb396abae22b65f8e",
+      "kaggle_development.csv": "5c613e49049434fbed42c820f4a69a97f13ecbcfe9685f65ac07cd214115131a",
+      "public_dataset.csv": "a0a280b8ba4f680d6145f92180f40d34a29f6b6ab13348bc14e26d3da519df1c",
+      "public_development.csv": "da9ba8e41f8e9a4ff05fd710214872c4fa9db4a17d3497a5c93c36eb809f8d01",
+      "public_rejected.csv": "88de8aaa0b9c06b10261bcb7eb95569c5f0d7376852566a0d9e77a8468a7f3e2"
+    }
+  },
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "methods": [
+      "chemeleon_ridge",
+      "chemeleon_mlp",
+      "chemeleon_domain",
+      "catboost_direct",
+      "chemeleon_mlp_log1p",
+      "chemeleon_domain_log1p",
+      "catboost_log1p"
+    ],
+    "regimes": [
+      "kaggle_only",
+      "public_plus_kaggle"
+    ],
+    "neural": {
+      "epochs": 160,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "weight_decay": 0.01,
+      "hidden": 64,
+      "dropout": 0.15
+    },
+    "ridge_alpha": 100.0,
+    "catboost": {
+      "iterations": 600,
+      "depth": 5,
+      "learning_rate": 0.03,
+      "l2_leaf_reg": 5.0,
+      "random_seed": 20261106,
+      "thread_count": 1,
+      "loss_function": "RMSE",
+      "task_type": "CPU",
+      "verbose": false,
+      "allow_writing_files": false
+    },
+    "public_weight": 0.5,
+    "selection": "Mean raw SI MSE across molecule/scaffold OOF on ALL original development competition rows, including zeros; before separate test diagnostics. No automatic promotion or Kaggle upload.",
+    "additional_ablation_reason": "Raw-SI development OOF can lose to constant zero and public high-SI tail dominates. Add fixed log1p loss controls retaining zeros; primary selection still raw-SI OOF MSE. No test targets used for architecture or parameter choice.",
+    "feature_columns": [
+      "SMILES"
+    ],
+    "kaggle_target_column": "SI VACV",
+    "expected_train_sha256": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+    "forbidden_kaggle_columns": [
+      "CC50_uM",
+      "IC50_uM_VACV"
+    ],
+    "holdout_used": false,
+    "test_endpoints_used_in_training_or_inference": false,
+    "kaggle_submission_authorized": false
+  },
+  "losses": {
+    "rmse": "RMSE",
+    "tweedie15": "Tweedie:variance_power=1.5"
+  },
+  "kinds": [
+    "bio_small",
+    "bio_fp"
+  ],
+  "regimes": [
+    "kaggle_only",
+    "public_plus_kaggle"
+  ],
+  "target_unit": 100.0,
+  "target_transform": "SI/100, no logarithm; restore x100",
+  "Tweedie_prediction": "CatBoost default Exponent, verified in installed package; no additional exponential",
+  "official_training_columns": [
+    "SMILES",
+    "SI VACV"
+  ],
+  "test_endpoint_columns_read": [],
+  "holdout_used": false,
+  "selection": "ALL-row raw-SI OOF, zero and positive<=1000 guards <=1.2x fixed CheM; no automatic promotion",
+  "queued_candidate_changed": false
+}

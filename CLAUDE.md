@@ -86,6 +86,11 @@ Gaussian retransformation heuristics, not exact expectations of clipped SI.
 TabPFN fresh-process reproduction failed; do not upload/promote until repaired.
 User allows up to3agents, with distinct file ownership and no agent Kaggle uploads.
 Keep reporting completed milestones and failures; avoid silent unbounded sweeps.
+Before proposing/training a new hypothesis read reports/current/research_registry.json,
+reports/current/all_models.csv and docs/previous_experiments.md. Reproducing a
+matched control/cache invariant is not a new experiment. Do not repeat failed
+data/objective/kernel/ensemble blocks without recording the changed factor.
+Keep public-pretraining fold states in cache for subsequent readout-only changes.
 New source changes require new prepared version; never silently reuse checkpoints.
 Preserve AGENTS.md unchanged. Commit/push completed verified work to origin/main;
 no force push, no discarding unrelated changes. Keep legacy module paths required

@@ -79,3 +79,7 @@ reports/current_auxiliary/fold_*.csv
 reports/current_auxiliary/fold_*.json
 reports/current_bio_transfer/fold_*.csv
 reports/current_bio_transfer/fold_*.json
+reports/current_bio_mean/fold_*.csv
+reports/current_bio_mean/fold_*.json
+reports/current_bio_latent/fold_*.csv
+reports/current_bio_latent/fold_*.json

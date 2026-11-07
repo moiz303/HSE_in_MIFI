@@ -1,0 +1,119 @@
+{
+  "conclusion": "Neither RMSE nor Tweedie calibration beats the queued log-SI biological candidate; do not upload this block",
+  "queued_candidate_unchanged": true,
+  "public_pretraining_held_folds_reproduced_previous_log_control": true,
+  "comparisons": [
+    {
+      "candidate": "tweedie15__bio_small__kaggle_only",
+      "matched_log_calibration": "bio_small__kaggle_only",
+      "raw_mean_oof_mse": 5130877.484857839,
+      "zero_mse": 9927.998762348927,
+      "bulk_mse": 214345.06707431297,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -54106.2349874279,
+        "ci95_lower": -280479.4989167067,
+        "ci95_upper": 85130.90968110284,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "tweedie15__bio_fp__kaggle_only",
+      "matched_log_calibration": "bio_fp__kaggle_only",
+      "raw_mean_oof_mse": 5539150.823037056,
+      "zero_mse": 11337.99312538172,
+      "bulk_mse": 119676.84344428127,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -524884.523160174,
+        "ci95_lower": -1425583.693076412,
+        "ci95_upper": 31796.477655474544,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "tweedie15__bio_small__public_plus_kaggle",
+      "matched_log_calibration": "bio_small__public_plus_kaggle",
+      "raw_mean_oof_mse": 6395449.65720146,
+      "zero_mse": 9960.688344550368,
+      "bulk_mse": 569919.0736326845,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -731563.1646862639,
+        "ci95_lower": -2550420.587369339,
+        "ci95_upper": 459430.56255260966,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "rmse__bio_small__kaggle_only",
+      "matched_log_calibration": "bio_small__kaggle_only",
+      "raw_mean_oof_mse": 6681802.60882842,
+      "zero_mse": 55692.51725515689,
+      "bulk_mse": 1589118.3826424072,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -1605031.358958009,
+        "ci95_lower": -4062639.830533199,
+        "ci95_upper": -94841.53408693532,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "rmse__bio_fp__kaggle_only",
+      "matched_log_calibration": "bio_fp__kaggle_only",
+      "raw_mean_oof_mse": 7111349.511308745,
+      "zero_mse": 52914.024070444335,
+      "bulk_mse": 1841627.3528754876,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -2097083.2114318626,
+        "ci95_lower": -5059813.471310926,
+        "ci95_upper": -137605.58801285495,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "rmse__bio_small__public_plus_kaggle",
+      "matched_log_calibration": "bio_small__public_plus_kaggle",
+      "raw_mean_oof_mse": 40337191.416152254,
+      "zero_mse": 34253.825194426645,
+      "bulk_mse": 14466344.597100347,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -34673304.92363706,
+        "ci95_lower": -90884127.10375854,
+        "ci95_upper": -1399487.6055851642,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "tweedie15__bio_fp__public_plus_kaggle",
+      "matched_log_calibration": "bio_fp__public_plus_kaggle",
+      "raw_mean_oof_mse": 49076796.30242987,
+      "zero_mse": 7554.599726222764,
+      "bulk_mse": 4435000.407288377,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -43737893.01575685,
+        "ci95_lower": -125266298.54707451,
+        "ci95_upper": -198768.00476268554,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "rmse__bio_fp__public_plus_kaggle",
+      "matched_log_calibration": "bio_fp__public_plus_kaggle",
+      "raw_mean_oof_mse": 84032830.36843817,
+      "zero_mse": 16781.202689647387,
+      "bulk_mse": 46911706.41401582,
+      "gain_vs_matched_log": {
+        "mean_mse_gain": -78693927.08176516,
+        "ci95_lower": -169242365.42910457,
+        "ci95_upper": -15769734.625413625,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    }
+  ]
+}

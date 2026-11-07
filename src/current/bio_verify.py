@@ -1,17 +1,19 @@
 """Verify the completed public-pretraining experiment from test IDs/SMILES only."""
 import json
+import argparse
 import joblib
 import numpy as np
 import pandas as pd
 from threadpoolctl import threadpool_limits
 from src.current.data import ROOT,sha
-from src.current.bio_transfer import design,REPORTS
+from src.current.bio_transfer import design
 from src.architecture_features import representations
 from src.features.fingerprints import featurize
 from src.data.standardize import standardize_smiles
 
 
-def main():
+def main(experiment='current_bio_transfer'):
+    REPORTS=ROOT/'reports'/experiment
     report=json.loads((REPORTS/'report.json').read_text())
     test=pd.read_csv(ROOT/'data/raw/kaggle/test.csv',usecols=['index','SMILES'])
     raw=featurize(test.SMILES.tolist())
@@ -21,7 +23,10 @@ def main():
         if sha(ROOT/row['submission'])!=row['submission_sha256']:raise ValueError('Submission changed')
         bundle=joblib.load(ROOT/row['artifact'])
         if bundle['biology'].__class__.__module__!='src.current.bio_transfer':raise ValueError('Nonportable class')
-        if bundle['provenance']['encoder']['checkpoint']['sha256']!=encoder['checkpoint']['sha256']:raise ValueError('Author encoder changed')
+        expected=bundle['provenance'].get('encoder')
+        if expected is None:
+            expected=json.loads((ROOT/'reports/current_bio_transfer/report.json').read_text())['provenance']['encoder']
+        if expected['checkpoint']['sha256']!=encoder['checkpoint']['sha256']:raise ValueError('Author encoder changed')
         logs=bundle['biology'].predict_logs(encoded)
         values=bundle['head'].predict(design(bundle['kind'],raw,logs,np.ones(len(test))))
         original=pd.read_csv(ROOT/row['submission'])
@@ -33,4 +38,7 @@ def main():
 
 
 if __name__=='__main__':
-    with threadpool_limits(limits=4):main()
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--experiment',choices=['current_bio_transfer','current_bio_mean'],default='current_bio_transfer')
+    args=parser.parse_args()
+    with threadpool_limits(limits=4):main(args.experiment)

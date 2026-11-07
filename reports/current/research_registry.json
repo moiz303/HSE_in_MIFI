@@ -1,0 +1,134 @@
+{
+  "data_version": "train_v2_exact_public_v1",
+  "purpose": "Read before proposing another experiment; failed approaches and equivalent controls must not be forgotten",
+  "experiments": [
+    {
+      "experiment": "current_probability_public",
+      "configurations": 12,
+      "report": "reports/current_probability_public/report.json",
+      "best_oof_candidate": "gp_power2.0_rho1.0_observation_mean",
+      "best_mean_oof_mse": 4973199.155002328,
+      "conclusion": "Best raw OOF4973199 failed official18558089.19131; shifted public tail and row14 dominance.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_representation_gp",
+      "configurations": 12,
+      "report": "reports/current_representation_gp/report.json",
+      "best_oof_candidate": "rbf_tanimoto_public_plus_kaggle_latent_mean",
+      "best_mean_oof_mse": 4986876.200964489,
+      "conclusion": "CheM/RBF kernels did not beat pureTanimoto GP; no official test justified by this OOF alone.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_hurdle_gp",
+      "configurations": 8,
+      "report": "reports/current_hurdle_gp/report.json",
+      "best_oof_candidate": "2.0_public_plus_kaggle_latent_mean",
+      "best_mean_oof_mse": 5002853.2563682655,
+      "conclusion": "Solo hurdle improved bulk but official1949484.90648 lost; do not equate strata with official score.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_bio_transfer",
+      "configurations": 8,
+      "report": "reports/current_bio_transfer/report.json",
+      "best_oof_candidate": "bio_fp__kaggle_only",
+      "best_mean_oof_mse": 5014266.299876882,
+      "conclusion": "Public-only pretraining then Kaggle-only SI calibration passes all/zero/bulk guards; queued, official score unknown.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_bio_blend",
+      "configurations": 3,
+      "report": "reports/current_bio_blend/report.json",
+      "best_oof_candidate": "bio_weight_0.75",
+      "best_mean_oof_mse": 5015503.079994075,
+      "conclusion": "Fixed weights improve some strata but primary MSE slightly worse than pureBio; queued candidate unchanged.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_probability",
+      "configurations": 6,
+      "report": "reports/current_probability/report.json",
+      "best_oof_candidate": "gp_power1.0_observation_mean",
+      "best_mean_oof_mse": 5032173.0652488,
+      "conclusion": "Log-SI GP uncertainty correction gives lower OOF but interpretation/risk caveats remain.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_auxiliary",
+      "configurations": 3,
+      "report": "reports/current_auxiliary/report.json",
+      "best_oof_candidate": "aux_lambda_0.0",
+      "best_mean_oof_mse": 5061065.638641881,
+      "conclusion": "Simultaneous public auxiliary tasks did not improve matched head-only continuation.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current",
+      "configurations": 14,
+      "report": "reports/current/report.json",
+      "best_oof_candidate": "chemeleon_domain_log1p__public_plus_kaggle",
+      "best_mean_oof_mse": 5061848.478142206,
+      "conclusion": "Best official SI-only reference1586333.78789. Log1p safer than rawSI under current data.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_tail",
+      "configurations": 18,
+      "report": "reports/current_tail/report.json",
+      "best_oof_candidate": "domain_cap_q0.99",
+      "best_mean_oof_mse": 5061848.478142206,
+      "conclusion": "Train-cap .99 had unchanged OOF but slightly worse official1586412.96821. Other fixed blends not promoted.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_power_ensemble",
+      "configurations": 6,
+      "report": "reports/current_power_ensemble/report.json",
+      "best_oof_candidate": "0.0_public_plus_kaggle",
+      "best_mean_oof_mse": 5063287.053982826,
+      "conclusion": "Three-seed power ensembles did not improve initial CheM reference.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_search",
+      "configurations": 25,
+      "report": "reports/current_search/report.json",
+      "best_oof_candidate": "boost__Quantile_alpha_0.8__log1p__kaggle_only",
+      "best_mean_oof_mse": 5091126.019244431,
+      "conclusion": "Kernel/analogue/tree/alternative-loss block did not beat initial CheM reference OOF.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_tabular",
+      "configurations": 3,
+      "report": "reports/current_tabular/report.json",
+      "best_oof_candidate": "tabpfn_log_mean20",
+      "best_mean_oof_mse": 5116448.206337125,
+      "conclusion": "Quarantined: standalone fresh query batch fails reproduction; do not upload or loosen tolerance.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_bio_mean",
+      "configurations": 8,
+      "report": "reports/current_bio_mean/report.json",
+      "best_oof_candidate": "tweedie15__bio_small__kaggle_only",
+      "best_mean_oof_mse": 5130877.484857839,
+      "conclusion": "Same biological features with rawRMSE/Tweedie are worse than log calibration; no more repetitions without changed factor.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+    },
+    {
+      "experiment": "current_covariate_audit",
+      "conclusion": "Source AUC.53765/logloss.730 worse thanconstant.618, ESS110/267; do not train with these density weights or call weightedMSE a Kaggle surrogate"
+    },
+    {
+      "experiment": "current_bio_latent",
+      "status": "running",
+      "changed_factor": "Task-trained internal32D features instead of only3outputpredictions; not genericCheM GP",
+      "control": "Reproduce identical prior BioFp log-SI OOF before any new feature comparisons",
+      "cache": "Save fold-specific public neural states; reusing states avoids repeating pretraining for future head-only changes"
+    }
+  ]
+}

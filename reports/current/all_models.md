@@ -86,6 +86,7 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_search | boost__Tweedie_variance_power_1.3__raw__kaggle_only | 5128103.80 | 1616.97 | 83903.90 | 94.64% | — |
 | current_bio_transfer | base_fp__public_plus_kaggle | 5128341.19 | 416.83 | 107426.78 | 94.62% | — |
 | current_search | neighbors__log1p__4.0__kaggle_only | 5129395.17 | 253.95 | 29538.76 | 94.75% | — |
+| current_bio_mean | tweedie15__bio_small__kaggle_only | 5130877.48 | 9928.00 | 214345.07 | 94.12% | — |
 | current_search | hurdle__log1p__1.0__2.0__kaggle_only | 5131279.79 | 115.59 | 29741.75 | 94.68% | — |
 | current_search | boost__Poisson__raw__kaggle_only | 5132675.03 | 1579.33 | 73314.07 | 94.53% | — |
 | current_bio_transfer | base_small__public_plus_kaggle | 5132689.89 | 3134.75 | 51288.05 | 94.81% | — |
@@ -109,20 +110,27 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_search | forest__raw__1__kaggle_only | 5494344.91 | 154546.20 | 552154.27 | 88.47% | — |
 | current | catboost_direct__kaggle_only | 5501602.81 | 144242.41 | 551130.07 | 87.96% | — |
 | current_search | kernel__raw__1.0__2.0__kaggle_only | 5524928.34 | 62008.92 | 682705.12 | 86.60% | — |
+| current_bio_mean | tweedie15__bio_fp__kaggle_only | 5539150.82 | 11337.99 | 119676.84 | 86.21% | — |
 | current_bio_transfer | bio_small__public_plus_kaggle | 5663886.49 | 2086.49 | 193672.04 | 83.78% | — |
 | current_search | neighbors__raw__4.0__kaggle_only | 5810149.94 | 238557.24 | 1015979.74 | 82.05% | — |
 | current_power_ensemble | 0.5_public_plus_kaggle | 5859968.79 | 27925.33 | 1202113.92 | 82.19% | — |
 | current_power_ensemble | 0.5_kaggle_only | 5926158.09 | 24418.99 | 1255286.35 | 81.07% | — |
 | current_search | forest__raw__4__kaggle_only | 6043185.63 | 326325.44 | 1304675.90 | 79.29% | — |
 | current_search | kernel__raw__0.1__2.0__kaggle_only | 6254362.70 | 60724.82 | 1590876.64 | 76.12% | — |
+| current_bio_mean | tweedie15__bio_small__public_plus_kaggle | 6395449.66 | 9960.69 | 569919.07 | 70.84% | — |
+| current_bio_mean | rmse__bio_small__kaggle_only | 6681802.61 | 55692.52 | 1589118.38 | 69.14% | — |
 | current_search | neighbors__raw__12.0__kaggle_only | 6942721.88 | 223598.37 | 2290381.66 | 67.79% | — |
+| current_bio_mean | rmse__bio_fp__kaggle_only | 7111349.51 | 52914.02 | 1841627.35 | 63.09% | — |
 | current | chemeleon_ridge__kaggle_only | 7693582.04 | 499192.90 | 3503973.20 | 62.30% | — |
 | current | chemeleon_domain__public_plus_kaggle | 7807105.80 | 172128.70 | 3862630.10 | 61.34% | — |
 | current | chemeleon_domain__kaggle_only | 7973414.61 | 114440.29 | 4083989.22 | 60.09% | — |
 | current | chemeleon_mlp_log1p__public_plus_kaggle | 8404670.38 | 5881.13 | 116294.60 | 57.32% | — |
 | current | chemeleon_mlp__kaggle_only | 9191511.41 | 102279.95 | 5777982.15 | 52.05% | — |
+| current_bio_mean | rmse__bio_small__public_plus_kaggle | 40337191.42 | 34253.83 | 14466344.60 | 10.23% | — |
+| current_bio_mean | tweedie15__bio_fp__public_plus_kaggle | 49076796.30 | 7554.60 | 4435000.41 | 15.01% | — |
 | current | chemeleon_ridge__public_plus_kaggle | 56006693.70 | 12905832.02 | 45041252.83 | 8.62% | — |
 | current | chemeleon_mlp__public_plus_kaggle | 62869404.78 | 3807215.85 | 33788926.77 | 7.57% | — |
+| current_bio_mean | rmse__bio_fp__public_plus_kaggle | 84032830.37 | 16781.20 | 46911706.41 | 12.27% | — |
 | current | catboost_direct__public_plus_kaggle | 103831255.14 | 4070469.36 | 86853202.02 | 4.64% | — |
 
 Historical concentration-head models are excluded from this strict protocol. No test endpoint labels were read by this report.
