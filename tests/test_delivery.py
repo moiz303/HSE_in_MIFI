@@ -1,9 +1,8 @@
 """Проверки D на синтетических данных и двух различимых моделях."""
-import copy
 import json
 import tempfile
 import unittest
-from contextlib import ExitStack
+from functools import partial
 from pathlib import Path
 from unittest.mock import patch
 
@@ -25,25 +24,23 @@ class ConstantModel:
 
 class Delivery(unittest.TestCase):
     def setUp(self):
-        stack = self.enterContext(ExitStack())
-        self.root = Path(stack.enter_context(tempfile.TemporaryDirectory()))
+        self.root = Path(self.enterContext(tempfile.TemporaryDirectory()))
         for name, relative in {
             "ROOT": ".", "PROCESSED": "data/processed", "DATASET": "data/processed/dataset.csv",
             "MANIFEST": "data/processed/splits.json", "REPORTS": "reports", "ARTIFACTS": "artifacts",
             "DEFAULT_CONFIG": "configs/baseline.json",
         }.items():
-            stack.enter_context(patch.object(pipeline, name, self.root / relative))
-        stack.enter_context(patch.object(run_record, "ROOT", self.root))
+            self.enterContext(patch.object(pipeline, name, self.root / relative))
+        self.enterContext(patch.object(run_record, "ROOT", self.root))
         # Интервалы те же, но на небольшом числе повторов для быстрого теста проводки.
-        original = evaluate.bootstrap_ci
-        stack.enter_context(patch.object(evaluate, "bootstrap_ci", side_effect=lambda *a, **kw:
-                                        original(*a, **kw, n_resamples=20)))
+        self.enterContext(patch.object(evaluate, "bootstrap_ci",
+                                       partial(evaluate.bootstrap_ci, n_resamples=20)))
         pipeline.PROCESSED.mkdir(parents=True)
         pipeline.ARTIFACTS.mkdir()
-        self.data = pd.DataFrame({"standard_smiles": ["CCO", "c1ccccc1", "C1CCCCC1"],
+        data = pd.DataFrame({"standard_smiles": ["CCO", "c1ccccc1", "C1CCCCC1"],
                                   "SI": [10., 20., 30.], "source": ["chembl", "kaggle_train", "chembl"]})
-        self.data.to_csv(pipeline.DATASET, index=False)
-        self.data.iloc[:1].to_csv(pipeline.PROCESSED / "train.csv", index=False)
+        data.to_csv(pipeline.DATASET, index=False)
+        data.iloc[:1].to_csv(pipeline.PROCESSED / "train.csv", index=False)
         splits.save_manifest(pipeline.MANIFEST, {"train": [0], "validation": [1], "holdout": [2]}, 7, 3)
         self.config = {"seed": 7, "features": {"morgan": True, "descriptors": False},
                        "model": {"strategy": "direct", "params": {"max_iter": 2}},
@@ -80,9 +77,8 @@ class Delivery(unittest.TestCase):
         self.assertEqual(domain["max_tanimoto"].tolist(), [1., 0.])
 
     def test_fallback_is_model_joblib_not_strategy_filename(self):
-        config = copy.deepcopy(self.config)
-        del config["submission"]["model_file"]
-        self.assertEqual(pipeline.model_path(config), pipeline.ARTIFACTS / "model.joblib")
+        del self.config["submission"]["model_file"]
+        self.assertEqual(pipeline.model_path(self.config), pipeline.ARTIFACTS / "model.joblib")
 
     def test_release_tracks_artifacts_and_rejects_stale_results(self):
         self.build()

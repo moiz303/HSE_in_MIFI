@@ -1,6 +1,4 @@
-# Запуск и релиз
-
-Нужен Python 3.12. Обучающие данные и манифест разбиения лежат в репозитории.
+# Запуск и релиз (Python 3.12)
 
 ```bash
 python3.12 -m venv .venv
@@ -9,13 +7,10 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -t . -v
 ```
 
-После авторизации в Kaggle скачайте тест: `python -m src.pipeline kaggle`.
-Для нового baseline запустите `python -m src.pipeline all`: он пересоздаст
-разбиение, обучит `artifacts/model.joblib`, оценит её, соберёт CSV этой же
-моделью и запишет чексуммы релиза. Holdout в `all` не входит.
-
-Для готовой модели используйте один конфиг с `submission.model_file` либо
-одинаковый аргумент `--model` во всех командах:
+После авторизации Kaggle: `python -m src.pipeline kaggle` скачает тест.
+`python -m src.pipeline all` пересоздаст разбиение, обучит `artifacts/model.joblib`,
+оценит её, соберёт этой же моделью CSV и сохранит чексуммы релиза. Holdout исключён.
+Для готовой модели задайте одинаковый `--model` или `submission.model_file`:
 
 ```bash
 python -m src.pipeline evaluate --model artifacts/model_sweep1.joblib
@@ -23,37 +18,24 @@ python -m src.pipeline submission --model artifacts/model_sweep1.joblib
 python -m src.pipeline release --model artifacts/model_sweep1.joblib
 ```
 
-Без явного выбора используется `artifacts/model.joblib`. Метрики содержат
-MSE по SI, метрики в log10 и 95% bootstrap-интервалы MSE и RMSE log10.
-Вложенный блок `kaggle_train` считает те же метрики только по строкам источника
-соревнования, отдельно от хвоста ChEMBL.
-Интервалы получены повторной выборкой молекул, а не каркасных групп.
-Калибровка уже проверена и отклонена: `reports/experiment_calibration.md`.
+Без выбора используется `artifacts/model.joblib`. Метрики включают MSE по SI,
+метрики log10 и 95% bootstrap-интервалы MSE/RMSE по молекулам, не каркасным группам.
+Блок `kaggle_train` отделяет строки соревнования от ChEMBL. Калибровка отклонена:
+`reports/experiment_calibration.md`.
 
-`reports/applicability_validation.csv` и `applicability_submission.csv`
-содержат ID, максимальное сходство Танимото с обучающими молекулами и
-`outside_domain`. Фингерпринт — бинарный Morgan radius=2, 2048 бит.
-Сходство < 0.3 — диагностическое предупреждение, не оценка вероятности ошибки;
-оно не меняет прогноз и формат Kaggle CSV. У новых pipeline-моделей обучающие
-SMILES хранятся внутри артефакта. Для старых моделей sweep нужен именно тот
-`data/processed/train.csv`, на котором они обучались: восстановить его из
-старого joblib автоматически нельзя.
+`reports/applicability_{validation,submission}.csv`: ID, максимальное сходство
+Танимото с обучающими молекулами (Morgan radius=2, 2048 бит), флаг сходства < 0.3.
+Флаг — диагностика, не вероятность ошибки; прогнозы и Kaggle CSV не меняются.
+Новые модели хранят обучающие SMILES; старым sweep-моделям нужен именно исходный
+`data/processed/train.csv`, который невозможно восстановить из их joblib.
 
-`reports/release.json` фиксирует конфигурацию и SHA256 модели, данных,
-разбиения, зависимостей, метрик, CSV и отчётов. Несовпадение модели/конфига
-между оценкой и сабмитом останавливает сборку релиза. Сохраните перечисленные
-файлы вместе с этим JSON; сам JSON не является архивом артефактов.
-`reports/runs/*.json` хранит параметры и статус каждого запуска.
+`reports/release.json` содержит конфиг и SHA256 модели, данных, разбиения,
+зависимостей, метрик, CSV и отчётов. Несогласованные результаты блокируют релиз.
+Сохраните перечисленные файлы вместе с JSON: он не является архивом.
+`reports/runs/*.json` хранит параметры и статус запусков.
 
-Только после фиксации финальной модели выполните отдельную команду:
-
-```bash
-python -m src.pipeline holdout --model artifacts/model_sweep1.joblib
-python -m src.pipeline release --model artifacts/model_sweep1.joblib
-```
-
-Для baseline из `all` укажите `--model artifacts/model.joblib`. Holdout не
-переобучает модель, проверяет пересечение обучающих и holdout-молекул/каркасов
-и пишет `reports/holdout.json`. Наличие этого файла блокирует повтор даже
-после ошибки. Не удаляйте его для подбора модели; решение о повторе принимает
-команда. После проверки `release` включит holdout в чексуммы.
+После фиксации модели выполните `python -m src.pipeline holdout --model <путь>`,
+затем `release` с той же моделью. Для baseline из `all`: `artifacts/model.joblib`.
+Holdout проверяет пересечение молекул/каркасов, не переобучает модель и записывает
+`reports/holdout.json`. Файл блокирует повтор, даже после ошибки; решение о повторе
+принимает команда. `release` проверит его соответствие модели и добавит чексумму.

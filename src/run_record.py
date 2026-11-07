@@ -22,7 +22,7 @@ def record_run(command, config, inputs=(), reports_dir=None):
     directory = reports_dir or ROOT / "reports" / "runs"
     directory.mkdir(parents=True, exist_ok=True)
     started = datetime.now(timezone.utc)
-    path = directory / f"run_{started.strftime('%Y%m%dT%H%M%S.%fZ')}.json"
+    path = directory / f"run_{started:%Y%m%dT%H%M%S.%fZ}.json"
     record = {
         "command": list(command),
         "config": config,
@@ -38,11 +38,10 @@ def record_run(command, config, inputs=(), reports_dir=None):
     print(f"[run] {path}")
     try:
         yield
+        record["status"] = "success"
     except BaseException as error:
         record.update(status="failed", error=f"{type(error).__name__}: {error}")
         raise
-    else:
-        record["status"] = "success"
     finally:
         record["finished_utc"] = datetime.now(timezone.utc).isoformat()
         save()
