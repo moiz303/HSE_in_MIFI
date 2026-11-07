@@ -1,0 +1,16 @@
+{
+  "selected": "continue",
+  "eligible": [
+    "continue",
+    "lora"
+  ],
+  "measured_oof_mean_ratios": {
+    "frozen": 1.0,
+    "continue": 0.9682637165496129,
+    "lora": 0.9685366966205186,
+    "original_warm": 0.9982209817109433,
+    "original_continue": 0.974124444624878,
+    "original_lora": 0.9745114023033206
+  },
+  "test_endpoints_used": false
+}

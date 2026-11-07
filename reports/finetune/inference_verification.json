@@ -1,0 +1,53 @@
+{
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "test_endpoints_read": false,
+  "encoder_checkpoint_sha256": "c376624d3407204e780a0ed13a9ac097cc9bb1c13ef89cdbc633c1715c183651",
+  "preserved_kaggle_submission_sha256": "76e73dec47d6ccb67c4f4b5e52ce6429c35319a71dd9c965ed33a8e28764e7ab",
+  "checks": [
+    {
+      "candidate": "frozen",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.004400186103339365,
+      "max_relative_difference": 1.1407068536623877e-06
+    },
+    {
+      "candidate": "continue",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.004007404584626784,
+      "max_relative_difference": 1.5296891561394375e-06
+    },
+    {
+      "candidate": "lora",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.008872265194440843,
+      "max_relative_difference": 1.4321495542476718e-06
+    },
+    {
+      "candidate": "original_warm",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.0007451172573382792,
+      "max_relative_difference": 1.053361336922043e-06
+    },
+    {
+      "candidate": "original_continue",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.0023192750040834653,
+      "max_relative_difference": 9.715721834368932e-07
+    },
+    {
+      "candidate": "original_lora",
+      "rows": 597,
+      "passed": true,
+      "max_absolute_difference": 0.003010842564435734,
+      "max_relative_difference": 7.765611162603859e-07
+    }
+  ]
+}

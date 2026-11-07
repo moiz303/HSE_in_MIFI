@@ -59,3 +59,8 @@ data/raw/kaggle/
 artifacts/pretrained/
 data/architecture_cache/
 logs/
+
+# Fine-tuning fold checkpoints are local resume caches; consolidated OOF/report is versioned.
+reports/finetune/oof_*_*.csv
+reports/finetune/audit_*.json
+reports/finetune_diagnostics.log
