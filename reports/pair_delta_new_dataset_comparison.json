@@ -1,0 +1,419 @@
+{
+  "metric": "raw SI MSE on original Kaggle rows; repeated OOF predictions",
+  "folds": 3,
+  "repeats": 3,
+  "seed": 20261106,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "supplement_global_safe_observations": 126,
+  "supplement_global_safe_structures": 19,
+  "supplement_endpoints": {
+    "EC50": 84,
+    "CC50": 42
+  },
+  "supplement_exact_CC50": 17,
+  "supplement_exact_IC50": 0,
+  "supplement_weight": 0.5,
+  "protocols": {
+    "molecule": {
+      "pair_delta_new_dataset": {
+        "n": 801,
+        "mse": 29645993.58168584,
+        "rmse": 5444.8134570144675,
+        "mae": 2724.7755185924248,
+        "bias": -2650.737274383564,
+        "rmse_log10": 1.600546352795654
+      },
+      "weighted_new_dataset": {
+        "n": 801,
+        "mse": 29667078.624900427,
+        "rmse": 5446.749363143161,
+        "mae": 2704.7314238539725,
+        "bias": -2678.6502300168313,
+        "rmse_log10": 1.621970466500707
+      },
+      "pair_coverage": 0.8789013732833958
+    },
+    "scaffold": {
+      "pair_delta_new_dataset": {
+        "n": 801,
+        "mse": 29712159.947013065,
+        "rmse": 5450.886161626664,
+        "mae": 2744.6748303721297,
+        "bias": -2641.0728767537116,
+        "rmse_log10": 1.7401139298612818
+      },
+      "weighted_new_dataset": {
+        "n": 801,
+        "mse": 29692472.75213998,
+        "rmse": 5449.079991350832,
+        "mae": 2714.2704459748775,
+        "bias": -2683.107646159214,
+        "rmse_log10": 1.6933465832318735
+      },
+      "pair_coverage": 0.7415730337078652
+    }
+  },
+  "fold_training": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 1917,
+        "CC50": 3597
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 15,
+      "supplement_fit_structures": 9,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 15,
+      "pair_rows": {
+        "IC50": 2348,
+        "CC50": 3701
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 15,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 15,
+      "pair_rows": {
+        "IC50": 1930,
+        "CC50": 3242
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 14,
+      "supplement_fit_structures": 9,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 14,
+      "pair_rows": {
+        "IC50": 1852,
+        "CC50": 3497
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 2123,
+        "CC50": 3570
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 2198,
+        "CC50": 3375
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 17,
+      "supplement_fit_structures": 11,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 17,
+      "pair_rows": {
+        "IC50": 2206,
+        "CC50": 3457
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 13,
+      "supplement_fit_structures": 8,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 13,
+      "pair_rows": {
+        "IC50": 1959,
+        "CC50": 3474
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 1948,
+        "CC50": 3507
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 17,
+      "supplement_fit_structures": 11,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 17,
+      "pair_rows": {
+        "IC50": 2698,
+        "CC50": 3917
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 2182,
+        "CC50": 3804
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 13,
+      "supplement_fit_structures": 8,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 13,
+      "pair_rows": {
+        "IC50": 1767,
+        "CC50": 3674
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 13,
+      "supplement_fit_structures": 8,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 13,
+      "pair_rows": {
+        "IC50": 2542,
+        "CC50": 4081
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 2149,
+        "CC50": 3896
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 17,
+      "supplement_fit_structures": 11,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 17,
+      "pair_rows": {
+        "IC50": 1956,
+        "CC50": 3426
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 17,
+      "supplement_fit_structures": 11,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 17,
+      "pair_rows": {
+        "IC50": 2232,
+        "CC50": 3932
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "original_fit_structures": 671,
+      "supplement_fit_observations": 16,
+      "supplement_fit_structures": 10,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 16,
+      "pair_rows": {
+        "IC50": 2332,
+        "CC50": 3685
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "original_fit_structures": 672,
+      "supplement_fit_observations": 13,
+      "supplement_fit_structures": 8,
+      "supplement_exact_IC50": 0,
+      "supplement_exact_CC50": 13,
+      "pair_rows": {
+        "IC50": 2009,
+        "CC50": 3676
+      }
+    }
+  ],
+  "before_after": {
+    "molecule": {
+      "pair_delta_before": {
+        "n": 801,
+        "mse": 29644997.193231553,
+        "rmse": 5444.721957385111,
+        "mae": 2724.6395133125484,
+        "bias": -2650.7698537669576,
+        "rmse_log10": 1.5976120517448495
+      },
+      "pair_delta_after": {
+        "n": 801,
+        "mse": 29645993.58168584,
+        "rmse": 5444.8134570144675,
+        "mae": 2724.7755185924248,
+        "bias": -2650.737274383564,
+        "rmse_log10": 1.600546352795654
+      },
+      "weighted_baseline_before": {
+        "n": 801,
+        "mse": 29659649.914501876,
+        "rmse": 5446.067380642832,
+        "mae": 2703.7587144463087,
+        "bias": -2678.1345518730727,
+        "rmse_log10": 1.6169115634107034
+      },
+      "weighted_baseline_after": {
+        "n": 801,
+        "mse": 29667078.624900427,
+        "rmse": 5446.749363143161,
+        "mae": 2704.7314238539725,
+        "bias": -2678.6502300168313,
+        "rmse_log10": 1.621970466500707
+      }
+    },
+    "scaffold": {
+      "pair_delta_before": {
+        "n": 801,
+        "mse": 29706825.57812125,
+        "rmse": 5450.396827582488,
+        "mae": 2743.8119431307573,
+        "bias": -2640.6416703839573,
+        "rmse_log10": 1.7276236211849108
+      },
+      "pair_delta_after": {
+        "n": 801,
+        "mse": 29712159.947013065,
+        "rmse": 5450.886161626664,
+        "mae": 2744.6748303721297,
+        "bias": -2641.0728767537116,
+        "rmse_log10": 1.7401139298612818
+      },
+      "weighted_baseline_before": {
+        "n": 801,
+        "mse": 29682392.136115637,
+        "rmse": 5448.154929525742,
+        "mae": 2713.028688697781,
+        "bias": -2681.4685838312125,
+        "rmse_log10": 1.6831568730916573
+      },
+      "weighted_baseline_after": {
+        "n": 801,
+        "mse": 29692472.75213998,
+        "rmse": 5449.079991350832,
+        "mae": 2714.2704459748775,
+        "bias": -2683.107646159214,
+        "rmse_log10": 1.6933465832318735
+      }
+    }
+  },
+  "final_refit": {
+    "config": {
+      "name": "paired-query-reference-deltas-with-exact-cc50-supplement",
+      "seed": 20261106,
+      "pair_delta": {
+        "folds": 3,
+        "repeats": 3,
+        "max_references": 12,
+        "min_similarity": 0.35,
+        "pair_params": {},
+        "supplement_weight": 0.5,
+        "supplement_training_endpoint": "exact CC50 only; EC50 is not IC50"
+      },
+      "model": {
+        "params": {}
+      },
+      "entrypoint": "python -m src.pair_delta_supplement --config configs/xgb_pair_delta_new_dataset.json"
+    },
+    "holdout_used": false,
+    "test_endpoints_used": false,
+    "development_structures": 1007,
+    "supplement_observations": 17,
+    "supplement_structures": 11,
+    "total_fit_rows": 1024,
+    "exact_training_targets": {
+      "IC50": 465,
+      "CC50": 699
+    },
+    "supplement_global_safe_observations": 126,
+    "supplement_global_safe_structures": 19,
+    "supplement_weight": 0.5,
+    "supplement_exact_IC50": 0,
+    "supplement_exact_CC50": 17,
+    "feature_contract": "Morgan2048 + RDKit 13 descriptors",
+    "prediction": "10**(logCC50_pred - logIC50_pred)",
+    "artifact": "artifacts/xgb_pair_delta_new_dataset.joblib",
+    "reload_sanity_prediction_count": 3
+  }
+}

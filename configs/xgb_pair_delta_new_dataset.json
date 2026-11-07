@@ -1,0 +1,15 @@
+{
+  "name": "paired-query-reference-deltas-with-exact-cc50-supplement",
+  "seed": 20261106,
+  "pair_delta": {
+    "folds": 3,
+    "repeats": 3,
+    "max_references": 12,
+    "min_similarity": 0.35,
+    "pair_params": {},
+    "supplement_weight": 0.5,
+    "supplement_training_endpoint": "exact CC50 only; EC50 is not IC50"
+  },
+  "model": {"params": {}},
+  "entrypoint": "python -m src.pair_delta_supplement --config configs/xgb_pair_delta_new_dataset.json"
+}

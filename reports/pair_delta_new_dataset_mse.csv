@@ -1,0 +1,9 @@
+protocol,method,mse,n
+molecule,pair_delta_before,29644997.193231553,801
+molecule,pair_delta_after,29645993.58168584,801
+molecule,weighted_baseline_before,29659649.914501876,801
+molecule,weighted_baseline_after,29667078.624900427,801
+scaffold,pair_delta_before,29706825.57812125,801
+scaffold,pair_delta_after,29712159.947013065,801
+scaffold,weighted_baseline_before,29682392.136115637,801
+scaffold,weighted_baseline_after,29692472.75213998,801
