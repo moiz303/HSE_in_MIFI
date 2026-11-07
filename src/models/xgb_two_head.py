@@ -37,16 +37,23 @@ def exact_target(frame: pd.DataFrame, name: str) -> np.ndarray:
 
 
 class XGBTwoHead:
+    default_params = DEFAULT_PARAMS
+
     def __init__(self, params: dict | None = None, clip_si: float | None = None):
-        unknown = set(params or {}) - set(DEFAULT_PARAMS)
+        unknown = set(params or {}) - set(self.default_params)
         if unknown:
             raise ValueError(f"неизвестные параметры XGBoost: {sorted(unknown)}")
         if clip_si is not None and (not np.isfinite(clip_si) or clip_si <= 0):
             raise ValueError("clip_si должен быть положительным конечным числом")
-        self.params = {**DEFAULT_PARAMS, **(params or {})}
+        self.params = {**self.default_params, **(params or {})}
         self.clip_si = clip_si
         self.heads = {}
         self.n_train = {}
+
+    def _build_head(self):
+        return XGBRegressor(
+            **self.params, objective="reg:squarederror", tree_method="hist", device="cpu"
+        )
 
     def fit(self, features, ic50, cc50):
         features = np.asarray(features)
@@ -62,9 +69,7 @@ class XGBTwoHead:
         self.n_features_in_ = features.shape[1]
         for name, values in targets.items():
             mask = masks[name]
-            model = XGBRegressor(
-                **self.params, objective="reg:squarederror", tree_method="hist", device="cpu"
-            )
+            model = self._build_head()
             model.fit(features[mask], np.log10(values[mask]))
             self.heads[name] = model
             self.n_train[name] = int(mask.sum())

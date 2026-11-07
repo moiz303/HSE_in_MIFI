@@ -1,6 +1,6 @@
 # Project instructions
 
-Read README.md for the current XGBoost two-head architecture and commands.
+Read README.md for the CatBoost (default) and XGBoost two-head architecture and commands.
 
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 

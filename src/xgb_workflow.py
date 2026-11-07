@@ -14,13 +14,19 @@ from src import splits
 from src.data.standardize import standardize_smiles
 from src.features.fingerprints import featurize
 from src.models.xgb_two_head import XGBTwoHead, exact_target
+from src.models.catboost_two_head import CatBoostTwoHead
 
 ROOT = Path(__file__).resolve().parents[1]
+MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
+
+
+def report_prefix(config):
+    return "catboost" if config["model"]["strategy"] == "catboost_two_head" else "xgb"
 
 
 def validate_config(config):
-    if config["model"]["strategy"] != "xgb_two_head":
-        raise ValueError("поддерживается только стратегия xgb_two_head")
+    if config["model"]["strategy"] not in MODEL_TYPES:
+        raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
     if config["features"] != {"morgan": True, "descriptors": True}:
         raise ValueError("признаки зафиксированы: Morgan 2048 + 13 дескрипторов, без метаданных")
 
@@ -81,7 +87,7 @@ def train(config):
     parts = load_parts()
     frame = parts["train"]
     settings = config["model"]
-    model = XGBTwoHead(settings.get("params"), settings.get("clip_si"))
+    model = MODEL_TYPES[settings["strategy"]](settings.get("params"), settings.get("clip_si"))
     model.fit(features(frame), exact_target(frame, "IC50"), exact_target(frame, "CC50"))
     mask = competition_rows(frame)
     si = pd.to_numeric(frame.SI, errors="coerce").to_numpy(float)
@@ -89,13 +95,19 @@ def train(config):
     if not usable.any():
         raise ValueError("нет обучающих SI соревнования для константного сравнения")
     import xgboost
+    import importlib.metadata
     from rdkit import rdBase
     bundle = {"model": model, "config": config, "data_sha256": data_hashes(),
               "constant_si": float(si[usable].mean()),
               "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
+    if settings["strategy"] == "catboost_two_head":
+        bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
     path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(bundle, path)
+    if settings["strategy"] == "catboost_two_head":
+        for name, head in model.heads.items():
+            head.save_model(str(path.with_name(f"{path.stem}_{name}.cbm")))
     print(f"[train] {model.n_train} -> {path}", flush=True)
 
 
@@ -103,8 +115,8 @@ def load_bundle(config):
     validate_config(config)
     path = ROOT / config["submission"]["model_file"]
     bundle = joblib.load(path)
-    if not isinstance(bundle["model"], XGBTwoHead) or bundle["config"] != config:
-        raise ValueError("артефакт не соответствует XGBoost-конфигу; переобучите на Mac")
+    if type(bundle["model"]) is not MODEL_TYPES[config["model"]["strategy"]] or bundle["config"] != config:
+        raise ValueError("артефакт не соответствует типу модели или конфигу; переобучите на Mac")
     return bundle
 
 
@@ -138,8 +150,9 @@ def evaluate(config):
                 "SI_pred": si, "SI_true": targets, "competition": mask})
     directory = ROOT / "reports"
     directory.mkdir(exist_ok=True)
-    (directory / "xgb_metrics.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
-    predictions.to_csv(directory / "xgb_validation.csv", index=False)
+    prefix = report_prefix(config)
+    (directory / f"{prefix}_metrics.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
+    predictions.to_csv(directory / f"{prefix}_validation.csv", index=False)
     print(json.dumps(report["validation"], indent=2), flush=True)
 
 

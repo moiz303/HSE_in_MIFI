@@ -82,7 +82,7 @@ class ToyWorkflow(unittest.TestCase):
     def test_train_evaluate_submission_roundtrip_and_no_test_target_leak(self):
         workflow.train(self.config)
         workflow.evaluate(self.config)
-        report = json.loads((self.root / "reports/xgb_metrics.json").read_text())
+        report = json.loads((self.root / f"reports/{workflow.report_prefix(self.config)}_metrics.json").read_text())
         self.assertNotIn("holdout", report)
         self.assertEqual(report["validation"]["SI_competition"]["n"], 2)
         self.assertEqual(report["n_train"]["IC50"], 8)
@@ -96,7 +96,7 @@ class ToyWorkflow(unittest.TestCase):
         workflow.submission(self.config)
         pd.testing.assert_frame_equal(first, pd.read_csv(self.root / "reports/submission.csv"))
         self.assertEqual(first["index"].tolist(), [8, 2])
-        bundle = joblib.load(self.root / "artifacts/xgb_two_head.joblib")
+        bundle = joblib.load(self.root / self.config["submission"]["model_file"])
         self.assertEqual(bundle["constant_si"], 10.0)
 
     def test_modified_export_and_overlap_fail_before_training(self):

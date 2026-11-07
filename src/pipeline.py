@@ -32,7 +32,7 @@ DATASET = PROCESSED / "dataset.csv"
 MANIFEST = PROCESSED / "splits.json"
 REPORTS = ROOT / "reports"
 ARTIFACTS = ROOT / "artifacts"
-DEFAULT_CONFIG = ROOT / "configs" / "baseline.json"
+DEFAULT_CONFIG = ROOT / "configs" / "catboost.json"
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG) -> dict:

@@ -1,5 +1,37 @@
 ﻿# VACV: XGBoost для CC50 и IC50
 
+## Новый запуск: CatBoost
+
+По умолчанию `./run_mac.sh`, `train_model.py` и CLI используют `configs/catboost.json`:
+
+```bash
+git pull --ff-only origin main
+./run_mac.sh
+```
+
+Результаты: `artifacts/catboost_two_head.joblib`, головы
+`artifacts/catboost_two_head_IC50.cbm` / `catboost_two_head_CC50.cbm`,
+`reports/catboost_metrics.json`, `reports/catboost_validation.csv`,
+`reports/catboost_*.log` и `reports/submission_catboost.csv` (если доступен тест).
+Для сборки submission на другой машине: `python -m src.pipeline submission`.
+Артефакты и отчёты XGBoost сохраняются. Повторный XGBoost-запуск:
+`./run_mac.sh configs/baseline.json`.
+
+CatBoost 1.2.10 устанавливается скриптом. Две CPU-модели используют 600 итераций,
+depth=5, learning_rate=0.03, l2_leaf_reg=5, seed=20261106 и 4 потока.
+Это начальные параметры. Признаки, маски точных целей и фиксированное разбиение
+совпадают с XGBoost. Преимущество CatBoost предстоит проверить на Mac.
+
+Перепроверка прошлого анализа: MSE 15.5 тыс. получена на подмножестве,
+отобранном по известному SI<1000, и не доказывает качество на всём тесте.
+Причина расхождения локальной MSE и заявленных 1.9 млн Kaggle не установлена.
+Сохранённый XGBoost joblib не загрузился на Windows (`input stream corrupted`);
+его тестовые прогнозы здесь не проверены. Для CatBoost дополнительно сохраняются
+нативные `.cbm` головы; их сохранение/загрузка проверяются тестами.
+
+Ниже описан исходный XGBoost baseline; его пути и конфигурация применяются
+при явном выборе `configs/baseline.json`.
+
 По SMILES предсказываем две концентрации в µM независимыми XGBoost-регрессорами:
 
 ```text
