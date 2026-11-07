@@ -5,7 +5,7 @@
 This Python project predicts vaccinia virus (VACV) selectivity index, `SI = CC50 / IC50`, from SMILES. Read `CLAUDE.md` before changing pipeline behavior.
 
 - `src/data/`: collection, schema validation, unit conversion, and structure standardization.
-- `src/features/`, `src/models/`: molecular features and separate CatBoost (default) or XGBoost regressors for IC50 and CC50.
+- `src/features/`, `src/models/`: molecular features, XGBoost concentration heads and label-classifier experiment (default); CatBoost remains available explicitly.
 - `src/xgb_workflow.py`: fixed-split verification, training, evaluation, and SMILES-only submission. `docs/previous_experiments.md` records lessons from removed experiments.
 - `src/pipeline.py`: CLI; `configs/`: JSON run configurations.
 - `tests/`: unit and smoke tests. `data/`: raw, interim, and processed datasets plus source documentation. `reports/` and `artifacts/`: metrics, submissions, and models.

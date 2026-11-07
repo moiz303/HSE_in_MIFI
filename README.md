@@ -1,12 +1,45 @@
 ﻿# VACV: XGBoost для CC50 и IC50
 
-## Новый запуск: CatBoost
-
-По умолчанию `./run_mac.sh`, `train_model.py` и CLI используют `configs/catboost.json`:
+## Текущий запуск: XGBoost с классификатором SI-метки
 
 ```bash
 git pull --ff-only origin main
 ./run_mac.sh
+```
+
+По умолчанию используется `configs/xgb_hybrid.json`. Две головы XGBoost обучаются
+как в исходном baseline; третья модель классифицирует условную метку SI=10000
+по структуре. Для классификатора берутся только чистые Kaggle-строки train,
+смешанные с ChEMBL агрегаты исключаются. Прогноз кандидата:
+`p(label) * 10000 + (1-p(label)) * CC50_pred/IC50_pred`.
+Это проверяемая эвристика, а не гарантия калиброванного математического ожидания.
+
+До запуска зафиксировано правило: выбрать гибрид, только если MSE на строках
+соревнования фиксированной validation снизится минимум на 2% относительно
+двух голов. Иначе сохранить базовый прогноз. Выбор по validation является
+подбором модели, а не независимым доказательством улучшения; holdout не трогаем.
+Ограничение смешанной разметки validation из аудита датасета сохраняется.
+
+Результаты: `artifacts/xgb_hybrid.joblib`, `reports/xgb_hybrid_metrics.json`,
+`reports/xgb_hybrid_validation.csv`, `reports/xgb_hybrid_*.log`,
+`reports/submission_xgb_hybrid.csv`. CSV validation содержит базовый и гибридный
+прогнозы, вероятность метки и выбранный SI. В JSON есть `selection` с обоими MSE
+и решением. Submission использует именно сохранённое решение. Без `evaluate`
+гибридный submission не создаётся.
+
+Новые XGBoost-артефакты сохраняют головы и классификатор через нативный UBJ
+внутри joblib. Старые артефакты автоматически не конвертируются.
+Обычный baseline: `./run_mac.sh configs/baseline.json`.
+CatBoost для воспроизведения: `./run_mac.sh configs/catboost.json`.
+Ниже сохранено описание предыдущего запуска CatBoost.
+
+## Предыдущий запуск: CatBoost
+
+Для воспроизведения CatBoost передайте `configs/catboost.json` явно:
+
+```bash
+git pull --ff-only origin main
+./run_mac.sh configs/catboost.json
 ```
 
 Результаты: `artifacts/catboost_two_head.joblib`, головы

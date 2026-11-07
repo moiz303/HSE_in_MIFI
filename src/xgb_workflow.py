@@ -15,12 +15,16 @@ from src.data.standardize import standardize_smiles
 from src.features.fingerprints import featurize
 from src.models.xgb_two_head import XGBTwoHead, exact_target
 from src.models.catboost_two_head import CatBoostTwoHead
+from src.models.xgb_hybrid import XGBHybrid, select_hybrid
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
+MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_hybrid":
+        return "xgb_hybrid"
     return "catboost" if config["model"]["strategy"] == "catboost_two_head" else "xgb"
 
 
@@ -88,7 +92,17 @@ def train(config):
     frame = parts["train"]
     settings = config["model"]
     model = MODEL_TYPES[settings["strategy"]](settings.get("params"), settings.get("clip_si"))
-    model.fit(features(frame), exact_target(frame, "IC50"), exact_target(frame, "CC50"))
+    print(f"[train] {settings['strategy']}: train={len(frame)}, validation={len(parts['validation'])}", flush=True)
+    matrix = features(frame)
+    print(f"[train] features={matrix.shape}; holdout unused", flush=True)
+    model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"))
+    if isinstance(model, XGBHybrid):
+        labels = np.full(len(frame), np.nan)
+        pure = frame.source.eq("kaggle_train").to_numpy()
+        flags = frame.target_is_label.astype("string").fillna("unknown").str.lower()
+        known = flags.isin(["true", "false"]).to_numpy()
+        labels[pure & known] = flags.eq("true").to_numpy(dtype=bool)[pure & known]
+        model.fit_classifier(matrix, labels)
     mask = competition_rows(frame)
     si = pd.to_numeric(frame.SI, errors="coerce").to_numpy(float)
     usable = mask & np.isfinite(si) & (si > 0)
@@ -129,6 +143,20 @@ def evaluate(config):
               "versions": bundle["versions"], "n_train": bundle["model"].n_train,
               "note": "Fixed validation; no tuning, significance claim or holdout evaluation."}
     model = bundle["model"]
+    if isinstance(model, XGBHybrid):
+        validation = parts["validation"]
+        matrix = features(validation)
+        mask = competition_rows(validation)
+        targets = validation.SI.to_numpy(float)
+        base = metric(targets[mask], model.predict_baseline_si(matrix)[mask])["mse"]
+        candidate = metric(targets[mask], model.predict_candidate_si(matrix)[mask])["mse"]
+        model.use_classifier = select_hybrid(base, candidate)
+        bundle["selection"] = {"baseline_mse": base, "candidate_mse": candidate,
+            "selected": "hybrid" if model.use_classifier else "baseline",
+            "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
+        report["selection"] = bundle["selection"]
+        report["note"] = "Validation used for two-candidate selection; no independent performance claim. Holdout unused."
+        print("[selection] " + json.dumps(bundle["selection"]), flush=True)
     predictions = None
     for name, frame in parts.items():
         matrix = features(frame)
@@ -148,17 +176,25 @@ def evaluate(config):
             predictions = pd.DataFrame({"standard_smiles": frame.standard_smiles,
                 "IC50_pred_uM": 10.0 ** logs["IC50"], "CC50_pred_uM": 10.0 ** logs["CC50"],
                 "SI_pred": si, "SI_true": targets, "competition": mask})
+            if isinstance(model, XGBHybrid):
+                predictions["SI_baseline"] = model.predict_baseline_si(matrix)
+                predictions["SI_candidate"] = model.predict_candidate_si(matrix)
+                predictions["label_probability"] = model.predict_label_probability(matrix)
     directory = ROOT / "reports"
     directory.mkdir(exist_ok=True)
     prefix = report_prefix(config)
     (directory / f"{prefix}_metrics.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
     predictions.to_csv(directory / f"{prefix}_validation.csv", index=False)
+    if isinstance(model, XGBHybrid):
+        joblib.dump(bundle, ROOT / config["submission"]["model_file"])
     print(json.dumps(report["validation"], indent=2), flush=True)
 
 
 def submission(config):
     settings = config["submission"]
     bundle = load_bundle(config)
+    if isinstance(bundle["model"], XGBHybrid) and "selection" not in bundle:
+        raise ValueError("Run evaluate before generating the hybrid submission")
     # Read only identifiers and SMILES: no concentrations or derived flags from test.
     frame = pd.read_csv(ROOT / settings["test_csv"], usecols=[settings["smiles_column"], settings["id_column"]])
     if frame[settings["id_column"]].isna().any() or frame[settings["id_column"]].duplicated().any():

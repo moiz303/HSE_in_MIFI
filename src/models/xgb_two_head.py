@@ -55,6 +55,25 @@ class XGBTwoHead:
             **self.params, objective="reg:squarederror", tree_method="hist", device="cpu"
         )
 
+    def __getstate__(self):
+        # Portable XGBoost model IO instead of platform-dependent memory snapshots.
+        state = self.__dict__.copy()
+        if self.heads and all(isinstance(head, XGBRegressor) for head in self.heads.values()):
+            state["_native_heads"] = {name: head.get_booster().save_raw(raw_format="ubj")
+                                      for name, head in self.heads.items()}
+            state["heads"] = {}
+        return state
+
+    def __setstate__(self, state):
+        native = state.pop("_native_heads", None)
+        self.__dict__.update(state)
+        if native is not None:
+            self.heads = {}
+            for name, raw in native.items():
+                head = self._build_head()
+                head.load_model(raw)
+                self.heads[name] = head
+
     def fit(self, features, ic50, cc50):
         features = np.asarray(features)
         targets = {"IC50": np.asarray(ic50, dtype=float), "CC50": np.asarray(cc50, dtype=float)}
@@ -69,6 +88,8 @@ class XGBTwoHead:
         self.n_features_in_ = features.shape[1]
         for name, values in targets.items():
             mask = masks[name]
+            print(f"[fit] {type(self).__name__} {name}: {int(mask.sum())} targets, "
+                  f"{int((~mask).sum())} skipped; params={self.params}", flush=True)
             model = self._build_head()
             model.fit(features[mask], np.log10(values[mask]))
             self.heads[name] = model

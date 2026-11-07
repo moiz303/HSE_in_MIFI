@@ -1,6 +1,6 @@
 # Project instructions
 
-Read README.md for the CatBoost (default) and XGBoost two-head architecture and commands.
+Read README.md. Default is configs/xgb_hybrid.json: XGBoost concentration heads plus an experimental label classifier, selected against the unchanged baseline on fixed validation. CatBoost remains an explicit comparison config.
 
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 
