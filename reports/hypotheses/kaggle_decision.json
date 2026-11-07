@@ -7,7 +7,11 @@
   "improvement_percent": 2.007488297137803,
   "n_evaluated": 468,
   "n_test": 597,
-  "submitted": false,
-  "reason": "No candidate achieved the user-specified 10 percent reduction; Kaggle quota was preserved",
-  "new_official_kaggle_score": null
+  "automatic_condition_met": false,
+  "initial_action": "No candidate achieved the user-specified ten-percent reduction; no automatic submission",
+  "subsequent_explicit_user_override": true,
+  "submitted": true,
+  "submission_ref": 58090521,
+  "reason": "User subsequently explicitly requested submission of the 1.8 million local-score model; exactly one file submitted",
+  "new_official_kaggle_score": 2068464.49379
 }

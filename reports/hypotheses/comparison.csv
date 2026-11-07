@@ -5,4 +5,4 @@ features,Молекулярные признаки,counts,1946166.331417972,-0.6
 censoring,Учёт цензуры AFT,aft_censored,1944211.9845217909,-0.5981940447049461,29637605.21007315,29643847.183079,False,False,468,597,,reports/hypotheses/censoring/submission.csv
 direct_si,Прямой SI + смесь,mix_0.1,2095422.3668365406,-8.42218211944913,29276785.629368927,29373010.086519305,False,False,468,597,,reports/hypotheses/direct_si/submission.csv
 clean_pairs,Согласованность пар,strict,1966980.0099842672,-1.776266323717432,29679600.937934533,29662911.072730593,False,False,468,597,,reports/hypotheses/clean_pairs/submission.csv
-head_params,Параметры двух голов,deeper__default,1893853.2391688058,2.007488297137803,29585997.700583816,29699401.686828032,False,False,468,597,,reports/hypotheses/head_params/submission.csv
+head_params,Параметры двух голов,deeper__default,1893853.2391688058,2.007488297137803,29585997.700583816,29699401.686828032,False,False,468,597,2068464.49379,reports/hypotheses/head_params/submission.csv

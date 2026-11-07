@@ -109,8 +109,25 @@
       "eligible_submission": false,
       "n_evaluated": 468,
       "n_test": 597,
-      "official_kaggle_score": null,
+      "official_kaggle_score": 2068464.49379,
       "submission": "reports/hypotheses/head_params/submission.csv"
+    }
+  ],
+  "verified_kaggle_submissions": [
+    {
+      "competition": "molecular-activity-prediction-hack",
+      "ref": 58090521,
+      "date": "2026-11-07T11:42:54.130000",
+      "status": "SubmissionStatus.COMPLETE",
+      "hypothesis": "head_params",
+      "submission": "reports/hypotheses/head_params/submission.csv",
+      "submission_sha256": "81db8ace94c2ab564b35df3d27e8f0aa33773066a3aa56fd4c874cbe50760809",
+      "public_score": 2068464.49379,
+      "local_subset_score": 1893853.2391688058,
+      "local_coverage": "468/597",
+      "authorization": "Explicit user request to submit the 1.8 million local-score result, superseding the earlier ten-percent condition",
+      "previous_best_public_score": 1967765.75828,
+      "public_mse_increase_percent": 5.11741476780343
     }
   ]
 }

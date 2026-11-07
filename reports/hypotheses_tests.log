@@ -109,6 +109,8 @@ test_selection_is_based_on_oof_and_flags_ordinary_value_damage
 (tests.test_hypotheses.Models.test_selection_is_based_on_oof_and_flags_ordinary_value_damage) ... ok
 test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs
 (tests.test_hypotheses.Models.test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs) ... ok
+test_completed_score_requires_matching_bytes_and_competition
+(tests.test_hypothesis_results.OfficialScores.test_completed_score_requires_matching_bytes_and_competition) ... ok
 test_cc50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_cc50_in_features_is_rejected) ... ok
 test_ic50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_ic50_in_features_is_rejected) ... ok
 test_smiles_only_frame_passes (tests.test_kaggle_data.ForbiddenFeatures.test_smiles_only_frame_passes) ... ok
@@ -251,6 +253,6 @@ test_worst_pairing_is_used_and_competition_rows_keep_full_weight
 (tests.test_xgb_weighted.Weights.test_worst_pairing_is_used_and_competition_rows_keep_full_weight) ... ok
 
 ----------------------------------------------------------------------
-Ran 143 tests in 82.020s
+Ran 144 tests in 20.895s
 
 OK

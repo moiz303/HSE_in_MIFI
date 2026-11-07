@@ -1,0 +1,30 @@
+{
+  "source": "Kaggle CLI submission response and competitions submissions JSON, verified 2026-11-07",
+  "submissions": [
+    {
+      "competition": "molecular-activity-prediction-hack",
+      "ref": 58090521,
+      "date": "2026-11-07T11:42:54.130000",
+      "status": "SubmissionStatus.COMPLETE",
+      "hypothesis": "head_params",
+      "submission": "reports/hypotheses/head_params/submission.csv",
+      "submission_sha256": "81db8ace94c2ab564b35df3d27e8f0aa33773066a3aa56fd4c874cbe50760809",
+      "public_score": 2068464.49379,
+      "local_subset_score": 1893853.2391688058,
+      "local_coverage": "468/597",
+      "authorization": "Explicit user request to submit the 1.8 million local-score result, superseding the earlier ten-percent condition",
+      "previous_best_public_score": 1967765.75828,
+      "public_mse_increase_percent": 5.11741476780343
+    }
+  ],
+  "other_history_observations": [
+    {
+      "ref": 58089542,
+      "file_name": "submission_dmpnn_arch4_new_dataset.csv",
+      "date": "2026-11-07T11:02:08.407000",
+      "status": "SubmissionStatus.COMPLETE",
+      "public_score": 12173494.68064,
+      "provenance": "Observed in Kaggle submission history; implementation, dataset and artifact unavailable in this checkout. Architecture cannot be established from filename alone."
+    }
+  ]
+}
