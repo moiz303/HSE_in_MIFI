@@ -1,0 +1,32 @@
+{
+  "purpose": "Final refit of the already selected best official SI-only candidate",
+  "base_config": "configs/current.json",
+  "method": "chemeleon_domain_log1p",
+  "regime": "public_plus_kaggle",
+  "reference_artifact": "artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib",
+  "reference_submission_sha256": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3",
+  "reference_official_score": 1586333.78789,
+  "competition_rows_before": 267,
+  "competition_rows_after": 320,
+  "public_rows": 80,
+  "reserved_rows_to_release": 53,
+  "official_columns_allowed": [
+    "SMILES",
+    "SI VACV"
+  ],
+  "test_columns_allowed": [
+    "index",
+    "SMILES"
+  ],
+  "hyperparameter_selection": "Frozen existing model/configuration; no new selection or evaluation on reserved rows",
+  "public_snapshot": "Keep the existing 80 exact pairs, weights and source exclusions unchanged",
+  "explicit_reserved_row_release_required": true,
+  "release_authorized": false,
+  "kaggle_upload_automatic": false,
+  "planned_fit_rows": 400,
+  "train_sha256": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+  "current_dataset_version": "train_v2_exact_public_v1",
+  "no_training_performed": true,
+  "reserved_targets_evaluated": false,
+  "kaggle_submitted": false
+}

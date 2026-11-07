@@ -116,6 +116,13 @@ Mac-скрипт проверен по синтаксису; фактическ�
 Обученные модели: `artifacts/current/`. Выбранный кандидат и команда инференса:
 `reports/current/best_candidate.json`; все файлы submission: `reports/current/`.
 
+План финального refit на всех320 конкурсных строках + прежних80 публичных:
+`configs/current_release_refit.json`, `reports/current_release_refit/plan.json`.
+Без флага модуль `python -m src.current.release_refit` только проверяет структуры
+и печатает план, не читает резервные цели для обучения. Включение53 резервных
+строк требует отдельного согласия пользователя; по умолчанию оно не дано.
+Параметры уже выбранной модели фиксированы, новой оценки по резерву не будет.
+
 ```powershell
 ../env_arch/Scripts/python.exe train_model.py --predict-artifact artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib --out reports/current/prediction.csv
 ```
