@@ -3,6 +3,23 @@
   "submissions": [
     {
       "competition": "molecular-activity-prediction-hack",
+      "ref": 58094437,
+      "date": "2026-11-07T14:08:58.880000",
+      "status": "SubmissionStatus.COMPLETE",
+      "method": "domain_heads",
+      "selected": "domain",
+      "submission": "reports/architectures/domain_heads/submission.csv",
+      "submission_sha256": "b053d4482e59da5c7dc2205d691926b303e492bbe4725ebcab052863d094b2ac",
+      "public_score": 1614079.37878,
+      "local_subset_mse": 3456049.301264165,
+      "coverage": "468/597",
+      "authorization": "Explicit user request to submit CheMeleon domain heads only, then update the complete model scoreboard; one upload",
+      "previous_best_public_score": 1717303.88366,
+      "public_improvement_percent": 6.010846761727641,
+      "submission_verified": "CLI upload response ref58094437 and independent read-only submissions API both confirm COMPLETE and publicScore; 5 submissions remaining immediately after this upload"
+    },
+    {
+      "competition": "molecular-activity-prediction-hack",
       "ref": 58094102,
       "date": "2026-11-07T13:57:05.047000",
       "status": "SubmissionStatus.COMPLETE",

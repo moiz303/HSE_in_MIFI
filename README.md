@@ -1,15 +1,28 @@
 ﻿# VACV: XGBoost для CC50 и IC50
 
-## Текущий эксперимент: CheMeleon fine-tuning и качество данных
+## Лучший результат и общий скореборд
+
+**Kaggle Score: 1 614 079.37878**, доменные головы CheMeleon, заявка **58094437**.
+Улучшение к исправленной агрегации — **6.01%**, к первому CheMeleon — **7.80%**.
+Локально: **3 456 049.30** на 468/597 строках. Это подтверждённая инверсия
+локального и public-ранжирования; причина без официальных целей и public-маски
+не установлена. Указатель: `reports/architectures/best_model.json`, артефакт:
+`artifacts/architectures/domain_heads.joblib`. Прежние модели сохранены.
+По отдельному запросу отправлена ровно одна заявка с доменными головами.
+
+Все 23 варианта: [скореборд](reports/model_scoreboard.md),
+[CSV](reports/model_scoreboard.csv).
+
+## Предыдущий эксперимент: CheMeleon fine-tuning и качество данных
 
 Завершены шесть абляций: частичное дообучение CheMeleon (LoRA для `W_o`),
 равное продолжение голов и восстановление точных исходных концентраций.
 Улучшение OOF на 3.15–3.17% не перенеслось на локальный тест: LoRA **3 832 939.99**,
 продолжение голов **3 864 354.17** против исходных **1 830 471.47** (468/597).
 Только исправление концентраций: **1 872 806.64** локально и **1 717 303.88366**
-на Kaggle (заявка **58094102**), новый лучший подтверждённый public-результат.
+на Kaggle (заявка **58094102**), прежний лучший подтверждённый public-результат.
 Улучшение к прежнему CheMeleon: **1.91%**. Модель: `artifacts/finetune/original_warm.joblib`;
-команда инференса: `reports/architectures/best_model.json`. Прежняя модель сохранена.
+команда инференса: `src.chemeleon_finetune --predict-artifact artifacts/finetune/original_warm.joblib`.
 Полная таблица: [reports/finetune/comparison.md](reports/finetune/comparison.md).
 Протокол, команды обучения и SMILES-only инференса:
 [docs/chemeleon_finetune.md](docs/chemeleon_finetune.md).

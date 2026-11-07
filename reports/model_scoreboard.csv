@@ -1,0 +1,25 @@
+model,local_subset_mse,official_kaggle_mse,submission_ref,coverage,submission
+"CheMeleon с доменными головами",3456049.301264165,1614079.37878,58094437,468/597,reports/architectures/domain_heads/submission.csv
+"CheMeleon + исправленная агрегация",1872806.6404087248,1717303.88366,58094102,468/597,reports/finetune/submission_original_warm.csv
+"CheMeleon, замороженный энкодер",1830471.4703635473,1750683.92577,58092002,468/597,reports/architectures/chemeleon/submission.csv
+"CheMeleon + дополнительные эпохи голов",3864354.171693598,,,468/597,reports/finetune/submission_continue.csv
+"CheMeleon + LoRA",3832939.987547011,,,468/597,reports/finetune/submission_lora.csv
+"CheMeleon + исправление данных + дополнительные эпохи",3846185.394819885,,,468/597,reports/finetune/submission_original_continue.csv
+"CheMeleon + исправление данных + LoRA",3826054.4096525805,,,468/597,reports/finetune/submission_original_lora.csv
+"Uni-Mol, замороженный 3D-энкодер",1972949.5044215566,,,468/597,reports/architectures/unimol/submission.csv
+"Совместный GP / Tanimoto",2109241.954678262,,,468/597,reports/architectures/joint_gp/submission.csv
+"XGBoost, исходный baseline",1991234.7749774114,1975037.74735,58078799,468/597,reports/submission_xgb_baseline.csv
+"XGBoost, вариант 1: train+validation",1957513.98268986,1987419.23376,58079203,468/597,reports/submission_xgb_final.csv
+"XGBoost, вариант 2: ансамбль пяти seed",1960354.250736675,,,468/597,reports/submission_xgb_ensemble.csv
+"XGBoost, вариант 3: веса надёжности, Mac",1944184.313892794,1967765.75828,58079620,468/597,reports/submission_xgb_weighted.csv
+"XGBoost, веса надёжности, Windows",1932650.98144585,,,468/597,reports/submission_xgb_tail.csv
+"XGBoost, отдельные параметры IC50/CC50",1893853.2391688058,2068464.49379,58090521,468/597,reports/hypotheses/head_params/submission.csv
+"XGBoost + независимые измерения",5557739.861953442,,,468/597,reports/hypotheses/independent/submission.csv
+"XGBoost + счётчики молекулярных фрагментов",1946166.331417972,,,468/597,reports/hypotheses/features/submission.csv
+"XGBoost + учёт цензуры AFT",1944211.9845217909,,,468/597,reports/hypotheses/censoring/submission.csv
+"XGBoost + смесь с прямым прогнозом SI",2095422.3668365406,,,468/597,reports/hypotheses/direct_si/submission.csv
+"XGBoost, строгий отбор согласованных пар",1966980.0099842672,,,468/597,reports/hypotheses/clean_pairs/submission.csv
+"CatBoost, две концентрационные головы",2031629.2355157677,,,468/597,reports/submission_catboost.csv
+"XGBoost, CV-гибрид с классификатором",4930732.572208351,6944427.34748,58078674,468/597,reports/submission_xgb_cv.csv
+"Ранний XGBoost-гибрид",7906119.1716723265,,,468/597,reports/submission_xgb_hybrid.csv
+

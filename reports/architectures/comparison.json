@@ -126,10 +126,10 @@
       "scaffold_measured_oof_mse": 6815961.417949812,
       "molecule_all_oof_mse": 29727065.9649833,
       "scaffold_all_oof_mse": 29711188.190254737,
-      "official_kaggle_score": null,
+      "official_kaggle_score": 1614079.37878,
       "submission": "reports/architectures/domain_heads/submission.csv",
       "passes_local_threshold": false,
-      "submitted": false,
+      "submitted": true,
       "eligible": false
     }
   ]

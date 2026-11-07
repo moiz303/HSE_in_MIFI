@@ -1,15 +1,15 @@
 {
   "criterion": "Best verified public Kaggle score in the recorded experiment history",
-  "method": "chemeleon_original_endpoints",
+  "method": "domain_heads",
   "encoder": "Frozen author CheMeleon D-MPNN",
-  "head": "Shared MLP, 160 epochs; independent exact original competition endpoint precedence with public fallback",
-  "artifact": "artifacts/finetune/original_warm.joblib",
-  "submission": "reports/finetune/submission_original_warm.csv",
-  "submission_sha256": "36359255f0b13d7f5a3a383d3ce00be3176770467579c6a606d05c0b4ed6e799",
-  "local_subset_mse": 1872806.6404087248,
+  "head": "Shared MLP trunk, separate public/Kaggle IC50 and CC50 heads; use Kaggle heads at inference",
+  "artifact": "artifacts/architectures/domain_heads.joblib",
+  "submission": "reports/architectures/domain_heads/submission.csv",
+  "submission_sha256": "b053d4482e59da5c7dc2205d691926b303e492bbe4725ebcab052863d094b2ac",
+  "local_subset_mse": 3456049.301264165,
   "local_coverage": "468/597",
-  "public_score": 1717303.88366,
-  "submission_ref": 58094102,
-  "inference": "../env_arch/Scripts/python.exe -m src.chemeleon_finetune --predict-artifact artifacts/finetune/original_warm.joblib --out reports/chemeleon_original_prediction.csv",
-  "note": "Verified official public improvement 1.91%; OOF selection unchanged. Frozen encoder, no extra epochs or LoRA. Earlier model, submissions, training configurations and defaults preserved. Requires the isolated architecture environment and MD5-checked author weights."
+  "public_score": 1614079.37878,
+  "submission_ref": 58094437,
+  "inference": "../env_arch/Scripts/python.exe -m src.architecture_workflow --predict-artifact artifacts/architectures/domain_heads.joblib --out reports/chemeleon_domain_prediction.csv",
+  "note": "Best verified public result after one explicitly authorized domain-head submission, despite worse local endpoint-ratio MSE. Earlier models, files, OOF selections and training defaults preserved. Requires isolated architecture environment and MD5-checked author weights."
 }
