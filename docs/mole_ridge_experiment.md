@@ -30,3 +30,5 @@ python3 -m venv /Users/f37/HSE_mole_env
 ```
 
 The pretrained checkpoint was trained for antimicrobial prediction. The Zenodo record has no explicit rights value even though the source repository is MIT licensed; preserve attribution and check checkpoint usage terms before redistribution or commercial use.
+
+Final verification: after installing the repository-pinned `catboost==1.2.10` and `requests==2.34.2` into the shared runtime, `python -m unittest discover -s tests -t . -v` passed all 133 tests. Log: `reports/arch3_final_tests.log`. Final fusion artifact reload/inference and exact OOF row/fold joins with the baseline also passed.
