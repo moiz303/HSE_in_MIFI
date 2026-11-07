@@ -1,0 +1,370 @@
+[3/6] Tests; elapsed=2s
+test_changed_config_or_data_rejects_artifact (tests.test_catboost_two_head.CatBoostWorkflow.test_changed_config_or_data_rejects_artifact) ... [train] catboost_two_head: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] CatBoostTwoHead IC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[fit] CatBoostTwoHead CC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpdhvhft1g/artifacts/catboost_two_head.joblib
+ok
+test_modified_export_and_overlap_fail_before_training (tests.test_catboost_two_head.CatBoostWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_native_heads_and_independent_masks (tests.test_catboost_two_head.CatBoostWorkflow.test_native_heads_and_independent_masks) ... [fit] CatBoostTwoHead IC50: 10 targets, 2 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[fit] CatBoostTwoHead CC50: 9 targets, 3 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[train] catboost_two_head: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] CatBoostTwoHead IC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[fit] CatBoostTwoHead CC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmp6ih2y_i_/artifacts/catboost_two_head.joblib
+ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak (tests.test_catboost_two_head.CatBoostWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... [train] catboost_two_head: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] CatBoostTwoHead IC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[fit] CatBoostTwoHead CC50: 8 targets, 0 skipped; params={'iterations': 4, 'depth': 2, 'learning_rate': 0.03, 'l2_leaf_reg': 5.0, 'random_seed': 20261106, 'thread_count': 1}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpx973va9j/artifacts/catboost_two_head.joblib
+{
+  "IC50": {
+    "n": 2,
+    "mse": 32.512724546115464,
+    "rmse_log10": 0.39572306123462414
+  },
+  "CC50": {
+    "n": 2,
+    "mse": 3251.273033259439,
+    "rmse_log10": 0.39572311904835794
+  },
+  "SI_all": {
+    "n": 2,
+    "mse": 1.778064256961276e-12,
+    "rmse_log10": 5.791060020410299e-08
+  },
+  "SI_competition": {
+    "n": 2,
+    "mse": 1.778064256961276e-12,
+    "rmse_log10": 5.791060020410299e-08
+  },
+  "constant_competition": {
+    "n": 2,
+    "mse": 0.0,
+    "rmse_log10": 0.0
+  }
+}
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpx973va9j/reports/submission.csv
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpx973va9j/reports/submission.csv
+ok
+test_activity_without_a_pair_goes_to_the_journal (tests.test_download.BuildTable.test_activity_without_a_pair_goes_to_the_journal) ... ok
+test_chembl_flagged_values_are_dropped_with_a_reason (tests.test_download.BuildTable.test_chembl_flagged_values_are_dropped_with_a_reason) ... ok
+test_different_documents_do_not_pair (tests.test_download.BuildTable.test_different_documents_do_not_pair) ... ok
+test_flagged_values_are_kept_when_asked (tests.test_download.BuildTable.test_flagged_values_are_kept_when_asked) ... ok
+test_honest_pair_is_not_flagged_as_artifact (tests.test_download.BuildTable.test_honest_pair_is_not_flagged_as_artifact) ... ok
+test_pair_is_assembled_per_molecule_and_document (tests.test_download.BuildTable.test_pair_is_assembled_per_molecule_and_document) ... ok
+test_si_artifact_is_flagged (tests.test_download.BuildTable.test_si_artifact_is_flagged) ... ok
+test_si_matches_the_contract_formula (tests.test_download.BuildTable.test_si_matches_the_contract_formula) ... ok
+test_common_lines (tests.test_download.CellLineFromText.test_common_lines) ... ok
+test_hela_is_not_confused_with_hel (tests.test_download.CellLineFromText.test_hela_is_not_confused_with_hel) ... ok
+test_no_cell_line_mentioned (tests.test_download.CellLineFromText.test_no_cell_line_mentioned) ... ok
+test_admet_is_not_a_cell_line (tests.test_download.Measurement.test_admet_is_not_a_cell_line) ... ok
+test_assay_record_wins_over_description (tests.test_download.Measurement.test_assay_record_wins_over_description) ... ok
+test_censoring_sign_is_preserved (tests.test_download.Measurement.test_censoring_sign_is_preserved) ... ok
+test_exact_measurement_has_empty_qualifier (tests.test_download.Measurement.test_exact_measurement_has_empty_qualifier) ... ok
+test_mass_units_use_molecular_weight (tests.test_download.Measurement.test_mass_units_use_molecular_weight) ... ok
+test_mass_units_written_with_a_space (tests.test_download.Measurement.test_mass_units_written_with_a_space) ... ok
+test_missing_units_are_rejected_with_a_reason (tests.test_download.Measurement.test_missing_units_are_rejected_with_a_reason) ... ok
+test_nanomolar_becomes_micromolar (tests.test_download.Measurement.test_nanomolar_becomes_micromolar) ... ok
+test_toxicity_falls_back_to_target_as_cell_line (tests.test_download.Measurement.test_toxicity_falls_back_to_target_as_cell_line) ... ok
+test_value_outside_plausible_range_is_rejected (tests.test_download.Measurement.test_value_outside_plausible_range_is_rejected) ... ok
+test_virus_target_is_not_used_as_a_cell_line (tests.test_download.Measurement.test_virus_target_is_not_used_as_a_cell_line) ... ok
+test_zero_value_is_rejected (tests.test_download.Measurement.test_zero_value_is_rejected) ... ok
+test_same_cell_line_when_no_arm_mentions_vaccinia (tests.test_download.PickCytotoxicity.test_same_cell_line_when_no_arm_mentions_vaccinia) ... ok
+test_unknown_cell_line_falls_back_to_the_document (tests.test_download.PickCytotoxicity.test_unknown_cell_line_falls_back_to_the_document) ... ok
+test_vaccinia_arm_in_another_line_beats_a_different_virus (tests.test_download.PickCytotoxicity.test_vaccinia_arm_in_another_line_beats_a_different_virus) ... ok
+test_vaccinia_arm_in_the_same_cell_line_wins (tests.test_download.PickCytotoxicity.test_vaccinia_arm_in_the_same_cell_line_wins) ... ok
+test_all_censored_keeps_the_sign (tests.test_download.Representative.test_all_censored_keeps_the_sign) ... ok
+test_exact_measurements_win_over_censored (tests.test_download.Representative.test_exact_measurements_win_over_censored) ... ok
+test_median_is_taken_in_log_space (tests.test_download.Representative.test_median_is_taken_in_log_space) ... ok
+test_cc50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_cc50_in_features_is_rejected) ... ok
+test_ic50_in_features_is_rejected (tests.test_kaggle_data.ForbiddenFeatures.test_ic50_in_features_is_rejected) ... ok
+test_smiles_only_frame_passes (tests.test_kaggle_data.ForbiddenFeatures.test_smiles_only_frame_passes) ... ok
+test_the_arithmetic_helpers_are_gone (tests.test_kaggle_data.ForbiddenFeatures.test_the_arithmetic_helpers_are_gone) ... ok
+test_columns_are_renamed_to_the_contract (tests.test_kaggle_data.TrainingFrame.test_columns_are_renamed_to_the_contract) ... ok
+test_censored_values_keep_the_qualifier (tests.test_schema.ParseMeasurement.test_censored_values_keep_the_qualifier) ... ok
+test_garbage_is_not_silently_zero (tests.test_schema.ParseMeasurement.test_garbage_is_not_silently_zero) ... ok
+test_plain_number (tests.test_schema.ParseMeasurement.test_plain_number) ... ok
+test_mass_units_need_molecular_weight (tests.test_schema.UnitConversion.test_mass_units_need_molecular_weight) ... ok
+test_molar_scale (tests.test_schema.UnitConversion.test_molar_scale) ... ok
+test_unknown_unit_fails_loudly (tests.test_schema.UnitConversion.test_unknown_unit_fails_loudly) ... ok
+test_actual_label_keeps_missing_ic50 (tests.test_schema.ValidateTable.test_actual_label_keeps_missing_ic50) ... ok
+test_good_row_passes (tests.test_schema.ValidateTable.test_good_row_passes) ... ok
+test_inconsistent_si_is_rejected (tests.test_schema.ValidateTable.test_inconsistent_si_is_rejected) ... ok
+test_missing_or_false_label_flags_do_not_bypass_validation (tests.test_schema.ValidateTable.test_missing_or_false_label_flags_do_not_bypass_validation) ... ok
+test_missing_required_column_raises (tests.test_schema.ValidateTable.test_missing_required_column_raises) ... ok
+test_non_numeric_is_rejected_with_reason (tests.test_schema.ValidateTable.test_non_numeric_is_rejected_with_reason) ... ok
+test_source_frame_is_not_mutated (tests.test_schema.ValidateTable.test_source_frame_is_not_mutated) ... ok
+test_unit_error_scale_is_rejected (tests.test_schema.ValidateTable.test_unit_error_scale_is_rejected) ... ok
+test_identical_molecules_give_identical_rows (tests.test_smoke.Features.test_identical_molecules_give_identical_rows) ... ok
+test_invalid_smiles_does_not_crash_featurization (tests.test_smoke.Features.test_invalid_smiles_does_not_crash_featurization) ... ok
+test_shape_is_stable (tests.test_smoke.Features.test_shape_is_stable) ... ok
+test_applicability_similarity_is_one_for_a_known_molecule (tests.test_smoke.Metrics.test_applicability_similarity_is_one_for_a_known_molecule) ... ok
+test_bootstrap_interval_brackets_the_estimate (tests.test_smoke.Metrics.test_bootstrap_interval_brackets_the_estimate) ... ok
+test_perfect_prediction_scores_zero_error (tests.test_smoke.Metrics.test_perfect_prediction_scores_zero_error) ... ok
+test_shape_mismatch_raises (tests.test_smoke.Metrics.test_shape_mismatch_raises) ... ok
+test_manifest_roundtrip (tests.test_smoke.SplitsWiring.test_manifest_roundtrip) ... ok
+test_a_chemical_series_stays_in_one_part (tests.test_splits.ScaffoldSplit.test_a_chemical_series_stays_in_one_part) ... ok
+test_every_molecule_lands_exactly_once (tests.test_splits.ScaffoldSplit.test_every_molecule_lands_exactly_once) ... ok
+test_fractions_must_sum_to_one (tests.test_splits.ScaffoldSplit.test_fractions_must_sum_to_one) ... ok
+test_leak_detector_actually_fires (tests.test_splits.ScaffoldSplit.test_leak_detector_actually_fires) ... ok
+test_no_molecule_or_scaffold_crosses_the_border (tests.test_splits.ScaffoldSplit.test_no_molecule_or_scaffold_crosses_the_border) ... ok
+test_same_seed_gives_the_same_split (tests.test_splits.ScaffoldSplit.test_same_seed_gives_the_same_split) ... ok
+test_conflicting_measurements_collapse_to_log_median (tests.test_standardize.Aggregate.test_conflicting_measurements_collapse_to_log_median) ... ok
+test_distinct_structures_are_kept_apart (tests.test_standardize.Aggregate.test_distinct_structures_are_kept_apart) ... ok
+test_invalid_smiles_returns_none (tests.test_standardize.Standardize.test_invalid_smiles_returns_none) ... ok
+test_molecular_weight_is_available_for_unit_conversion (tests.test_standardize.Standardize.test_molecular_weight_is_available_for_unit_conversion) ... ok
+test_salt_is_stripped_to_the_largest_fragment (tests.test_standardize.Standardize.test_salt_is_stripped_to_the_largest_fragment) ... ok
+test_same_molecule_written_differently_collapses (tests.test_standardize.Standardize.test_same_molecule_written_differently_collapses) ... ok
+test_changed_config_or_data_rejects_artifact (tests.test_xgb_hybrid.HybridWorkflow.test_changed_config_or_data_rejects_artifact) ... [train] xgb_hybrid: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] XGBHybrid IC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBHybrid CC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] label classifier: 8 rows, 0 positive; params={'n_estimators': 250, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 3, 'reg_lambda': 10.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'random_state': 20261106, 'n_jobs': 4}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0, 'classifier': 8, 'classifier_positive': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmps2mz2etj/artifacts/xgb_hybrid.joblib
+ok
+test_modified_export_and_overlap_fail_before_training (tests.test_xgb_hybrid.HybridWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_selection_rule_and_native_classifier_roundtrip (tests.test_xgb_hybrid.HybridWorkflow.test_selection_rule_and_native_classifier_roundtrip) ... [fit] XGBHybrid IC50: 40 targets, 0 skipped; params={'n_estimators': 3, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBHybrid CC50: 40 targets, 0 skipped; params={'n_estimators': 3, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] label classifier: 40 rows, 20 positive; params={'n_estimators': 250, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 3, 'reg_lambda': 10.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'random_state': 20261106, 'n_jobs': 4}
+ok
+test_submission_requires_evaluation_and_selection_is_persisted (tests.test_xgb_hybrid.HybridWorkflow.test_submission_requires_evaluation_and_selection_is_persisted) ... [train] xgb_hybrid: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] XGBHybrid IC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBHybrid CC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] label classifier: 8 rows, 0 positive; params={'n_estimators': 250, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 3, 'reg_lambda': 10.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'random_state': 20261106, 'n_jobs': 4}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0, 'classifier': 8, 'classifier_positive': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmplb0wpcho/artifacts/xgb_hybrid.joblib
+[selection] {"baseline_mse": 1.8836123343263883e-12, "candidate_mse": 1.8836123343263883e-12, "selected": "hybrid", "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
+{
+  "IC50": {
+    "n": 2,
+    "mse": 32.613798259312546,
+    "rmse_log10": 0.3967332972057121
+  },
+  "CC50": {
+    "n": 2,
+    "mse": 3261.3804210501116,
+    "rmse_log10": 0.39673335671116444
+  },
+  "SI_all": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "SI_competition": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "constant_competition": {
+    "n": 2,
+    "mse": 0.0,
+    "rmse_log10": 0.0
+  }
+}
+[selection] {"baseline_mse": 1.8836123343263883e-12, "candidate_mse": 1.8836123343263883e-12, "selected": "baseline", "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
+{
+  "IC50": {
+    "n": 2,
+    "mse": 32.613798259312546,
+    "rmse_log10": 0.3967332972057121
+  },
+  "CC50": {
+    "n": 2,
+    "mse": 3261.3804210501116,
+    "rmse_log10": 0.39673335671116444
+  },
+  "SI_all": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "SI_competition": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "constant_competition": {
+    "n": 2,
+    "mse": 0.0,
+    "rmse_log10": 0.0
+  }
+}
+ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak (tests.test_xgb_hybrid.HybridWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... [train] xgb_hybrid: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] XGBHybrid IC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBHybrid CC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] label classifier: 8 rows, 0 positive; params={'n_estimators': 250, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 3, 'reg_lambda': 10.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'random_state': 20261106, 'n_jobs': 4}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0, 'classifier': 8, 'classifier_positive': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpce689ti0/artifacts/xgb_hybrid.joblib
+[selection] {"baseline_mse": 1.8836123343263883e-12, "candidate_mse": 1.8836123343263883e-12, "selected": "baseline", "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
+{
+  "IC50": {
+    "n": 2,
+    "mse": 32.613798259312546,
+    "rmse_log10": 0.3967332972057121
+  },
+  "CC50": {
+    "n": 2,
+    "mse": 3261.3804210501116,
+    "rmse_log10": 0.39673335671116444
+  },
+  "SI_all": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "SI_competition": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "constant_competition": {
+    "n": 2,
+    "mse": 0.0,
+    "rmse_log10": 0.0
+  }
+}
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpce689ti0/reports/submission.csv
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpce689ti0/reports/submission.csv
+ok
+test_bad_parameters_and_empty_head_fail (tests.test_xgb_two_head.Heads.test_bad_parameters_and_empty_head_fail) ... ok
+test_censoring_is_per_head_and_si_labels_do_not_invent_targets (tests.test_xgb_two_head.Heads.test_censoring_is_per_head_and_si_labels_do_not_invent_targets) ... ok
+test_independent_missing_targets_and_ratio (tests.test_xgb_two_head.Heads.test_independent_missing_targets_and_ratio) ... [fit] XGBTwoHead IC50: 10 targets, 2 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBTwoHead CC50: 9 targets, 3 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+ok
+test_standardization_matches_salts_and_rejects_garbage (tests.test_xgb_two_head.Heads.test_standardization_matches_salts_and_rejects_garbage) ... ok
+test_changed_config_or_data_rejects_artifact (tests.test_xgb_two_head.ToyWorkflow.test_changed_config_or_data_rejects_artifact) ... [train] xgb_two_head: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] XGBTwoHead IC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBTwoHead CC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmp6grhfvrp/artifacts/xgb_two_head.joblib
+ok
+test_modified_export_and_overlap_fail_before_training (tests.test_xgb_two_head.ToyWorkflow.test_modified_export_and_overlap_fail_before_training) ... ok
+test_train_evaluate_submission_roundtrip_and_no_test_target_leak (tests.test_xgb_two_head.ToyWorkflow.test_train_evaluate_submission_roundtrip_and_no_test_target_leak) ... [train] xgb_two_head: train=8, validation=2
+[train] features=(8, 2061); holdout unused
+[fit] XGBTwoHead IC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[fit] XGBTwoHead CC50: 8 targets, 0 skipped; params={'n_estimators': 4, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 1, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 1}
+[train] {'IC50': 8, 'IC50_skipped': 0, 'CC50': 8, 'CC50_skipped': 0} -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpov2japh8/artifacts/xgb_two_head.joblib
+{
+  "IC50": {
+    "n": 2,
+    "mse": 32.613798259312546,
+    "rmse_log10": 0.3967332972057121
+  },
+  "CC50": {
+    "n": 2,
+    "mse": 3261.3804210501116,
+    "rmse_log10": 0.39673335671116444
+  },
+  "SI_all": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "SI_competition": {
+    "n": 2,
+    "mse": 1.8836123343263883e-12,
+    "rmse_log10": 5.960464477539063e-08
+  },
+  "constant_competition": {
+    "n": 2,
+    "mse": 0.0,
+    "rmse_log10": 0.0
+  }
+}
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpov2japh8/reports/submission.csv
+[submission] 2 rows -> /var/folders/hy/r0lqxjnx6jqg71ls41qsnfmw0000gn/T/tmpov2japh8/reports/submission.csv
+ok
+
+----------------------------------------------------------------------
+Ran 85 tests in 0.539s
+
+OK
+[4/6] Training and validation; elapsed=3s
+{
+  "name": "xgb-two-head-with-label-classifier",
+  "seed": 20261106,
+  "data": {
+    "sources": [
+      "kaggle_train",
+      "chembl"
+    ],
+    "censored": "keep",
+    "chembl": {
+      "limit": null,
+      "drop_invalid": true
+    },
+    "kaggle_train": {
+      "sentinels": "keep"
+    }
+  },
+  "splits": {
+    "seed": 20261106,
+    "fractions": {
+      "train": 0.7,
+      "validation": 0.15,
+      "holdout": 0.15
+    }
+  },
+  "features": {
+    "morgan": true,
+    "descriptors": true
+  },
+  "model": {
+    "strategy": "xgb_hybrid",
+    "params": {},
+    "clip_si": null
+  },
+  "submission": {
+    "competition": "molecular-activity-prediction-hack",
+    "test_csv": "data/raw/kaggle/test.csv",
+    "smiles_column": "SMILES",
+    "id_column": "index",
+    "target_column": "SI VACV",
+    "output": "reports/submission_xgb_hybrid.csv",
+    "model_file": "artifacts/xgb_hybrid.joblib"
+  }
+}
+[stage] train starting
+[train] xgb_hybrid: train=829, validation=178
+[train] features=(829, 2061); holdout unused
+[fit] XGBHybrid IC50: 365 targets, 464 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] XGBHybrid CC50: 565 targets, 264 skipped; params={'n_estimators': 400, 'max_depth': 3, 'learning_rate': 0.03, 'min_child_weight': 5, 'subsample': 0.8, 'colsample_bytree': 0.8, 'reg_lambda': 5.0, 'reg_alpha': 0.1, 'random_state': 20261106, 'n_jobs': 4}
+[fit] label classifier: 151 rows, 44 positive; params={'n_estimators': 250, 'max_depth': 2, 'learning_rate': 0.03, 'min_child_weight': 3, 'reg_lambda': 10.0, 'subsample': 0.8, 'colsample_bytree': 0.8, 'random_state': 20261106, 'n_jobs': 4}
+[train] {'IC50': 365, 'IC50_skipped': 464, 'CC50': 565, 'CC50_skipped': 264, 'classifier': 151, 'classifier_positive': 44} -> /Users/kidzzz/Documents/HSE_in_MIFI/artifacts/xgb_hybrid.joblib
+[stage] train finished in 2.6s
+[stage] evaluate starting
+[selection] {"baseline_mse": 51450275.87329185, "candidate_mse": 36884153.36556323, "selected": "hybrid", "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
+{
+  "IC50": {
+    "n": 100,
+    "mse": 11109.885856936606,
+    "rmse_log10": 0.8124321478947015
+  },
+  "CC50": {
+    "n": 117,
+    "mse": 43752.32545587441,
+    "rmse_log10": 0.5858965385337175
+  },
+  "SI_all": {
+    "n": 178,
+    "mse": 106310275.59216544,
+    "rmse_log10": 2.784520398352501
+  },
+  "SI_competition": {
+    "n": 64,
+    "mse": 36884153.36556323,
+    "rmse_log10": 2.0772932558780144
+  },
+  "constant_competition": {
+    "n": 64,
+    "mse": 39455476.55166698,
+    "rmse_log10": 2.0880291634451025
+  }
+}
+[stage] evaluate finished in 2.4s
+[5/6] Building submission from selected model; elapsed=10s
+[submission] 597 rows -> /Users/kidzzz/Documents/HSE_in_MIFI/reports/submission_xgb_hybrid.csv
