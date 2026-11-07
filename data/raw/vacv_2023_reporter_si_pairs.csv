@@ -1,0 +1,185 @@
+compound_name,pubchem_cid,smiles,virus_construct,ec50_readout,ec50_uM,ec50_relation,cc50_method,cc50_uM,cc50_relation,si_cc50_over_ec50,si_relation,si_status,publication_doi,table_number
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/GFP,NanoLuc,0.07,=,MTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/GFP,NanoLuc,0.07,=,XTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/GFP,fluorescent protein,0.07,=,MTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/GFP,fluorescent protein,0.07,=,XTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,MTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,XTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/Scarlet,fluorescent protein,0.13,=,MTT,50,>,384.61538,>,identified,10.1128/spectrum.04745-22,1
+AVN-944,9918559,CC[C@H](CC#N)OC(=O)N[C@@H](C)C1=CC(=CC=C1)NC(=O)NC2=CC(=C(C=C2)C3=CN=CO3)OC,rVACV_Nluc/Scarlet,fluorescent protein,0.13,=,XTT,50,>,384.61538,>,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/GFP,NanoLuc,0.12,=,MTT,8.73,=,72.75,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/GFP,NanoLuc,0.12,=,XTT,39.29,=,327.41667,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/GFP,fluorescent protein,0.06,=,MTT,8.73,=,145.5,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/GFP,fluorescent protein,0.06,=,XTT,39.29,=,654.83333,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/Scarlet,NanoLuc,0.09,=,MTT,8.73,=,97,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/Scarlet,NanoLuc,0.09,=,XTT,39.29,=,436.55556,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.07,=,MTT,8.73,=,124.71429,=,identified,10.1128/spectrum.04745-22,1
+Antimycin A,14957,CCCCCC[C@@H]1[C@H]([C@@H](OC(=O)[C@H]([C@H](OC1=O)C)NC(=O)C2=C(C(=CC=C2)NC=O)O)C)OC(=O)CC(C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.07,=,XTT,39.29,=,561.28571,=,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/GFP,NanoLuc,1.13,=,MTT,150,>,132.74336,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/GFP,NanoLuc,1.13,=,XTT,150,>,132.74336,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/GFP,fluorescent protein,1.03,=,MTT,150,>,145.63107,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/GFP,fluorescent protein,1.03,=,XTT,150,>,145.63107,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/Scarlet,NanoLuc,1.41,=,MTT,150,>,106.38298,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/Scarlet,NanoLuc,1.41,=,XTT,150,>,106.38298,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/Scarlet,fluorescent protein,1.32,=,MTT,150,>,113.63636,>,identified,10.1128/spectrum.04745-22,1
+Azaribine,16574,CC(=O)OC[C@@H]1[C@H]([C@H]([C@@H](O1)N2C(=O)NC(=O)C=N2)OC(=O)C)OC(=O)C,rVACV_Nluc/Scarlet,fluorescent protein,1.32,=,XTT,150,>,113.63636,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/GFP,NanoLuc,1.58,=,MTT,50,>,31.64557,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/GFP,NanoLuc,1.58,=,XTT,50,>,31.64557,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/GFP,fluorescent protein,1.74,=,MTT,50,>,28.735632,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/GFP,fluorescent protein,1.74,=,XTT,50,>,28.735632,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/Scarlet,NanoLuc,1.51,=,MTT,50,>,33.112583,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/Scarlet,NanoLuc,1.51,=,XTT,50,>,33.112583,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.64,=,MTT,50,>,78.125,>,identified,10.1128/spectrum.04745-22,1
+Azauridine,5901,C1=NN(C(=O)NC1=O)[C@H]2[C@@H]([C@@H]([C@H](O2)CO)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.64,=,XTT,50,>,78.125,>,identified,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,NanoLuc,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,NanoLuc,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,fluorescent protein,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,fluorescent protein,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,NanoLuc,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,NanoLuc,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,fluorescent protein,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,fluorescent protein,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/GFP,NanoLuc,0.04,=,MTT,50,>,1250,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/GFP,NanoLuc,0.04,=,XTT,50,>,1250,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/GFP,fluorescent protein,0.18,=,MTT,50,>,277.77778,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/GFP,fluorescent protein,0.18,=,XTT,50,>,277.77778,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,MTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,XTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.12,=,MTT,50,>,416.66667,>,identified,10.1128/spectrum.04745-22,1
+Brequinar,57030,CC1=C(C2=C(C=CC(=C2)F)N=C1C3=CC=C(C=C3)C4=CC=CC=C4F)C(=O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.12,=,XTT,50,>,416.66667,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/GFP,NanoLuc,0.93,=,MTT,150,>,161.29032,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/GFP,NanoLuc,0.93,=,XTT,150,>,161.29032,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/GFP,fluorescent protein,0.87,=,MTT,150,>,172.41379,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/GFP,fluorescent protein,0.87,=,XTT,150,>,172.41379,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/Scarlet,NanoLuc,1.04,=,MTT,150,>,144.23077,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/Scarlet,NanoLuc,1.04,=,XTT,150,>,144.23077,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/Scarlet,fluorescent protein,1.20,=,MTT,150,>,125,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolate mofetil,5281078,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)OCCN3CCOCC3)O,rVACV_Nluc/Scarlet,fluorescent protein,1.20,=,XTT,150,>,125,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/GFP,NanoLuc,0.43,=,MTT,150,>,348.83721,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/GFP,NanoLuc,0.43,=,XTT,150,>,348.83721,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/GFP,fluorescent protein,0.59,=,MTT,150,>,254.23729,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/GFP,fluorescent protein,0.59,=,XTT,150,>,254.23729,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/Scarlet,NanoLuc,0.46,=,MTT,150,>,326.08696,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/Scarlet,NanoLuc,0.46,=,XTT,150,>,326.08696,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.46,=,MTT,150,>,326.08696,>,identified,10.1128/spectrum.04745-22,1
+Mycophenolic acid,446541,CC1=C2COC(=O)C2=C(C(=C1OC)C/C=C(\C)/CCC(=O)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.46,=,XTT,150,>,326.08696,>,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,2.65,=,MTT,22.23,=,8.3886792,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,2.65,=,XTT,43.72,=,16.498113,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,3.29,=,MTT,22.23,=,6.7568389,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,3.29,=,XTT,43.72,=,13.288754,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,2.59,=,MTT,22.23,=,8.5830116,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,2.59,=,XTT,43.72,=,16.880309,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,2.32,=,MTT,22.23,=,9.5818966,=,identified,10.1128/spectrum.04745-22,1
+OSU-03012,10027278,C1=CC=C2C(=C1)C=CC3=C2C=CC(=C3)C4=CC(=NN4C5=CC=C(C=C5)NC(=O)CN)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,2.32,=,XTT,43.72,=,18.844828,=,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/GFP,NanoLuc,0.24,=,MTT,50,>,208.33333,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/GFP,NanoLuc,0.24,=,XTT,50,>,208.33333,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/GFP,fluorescent protein,0.53,=,MTT,50,>,94.339623,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/GFP,fluorescent protein,0.53,=,XTT,50,>,94.339623,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,MTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/Scarlet,NanoLuc,0.11,=,XTT,50,>,454.54545,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.27,=,MTT,50,>,185.18519,>,identified,10.1128/spectrum.04745-22,1
+Pyrazofurin,135413551,C([C@@H]1[C@H]([C@H]([C@@H](O1)C2=NNC(=C2O)C(=O)N)O)O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.27,=,XTT,50,>,185.18519,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.19,=,MTT,50,>,263.15789,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.19,=,XTT,50,>,263.15789,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.23,=,MTT,50,>,217.3913,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.23,=,XTT,50,>,217.3913,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.08,=,MTT,50,>,625,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.08,=,XTT,50,>,625,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.06,=,MTT,50,>,833.33333,>,identified,10.1128/spectrum.04745-22,1
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.06,=,XTT,50,>,833.33333,>,identified,10.1128/spectrum.04745-22,1
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/GFP,NanoLuc,3.89,=,MTT,18.51,=,4.7583548,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/GFP,NanoLuc,3.89,=,XTT,1.80,=,0.46272494,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/GFP,fluorescent protein,3.26,=,MTT,18.51,=,5.6779141,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/GFP,fluorescent protein,3.26,=,XTT,1.80,=,0.55214724,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/Scarlet,NanoLuc,6.63,=,MTT,18.51,=,2.7918552,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/Scarlet,NanoLuc,6.63,=,XTT,1.80,=,0.27149321,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/Scarlet,fluorescent protein,4.76,=,MTT,18.51,=,3.8886555,=,identified,10.1128/spectrum.04745-22,2
+Amuvatinib,11282283,C1CN(CCN1C2=NC=NC3=C2OC4=CC=CC=C43)C(=S)NCC5=CC6=C(C=C5)OCO6,rVACV_Nluc/Scarlet,fluorescent protein,4.76,=,XTT,1.80,=,0.37815126,=,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/GFP,NanoLuc,6.12,=,MTT,27.92,=,4.5620915,=,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/GFP,NanoLuc,6.12,=,XTT,450,>,73.529412,>,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/GFP,fluorescent protein,7.85,=,MTT,27.92,=,3.5566879,=,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/GFP,fluorescent protein,7.85,=,XTT,450,>,57.324841,>,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/Scarlet,NanoLuc,6.10,=,MTT,27.92,=,4.5770492,=,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/Scarlet,NanoLuc,6.10,=,XTT,450,>,73.770492,>,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/Scarlet,fluorescent protein,7.92,=,MTT,27.92,=,3.5252525,=,identified,10.1128/spectrum.04745-22,2
+Azoxystrobin,3034285,CO/C=C(\C1=CC=CC=C1OC2=NC=NC(=C2)OC3=CC=CC=C3C#N)/C(=O)OC,rVACV_Nluc/Scarlet,fluorescent protein,7.92,=,XTT,450,>,56.818182,>,identified,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,NanoLuc,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,NanoLuc,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,fluorescent protein,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/GFP,fluorescent protein,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,NanoLuc,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,NanoLuc,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,fluorescent protein,50,>,MTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Benzimidazole,5798,C1=CC=C2C(=C1)NC=N2,rVACV_Nluc/Scarlet,fluorescent protein,50,>,XTT,50,>,,,not_identifiable_from_bounds,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/GFP,NanoLuc,1.07,=,MTT,121.4,=,113.45794,=,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/GFP,NanoLuc,1.07,=,XTT,450,>,420.56075,>,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/GFP,fluorescent protein,1.95,=,MTT,121.4,=,62.25641,=,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/GFP,fluorescent protein,1.95,=,XTT,450,>,230.76923,>,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/Scarlet,NanoLuc,1.12,=,MTT,121.4,=,108.39286,=,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/Scarlet,NanoLuc,1.12,=,XTT,450,>,401.78571,>,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/Scarlet,fluorescent protein,1.76,=,MTT,121.4,=,68.977273,=,identified,10.1128/spectrum.04745-22,2
+Buparvaquone,71768,CC(C)(C)C1CCC(CC1)CC2=C(C3=CC=CC=C3C(=O)C2=O)O,rVACV_Nluc/Scarlet,fluorescent protein,1.76,=,XTT,450,>,255.68182,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/GFP,NanoLuc,0.13,=,MTT,50,>,384.61538,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/GFP,NanoLuc,0.13,=,XTT,50,>,384.61538,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/GFP,fluorescent protein,0.08,=,MTT,50,>,625,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/GFP,fluorescent protein,0.08,=,XTT,50,>,625,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/Scarlet,NanoLuc,0.08,=,MTT,50,>,625,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/Scarlet,NanoLuc,0.08,=,XTT,50,>,625,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.07,=,MTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,2
+Monensin,441145,CC[C@]1(CC[C@@H](O1)[C@@]2(CC[C@@]3(O2)C[C@@H]([C@H]([C@H](O3)[C@@H](C)[C@H]([C@H](C)C(=O)O)OC)C)O)C)[C@H]4[C@H](C[C@@H](O4)[C@@H]5[C@H](C[C@H]([C@@](O5)(CO)O)C)C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.07,=,XTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.033,=,MTT,0.07,=,2.1212121,=,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.033,=,XTT,50,>,1515.1515,>,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.065,=,MTT,0.07,=,1.0769231,=,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.065,=,XTT,50,>,769.23077,>,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.037,=,MTT,0.07,=,1.8918919,=,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.037,=,XTT,50,>,1351.3514,>,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.093,=,MTT,0.07,=,0.75268817,=,identified,10.1128/spectrum.04745-22,2
+Mubritinib,6444692,C1=CC(=CC=C1CCCCN2C=CN=N2)OCC3=COC(=N3)/C=C/C4=CC=C(C=C4)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.093,=,XTT,50,>,537.63441,>,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/GFP,NanoLuc,0.03,=,MTT,1.3,=,43.333333,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/GFP,NanoLuc,0.03,=,XTT,8.73,=,291,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/GFP,fluorescent protein,0.01,=,MTT,1.3,=,130,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/GFP,fluorescent protein,0.01,=,XTT,8.73,=,873,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/Scarlet,NanoLuc,0.02,=,MTT,1.3,=,65,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/Scarlet,NanoLuc,0.02,=,XTT,8.73,=,436.5,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.02,=,MTT,1.3,=,65,=,identified,10.1128/spectrum.04745-22,2
+Narasin,65452,CC[C@H]([C@H]1[C@H](C[C@@H]([C@@H](O1)[C@@H](C)[C@@H]([C@H](C)C(=O)[C@H](CC)[C@@H]2[C@H](C[C@H]([C@]3(O2)C=C[C@H]([C@@]4(O3)CC[C@@](O4)(C)[C@H]5CC[C@@]([C@@H](O5)C)(CC)O)O)C)C)O)C)C)C(=O)O,rVACV_Nluc/Scarlet,fluorescent protein,0.02,=,XTT,8.73,=,436.5,=,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/GFP,NanoLuc,0.007,=,MTT,0.10,=,14.285714,=,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/GFP,NanoLuc,0.007,=,XTT,50,>,7142.8571,>,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/GFP,fluorescent protein,0.010,=,MTT,0.10,=,10,=,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/GFP,fluorescent protein,0.010,=,XTT,50,>,5000,>,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/Scarlet,NanoLuc,0.008,=,MTT,0.10,=,12.5,=,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/Scarlet,NanoLuc,0.008,=,XTT,50,>,6250,>,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/Scarlet,fluorescent protein,0.015,=,MTT,0.10,=,6.6666667,=,identified,10.1128/spectrum.04745-22,2
+Rotenone,6758,CC(=C)[C@H]1CC2=C(O1)C=CC3=C2O[C@@H]4COC5=CC(=C(C=C5[C@@H]4C3=O)OC)OC,rVACV_Nluc/Scarlet,fluorescent protein,0.015,=,XTT,50,>,3333.3333,>,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/GFP,NanoLuc,2.80,=,MTT,8.00,=,2.8571429,=,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/GFP,NanoLuc,2.80,=,XTT,50,>,17.857143,>,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/GFP,fluorescent protein,4.43,=,MTT,8.00,=,1.8058691,=,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/GFP,fluorescent protein,4.43,=,XTT,50,>,11.286682,>,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/Scarlet,NanoLuc,3.04,=,MTT,8.00,=,2.6315789,=,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/Scarlet,NanoLuc,3.04,=,XTT,50,>,16.447368,>,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/Scarlet,fluorescent protein,6.78,=,MTT,8.00,=,1.179941,=,identified,10.1128/spectrum.04745-22,2
+Spautin-1,51037431,C1=CC(=CC=C1CNC2=NC=NC3=C2C=C(C=C3)F)F,rVACV_Nluc/Scarlet,fluorescent protein,6.78,=,XTT,50,>,7.3746313,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.09,=,MTT,50,>,555.55556,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,NanoLuc,0.09,=,XTT,50,>,555.55556,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.03,=,MTT,50,>,1666.6667,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/GFP,fluorescent protein,0.03,=,XTT,50,>,1666.6667,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.07,=,MTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,NanoLuc,0.07,=,XTT,50,>,714.28571,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.03,=,MTT,50,>,1666.6667,>,identified,10.1128/spectrum.04745-22,2
+Tecovirimat,16124688,C1[C@@H]2[C@H]1[C@@H]3C=C[C@H]2[C@@H]4[C@H]3C(=O)N(C4=O)NC(=O)C5=CC=C(C=C5)C(F)(F)F,rVACV_Nluc/Scarlet,fluorescent protein,0.03,=,XTT,50,>,1666.6667,>,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/GFP,NanoLuc,0.81,=,MTT,6.31,=,7.7901235,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/GFP,NanoLuc,0.81,=,XTT,16.65,=,20.555556,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/GFP,fluorescent protein,1.34,=,MTT,6.31,=,4.7089552,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/GFP,fluorescent protein,1.34,=,XTT,16.65,=,12.425373,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/Scarlet,NanoLuc,0.97,=,MTT,6.31,=,6.5051546,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/Scarlet,NanoLuc,0.97,=,XTT,16.65,=,17.164948,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/Scarlet,fluorescent protein,1.38,=,MTT,6.31,=,4.5724638,=,identified,10.1128/spectrum.04745-22,2
+Tryptanthrin,73549,C1=CC=C2C(=C1)C(=O)N3C4=CC=CC=C4C(=O)C3=N2,rVACV_Nluc/Scarlet,fluorescent protein,1.38,=,XTT,16.65,=,12.065217,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/GFP,NanoLuc,0.002,=,MTT,0.29,=,145,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/GFP,NanoLuc,0.002,=,XTT,13.63,=,6815,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/GFP,fluorescent protein,0.003,=,MTT,0.29,=,96.666667,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/GFP,fluorescent protein,0.003,=,XTT,13.63,=,4543.3333,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/Scarlet,NanoLuc,0.002,=,MTT,0.29,=,145,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/Scarlet,NanoLuc,0.002,=,XTT,13.63,=,6815,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.003,=,MTT,0.29,=,96.666667,=,identified,10.1128/spectrum.04745-22,2
+Valinomycin,3000706,C[C@H]1C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O[C@H](C(=O)N[C@H](C(=O)O[C@@H](C(=O)N[C@@H](C(=O)O1)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C)C)C(C)C)C(C)C)C(C)C,rVACV_Nluc/Scarlet,fluorescent protein,0.003,=,XTT,13.63,=,4543.3333,=,identified,10.1128/spectrum.04745-22,2

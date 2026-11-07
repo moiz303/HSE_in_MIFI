@@ -1,0 +1,34 @@
+[D-MPNN] development structures=1007, original Kaggle targets=267, holdout=0
+[D-MPNN] fold=0; selected aux=0.3, epoch=22; OOF MSE=30980985.568
+[D-MPNN] fold=1; selected aux=0.1, epoch=23; OOF MSE=17864831.441
+[D-MPNN] fold=2; selected aux=0.3, epoch=17; OOF MSE=16811236.499
+{
+  "oof_metrics": {
+    "all": {
+      "n": 267,
+      "mse": 22797541.951551374,
+      "rmse": 4774.677156787815,
+      "mae": 3564.980266564978,
+      "bias": -127.51985803795034,
+      "rmse_log10": 2.142223061417758
+    },
+    "service_label": {
+      "n": 66,
+      "mse": 49838463.12814227,
+      "rmse": 7059.63618950313,
+      "mae": 6837.7981733842325,
+      "bias": -6837.7981733842325,
+      "rmse_log10": 0.6496885929071223
+    },
+    "measured": {
+      "n": 201,
+      "mse": 13918433.505506605,
+      "rmse": 3730.741683031218,
+      "mae": 2490.323640445223,
+      "bias": 2075.8551111802326,
+      "rmse_log10": 2.4407778075877333
+    }
+  },
+  "artifact": "/Users/f37/HSE_arch4/artifacts/dmpnn_arch4_new_dataset.pt",
+  "report": "reports/dmpnn_arch4_training_new_dataset.json"
+}

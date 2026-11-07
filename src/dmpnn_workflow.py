@@ -176,7 +176,7 @@ def _metrics(rows):
     return result
 
 
-def run():
+def run(use_supplement=False):
     started = time.time()
     torch.set_num_threads(1)
     from src.xgb_workflow import load_parts
@@ -190,6 +190,23 @@ def run():
         raise ValueError("no original competition targets in development data")
     print(f"[D-MPNN] development structures={len(frame)}, original Kaggle targets={len(reference)}, holdout=0", flush=True)
     graphs = [featurize_smiles(value) for value in frame.standard_smiles]
+    from src.data.vacv_supplement import load_supplement, eligible_supplement
+    extra = load_supplement(ROOT) if use_supplement else pd.DataFrame()
+    if use_supplement:
+        extra = extra[extra.endpoint.eq("CC50")].reset_index(drop=True)
+        extra_targets, extra_qualifiers, _ = _targets(extra, reference.iloc[:0])
+        targets = {k: np.concatenate([v, extra_targets[k]]) for k, v in targets.items()}
+        qualifiers = {k: np.concatenate([v, extra_qualifiers[k]]) for k, v in qualifiers.items()}
+        graphs.extend(featurize_smiles(v) for v in extra.standard_smiles)
+    def extended_train(indices, held_indices):
+        if not use_supplement:
+            return indices
+        eligible = eligible_supplement(extra, frame.iloc[held_indices].standard_smiles, "scaffold")
+        extra_indices = np.flatnonzero(extra.record_id.isin(eligible.record_id).to_numpy()) + len(frame)
+        return np.concatenate([indices, extra_indices])
+    def output_path(key):
+        path = ROOT / CONFIG["outputs"][key]
+        return path.with_name(path.stem + "_new_dataset" + path.suffix) if use_supplement else path
     outer = fold_indices(frame.standard_smiles.tolist(), CONFIG["split"]["protocol"],
                          CONFIG["split"]["folds"], SEED)
     oof_parts, fold_reports, selected_weights, selected_epochs = [], [], [], []
@@ -201,9 +218,13 @@ def run():
                              SEED + int(fold) + 1)
         inner_valid = outer_train[np.asarray(inner["0"], dtype=int)]
         inner_train = np.setdiff1d(outer_train, inner_valid)
+        inner_held = np.concatenate([test_idx, inner_valid])
+        inner_supplement_count = (len(eligible_supplement(extra,
+            frame.iloc[inner_held].standard_smiles, "scaffold")) if use_supplement else 0)
         selection = []
         for candidate_index, weight in enumerate(AUX_CANDIDATES):
-            model, epoch = _train_early_stop(graphs, inner_train, inner_valid, targets,
+            model, epoch = _train_early_stop(graphs,
+                extended_train(inner_train, np.concatenate([test_idx, inner_valid])), inner_valid, targets,
                                               qualifiers, reference, frame.standard_smiles.to_numpy(),
                                               weight, SEED + 100 * int(fold) + candidate_index)
             ref_inner = reference[reference.standard_smiles.isin(frame.iloc[inner_valid].standard_smiles)]
@@ -216,7 +237,7 @@ def run():
         chosen = min(selection, key=lambda item: item["inner_mse"])
         selected_weights.append(chosen["aux_weight"])
         selected_epochs.append(chosen["best_epoch"])
-        model = _fit_fixed(graphs, outer_train, targets, qualifiers, chosen["aux_weight"],
+        model = _fit_fixed(graphs, extended_train(outer_train, test_idx), targets, qualifiers, chosen["aux_weight"],
                            chosen["best_epoch"], SEED + 1000 + int(fold))
         test_prediction = pd.Series(_predict(model, graphs, test_idx),
                                      index=frame.iloc[test_idx].standard_smiles)
@@ -226,6 +247,8 @@ def run():
         oof_parts.append(rows)
         fold_reports.append({"fold": int(fold), "train_structures": len(outer_train),
                              "oof_structures": len(test_idx), "oof_targets": len(rows),
+                             "inner_supplement_training_observations": inner_supplement_count,
+                             "supplement_training_observations": len(extended_train(outer_train, test_idx)) - len(outer_train),
                              "inner_selection": selection, "selected": chosen,
                              "oof_metrics": _metrics(rows)})
         print(f"[D-MPNN] fold={fold}; selected aux={chosen['aux_weight']}, epoch={chosen['best_epoch']}; "
@@ -233,20 +256,21 @@ def run():
     oof = pd.concat(oof_parts, ignore_index=True).sort_values("original_row")
     if oof.original_row.duplicated().any() or len(oof) != len(reference):
         raise AssertionError("OOF must score each development Kaggle training target once")
-    oof_path = ROOT / CONFIG["outputs"]["oof_predictions"]
+    oof_path = output_path("oof_predictions")
     oof.to_csv(oof_path, index=False)
 
     # Refit the chosen architecture on train+validation with settings selected only
     # from nested train folds. The separately reserved holdout is never loaded.
     weight = float(np.median(selected_weights))
     epochs = max(1, int(np.median(selected_epochs)))
-    model = _fit_fixed(graphs, np.arange(len(frame)), targets, qualifiers, weight, epochs, SEED + 9999)
-    artifact = ROOT / CONFIG["outputs"]["artifact"]
+    model = _fit_fixed(graphs, extended_train(np.arange(len(frame)), np.array([], dtype=int)), targets, qualifiers, weight, epochs, SEED + 9999)
+    artifact = output_path("artifact")
     artifact.parent.mkdir(parents=True, exist_ok=True)
     versions = {name: version(name) for name in ("torch", "numpy", "pandas", "rdkit")}
     torch.save({"state_dict": model.state_dict(), "hidden": HIDDEN, "depth": DEPTH,
                 "dropout": DROPOUT, "aux_weight": weight, "epochs": epochs,
-                "training_structures": len(frame), "holdout_used": False,
+                "training_structures": len(set(frame.standard_smiles) | set(extra.standard_smiles)) if use_supplement else len(frame),
+                "development_structures": len(frame), "supplement_cc50_observations": len(extra), "training_observations": len(frame)+len(extra), "holdout_used": False,
                 "seed": SEED, "versions": versions}, artifact)
     overall = _metrics(oof)
     report = {"model": "shared D-MPNN, direct SI + masked/bounded log10 IC50 and CC50",
@@ -255,6 +279,12 @@ def run():
               "protocol": "3-fold scaffold OOF, nested inner scaffold split for loss weight and early stopping",
               "development_structures": len(frame), "original_kaggle_targets": len(reference),
               "holdout_used": False, "test_endpoints_used": False,
+              "supplement": {"enabled": use_supplement, "cc50_observations": len(extra), "ec50_relabelled_as_ic50": False},
+              "final_refit": {"development_structures": len(frame),
+                              "supplement_cc50_observations": len(extra),
+                              "unique_structures": len(set(frame.standard_smiles) | set(extra.standard_smiles)) if use_supplement else len(frame),
+                              "training_observations": len(frame) + len(extra),
+                              "holdout_used": False},
               "settings": {"hidden": HIDDEN, "depth": DEPTH, "dropout": DROPOUT,
                            "candidate_aux_weights": AUX_CANDIDATES, "selected_aux_weight": weight,
                            "selected_epochs": epochs, "batch_size": BATCH_SIZE},
@@ -264,11 +294,14 @@ def run():
               "elapsed_seconds": time.time() - started,
               "strata_counts": {"service_label": int(oof.target_is_label.astype(str).str.lower().eq("true").sum()),
                                 "measured": int(oof.target_is_label.astype(str).str.lower().ne("true").sum())}}
-    report_path = ROOT / CONFIG["outputs"]["report"]
+    report_path = output_path("report")
     report_path.write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
     print(json.dumps({"oof_metrics": overall, "artifact": str(artifact),
                       "report": str(report_path.relative_to(ROOT))}, indent=2), flush=True)
 
 
 if __name__ == "__main__":
-    run()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--new-dataset", action="store_true")
+    run(parser.parse_args().new_dataset)

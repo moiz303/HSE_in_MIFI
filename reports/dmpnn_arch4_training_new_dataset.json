@@ -1,0 +1,269 @@
+{
+  "model": "shared D-MPNN, direct SI + masked/bounded log10 IC50 and CC50",
+  "metric": "raw SI MSE on original Kaggle training targets",
+  "config": {
+    "name": "dmpnn-arch4-direct-si-multitask",
+    "seed": 20261106,
+    "split": {
+      "protocol": "scaffold",
+      "folds": 3,
+      "inner_folds": 5
+    },
+    "model": {
+      "hidden": 64,
+      "depth": 3,
+      "dropout": 0.1
+    },
+    "training": {
+      "aux_weight_candidates": [
+        0.1,
+        0.3
+      ],
+      "batch_size": 64,
+      "max_epochs": 60,
+      "early_stopping_patience": 8,
+      "learning_rate": 0.003,
+      "weight_decay": 0.0001,
+      "device": "cpu"
+    },
+    "data": {
+      "parts": [
+        "train",
+        "validation"
+      ],
+      "holdout_used": false,
+      "test_endpoints_used": false,
+      "si_target": "original kaggle_reference SI; duplicate structures weighted by original row count",
+      "concentration_targets": "positive IC50 and CC50; exact MSE plus one-sided censor-bound loss"
+    },
+    "outputs": {
+      "artifact": "artifacts/dmpnn_arch4.pt",
+      "oof_predictions": "reports/dmpnn_arch4_oof.csv",
+      "report": "reports/dmpnn_arch4_training.json"
+    }
+  },
+  "protocol": "3-fold scaffold OOF, nested inner scaffold split for loss weight and early stopping",
+  "development_structures": 1007,
+  "original_kaggle_targets": 267,
+  "holdout_used": false,
+  "test_endpoints_used": false,
+  "supplement": {
+    "enabled": true,
+    "cc50_observations": 42,
+    "ec50_relabelled_as_ic50": false
+  },
+  "settings": {
+    "hidden": 64,
+    "depth": 3,
+    "dropout": 0.1,
+    "candidate_aux_weights": [
+      0.1,
+      0.3
+    ],
+    "selected_aux_weight": 0.3,
+    "selected_epochs": 22,
+    "batch_size": 64
+  },
+  "versions": {
+    "python": "3.12.10",
+    "torch": "2.11.0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "rdkit": "2026.9.1"
+  },
+  "oof_metrics": {
+    "all": {
+      "n": 267,
+      "mse": 22797541.951551374,
+      "rmse": 4774.677156787815,
+      "mae": 3564.980266564978,
+      "bias": -127.51985803795034,
+      "rmse_log10": 2.142223061417758
+    },
+    "service_label": {
+      "n": 66,
+      "mse": 49838463.12814227,
+      "rmse": 7059.63618950313,
+      "mae": 6837.7981733842325,
+      "bias": -6837.7981733842325,
+      "rmse_log10": 0.6496885929071223
+    },
+    "measured": {
+      "n": 201,
+      "mse": 13918433.505506605,
+      "rmse": 3730.741683031218,
+      "mae": 2490.323640445223,
+      "bias": 2075.8551111802326,
+      "rmse_log10": 2.4407778075877333
+    }
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "train_structures": 671,
+      "oof_structures": 336,
+      "oof_targets": 107,
+      "supplement_training_observations": 36,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 14,
+          "inner_mse": 16556405.421810253
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 22,
+          "inner_mse": 16281707.579430763
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.3,
+        "best_epoch": 22,
+        "inner_mse": 16281707.579430763
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 107,
+          "mse": 30980985.567678414,
+          "rmse": 5566.056554480777,
+          "mae": 3824.1230191302307,
+          "bias": -1307.4528391586855,
+          "rmse_log10": 2.1363823570488907
+        },
+        "service_label": {
+          "n": 31,
+          "mse": 61057313.21030988,
+          "rmse": 7813.917916788599,
+          "mae": 7722.457560877646,
+          "bias": -7722.457560877646,
+          "rmse_log10": 0.750635043700195
+        },
+        "measured": {
+          "n": 76,
+          "mse": 18713009.818710316,
+          "rmse": 4325.853652021797,
+          "mae": 2234.0128771016803,
+          "bias": 1309.1938236477324,
+          "rmse_log10": 2.4891734586367145
+        }
+      },
+      "inner_supplement_training_observations": 36
+    },
+    {
+      "fold": 1,
+      "train_structures": 671,
+      "oof_structures": 336,
+      "oof_targets": 78,
+      "supplement_training_observations": 38,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 23,
+          "inner_mse": 12463102.85448044
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 27,
+          "inner_mse": 13012351.563040214
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.1,
+        "best_epoch": 23,
+        "inner_mse": 12463102.85448044
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 78,
+          "mse": 17864831.440916754,
+          "rmse": 4226.680901241157,
+          "mae": 3117.3516693183387,
+          "bias": 138.21790636714766,
+          "rmse_log10": 2.135774608901973
+        },
+        "service_label": {
+          "n": 16,
+          "mse": 51791288.96971771,
+          "rmse": 7196.616494556154,
+          "mae": 6914.92892074585,
+          "bias": -6914.92892074585,
+          "rmse_log10": 0.6891468467031565
+        },
+        "measured": {
+          "n": 62,
+          "mse": 9109616.594774572,
+          "rmse": 3018.2141399798943,
+          "mae": 2137.331733466078,
+          "bias": 1958.3848294930824,
+          "rmse_log10": 2.369840113094725
+        }
+      },
+      "inner_supplement_training_observations": 36
+    },
+    {
+      "fold": 2,
+      "train_structures": 672,
+      "oof_structures": 335,
+      "oof_targets": 82,
+      "supplement_training_observations": 30,
+      "inner_selection": [
+        {
+          "aux_weight": 0.1,
+          "best_epoch": 3,
+          "inner_mse": 18632034.441613987
+        },
+        {
+          "aux_weight": 0.3,
+          "best_epoch": 17,
+          "inner_mse": 17279754.194740422
+        }
+      ],
+      "selected": {
+        "aux_weight": 0.3,
+        "best_epoch": 17,
+        "inner_mse": 17279754.194740422
+      },
+      "oof_metrics": {
+        "all": {
+          "n": 82,
+          "mse": 16811236.499159995,
+          "rmse": 4100.150789807613,
+          "mae": 3652.623633159563,
+          "bias": 1159.3738414293794,
+          "rmse_log10": 2.155914984744025
+        },
+        "service_label": {
+          "n": 19,
+          "mse": 29889538.601173688,
+          "rmse": 5467.132575781722,
+          "mae": 5329.454332853618,
+          "bias": -5329.454332853618,
+          "rmse_log10": 0.38336952195052754
+        },
+        "measured": {
+          "n": 63,
+          "mse": 12866986.658870151,
+          "rmse": 3587.0582179371095,
+          "mae": 3146.9127872200856,
+          "bias": 3116.3220209750457,
+          "rmse_log10": 2.4505944239751605
+        }
+      },
+      "inner_supplement_training_observations": 26
+    }
+  ],
+  "artifact": "artifacts/dmpnn_arch4_new_dataset.pt",
+  "oof_predictions": "reports/dmpnn_arch4_oof_new_dataset.csv",
+  "elapsed_seconds": 14.689069986343384,
+  "strata_counts": {
+    "service_label": 66,
+    "measured": 201
+  },
+  "final_refit": {
+    "development_structures": 1007,
+    "supplement_cc50_observations": 42,
+    "unique_structures": 1019,
+    "training_observations": 1049,
+    "holdout_used": false
+  }
+}

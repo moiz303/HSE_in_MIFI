@@ -472,6 +472,17 @@ scaffold OOF на исходных Kaggle train-метках и затем от�
 ошибка на измеренных целях выше; эксперимент не меняет default. Метрики и
 ограничения записаны в [отчёте архитектуры 4](docs/dmpnn_arch4.md).
 
+Отдельный эксперимент с опубликованными supplementary CC50 запускается с флагом:
+
+```bash
+PYTHONPATH=/Users/f37/HSE_arch_env/lib/python3.12/site-packages:$PWD python3 -m src.dmpnn_workflow --new-dataset
+```
+
+Он сохраняет 138 исходных наблюдений, но в обучении использует только eligible
+CC50 observations. EC50 не преобразуется в IC50; fold и holdout scaffold-фильтры
+применяются до каждого fit. Выходные OOF, checkpoint и отчёт имеют суффикс
+`_new_dataset`.
+
 - `artifacts/xgb_two_head.joblib`: обе головы, конфигурация, версии библиотек, SHA256 входов и train-only константа.
 - `reports/xgb_metrics.json`: метрики концентраций и SI, число используемых строк.
 - `reports/xgb_validation.csv`: отдельные прогнозы концентраций и SI для разбора ошибок.
