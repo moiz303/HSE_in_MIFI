@@ -1,4 +1,5 @@
 import copy
+import runpy
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,11 +9,25 @@ import numpy as np
 import pandas as pd
 from src import hypotheses as suite
 from src.data.independent_endpoints import endpoint_rows
+from src.data import independent_endpoints as collector
 from tests.test_download import activity
 from src.models.xgb_weighted import XGBWeightedTwoHead
 
 
 class IndependentEndpoints(unittest.TestCase):
+    def test_collector_queries_whole_virus_targets_only(self):
+        targets = [{"target_chembl_id": "VIRUS", "target_type": "ORGANISM"},
+                   {"target_chembl_id": "PROTEIN", "target_type": "SINGLE PROTEIN"}]
+        with tempfile.TemporaryDirectory() as directory, patch.object(collector, "ROOT", Path(directory)), \
+                patch("requests_cache.CachedSession"), \
+                patch.object(collector.download, "fetch_targets", return_value=targets), \
+                patch.object(collector.download, "fetch_antiviral", return_value=[activity(activity_id=1)]) as fetch, \
+                patch.object(collector.download, "fetch_cytotoxicity", return_value=[]), \
+                patch.object(collector.download, "fetch_assay_cell_lines", return_value={}):
+            collector.collect()
+            self.assertEqual(fetch.call_args.args[0], ["VIRUS"])
+            self.assertTrue((Path(directory)/"data/experiments/independent_collection.json").exists())
+
     def test_user_submission_threshold_is_strict_and_smaller_is_better(self):
         from src.hypothesis_results import eligible
         self.assertTrue(eligible(89., 100.))
@@ -42,6 +57,11 @@ class IndependentEndpoints(unittest.TestCase):
 
 
 class Models(unittest.TestCase):
+    def test_module_cli_delegates_to_importable_training_module(self):
+        with patch.object(suite, "main") as main, patch("sys.argv", ["src.hypotheses"]):
+            runpy.run_module("src.hypotheses", run_name="__main__")
+        main.assert_called_once_with()
+
     def setUp(self):
         self.smiles = ["c1ccccc1", "C1CCCCC1", "c1ccncc1", "C1CCCC1", "c1ccsc1", "c1ccoc1"]
         self.frame = pd.DataFrame({"standard_smiles": self.smiles, "source": "kaggle_train",

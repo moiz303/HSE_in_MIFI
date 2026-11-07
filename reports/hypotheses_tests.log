@@ -85,12 +85,14 @@ test_three_fold_real_toy_run_uses_original_targets
 (tests.test_hybrid_cv.OriginalTargets.test_three_fold_real_toy_run_uses_original_targets) ... ok
 test_weight_requires_fold_consistency_and_practical_gain
 (tests.test_hybrid_cv.OriginalTargets.test_weight_requires_fold_consistency_and_practical_gain) ... ok
+test_collector_queries_whole_virus_targets_only
+(tests.test_hypotheses.IndependentEndpoints.test_collector_queries_whole_virus_targets_only) ... ok
 test_extra_sources_respect_both_structure_and_scaffold_exclusions
 (tests.test_hypotheses.IndependentEndpoints.test_extra_sources_respect_both_structure_and_scaffold_exclusions) ... ok
-test_submission_threshold_is_strict_and_requires_oof_safety
-(tests.test_hypotheses.IndependentEndpoints.test_submission_threshold_is_strict_and_requires_oof_safety) ... ok
 test_unpaired_endpoints_keep_provenance_without_made_up_partners
 (tests.test_hypotheses.IndependentEndpoints.test_unpaired_endpoints_keep_provenance_without_made_up_partners) ... ok
+test_user_submission_threshold_is_strict_and_smaller_is_better
+(tests.test_hypotheses.IndependentEndpoints.test_user_submission_threshold_is_strict_and_smaller_is_better) ... ok
 test_all_model_families_have_independent_masks_and_portable_native_heads
 (tests.test_hypotheses.Models.test_all_model_families_have_independent_masks_and_portable_native_heads) ... ok
 test_bounds_reject_ambiguous_aggregates_and_preserve_direction
@@ -99,6 +101,8 @@ test_direct_si_fit_excludes_validation_and_conditional_labels
 (tests.test_hypotheses.Models.test_direct_si_fit_excludes_validation_and_conditional_labels) ... ok
 test_feature_representations_differ_and_are_finite
 (tests.test_hypotheses.Models.test_feature_representations_differ_and_are_finite) ... ok
+test_module_cli_delegates_to_importable_training_module
+(tests.test_hypotheses.Models.test_module_cli_delegates_to_importable_training_module) ... ok
 test_native_baseline_matches_existing_sklearn_model
 (tests.test_hypotheses.Models.test_native_baseline_matches_existing_sklearn_model) ... ok
 test_selection_is_based_on_oof_and_flags_ordinary_value_damage
@@ -247,6 +251,6 @@ test_worst_pairing_is_used_and_competition_rows_keep_full_weight
 (tests.test_xgb_weighted.Weights.test_worst_pairing_is_used_and_competition_rows_keep_full_weight) ... ok
 
 ----------------------------------------------------------------------
-Ran 141 tests in 15.673s
+Ran 143 tests in 17.449s
 
 OK

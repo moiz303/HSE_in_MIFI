@@ -1,11 +1,13 @@
-../env/Scripts/python.exe : test_extra_sources_respect_both_structure_and_scaffold_exclusions
-(tests.test_hypotheses.IndependentEndpoints.test_extra_sources_respect_both_structure_and_scaffold_exclusions) ... ok
+../env/Scripts/python.exe : test_collector_queries_whole_virus_targets_only
+(tests.test_hypotheses.IndependentEndpoints.test_collector_queries_whole_virus_targets_only) ... ok
 строка:2 знак:22
 + ... ONUTF8='1'; ../env/Scripts/python.exe -m unittest tests.test_hypothes ...
 +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (test_extra_sour...lusions) ... ok:String) [], RemoteException
+    + CategoryInfo          : NotSpecified: (test_collector_...ts_only) ... ok:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
 
+test_extra_sources_respect_both_structure_and_scaffold_exclusions
+(tests.test_hypotheses.IndependentEndpoints.test_extra_sources_respect_both_structure_and_scaffold_exclusions) ... ok
 test_unpaired_endpoints_keep_provenance_without_made_up_partners
 (tests.test_hypotheses.IndependentEndpoints.test_unpaired_endpoints_keep_provenance_without_made_up_partners) ... ok
 test_user_submission_threshold_is_strict_and_smaller_is_better
@@ -26,6 +28,6 @@ test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs
 (tests.test_hypotheses.Models.test_strict_targets_prefer_original_endpoints_and_do_not_keep_bad_public_pairs) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 2.686s
+Ran 11 tests in 3.118s
 
 OK

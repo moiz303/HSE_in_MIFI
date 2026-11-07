@@ -375,7 +375,7 @@ def run_hypothesis(name, config):
         "extra_endpoints": len(extra), "data_sha256": hashes,
         "extra_sha256": hashlib.sha256((ROOT / "data/experiments/independent_training.csv").read_bytes()).hexdigest() if name == "independent" else None,
         "versions": {"xgboost": xgb.__version__, "rdkit": rdBase.rdkitVersion},
-        "artifact": str(artifact.relative_to(ROOT)), "submission": str(submission.relative_to(ROOT)),
+        "artifact": artifact.relative_to(ROOT).as_posix(), "submission": submission.relative_to(ROOT).as_posix(),
         "submission_sha256": hashlib.sha256(submission.read_bytes()).hexdigest(),
         "elapsed_seconds": time.monotonic()-started}
     (directory / "report.json").write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
@@ -395,4 +395,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Keep model pickle paths importable when this file is launched with -m.
+    from src.hypotheses import main as run_cli
+    run_cli()
