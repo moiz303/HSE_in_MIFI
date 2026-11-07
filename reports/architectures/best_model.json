@@ -1,14 +1,15 @@
 {
   "criterion": "Best verified public Kaggle score in the recorded experiment history",
-  "method": "chemeleon",
+  "method": "chemeleon_original_endpoints",
   "encoder": "Frozen author CheMeleon D-MPNN",
-  "head": "Shared MLP, independent masked log IC50 and log CC50 targets",
-  "artifact": "artifacts/architectures/chemeleon.joblib",
-  "submission": "reports/architectures/chemeleon/submission.csv",
-  "local_subset_mse": 1830471.4703635473,
+  "head": "Shared MLP, 160 epochs; independent exact original competition endpoint precedence with public fallback",
+  "artifact": "artifacts/finetune/original_warm.joblib",
+  "submission": "reports/finetune/submission_original_warm.csv",
+  "submission_sha256": "36359255f0b13d7f5a3a383d3ce00be3176770467579c6a606d05c0b4ed6e799",
+  "local_subset_mse": 1872806.6404087248,
   "local_coverage": "468/597",
-  "public_score": 1750683.92577,
-  "submission_ref": 58092002,
-  "inference": "../env_arch/Scripts/python.exe -m src.architecture_workflow --predict-artifact artifacts/architectures/chemeleon.joblib --out reports/chemeleon_prediction.csv",
-  "note": "Requires the isolated architecture environment and MD5-checked author weights; previous XGBoost environment and defaults preserved"
+  "public_score": 1717303.88366,
+  "submission_ref": 58094102,
+  "inference": "../env_arch/Scripts/python.exe -m src.chemeleon_finetune --predict-artifact artifacts/finetune/original_warm.joblib --out reports/chemeleon_original_prediction.csv",
+  "note": "Verified official public improvement 1.91%; OOF selection unchanged. Frozen encoder, no extra epochs or LoRA. Earlier model, submissions, training configurations and defaults preserved. Requires the isolated architecture environment and MD5-checked author weights."
 }

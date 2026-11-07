@@ -3,6 +3,23 @@
   "submissions": [
     {
       "competition": "molecular-activity-prediction-hack",
+      "ref": 58094102,
+      "date": "2026-11-07T13:57:05.047000",
+      "status": "SubmissionStatus.COMPLETE",
+      "method": "chemeleon_original_endpoints",
+      "selected": "original_warm",
+      "submission": "reports/finetune/submission_original_warm.csv",
+      "submission_sha256": "36359255f0b13d7f5a3a383d3ce00be3176770467579c6a606d05c0b4ed6e799",
+      "public_score": 1717303.88366,
+      "local_subset_mse": 1872806.6404087248,
+      "coverage": "468/597",
+      "authorization": "Explicit user request to submit the data aggregation correction only; one submission, no extra epochs or LoRA",
+      "previous_best_public_score": 1750683.92577,
+      "public_improvement_percent": 1.9066858168197642,
+      "submission_verified": "CLI upload response ref58094102 and separate read-only submissions API both confirm COMPLETE and publicScore; 6 submissions remaining today"
+    },
+    {
+      "competition": "molecular-activity-prediction-hack",
       "ref": 58092002,
       "date": "2026-11-07T12:40:24.067000",
       "status": "SubmissionStatus.COMPLETE",
