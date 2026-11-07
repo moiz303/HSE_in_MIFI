@@ -16,10 +16,12 @@ from src.features.fingerprints import featurize
 from src.models.xgb_two_head import XGBTwoHead, exact_target
 from src.models.catboost_two_head import CatBoostTwoHead
 from src.models.xgb_hybrid import XGBHybrid, select_hybrid
+from src.models.xgb_ensemble import XGBEnsemble
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
 MODEL_TYPES["xgb_hybrid"] = XGBHybrid
+MODEL_TYPES["xgb_ensemble"] = XGBEnsemble
 
 
 def is_final(config):
@@ -27,6 +29,8 @@ def is_final(config):
 
 
 def report_prefix(config):
+    if config["model"]["strategy"] == "xgb_ensemble":
+        return "xgb_ensemble"
     if is_final(config):
         return "xgb_final"
     if cv_protocol(config):
@@ -40,8 +44,8 @@ def validate_config(config):
     mode = config.get("training", {}).get("mode", "train_only")
     if mode not in ("train_only", "train_validation"):
         raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
-    if is_final(config) and (config["model"]["strategy"] != "xgb_two_head" or cv_protocol(config)):
-        raise ValueError("Final mode supports only the fixed concentration XGBoost baseline")
+    if is_final(config) and (config["model"]["strategy"] not in ("xgb_two_head", "xgb_ensemble") or cv_protocol(config)):
+        raise ValueError("Final mode supports fixed concentration XGBoost heads or their seed ensemble")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
     if config["features"] != {"morgan": True, "descriptors": True}:
@@ -169,6 +173,9 @@ def train(config):
             "source_rows": frame.source.value_counts().to_dict(),
             "n_train": model.n_train, "parameters": model.params,
             "independent_evaluation": False, "holdout_used": False}
+        if isinstance(model, XGBEnsemble):
+            bundle["training"]["ensemble"] = {"seeds": model.seeds, "members": len(model.members),
+                "aggregation": "arithmetic_mean_of_member_SI", "trees_per_head": model.params["n_estimators"]}
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
@@ -179,7 +186,7 @@ def train(config):
             head.save_model(str(path.with_name(f"{path.stem}_{name}.cbm")))
     print(f"[train] {model.n_train} -> {path}", flush=True)
     if is_final(config):
-        report_path = ROOT / "reports/xgb_final_training.json"
+        report_path = ROOT / f"reports/{report_prefix(config)}_training.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         report = {"config": config, "training": bundle["training"],
                   "data_sha256": bundle["data_sha256"], "versions": bundle["versions"]}
@@ -277,9 +284,20 @@ def submission(config):
     frame = pd.read_csv(ROOT / settings["test_csv"], usecols=[settings["smiles_column"], settings["id_column"]])
     if frame[settings["id_column"]].isna().any() or frame[settings["id_column"]].duplicated().any():
         raise ValueError("пустые или повторяющиеся идентификаторы теста")
-    predicted = bundle["model"].predict_si(features(frame, settings["smiles_column"]))
+    matrix = features(frame, settings["smiles_column"])
+    model = bundle["model"]
+    members = model.predict_members_si(matrix) if isinstance(model, XGBEnsemble) else None
+    predicted = members.mean(axis=1) if members is not None else model.predict_si(matrix)
     target = ROOT / settings["output"]
     target.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({settings["id_column"]: frame[settings["id_column"]],
                   settings["target_column"]: predicted}).to_csv(target, index=False)
+    if members is not None:
+        diagnostic = pd.DataFrame(members, columns=[f"SI_seed_{seed}" for seed in model.seeds])
+        diagnostic.insert(0, settings["id_column"], frame[settings["id_column"]].to_numpy())
+        diagnostic["SI_mean"] = predicted
+        diagnostic["SI_seed_std"] = members.std(axis=1)
+        diagnostic.to_csv(target.with_name(target.stem + "_members.csv"), index=False)
+        print(f"[ensemble] median SI={np.median(predicted):.6g}; "
+              f"median seed spread={np.median(members.std(axis=1)):.6g}", flush=True)
     print(f"[submission] {len(frame)} rows -> {target}", flush=True)

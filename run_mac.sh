@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Mac only: tests -> two concentration heads -> fixed validation -> optional submission.
-# ./run_mac.sh [configs/xgb_final.json]
+# ./run_mac.sh [configs/xgb_ensemble.json]
 set -euo pipefail
 STARTED=$SECONDS
 trap 'echo "[ERROR] run failed after $((SECONDS-STARTED))s; inspect the log above" >&2' ERR
 cd "$(dirname "${BASH_SOURCE[0]}")"
 [[ "$(uname -s)" == "Darwin" ]] || { echo "Training is allowed only on Mac" >&2; exit 1; }
 [[ $# -le 1 ]] || { echo "Usage: ./run_mac.sh [config.json]" >&2; exit 1; }
-CONFIG="${1:-configs/xgb_final.json}"
+CONFIG="${1:-configs/xgb_ensemble.json}"
 [[ -f "$CONFIG" ]] || { echo "Missing config: $CONFIG" >&2; exit 1; }
 echo "[1/6] Environment: $(uname -sm); config=$CONFIG"
 PY=""

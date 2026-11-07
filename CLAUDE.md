@@ -2,7 +2,9 @@
 
 Read README.md. Default is configs/baseline.json, using recovered concentration XGBoost heads. Kaggle CV-hybrid score 6944427.34748 was worse than previous 1975037.74735. Hybrid promotion is disabled unless model.promote_candidate=true explicitly. Never claim a validation gain implies a leaderboard gain. Research configs remain available; holdout stays excluded.
 
-User authorized final refit on train+validation. run_mac.sh and train_model.py default to configs/xgb_final.json, with fixed baseline parameters and separate artifacts. Do not report validation as independent after this refit. Pipeline inference defaults to the preserved verified baseline unless the final config is explicitly supplied. No Kaggle submission without separate user instruction.
+User authorized final refit on train+validation (option 1), available explicitly via configs/xgb_final.json with fixed baseline parameters and separate artifacts. Do not report validation as independent after this refit. Pipeline inference defaults to the preserved verified baseline unless another config is explicitly supplied. No Kaggle submission without separate user instruction.
+
+Current training default is option 2, configs/xgb_ensemble.json: five concentration pairs with seeds 20261106..20261110 on the SAME train+validation rows as option 1. Arithmetic mean of member SI predictions, no classifier. Preserve option 1 artifacts; do not claim ensemble improvement before evaluation. Holdout remains excluded.
 
 Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
 
