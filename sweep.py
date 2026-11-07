@@ -3,7 +3,7 @@
 
     python sweep.py                 # основная сетка, 3 разбиения
     python sweep.py --repeats 5     # надёжнее, дольше
-    python sweep.py --grid full     # ещё и CatBoost, и веса
+    python sweep.py --grid full     # ещё и XGBoost, и веса
     python sweep.py --top 5         # сколько лучших доучить и сохранить
 
 Что меряем. Ранжируем по MSE на строках из train.csv соревнования: наша
@@ -105,12 +105,12 @@ def candidates(grid: str) -> list[dict]:
         items.append({"transform": transform, "loss": "squared_error",
                       "clip_si": 20000.0})
 
-    # Лес с другими критериями и обрезкой, CatBoost, сильный вес.
+    # Лес с другими критериями и обрезкой, XGBoost, сильный вес.
     items.append({"transform": "raw", "loss": "absolute_error", "learner": "rf",
                   "clip_si": 20000.0})
     items.append({"transform": "raw", "loss": "poisson", "learner": "rf",
                   "clip_si": 20000.0})
-    items.append({"transform": "raw", "loss": "squared_error", "learner": "catboost",
+    items.append({"transform": "raw", "loss": "squared_error", "learner": "xgb",
                   "clip_si": 20000.0})
     items.append({"transform": "raw", "loss": "squared_error", "weight_power": 1.0,
                   "clip_si": 20000.0})

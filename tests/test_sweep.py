@@ -1,4 +1,4 @@
-"""Regression tests for the CatBoost branch's model race reporting."""
+"""Regression tests for model-race reporting."""
 
 import unittest
 from unittest.mock import patch
@@ -12,7 +12,7 @@ import sweep
 class RaceReporting(unittest.TestCase):
     def test_race_reports_std_of_per_repeat_mse(self):
         frame = pd.DataFrame({"SI": [1.0, 1.0, 1.0]})
-        grid = [{"learner": "hgb"}, {"learner": "catboost"}]
+        grid = [{"learner": "hgb"}, {"learner": "xgb"}]
         predictions = [
             np.ones(3),
             np.ones(3),
@@ -43,7 +43,7 @@ class RaceReporting(unittest.TestCase):
             by_learner["hgb"]["mse_в_распределении_std"], 0.5
         )
         self.assertAlmostEqual(
-            by_learner["catboost"]["mse_в_распределении_std"], 2.0
+            by_learner["xgb"]["mse_в_распределении_std"], 2.0
         )
 
 

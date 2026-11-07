@@ -57,10 +57,11 @@ python -m src.pipeline all         # всё, кроме выгрузки дан�
 python -m unittest discover -s tests -t . -v   # тесты и smoke-прогон
 ```
 
-Полная сетка `python sweep.py --grid full` включает CatBoost. Для конфигураций
-со старым `learner: "xgb"` сохранён совместимый псевдоним на CatBoost. У
-CatBoost нет точной Gamma-функции потерь: `loss: "gamma"` выполняется через
-Tweedie с `variance_power=1.999` — близкое приближение, не тождественная замена.
+Полная сетка `python sweep.py --grid full` включает XGBoost. `learner: "xgb"`
+использует XGBoost с `tree_method="hist"`; старое имя `learner: "catboost"`
+оставлено как совместимый псевдоним, но CatBoost больше не является зависимостью.
+XGBoost использует нативные objectives для squared error, absolute error,
+Poisson, Gamma и quantile.
 
 Для отдельной проверки метки `SI=10000` есть стратегия `sentinel_cal`:
 классификатор обучается только на строках `kaggle_train`, его вероятности
@@ -72,11 +73,12 @@ Tweedie с `variance_power=1.999` — близкое приближение, н�
 не по holdout.
 
 Чтобы отдельно проверить перенос, на обучающей машине запустите
-`python compare_catboost.py`. Скрипт обучит CatBoost и прежний
-HistGradientBoosting на `train.csv`, оценит их на одном фиксированном
+`python compare_xgboost.py` (старый вызов `python compare_catboost.py` сохранён
+как совместимый alias). Скрипт обучит XGBoost и прежний HistGradientBoosting на
+`train.csv`, оценит их на одном фиксированном
 `validation.csv`, выведет RMSE в log10 и MSE соревнования (включая подвыборку
 из распределения соревнования) и сохранит результаты в
-`reports/catboost_validation.json`. Это проверка на одном разбиении, а не
+`reports/xgboost_validation.json`. Это проверка на одном разбиении, а не
 доказательство превосходства модели; для устойчивого сравнения используйте
 `python sweep.py --grid full --repeats 3`.
 

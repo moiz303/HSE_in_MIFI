@@ -1,58 +1,14 @@
 {
-  "sentinel_raw": {
-    "rmse_log10_mean": 1.7532373757981088,
-    "rmse_log10_std": 0.16245902218814848,
-    "spearman_mean": 0.3385946214273642,
-    "spearman_std": 0.10718868333783595,
-    "competition_mse_mean": 71251453.87675694,
-    "competition_mse_in_distribution_mean": 28169402.73337937,
-    "competition_mse_in_distribution_std": 8116541.84707601,
-    "competition_mse_std": 83648534.80546194,
-    "n_splits": 5
+  "sentinel_cal": {
+    "rmse_log10_mean": 2.813913023960418,
+    "rmse_log10_std": 0.1061435096000153,
+    "spearman_mean": 0.1595842313213692,
+    "spearman_std": 0.11523460083306163,
+    "competition_mse_mean": 97407585.62774439,
+    "competition_mse_in_distribution_mean": 20677317.18004329,
+    "competition_mse_in_distribution_std": 5879982.274482077,
+    "competition_mse_std": 96017883.23530959,
+    "n_splits": 10
   },
-  "sentinel": {
-    "rmse_log10_mean": 1.3664180530441281,
-    "rmse_log10_std": 0.11328483275282121,
-    "spearman_mean": 0.4724279627785083,
-    "spearman_std": 0.044037025342961854,
-    "competition_mse_mean": 73541601.88174713,
-    "competition_mse_in_distribution_mean": 31832678.23646013,
-    "competition_mse_in_distribution_std": 8222212.087375728,
-    "competition_mse_std": 84486070.20563462,
-    "n_splits": 5
-  },
-  "raw": {
-    "rmse_log10_mean": 5.880539819779544,
-    "rmse_log10_std": 0.2857634517825873,
-    "spearman_mean": 0.2776043691282111,
-    "spearman_std": 0.13690122883504066,
-    "competition_mse_mean": 71113755.0342844,
-    "competition_mse_in_distribution_mean": 25357241.51727874,
-    "competition_mse_in_distribution_std": 7435525.482445208,
-    "competition_mse_std": 83722750.69694713,
-    "n_splits": 5
-  },
-  "direct": {
-    "rmse_log10_mean": 1.2543102217269193,
-    "rmse_log10_std": 0.20561954212736558,
-    "spearman_mean": 0.5641240903119277,
-    "spearman_std": 0.10340460612498668,
-    "competition_mse_mean": 73885156.75637491,
-    "competition_mse_in_distribution_mean": 33635655.06409361,
-    "competition_mse_in_distribution_std": 7672893.4754068,
-    "competition_mse_std": 84358774.92783095,
-    "n_splits": 5
-  },
-  "two_head": {
-    "rmse_log10_mean": 1.351773330604527,
-    "rmse_log10_std": 0.21457277392292212,
-    "spearman_mean": 0.4787891452642466,
-    "spearman_std": 0.10698644442854131,
-    "competition_mse_mean": 74480013.37744841,
-    "competition_mse_in_distribution_mean": 35216429.24830611,
-    "competition_mse_in_distribution_std": 7028738.147317127,
-    "competition_mse_std": 84817754.72682302,
-    "n_splits": 5
-  },
-  "best_strategy": "raw"
+  "best_strategy": "sentinel_cal"
 }

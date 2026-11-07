@@ -3,7 +3,7 @@
 import unittest
 
 import numpy as np
-from catboost import CatBoostRegressor
+from xgboost import XGBRegressor
 
 import sweep
 from src.models.flexible import FlexibleSI
@@ -150,7 +150,7 @@ class ScreenParams(unittest.TestCase):
 
     def test_sweep_screen_params_fit_every_learner(self):
         features, si = data(n=30)
-        for learner in ("hgb", "catboost", "rf", "extra"):
+        for learner in ("hgb", "xgb", "rf", "extra"):
             model = FlexibleSI(learner=learner, params=dict(sweep.SCREEN_PARAMS))
             model.fit(features, si)
             self.assertTrue(np.isfinite(model.predict_si(features)).all(), learner)
@@ -192,21 +192,21 @@ class Forests(unittest.TestCase):
         self.assertIn("extra", learners)
 
 
-class CatBoost(unittest.TestCase):
-    def test_catboost_trains_with_sample_weights_and_predicts(self):
+class XGBoost(unittest.TestCase):
+    def test_xgboost_trains_with_sample_weights_and_predicts(self):
         features, si = data(n=30)
         weights = np.linspace(0.5, 1.5, len(si))
         model = FlexibleSI(
-            learner="catboost",
-            params={"iterations": 20, "depth": 3},
+            learner="xgb",
+            params={"n_estimators": 20, "max_depth": 3, "n_jobs": 1},
             clip_si=20000.0,
         ).fit(features, si, sample_weight=weights)
         predicted = model.predict_si(features)
-        self.assertIsInstance(model.model, CatBoostRegressor)
+        self.assertIsInstance(model.model, XGBRegressor)
         self.assertTrue(np.isfinite(predicted).all())
         self.assertLessEqual(predicted.max(), 20000.0)
 
-    def test_catboost_model_round_trips_through_joblib(self):
+    def test_xgboost_model_round_trips_through_joblib(self):
         import tempfile
         from pathlib import Path
 
@@ -214,8 +214,8 @@ class CatBoost(unittest.TestCase):
 
         features, si = data(n=30)
         model = FlexibleSI(
-            learner="catboost",
-            params={"iterations": 10, "depth": 3},
+            learner="xgb",
+            params={"n_estimators": 10, "max_depth": 3, "n_jobs": 1},
         ).fit(features, si)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "model.joblib"
@@ -225,30 +225,69 @@ class CatBoost(unittest.TestCase):
             restored.predict_si(features), model.predict_si(features)
         )
 
-    def test_legacy_xgb_learner_name_uses_catboost(self):
+    def test_legacy_catboost_name_uses_xgboost(self):
+        model = FlexibleSI(learner="catboost")
+        self.assertEqual(model.learner, "xgb")
+
+    def test_xgb_learner_name_is_canonical(self):
         model = FlexibleSI(learner="xgb")
-        self.assertEqual(model.learner, "catboost")
+        self.assertEqual(model.learner, "xgb")
 
-    def test_catboost_quantile_objective_is_configured(self):
-        model = FlexibleSI(learner="catboost", loss="quantile", quantile=0.9)
-        self.assertEqual(model._build().get_params()["loss_function"], "Quantile:alpha=0.9")
+    def test_xgboost_quantile_objective_is_configured(self):
+        model = FlexibleSI(learner="xgb", loss="quantile", quantile=0.9)
+        params = model._build().get_params()
+        self.assertEqual(params["objective"], "reg:quantileerror")
+        self.assertEqual(params["quantile_alpha"], 0.9)
 
-    def test_catboost_gamma_uses_the_nearest_supported_objective(self):
+    def test_xgboost_supports_each_configured_loss(self):
+        features, si = data(n=30)
+        objectives = {
+            "squared_error": "reg:squarederror",
+            "absolute_error": "reg:absoluteerror",
+            "poisson": "count:poisson",
+            "gamma": "reg:gamma",
+            "quantile": "reg:quantileerror",
+        }
+        for loss, objective in objectives.items():
+            with self.subTest(loss=loss):
+                model = FlexibleSI(
+                    learner="xgb",
+                    loss=loss,
+                    params={"n_estimators": 10, "max_depth": 2, "n_jobs": 1},
+                ).fit(features, si)
+                self.assertEqual(model.model.get_params()["objective"], objective)
+                self.assertTrue(np.isfinite(model.predict_si(features)).all())
+
+    def test_xgboost_gamma_uses_native_objective(self):
         features, si = data(n=30)
         model = FlexibleSI(
-            learner="catboost",
+            learner="xgb",
             loss="gamma",
-            params={"iterations": 10, "depth": 3},
+            params={"n_estimators": 10, "max_depth": 3, "n_jobs": 1},
         ).fit(features, si)
         self.assertEqual(
-            model.model.get_params()["loss_function"],
-            "Tweedie:variance_power=1.999",
+            model.model.get_params()["objective"],
+            "reg:gamma",
         )
         self.assertTrue(np.isfinite(model.predict_si(features)).all())
 
-    def test_catboost_is_in_the_full_grid(self):
+    def test_xgboost_is_in_the_full_grid(self):
         learners = {item.get("learner") for item in sweep.candidates("full")}
-        self.assertIn("catboost", learners)
+        self.assertIn("xgb", learners)
+
+    def test_former_catboost_parameters_are_accepted_by_alias(self):
+        model = FlexibleSI(
+            learner="catboost",
+            params={
+                "iterations": 12,
+                "depth": 3,
+                "random_seed": 17,
+                "thread_count": 1,
+            },
+        )._build()
+        self.assertEqual(model.get_params()["n_estimators"], 12)
+        self.assertEqual(model.get_params()["max_depth"], 3)
+        self.assertEqual(model.get_params()["random_state"], 17)
 
 
 if __name__ == "__main__":

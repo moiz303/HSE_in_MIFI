@@ -14,7 +14,7 @@
   сверху.
 * **веса.** Вклад строки в метрику растёт как SI², поэтому имеет смысл дать
   большим SI больший вес и при обучении.
-* **обучатель.** HistGradientBoosting, CatBoost и случайный лес. Лес —
+* **обучатель.** HistGradientBoosting, XGBoost и случайный лес. Лес —
   классический сильный baseline в QSAR на фингерпринтах, и у него есть своя
   причина быть лучше именно здесь: он даёт лучше калиброванные вероятности, а
   смесь для класса «неактивно» взвешена по вероятности и оптимальна только при
@@ -45,14 +45,13 @@ POSITIVE_ONLY_LOSSES = ("poisson", "gamma")
 
 TRANSFORMS = ("raw", "log", "sqrt")
 LOSSES = ("squared_error", "absolute_error", "poisson", "gamma", "quantile")
-LEARNERS = ("hgb", "catboost", "rf", "extra")
-CATBOOST_LOSSES = {
-    "squared_error": "RMSE",
-    "absolute_error": "MAE",
-    "poisson": "Poisson",
-    # Точной Gamma-потери в CatBoost нет; Tweedie при p≈2 её приближает.
-    "gamma": "Tweedie:variance_power=1.999",
-    "quantile": "Quantile",
+LEARNERS = ("hgb", "xgb", "rf", "extra")
+XGBOOST_OBJECTIVES = {
+    "squared_error": "reg:squarederror",
+    "absolute_error": "reg:absoluteerror",
+    "poisson": "count:poisson",
+    "gamma": "reg:gamma",
+    "quantile": "reg:quantileerror",
 }
 
 # Лес предсказывает среднее по листу, поэтому квантиль и гамма ему не выразить:
@@ -103,9 +102,9 @@ class FlexibleSI:
             raise ValueError(f"масштаб {transform!r}; доступны {TRANSFORMS}")
         if loss not in LOSSES:
             raise ValueError(f"потери {loss!r}; доступны {LOSSES}")
-        # Старые конфиги сохраняют работоспособность без зависимости XGBoost.
-        if learner == "xgb":
-            learner = "catboost"
+        # Accept both the former CatBoost name and existing XGBoost configs.
+        if learner == "catboost":
+            learner = "xgb"
         if learner not in LEARNERS:
             raise ValueError(f"обучатель {learner!r}; доступны {LEARNERS}")
         if loss in POSITIVE_ONLY_LOSSES and transform != "raw":
@@ -132,37 +131,37 @@ class FlexibleSI:
         merged = dict(DEFAULT_PARAMS)
         merged.update(self.params)
 
-        if self.learner == "catboost":
-            from catboost import CatBoostRegressor
+        if self.learner == "xgb":
+            from xgboost import XGBRegressor
 
             native = dict(self.params)
-            for key in (
-                "max_iter",
+            n_estimators = native.pop(
                 "n_estimators",
-                "learning_rate",
-                "l2_regularization",
-                "min_samples_leaf",
-                "random_state",
-            ):
-                native.pop(key, None)
+                native.pop("iterations", native.pop("max_iter", merged["max_iter"])),
+            )
+            max_depth = native.pop("max_depth", native.pop("depth", 6))
+            min_samples_leaf = native.pop("min_samples_leaf", merged["min_samples_leaf"])
             kwargs = {
-                "iterations": native.pop("iterations", merged["max_iter"]),
-                "learning_rate": merged["learning_rate"],
-                "l2_leaf_reg": native.pop("l2_leaf_reg", merged["l2_regularization"]),
-                "random_seed": native.pop("random_seed", merged["random_state"]),
-                "loss_function": CATBOOST_LOSSES[self.loss],
-                "verbose": False,
-                "allow_writing_files": False,
-                "thread_count": native.pop("thread_count", -1),
+                "n_estimators": n_estimators,
+                "max_depth": max_depth,
+                "learning_rate": native.pop("learning_rate", merged["learning_rate"]),
+                "min_child_weight": native.pop("min_child_weight", min_samples_leaf),
+                "reg_lambda": native.pop(
+                    "reg_lambda",
+                    native.pop("l2_leaf_reg", native.pop("l2_regularization", merged["l2_regularization"])),
+                ),
+                "random_state": native.pop(
+                    "random_state", native.pop("random_seed", merged["random_state"])
+                ),
+                "objective": XGBOOST_OBJECTIVES[self.loss],
+                "tree_method": native.pop("tree_method", "hist"),
+                "n_jobs": native.pop("n_jobs", native.pop("thread_count", -1)),
+                "verbosity": native.pop("verbosity", 0),
             }
-            grow_policy = native.pop("grow_policy", "Depthwise")
-            kwargs.update(native)
-            kwargs["grow_policy"] = grow_policy
-            if grow_policy != "SymmetricTree":
-                kwargs.setdefault("min_data_in_leaf", merged["min_samples_leaf"])
             if self.loss == "quantile":
-                kwargs["loss_function"] = f"Quantile:alpha={self.quantile}"
-            return CatBoostRegressor(**kwargs)
+                kwargs["quantile_alpha"] = self.quantile
+            kwargs.update(native)
+            return XGBRegressor(**kwargs)
 
         if self.learner in ("rf", "extra"):
             from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
