@@ -1,0 +1,350 @@
+{
+  "architecture": "Tanimoto KRR alpha=1 with exact external CC50 augmentation",
+  "folds": 3,
+  "repeats": 3,
+  "original_rows_per_protocol": 267,
+  "holdout_used": false,
+  "test_data_used": false,
+  "supplement": {
+    "source": "literature_vacv_2023",
+    "global_safe_observations": 126,
+    "global_safe_endpoint_counts": {
+      "EC50": 84,
+      "CC50": 42
+    },
+    "exact_cc50_rows_used": 17,
+    "exact_cc50_structures_used": 11,
+    "ec50_used_as_ic50": false,
+    "synthetic_pairs_used": false
+  },
+  "mse_before_after": {
+    "molecule": {
+      "n": 801,
+      "mse_before": 29740969.160853468,
+      "mse_after": 29742264.299563136,
+      "delta_mse": 1295.13870966807,
+      "relative_change_pct": 0.0043547293387291575,
+      "after": {
+        "n": 801,
+        "mse": 29742264.299563136,
+        "rmse": 5453.6468807178135,
+        "mae": 2710.8943646644043,
+        "bias": -2695.6360840461125,
+        "rmse_log10": 1.6819029985453642
+      }
+    },
+    "scaffold": {
+      "n": 801,
+      "mse_before": 29746809.156798184,
+      "mse_after": 29748836.023283713,
+      "delta_mse": 2026.866485528648,
+      "relative_change_pct": 0.006813727397947389,
+      "after": {
+        "n": 801,
+        "mse": 29748836.023283713,
+        "rmse": 5454.249354703516,
+        "mae": 2712.8287412708946,
+        "bias": -2697.9613059311932,
+        "rmse_log10": 1.7434612479270732
+      }
+    }
+  },
+  "fold_training_metadata": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 102,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 302,
+        "IC50_skipped": 385,
+        "CC50": 466,
+        "CC50_skipped": 221
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 108,
+      "supplement_exact_cc50_rows_added": 15,
+      "supplement_exact_cc50_structures_added": 9,
+      "train_rows_after_supplement": 686,
+      "head_training_counts": {
+        "IC50": 325,
+        "IC50_skipped": 361,
+        "CC50": 483,
+        "CC50_skipped": 203
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 120,
+      "supplement_exact_cc50_rows_added": 15,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 303,
+        "IC50_skipped": 384,
+        "CC50": 461,
+        "CC50_skipped": 226
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 96,
+      "supplement_exact_cc50_rows_added": 14,
+      "supplement_exact_cc50_structures_added": 9,
+      "train_rows_after_supplement": 685,
+      "head_training_counts": {
+        "IC50": 294,
+        "IC50_skipped": 391,
+        "CC50": 472,
+        "CC50_skipped": 213
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 120,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 315,
+        "IC50_skipped": 372,
+        "CC50": 474,
+        "CC50_skipped": 213
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 114,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 688,
+      "head_training_counts": {
+        "IC50": 321,
+        "IC50_skipped": 367,
+        "CC50": 464,
+        "CC50_skipped": 224
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 114,
+      "supplement_exact_cc50_rows_added": 17,
+      "supplement_exact_cc50_structures_added": 11,
+      "train_rows_after_supplement": 688,
+      "head_training_counts": {
+        "IC50": 322,
+        "IC50_skipped": 366,
+        "CC50": 470,
+        "CC50_skipped": 218
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 108,
+      "supplement_exact_cc50_rows_added": 13,
+      "supplement_exact_cc50_structures_added": 8,
+      "train_rows_after_supplement": 684,
+      "head_training_counts": {
+        "IC50": 311,
+        "IC50_skipped": 373,
+        "CC50": 475,
+        "CC50_skipped": 209
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 108,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 688,
+      "head_training_counts": {
+        "IC50": 297,
+        "IC50_skipped": 391,
+        "CC50": 465,
+        "CC50_skipped": 223
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 108,
+      "supplement_exact_cc50_rows_added": 17,
+      "supplement_exact_cc50_structures_added": 11,
+      "train_rows_after_supplement": 688,
+      "head_training_counts": {
+        "IC50": 336,
+        "IC50_skipped": 352,
+        "CC50": 473,
+        "CC50_skipped": 215
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 114,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 312,
+        "IC50_skipped": 375,
+        "CC50": 479,
+        "CC50_skipped": 208
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 90,
+      "supplement_exact_cc50_rows_added": 13,
+      "supplement_exact_cc50_structures_added": 8,
+      "train_rows_after_supplement": 685,
+      "head_training_counts": {
+        "IC50": 282,
+        "IC50_skipped": 403,
+        "CC50": 458,
+        "CC50_skipped": 227
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 84,
+      "supplement_exact_cc50_rows_added": 13,
+      "supplement_exact_cc50_structures_added": 8,
+      "train_rows_after_supplement": 684,
+      "head_training_counts": {
+        "IC50": 340,
+        "IC50_skipped": 344,
+        "CC50": 487,
+        "CC50_skipped": 197
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 120,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 303,
+        "IC50_skipped": 384,
+        "CC50": 481,
+        "CC50_skipped": 206
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 108,
+      "supplement_exact_cc50_rows_added": 17,
+      "supplement_exact_cc50_structures_added": 11,
+      "train_rows_after_supplement": 689,
+      "head_training_counts": {
+        "IC50": 287,
+        "IC50_skipped": 402,
+        "CC50": 442,
+        "CC50_skipped": 247
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": 0,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 126,
+      "supplement_exact_cc50_rows_added": 17,
+      "supplement_exact_cc50_structures_added": 11,
+      "train_rows_after_supplement": 688,
+      "head_training_counts": {
+        "IC50": 311,
+        "IC50_skipped": 377,
+        "CC50": 495,
+        "CC50_skipped": 193
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": 1,
+      "original_train_rows": 671,
+      "supplement_eligible_observations": 102,
+      "supplement_exact_cc50_rows_added": 16,
+      "supplement_exact_cc50_structures_added": 10,
+      "train_rows_after_supplement": 687,
+      "head_training_counts": {
+        "IC50": 330,
+        "IC50_skipped": 357,
+        "CC50": 462,
+        "CC50_skipped": 225
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": 2,
+      "original_train_rows": 672,
+      "supplement_eligible_observations": 84,
+      "supplement_exact_cc50_rows_added": 13,
+      "supplement_exact_cc50_structures_added": 8,
+      "train_rows_after_supplement": 685,
+      "head_training_counts": {
+        "IC50": 289,
+        "IC50_skipped": 396,
+        "CC50": 453,
+        "CC50_skipped": 232
+      }
+    }
+  ],
+  "final_artifact": "artifacts/tanimoto_krr_final_new_dataset.joblib",
+  "final_artifact_reload_checked": true,
+  "final_head_training_counts": {
+    "IC50": 465,
+    "IC50_skipped": 559,
+    "CC50": 699,
+    "CC50_skipped": 325
+  }
+}
