@@ -63,7 +63,8 @@ quota after reset and upload only selected, reproducible hypotheses.
 One selected biological candidate is queued for2026-11-08 00:00:05UTC:
 reports/current/queued_submission_plan.json. Its separate process has one upload
 call, bounded network/score waits, a one-shot lock, and live quota/hash/dedup checks.
-If user pauses/cancels the goal before upload, create logs/cancel_queued_bio_20261108
+If user pauses/cancels the goal before upload, create the cancel_file named in
+reports/current/queued_submission_plan.json
 and stop the confirmed live queue process. Do not relaunch merely because a state
 file is stale: inspect the tool session/process and remote submission history.
 Queue state/log/lock live under logs/; API refs/scores are appended to the tracked

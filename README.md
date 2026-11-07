@@ -94,7 +94,7 @@ fingerprint и не коммитятся; Kaggle не отправляется �
 `src.current.kaggle_queue` ждёт03:00:05МСК, заново проверяет квоту, SHA файлов,
 подтверждение инференса и дубликаты, делает максимум одну отправку и сохраняет
 ref/Score в реестре. Не запускайте повторно уже поставленную очередь.
-Отмена до отправки: создать `logs/cancel_queued_bio_20261108`.
+Отмена до отправки: создать файл из поля `cancel_file` в плане очереди.
 
 ```powershell
 ../env_arch/Scripts/python.exe -m src.current.tail_controls --predict-artifact artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib --quantile 0.99 --out reports/current_tail/prediction.csv

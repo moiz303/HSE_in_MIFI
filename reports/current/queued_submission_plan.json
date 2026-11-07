@@ -12,9 +12,12 @@
   "artifact_sha256": "5b4c08d3c4bf37086f17f203dc35efbee6a12528bc6f43936d2b836d1f30ce47",
   "verification": "reports/current_bio_transfer/inference_verification.json",
   "verification_sha256": "71531a7824c541023213178d29fb1fe66f8fc32fb4363ff13e8f130ccf80614c",
-  "state_file": "logs/queued_bio_20261108_state.json",
-  "lock_file": "logs/queued_bio_20261108.lock",
-  "cancel_file": "logs/cancel_queued_bio_20261108",
+  "state_file": "logs/queued_bio_20261108_resume1_state.json",
+  "lock_file": "logs/queued_bio_20261108_resume1.lock",
+  "cancel_file": "logs/cancel_queued_bio_20261108_resume1",
   "authorization": "Standing user goal: only selected best hypotheses; user explicitly expects quota reset at03MSK; no additional questions while sleeping",
-  "message": "Selected before reset: public-only IC50 EC50 CC50 pretraining, frozen bio features + Kaggle-SI-only CatBoost; OOF5014266.300; zero3770/bulk42318 vsCheM4623/46311; no official endpoints; sha256 3245971fa75a156cdbd2f360bbbb40790b5295dd1f10563f26b446b7657454f8"
+  "message": "Selected before reset: public-only IC50 EC50 CC50 pretraining, frozen bio features + Kaggle-SI-only CatBoost; OOF5014266.300; zero3770/bulk42318 vsCheM4623/46311; no official endpoints; sha256 3245971fa75a156cdbd2f360bbbb40790b5295dd1f10563f26b446b7657454f8",
+  "queue_generation": 2,
+  "previous_queue_terminal_status": "cancelled_before_upload",
+  "resumed_user_goal_utc": "2026-11-07T22:55:48.176899+00:00"
 }
