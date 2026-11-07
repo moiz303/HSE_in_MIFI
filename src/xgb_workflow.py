@@ -22,7 +22,13 @@ MODEL_TYPES = {"xgb_two_head": XGBTwoHead, "catboost_two_head": CatBoostTwoHead}
 MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 
 
+def is_final(config):
+    return config.get("training", {}).get("mode", "train_only") == "train_validation"
+
+
 def report_prefix(config):
+    if is_final(config):
+        return "xgb_final"
     if cv_protocol(config):
         return "xgb_cv"
     if config["model"]["strategy"] == "xgb_hybrid":
@@ -31,6 +37,11 @@ def report_prefix(config):
 
 
 def validate_config(config):
+    mode = config.get("training", {}).get("mode", "train_only")
+    if mode not in ("train_only", "train_validation"):
+        raise ValueError("training.mode must be train_only or train_validation; holdout fitting is forbidden")
+    if is_final(config) and (config["model"]["strategy"] != "xgb_two_head" or cv_protocol(config)):
+        raise ValueError("Final mode supports only the fixed concentration XGBoost baseline")
     if config["model"]["strategy"] not in MODEL_TYPES:
         raise ValueError(f"неизвестная стратегия; доступны {tuple(MODEL_TYPES)}")
     if config["features"] != {"morgan": True, "descriptors": True}:
@@ -111,10 +122,13 @@ def original_mse(frame, prediction, reference):
 def train(config):
     validate_config(config)
     parts, reference = reference_parts(load_parts(), config)
-    frame = parts["train"]
+    training_parts = ["train", "validation"] if is_final(config) else ["train"]
+    frame = pd.concat([parts[name] for name in training_parts], ignore_index=True)
     settings = config["model"]
     model = MODEL_TYPES[settings["strategy"]](settings.get("params"), settings.get("clip_si"))
-    print(f"[train] {settings['strategy']}: train={len(frame)}, validation={len(parts['validation'])}", flush=True)
+    print(f"[train] {settings['strategy']}: fitting={'+'.join(training_parts)}; rows={len(frame)}", flush=True)
+    if is_final(config):
+        print("[FINAL] Validation is included in training. No independent validation metrics will be reported. Holdout excluded.", flush=True)
     matrix = features(frame)
     print(f"[train] features={matrix.shape}; holdout unused", flush=True)
     cv_result = None
@@ -150,6 +164,11 @@ def train(config):
               "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
     if cv_result is not None:
         bundle["train_cv"] = cv_result
+    if is_final(config):
+        bundle["training"] = {"parts": training_parts, "rows": len(frame),
+            "source_rows": frame.source.value_counts().to_dict(),
+            "n_train": model.n_train, "parameters": model.params,
+            "independent_evaluation": False, "holdout_used": False}
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
@@ -159,6 +178,13 @@ def train(config):
         for name, head in model.heads.items():
             head.save_model(str(path.with_name(f"{path.stem}_{name}.cbm")))
     print(f"[train] {model.n_train} -> {path}", flush=True)
+    if is_final(config):
+        report_path = ROOT / "reports/xgb_final_training.json"
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report = {"config": config, "training": bundle["training"],
+                  "data_sha256": bundle["data_sha256"], "versions": bundle["versions"]}
+        report_path.write_text(json.dumps(report, indent=2, allow_nan=False), encoding="utf-8")
+        print(f"[FINAL] Training report -> {report_path}", flush=True)
 
 
 def load_bundle(config):
@@ -171,6 +197,8 @@ def load_bundle(config):
 
 
 def evaluate(config):
+    if is_final(config):
+        raise ValueError("Final model trained on train+validation: independent validation evaluation is unavailable; holdout remains reserved")
     bundle = load_bundle(config)
     if bundle["data_sha256"] != data_hashes():
         raise ValueError("данные изменились после обучения")

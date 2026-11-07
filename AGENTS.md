@@ -5,7 +5,7 @@
 This Python project predicts vaccinia virus (VACV) selectivity index, `SI = CC50 / IC50`, from SMILES. Read `CLAUDE.md` before changing pipeline behavior.
 
 - `src/data/`: collection, schema validation, unit conversion, and structure standardization.
-- `src/features/`, `src/models/`: molecular features, XGBoost concentration heads and label-classifier experiment (default); CatBoost remains available explicitly.
+- `src/features/`, `src/models/`: molecular features and XGBoost concentration heads; hybrid and CatBoost remain explicit experiments.
 - `src/xgb_workflow.py`: fixed-split verification, training, evaluation, and SMILES-only submission. `docs/previous_experiments.md` records lessons from removed experiments.
 - `src/pipeline.py`: CLI; `configs/`: JSON run configurations.
 - `tests/`: unit and smoke tests. `data/`: raw, interim, and processed datasets plus source documentation. `reports/` and `artifacts/`: metrics, submissions, and models.
@@ -31,6 +31,8 @@ Use four-space indentation, `snake_case` functions/modules, `PascalCase` classes
 Use standard-library `unittest`, with `tests/test_*.py` modules and `test_*` methods. CI uses Python 3.12; no numeric coverage threshold is configured. Cover changed behavior, especially censoring, units, standardization, and leakage prevention.
 
 Preserve seeded Murcko-scaffold splits; fit transformations on train only. Reserve holdout for the final release evaluation. Fit ensembles on out-of-fold predictions. Never overwrite raw data; retain rejection reasons and source provenance. Cache external API requests.
+
+Authorized final refit (`configs/xgb_final.json`) trains fixed baseline parameters on train+validation, excludes holdout, and skips independent validation scoring. Save it separately from the verified baseline.
 
 ## Commit & Pull Request Guidelines
 

@@ -184,6 +184,8 @@ def main(argv: list[str] | None = None) -> int:
 
     config = load_config(args.config)
     order = ["train", "evaluate", "submission"] if args.step == "all" else [args.step]
+    if args.step == "all" and xgb_workflow.is_final(config):
+        order = ["train", "submission"]
     for name in order:
         STEPS[name](config)
     return 0

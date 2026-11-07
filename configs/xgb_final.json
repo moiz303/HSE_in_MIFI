@@ -1,0 +1,14 @@
+{
+  "name": "xgb-two-head-final-train-validation",
+  "seed": 20261106,
+  "training": {"mode": "train_validation"},
+  "data": {"sources": ["kaggle_train", "chembl"], "censored": "keep",
+    "chembl": {"limit": null, "drop_invalid": true}, "kaggle_train": {"sentinels": "keep"}},
+  "splits": {"seed": 20261106, "fractions": {"train": 0.7, "validation": 0.15, "holdout": 0.15}},
+  "features": {"morgan": true, "descriptors": true},
+  "model": {"strategy": "xgb_two_head", "params": {}, "clip_si": null},
+  "submission": {"competition": "molecular-activity-prediction-hack",
+    "test_csv": "data/raw/kaggle/test.csv", "smiles_column": "SMILES", "id_column": "index",
+    "target_column": "SI VACV", "output": "reports/submission_xgb_final.csv",
+    "model_file": "artifacts/xgb_final.joblib"}
+}
