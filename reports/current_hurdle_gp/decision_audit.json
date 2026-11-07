@@ -1,0 +1,274 @@
+{
+  "candidate": "1.0_kaggle_only_latent_mean",
+  "reference": "chemeleon_domain_log1p__public_plus_kaggle",
+  "positive_gain_means_hurdle_better": true,
+  "bootstrap": "10000 paired structure-cluster resamples, retains repeats/protocols per cluster; exploratory reused OOF",
+  "subsets": {
+    "bulk": {
+      "rows": 1164,
+      "structure_clusters": 188,
+      "mean_mse_gain": 10734.405370956661,
+      "ci95": [
+        -1846.0466067063119,
+        26813.201694007894
+      ],
+      "protocol_repeat_gains": {
+        "('molecule', 0)": 9624.252129635805,
+        "('molecule', 1)": 10394.52833780384,
+        "('molecule', 2)": -2066.6122073829188,
+        "('scaffold', 0)": 11065.64962175239,
+        "('scaffold', 1)": 793.1033898971101,
+        "('scaffold', 2)": 34595.51095403374
+      },
+      "wins": 5,
+      "comparisons": 6,
+      "positive_structures": 54,
+      "negative_structures": 134,
+      "largest_structure_gains": [
+        {
+          "standard_smiles": "CC1(C)[C@@H]2CC[C@@]1(C)/C(=N/NC(=O)c1ccc([N+](=O)[O-])cc1)C2",
+          "gain": 6784763.260106886,
+          "count": 6,
+          "mean_gain": 1130793.876684481
+        },
+        {
+          "standard_smiles": "CC1(C)[C@H]2CC[C@](C)(C2)[C@@H]1NC(=O)c1ccc([N+](=O)[O-])cc1",
+          "gain": 4158140.7041053115,
+          "count": 6,
+          "mean_gain": 693023.4506842186
+        },
+        {
+          "standard_smiles": "O=C(NN1C(=O)[C@@H]2[C@@H]3C=C[C@@H]([C@H]4C[C@@H]34)[C@@H]2C1=O)c1cc(Br)cc(Br)c1O",
+          "gain": 1371000.8585266126,
+          "count": 6,
+          "mean_gain": 228500.14308776878
+        },
+        {
+          "standard_smiles": "CC1(C)[C@@H]2CC[C@@]1(C)[C@@H](NC(=O)C1CCCCC1)C2",
+          "gain": 1167594.3425501473,
+          "count": 6,
+          "mean_gain": 194599.0570916912
+        },
+        {
+          "standard_smiles": "O=C(NC12C[C@H]3C[C@@H](C1)C[C@@H](C2)C3)c1ccc(F)cc1",
+          "gain": 983116.3191388051,
+          "count": 6,
+          "mean_gain": 163852.71985646753
+        }
+      ],
+      "largest_structure_losses": [
+        {
+          "standard_smiles": "COc1ccc(C(=O)N[C@@H]2C[C@H]3CC[C@]2(C)C3(C)C)cc1",
+          "gain": -302016.1208361113,
+          "count": 6,
+          "mean_gain": -50336.02013935189
+        },
+        {
+          "standard_smiles": "CC[C@@]12C[C@H]3C[C@@H](C1)C[C@](NC(=O)c1ccc(C(F)(F)F)cc1)(C3)C2",
+          "gain": -339613.9198347604,
+          "count": 6,
+          "mean_gain": -56602.31997246007
+        },
+        {
+          "standard_smiles": "O=c1[nH]c(=O)n([C@@H]2O[C@H](CO)[C@@H](O)[C@@H]2F)cc1I",
+          "gain": -522993.723246006,
+          "count": 6,
+          "mean_gain": -87165.620541001
+        },
+        {
+          "standard_smiles": "COc1ccc(C(=O)NN2C(=O)[C@@H]3[C@@H]4C=C[C@@H]([C@H]5C[C@@H]45)[C@@H]3C2=O)cc1",
+          "gain": -1033028.1971891811,
+          "count": 12,
+          "mean_gain": -86085.68309909843
+        },
+        {
+          "standard_smiles": "O=c1[nH]c(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1I",
+          "gain": -2128616.3158633625,
+          "count": 12,
+          "mean_gain": -177384.69298861353
+        }
+      ],
+      "gain_excluding_best_structure": 4930.988421145655
+    },
+    "zero": {
+      "rows": 396,
+      "structure_clusters": 66,
+      "mean_mse_gain": -170.99926317000444,
+      "ci95": [
+        -5951.499293175667,
+        8197.551145865295
+      ],
+      "protocol_repeat_gains": {
+        "('molecule', 0)": -2516.4459887446214,
+        "('molecule', 1)": -1409.265728338203,
+        "('molecule', 2)": -3056.598326416835,
+        "('scaffold', 0)": -2895.9799850147656,
+        "('scaffold', 1)": 10840.640213808694,
+        "('scaffold', 2)": -1988.3457643142985
+      },
+      "wins": 1,
+      "comparisons": 6,
+      "positive_structures": 4,
+      "negative_structures": 62,
+      "largest_structure_gains": [
+        {
+          "standard_smiles": "CC1(C)[C@H]2CC[C@]1(C)[C@H](OC(=O)c1ccc(Cl)cc1)C2",
+          "gain": 1325116.275534382,
+          "count": 6,
+          "mean_gain": 220852.71258906368
+        },
+        {
+          "standard_smiles": "Cc1ccc(C(=O)O[C@@H]2C[C@@H]3CC[C@@]2(C)C3(C)C)cc1",
+          "gain": 181437.89998689014,
+          "count": 6,
+          "mean_gain": 30239.649997815024
+        },
+        {
+          "standard_smiles": "CC1(C)[C@H]2CC[C@]1(C)[C@H](OC(=O)c1ccc(F)cc1)C2",
+          "gain": 11100.897841055412,
+          "count": 6,
+          "mean_gain": 1850.149640175902
+        },
+        {
+          "standard_smiles": "CC1(C)[C@H]2CC[C@]1(C)[C@H](OC(=O)c1ccc(Br)cc1)C2",
+          "gain": 2358.363630343779,
+          "count": 6,
+          "mean_gain": 393.06060505729647
+        },
+        {
+          "standard_smiles": "CC(C(=O)NNC(=O)NOCc1ccccc1)c1cccc(Cc2ccccc2)c1",
+          "gain": -51.76165654381707,
+          "count": 6,
+          "mean_gain": -8.626942757302844
+        }
+      ],
+      "largest_structure_losses": [
+        {
+          "standard_smiles": "Cn1c(=O)n(O)c(=O)c2cc(-c3cn(Cc4cc(F)ccc4F)nn3)ccc21",
+          "gain": -50964.07054991549,
+          "count": 6,
+          "mean_gain": -8494.011758319248
+        },
+        {
+          "standard_smiles": "Cn1c2c([n+]([O-])c1-c1ccccc1O)C(=O)CC(C)(C)C2",
+          "gain": -63514.327770018186,
+          "count": 6,
+          "mean_gain": -10585.721295003032
+        },
+        {
+          "standard_smiles": "Cc1cccc(C)c1NC(=O)NN1C(=O)[C@@H]2[C@H]3C=C[C@H]([C@@H]4C[C@H]34)[C@@H]2C1=O",
+          "gain": -196188.0607497371,
+          "count": 6,
+          "mean_gain": -32698.010124956185
+        },
+        {
+          "standard_smiles": "CC1(C)[C@@H]2CC[C@@]1(C)[C@H](NC(=O)CN1CCOCC1)C2",
+          "gain": -265138.3909664787,
+          "count": 6,
+          "mean_gain": -44189.731827746444
+        },
+        {
+          "standard_smiles": "O=C(NNC12C[C@H]3C[C@@H](C1)C[C@@H](C2)C3)c1ccc(C(F)(F)F)cc1",
+          "gain": -462784.5630645024,
+          "count": 6,
+          "mean_gain": -77130.76051075039
+        }
+      ],
+      "gain_excluding_best_structure": -3571.3640608966775
+    },
+    "all_without14": {
+      "rows": 1596,
+      "structure_clusters": 259,
+      "mean_mse_gain": 5151.11361651792,
+      "ci95": [
+        -23743.40421471698,
+        31039.325650830702
+      ],
+      "protocol_repeat_gains": {
+        "('molecule', 0)": -22550.72660331078,
+        "('molecule', 1)": -33527.85312360526,
+        "('molecule', 2)": 1944.5456891662107,
+        "('scaffold', 0)": 16351.382035859895,
+        "('scaffold', 1)": 15502.847766532988,
+        "('scaffold', 2)": 53186.48593446445
+      },
+      "wins": 4,
+      "comparisons": 6,
+      "positive_structures": 61,
+      "negative_structures": 198,
+      "largest_structure_gains": [
+        {
+          "standard_smiles": "O=C(NN1C(=O)[C@@H]2[C@@H]3CC[C@@H]([C@H]4C[C@H]43)[C@@H]2C1=O)c1ccc(C(F)(F)F)cc1",
+          "gain": 10779319.312162641,
+          "count": 6,
+          "mean_gain": 1796553.2186937735
+        },
+        {
+          "standard_smiles": "CC1(C)[C@@H]2CC[C@@]1(C)/C(=N/NC(=O)c1ccc([N+](=O)[O-])cc1)C2",
+          "gain": 6784763.260106886,
+          "count": 6,
+          "mean_gain": 1130793.876684481
+        },
+        {
+          "standard_smiles": "CC1(C)[C@H]2CC[C@](C)(C2)[C@@H]1NC(=O)c1ccc([N+](=O)[O-])cc1",
+          "gain": 4158140.7041053115,
+          "count": 6,
+          "mean_gain": 693023.4506842186
+        },
+        {
+          "standard_smiles": "O=c1[nH]c(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1C(F)(F)F",
+          "gain": 3476694.8877280345,
+          "count": 6,
+          "mean_gain": 579449.1479546725
+        },
+        {
+          "standard_smiles": "CC1(C)[C@@H]2CC[C@@]1(C)[C@H](NC(=O)c1ccc(Cl)cc1)C2",
+          "gain": 3430454.2791393287,
+          "count": 6,
+          "mean_gain": 571742.3798565548
+        }
+      ],
+      "largest_structure_losses": [
+        {
+          "standard_smiles": "COc1ccc(C(=O)NN2C(=O)[C@@H]3[C@@H]4C=C[C@@H]([C@H]5C[C@@H]45)[C@@H]3C2=O)cc1",
+          "gain": -1033028.1971891811,
+          "count": 12,
+          "mean_gain": -86085.68309909843
+        },
+        {
+          "standard_smiles": "O=C(NN1C(=O)[C@@H]2[C@@H]3C=C[C@@H]([C@H]4C[C@@H]34)[C@@H]2C1=O)c1cccc(Br)c1",
+          "gain": -1881849.2231878014,
+          "count": 6,
+          "mean_gain": -313641.5371979669
+        },
+        {
+          "standard_smiles": "O=c1[nH]c(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1I",
+          "gain": -2128616.3158633625,
+          "count": 12,
+          "mean_gain": -177384.69298861353
+        },
+        {
+          "standard_smiles": "O=C(NN1C(=O)[C@@H]2[C@@H]3C=C[C@@H]([C@H]4C[C@@H]34)[C@@H]2C1=O)c1cccc(Cl)c1",
+          "gain": -3781881.0306651704,
+          "count": 6,
+          "mean_gain": -630313.5051108617
+        },
+        {
+          "standard_smiles": "O=C(NN1C(=O)[C@@H]2[C@@H]3C=C[C@@H]([C@H]4C[C@@H]34)[C@@H]2C1=O)c1ccc(Br)cc1",
+          "gain": -16228693.036792666,
+          "count": 6,
+          "mean_gain": -2704782.1727987775
+        }
+      ],
+      "gain_excluding_best_structure": -1608.8943271698365
+    }
+  },
+  "final_prediction_sanity": {
+    "candidate": "1.0_kaggle_only_latent_mean",
+    "min": 0.0339797797594111,
+    "median": 19.54345953008796,
+    "mean": 63.836962979227096,
+    "max": 1568.3433533735308,
+    "q99": 755.4373127700821
+  }
+}

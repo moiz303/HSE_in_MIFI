@@ -1,0 +1,117 @@
+{
+  "predeclared_gate": {
+    "declared_utc": "2026-11-07T21:01:07.760233+00:00",
+    "reference": "chemeleon_domain_log1p__public_plus_kaggle",
+    "all_rows_primary_metric": "mean molecule/scaffold raw SI MSE",
+    "guardrails": {
+      "zero_mse_at_most_reference_times": 1.2,
+      "positive_SI_le1000_mse_at_most_reference_times": 1.2
+    },
+    "choice": "Among configurations passing both guardrails, minimize ALL-row MSE; if none, retain reference. No test endpoints or leaderboard involved.",
+    "uncertainty": "Structure-cluster paired bootstrap, exploratory reused OOF",
+    "selection_outputs": "Initial selection.json is primary-ALL-MSE ranking; decision_audit.json will provide this predeclared guardrail decision independently"
+  },
+  "candidates": [
+    {
+      "candidate": "0.0_public_plus_kaggle",
+      "mean_oof_mse": 5063287.053982826,
+      "zero_mse": 3119.954502335464,
+      "bulk_mse": 44099.47736704502,
+      "zero_ratio": 0.6748611714569905,
+      "bulk_ratio": 0.9522509066235786,
+      "passes_predeclared_guardrails": true,
+      "gain_vs_reference": {
+        "mean_mse_gain": -1438.5758406208938,
+        "ci95_lower": -44064.337599248574,
+        "ci95_upper": 39263.06208531857,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "0.0_kaggle_only",
+      "mean_oof_mse": 5077059.247454684,
+      "zero_mse": 2478.0713946946576,
+      "bulk_mse": 42023.56932838916,
+      "zero_ratio": 0.5360187666601685,
+      "bulk_ratio": 0.9074253116301457,
+      "passes_predeclared_guardrails": true,
+      "gain_vs_reference": {
+        "mean_mse_gain": -15210.769312478704,
+        "ci95_lower": -51484.87614794419,
+        "ci95_upper": 4918.882289587827,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "0.25_public_plus_kaggle",
+      "mean_oof_mse": 5174178.320392873,
+      "zero_mse": 9645.735204693114,
+      "bulk_mse": 238349.55840118486,
+      "zero_ratio": 2.0864189381384803,
+      "bulk_ratio": 5.14674088293093,
+      "passes_predeclared_guardrails": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -112329.8422506677,
+        "ci95_lower": -286091.7655718852,
+        "ci95_upper": 43188.37167276294,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "0.25_kaggle_only",
+      "mean_oof_mse": 5225373.91372096,
+      "zero_mse": 8180.38698103279,
+      "bulk_mse": 267792.88847910817,
+      "zero_ratio": 1.7694570663959361,
+      "bulk_ratio": 5.782517981316041,
+      "passes_predeclared_guardrails": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -163525.43557875443,
+        "ci95_lower": -345819.2427302681,
+        "ci95_upper": -27239.411856320658,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "0.5_public_plus_kaggle",
+      "mean_oof_mse": 5859968.78782334,
+      "zero_mse": 27925.325850601716,
+      "bulk_mse": 1202113.9166937664,
+      "zero_ratio": 6.040382352610642,
+      "bulk_ratio": 25.957542705299502,
+      "passes_predeclared_guardrails": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -798120.3096811349,
+        "ci95_lower": -1761946.612827285,
+        "ci95_upper": -83350.3834373564,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "0.5_kaggle_only",
+      "mean_oof_mse": 5926158.087796902,
+      "zero_mse": 24418.986411546466,
+      "bulk_mse": 1255286.3468218532,
+      "zero_ratio": 5.2819442601335345,
+      "bulk_ratio": 27.10570812176059,
+      "passes_predeclared_guardrails": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -864309.6096546958,
+        "ci95_lower": -1839008.2088368086,
+        "ci95_upper": -111414.98540190377,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    }
+  ],
+  "guardrail_choice": "0.0_public_plus_kaggle",
+  "raw_oof_improvement_over_reference": false,
+  "kaggle_upload_recommended": false,
+  "reason": "No ensemble beats reference ALL-row MSE; CI exploratory, no independent confirmation",
+  "source_training_metadata_note": "Copied field objective_code_sha256 is an unused import, not the neural training objective; public weight enters weighted transformed-SI squared error, not observation-noise division. Field kernel denotes the Box-Cox power. Actual code and arrays preserved."
+}

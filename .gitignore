@@ -75,3 +75,5 @@ reports/current_tabular/fold_*.csv
 reports/current_tabular/fold_*.json
 reports/current_tail/reproduced.csv
 reports/current_tail/prediction.csv
+reports/current_auxiliary/fold_*.csv
+reports/current_auxiliary/fold_*.json

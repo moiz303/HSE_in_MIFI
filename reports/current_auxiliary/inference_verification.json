@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "learning_and_prediction_code_unchanged": true,
+  "checks": [
+    {
+      "candidate": "aux_lambda_0.0",
+      "rows": 597,
+      "maximum_absolute_difference": 0.004371093749796273,
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel",
+      "passed": true
+    },
+    {
+      "candidate": "aux_lambda_0.05",
+      "rows": 597,
+      "maximum_absolute_difference": 0.003952343749915599,
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel",
+      "passed": true
+    },
+    {
+      "candidate": "aux_lambda_0.2",
+      "rows": 597,
+      "maximum_absolute_difference": 0.0006128320312654978,
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel",
+      "passed": true
+    }
+  ]
+}

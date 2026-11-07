@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "test_columns": [
+    "index",
+    "SMILES"
+  ],
+  "checks": [
+    {
+      "candidate": "0.0_public_plus_kaggle",
+      "passed": true,
+      "maximum_absolute_difference": 0.0008138020825754211
+    },
+    {
+      "candidate": "0.0_kaggle_only",
+      "passed": true,
+      "maximum_absolute_difference": 0.0016276041660603369
+    },
+    {
+      "candidate": "0.25_public_plus_kaggle",
+      "passed": true,
+      "maximum_absolute_difference": 0.006165717448311625
+    },
+    {
+      "candidate": "0.25_kaggle_only",
+      "passed": true,
+      "maximum_absolute_difference": 0.007377982403340866
+    },
+    {
+      "candidate": "0.5_public_plus_kaggle",
+      "passed": true,
+      "maximum_absolute_difference": 0.008084773991868133
+    },
+    {
+      "candidate": "0.5_kaggle_only",
+      "passed": true,
+      "maximum_absolute_difference": 0.012970059562576353
+    }
+  ]
+}

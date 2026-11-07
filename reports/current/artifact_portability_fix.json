@@ -1,0 +1,67 @@
+{
+  "change": "Only CLI entrypoint import and pickle class module; learned arrays and submission CSVs unchanged. Original training source snapshots retained in each report directory.",
+  "artifacts": [
+    {
+      "artifact": "artifacts/current_search/boost__Quantile_alpha_0.8__log1p__kaggle_only.joblib",
+      "old_artifact_sha256": "f5c124ceb97abc7dddabeb44bae160ce7d91024a2ee4ccf7368f14b6ea5b6a82",
+      "new_artifact_sha256": "5905a3890908563740fa087911fc52cc9924f0b73b486628eb6b976ba418439b",
+      "canonical_class": "src.current.search.Candidate"
+    },
+    {
+      "artifact": "artifacts/current_search/boost__Tweedie_variance_power_1.7__raw__kaggle_only.joblib",
+      "old_artifact_sha256": "e5949bc91ad2b6177a8f2886cf455fd52b8f432a100df2b21cbf7b778b2274fe",
+      "new_artifact_sha256": "21f9de9cd64efc5727ceae0372932b01bb2e0f52603f843a20fde3ee9c8e92bb",
+      "canonical_class": "src.current.search.Candidate"
+    },
+    {
+      "artifact": "artifacts/current_search/forest__capped__4__kaggle_only.joblib",
+      "old_artifact_sha256": "267990cb7423e27c2a7a2e3ab8a9854b18b1515205b9234f05f16dc0f475e075",
+      "new_artifact_sha256": "47b922476667a689c72b771e7b98ec2b83b7dcf0201cc98add5ce20bdec3acbd",
+      "canonical_class": "src.current.search.Candidate"
+    },
+    {
+      "artifact": "artifacts/current_search/kernel__log1p__0.1__2.0__kaggle_only.joblib",
+      "old_artifact_sha256": "aa5e9744b9205db656ab3b3c6d62fe89163a742bbc0a6f82a325433ef074a56c",
+      "new_artifact_sha256": "62796ab2ba46400336daba811ee60f1b16a7840bd0bf58f2e8a250babb10c5e5",
+      "canonical_class": "src.current.search.Candidate"
+    },
+    {
+      "artifact": "artifacts/current_search/neighbors__log1p__12.0__kaggle_only.joblib",
+      "old_artifact_sha256": "06da58ec1182dc3704a3a10d219f35b53a116b19ed4939109718c32759f08941",
+      "new_artifact_sha256": "4febb0266146f55e49cb745b28577eb6f548bbdec8f98771efe20ecc9742d1de",
+      "canonical_class": "src.current.search.Candidate"
+    },
+    {
+      "artifact": "artifacts/current_auxiliary/aux_lambda_0.0.joblib",
+      "old_artifact_sha256": "7ed8a547aea102760c397e619181d55465b64141f1044ee3e293091a144c0111",
+      "new_artifact_sha256": "99122dd06de3bfc7eb13ee15de2a1869581da2ac1fecbff5e035c91b48fdc101",
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel"
+    },
+    {
+      "artifact": "artifacts/current_auxiliary/aux_lambda_0.05.joblib",
+      "old_artifact_sha256": "c1021763b4ab02b9a17c1de9548689dcce9a7f38d28d77b3a2ff8d2338bfb5d3",
+      "new_artifact_sha256": "dd5461fcee2cfebe6fd9d0fa8ebb768c68b49c47162a9a08ffd2a8bebdb18501",
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel"
+    },
+    {
+      "artifact": "artifacts/current_auxiliary/aux_lambda_0.2.joblib",
+      "old_artifact_sha256": "41dd1e38ad697aaf78cdec3c53c14147229ab45677dc0ac6a83c732bb1f723b3",
+      "new_artifact_sha256": "4f73f36d696c6f43c07eb6e135732fb0ede0b24add038aac2425a59177cc16e3",
+      "canonical_class": "src.current.auxiliary.AuxiliaryModel"
+    },
+    {
+      "artifact": "artifacts/current_probability/gp_power1.0.joblib",
+      "old_artifact_sha256": "6b9e75ca6d2be2d6c6aca798effde4a77c8558c7365175b52fd5e1b2de3439c0",
+      "new_artifact_sha256": "8c2be3dc429694a3ac3b2924481d5f6f2e250c0a27b4fdc14ce86af4740b8a45",
+      "canonical_class": "src.current.probabilistic.LogSIProcess"
+    },
+    {
+      "artifact": "artifacts/current_probability/gp_power2.0.joblib",
+      "old_artifact_sha256": "9b92ba398cc9f1505254f2091174aa8a97a33a3376fa8b9011f4358fd8ae99b0",
+      "new_artifact_sha256": "f03ba32e403df9c3b0af4ee18b2a905f3962ffaec849df298eb2f4e0b0597717",
+      "canonical_class": "src.current.probabilistic.LogSIProcess"
+    }
+  ],
+  "requires_fresh_inference_verification": false,
+  "fresh_inference_predictions_verified": 14
+}

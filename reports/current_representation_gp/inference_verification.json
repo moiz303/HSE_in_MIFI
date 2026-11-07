@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "test_columns": [
+    "index",
+    "SMILES"
+  ],
+  "checks": [
+    {
+      "candidate": "rbf_tanimoto_public_plus_kaggle_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.002146381953934906
+    },
+    {
+      "candidate": "rbf_tanimoto_public_plus_kaggle_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.0026347654493292794
+    },
+    {
+      "candidate": "rbf_tanimoto_kaggle_only_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00020026276911266905
+    },
+    {
+      "candidate": "rbf_kaggle_only_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00036571558348441613
+    },
+    {
+      "candidate": "rbf_tanimoto_kaggle_only_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00014750497257409734
+    },
+    {
+      "candidate": "cosine_public_plus_kaggle_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.0003047831064577622
+    },
+    {
+      "candidate": "cosine_kaggle_only_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.0002467916251589486
+    },
+    {
+      "candidate": "rbf_kaggle_only_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00025099251070059836
+    },
+    {
+      "candidate": "cosine_kaggle_only_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00012531617062450096
+    },
+    {
+      "candidate": "cosine_public_plus_kaggle_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.00014388055365088803
+    },
+    {
+      "candidate": "rbf_public_plus_kaggle_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.006040725776983891
+    },
+    {
+      "candidate": "rbf_public_plus_kaggle_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 0.007657895956072025
+    }
+  ]
+}

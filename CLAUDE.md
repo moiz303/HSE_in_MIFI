@@ -11,7 +11,8 @@ The live data-description API forbids CC50_uM and IC50_uM_VACV for model buildin
 and prediction. User confirmed no organizer exception: STRICT interpretation.
 Never use these competition columns as features, labels, auxiliary targets or
 filters. Current training reads only SMILES + SI VACV; inference index + SMILES.
-Public IC50/CC50 measurements only produce independently collected public SI.
+Independent public measurements may produce public SI or separate auxiliary
+IC50/EC50/CC50 tasks. Never substitute official competition concentrations.
 Current package: src/current/, config configs/current.json, root train_model.py.
 Legacy concentration models are historical and ineligible for the current strict
 workflow; their old public scores are not scores of new SI models.
@@ -30,15 +31,21 @@ Public:109 exact IC50/CC50 pairs,87 structures; fit80 pairs/63 new structures.
 Same document+nonempty cell line, no censoring/EC50/TC50/GI50, DOI retained.
 Public competition overlap and reserved scaffolds excluded. No source averaging.
 
-Fourteen models trained:7 SI methods ×2 source regimes, same18 OOF folds
+Initial comparison: fourteen models,7 SI methods ×2 source regimes, same18 OOF folds
 (molecule/scaffold,3 folds ×3 repeats), fixed seeds. Raw-SI first block and log1p
 controls retained; log controls motivated by TRAIN OOF loss/tail, not test labels.
 OOF selection on all current original SI including zeros, before each block's
-separate endpoint diagnostics. Current selected candidate:
+separate endpoint diagnostics. Initial OOF/current best OFFICIAL candidate:
 chemeleon_domain_log1p__public_plus_kaggle; mean OOF5061848.47814.
 Best separate endpoint subset MSE1968835.32348 is catboost_log1p mixed; it does
 NOT change selection. Original testing_main CatBoost control4187780.78852 is
-exactly reproduced. No new official score, no claim of700k reached.
+exactly reproduced. Best verified current Kaggle Score1586333.78789/ref58103006.
+Later lowest raw OOF4973199.155 mixed GP FAILED Kaggle18558089.19131;
+never automatically promote it. Solo hurdle1latent Kaggle1949484.90648 also lost.
+All configurations/source regimes/strata/official scores: reports/current/all_models.csv/md.
+One development observation accounts for about96% of some models' raw MSE.
+Strata are diagnostics; they do not replace official MSE. Goal top10 OR
+Score<800000 is not yet achieved.
 Exploratory structure-cluster bootstrap for selected-vs-zero includes no gain;
 multiple selection on reused OOF is not independent validation.
 
@@ -50,6 +57,9 @@ No automatic Kaggle submissions from training scripts. User explicitly authorize
 best-hypothesis uploads in the followup goal: top10 OR Score<800000, four attempts
 at goal start. Live attempt/ref/Score registry: reports/current/kaggle_goal_submissions.json.
 Check it and current team submissions before any new upload; never duplicate a submission.
+Initial four authorized attempts are used (20/20 team submissions on2026-11-07).
+User expects reset2026-11-08 03:00Europe/Moscow /00:00UTC. Verify live remaining
+quota after reset and upload only selected, reproducible hypotheses.
 No messages to organizers/others without explicit authorization.
 Holdout reserved. Test endpoint diagnostics allowed only separately after saved
 predictions via src.test_diagnostics; never fit, tune, infer labels or promote
@@ -62,6 +72,11 @@ Train: python train_model.py --stage all. Summaries: python -m src.current.resul
 Fresh SMILES-only artifact verification: python -m src.current.verify.
 Public collector: python -m src.current.collect (immutable new snapshot).
 Current source audit: docs/current_protocol.md, reports/current/competition_audit.json.
+Independent audit: reports/current/protocol_audit.json/md. GP log1p means are
+Gaussian retransformation heuristics, not exact expectations of clipped SI.
+TabPFN fresh-process reproduction failed; do not upload/promote until repaired.
+User allows up to3agents, with distinct file ownership and no agent Kaggle uploads.
+Keep reporting completed milestones and failures; avoid silent unbounded sweeps.
 New source changes require new prepared version; never silently reuse checkpoints.
 Preserve AGENTS.md unchanged. Commit/push completed verified work to origin/main;
 no force push, no discarding unrelated changes. Keep legacy module paths required

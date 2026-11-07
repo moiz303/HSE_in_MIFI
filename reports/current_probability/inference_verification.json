@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "learning_and_prediction_code_unchanged": true,
+  "checks": [
+    {
+      "candidate": "gp_power1.0_observation_mean",
+      "rows": 597,
+      "maximum_absolute_difference": 2.842170943040401e-14,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    },
+    {
+      "candidate": "gp_power2.0_observation_mean",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    },
+    {
+      "candidate": "gp_power1.0_latent_mean",
+      "rows": 597,
+      "maximum_absolute_difference": 1.7053025658242404e-13,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    },
+    {
+      "candidate": "gp_power2.0_latent_mean",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    },
+    {
+      "candidate": "gp_power1.0_median",
+      "rows": 597,
+      "maximum_absolute_difference": 5.684341886080802e-14,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    },
+    {
+      "candidate": "gp_power2.0_median",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "canonical_class": "src.current.probabilistic.LogSIProcess",
+      "passed": true
+    }
+  ]
+}

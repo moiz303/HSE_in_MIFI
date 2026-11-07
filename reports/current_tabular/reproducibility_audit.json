@@ -1,0 +1,117 @@
+{
+  "status": "diagnostic_complete",
+  "upload_eligible": false,
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "tolerance": {
+    "rtol": 0.001,
+    "atol": 0.001
+  },
+  "fit_code_changed": false,
+  "outputs_changed": false,
+  "checks": [
+    {
+      "name": "train_context_vs_thread2_projection",
+      "max_absolute_difference": 0.0,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 12015,
+      "passed": true
+    },
+    {
+      "name": "encoder944_vs597",
+      "max_absolute_difference": 1.7881393432617188e-07,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 1222656,
+      "passed": true
+    },
+    {
+      "name": "query944_vs597",
+      "max_absolute_difference": 1.621246337890625e-05,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 26865,
+      "passed": true
+    },
+    {
+      "name": "raw_historical944_query_mutation",
+      "input_modified": false
+    },
+    {
+      "name": "tabpfn_raw_historical944_vs_saved",
+      "max_absolute_difference": 2.353515628783498e-05,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 597,
+      "passed": true
+    },
+    {
+      "name": "raw_standalone597_query_mutation",
+      "input_modified": false
+    },
+    {
+      "name": "tabpfn_raw_standalone597_vs_saved",
+      "max_absolute_difference": 1.5253869335937225,
+      "mismatches_at_original_tolerance": 54,
+      "elements": 597,
+      "passed": false
+    },
+    {
+      "name": "tabpfn_raw_paired944_vs597",
+      "max_absolute_difference": 1.525390625,
+      "mismatches_at_original_tolerance": 54,
+      "elements": 597,
+      "passed": false
+    },
+    {
+      "name": "log_historical944_query_mutation",
+      "input_modified": false
+    },
+    {
+      "name": "tabpfn_log_median_historical944_vs_saved",
+      "max_absolute_difference": 4.609374991559889e-05,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 597,
+      "passed": true
+    },
+    {
+      "name": "tabpfn_log_mean20_historical944_vs_saved",
+      "max_absolute_difference": 4.8828125045474735e-05,
+      "mismatches_at_original_tolerance": 0,
+      "elements": 597,
+      "passed": true
+    },
+    {
+      "name": "log_standalone597_query_mutation",
+      "input_modified": false
+    },
+    {
+      "name": "tabpfn_log_median_standalone597_vs_saved",
+      "max_absolute_difference": 4.978757656249968,
+      "mismatches_at_original_tolerance": 50,
+      "elements": 597,
+      "passed": false
+    },
+    {
+      "name": "tabpfn_log_mean20_standalone597_vs_saved",
+      "max_absolute_difference": 6.432125703124996,
+      "mismatches_at_original_tolerance": 91,
+      "elements": 597,
+      "passed": false
+    },
+    {
+      "name": "tabpfn_log_median_paired944_vs597",
+      "max_absolute_difference": 4.978759765625,
+      "mismatches_at_original_tolerance": 50,
+      "elements": 597,
+      "passed": false
+    },
+    {
+      "name": "tabpfn_log_mean20_paired944_vs597",
+      "max_absolute_difference": 6.43212890625,
+      "mismatches_at_original_tolerance": 91,
+      "elements": 597,
+      "passed": false
+    }
+  ],
+  "elapsed_seconds": 185.65700000000652
+}

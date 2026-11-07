@@ -19,7 +19,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-current.txt
       - name: Current protocol, censoring, zeros and leakage
-        run: python -m unittest tests.test_current tests.test_kaggle_data tests.test_schema tests.test_standardize tests.test_download tests.test_splits -v
+        run: python -m unittest tests.test_current tests.test_current_search tests.test_current_tabular tests.test_current_tail tests.test_current_auxiliary tests.test_current_probability tests.test_current_probability_public tests.test_current_representation_gp tests.test_current_hurdle_gp tests.test_current_power_ensemble tests.test_kaggle_data tests.test_schema tests.test_standardize tests.test_download tests.test_splits -v
       - name: Current entry points are self-documenting
         run: |
           python train_model.py --help

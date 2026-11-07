@@ -1,0 +1,5 @@
+candidate,mean_oof_mse,molecule,scaffold,artifact,submission,submission_sha256
+aux_lambda_0.0,5061065.638075627,5055307.167472672,5066824.108678582,artifacts/current_auxiliary/aux_lambda_0.0.joblib,reports/current_auxiliary/submission_aux_lambda_0.0.csv,31896ef928e9636905c0db234bb5570bce121ef61ebfd403e8f78a2733fc5f6d
+warm,5061848.478142206,5054051.780730559,5069645.175553853,,,
+aux_lambda_0.05,5063456.16628013,5059798.194173613,5067114.138386646,artifacts/current_auxiliary/aux_lambda_0.05.joblib,reports/current_auxiliary/submission_aux_lambda_0.05.csv,1c7c1da9226d9327825265be91cb7a026d5c27c7ae91e6eda0b56abe6d0fd956
+aux_lambda_0.2,5066443.571701884,5066820.045588463,5066067.097815307,artifacts/current_auxiliary/aux_lambda_0.2.joblib,reports/current_auxiliary/submission_aux_lambda_0.2.csv,e8e1efd22db66ac587eb49e28772c608a5bbf10f4b280f787bab0763724c8fae

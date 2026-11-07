@@ -1,0 +1,478 @@
+{
+  "audit_generated_utc": "2026-11-07T20:51:37.983838+00:00",
+  "scope": "Independent code and development-OOF audit. No files other than this report and its companion/test were changed; no test endpoints or reserved target values were read. No Kaggle actions.",
+  "input_sha256": {
+    "src/current/data.py": "4f9a7868e9f922b7172d54e3e71041c2221313c10eb0090ef097b8cc4eb79324",
+    "src/current/workflow.py": "cdf6be03bbe9120bc760305d6556fd07e674873f883a229b48774866d1bb03ac",
+    "src/current/models.py": "bfc09fa4e806bef4e45f801f645e0e70a1411cc9bfe191d0050b3abcf1f6eb22",
+    "src/current/search.py": "705cafaad2b2e3ed910ea14f556b6602dfe2d0b147f15506910469c4e6396580",
+    "src/current/probabilistic.py": "8145280879015c5376e6f199054d355459b529588fe2297ac6869484fcd2e7b3",
+    "src/current/probability_public.py": "59d908a0070af8288e3c51a9517dee3860c54bb5b359cec705f1ebba6c97d79b",
+    "src/current/auxiliary.py": "bca0cc2a39b7fa8830e445c07cd35efdb994f85cdb597927f30ab2da12a42ee1",
+    "src/features/fingerprints.py": "a80e823cd35efb3a53111188c1b14fe8b0cf7ebda1d5e703e0495203afc5e91c",
+    "src/data/standardize.py": "b35ff4a0ba5491c6d4899a98d93d0a778c6235077be98b64f6ffc01178063d25",
+    "src/splits.py": "1a9fddce01c77f0cd05911552562d9aea17707eb5e9311511c09ec05848d32a3",
+    "data/current/audit.json": "ec5927b1adcfd166c218f407c06f5d63bd790766c178f5c19e8b7ba35a412c75",
+    "data/current/splits.json": "c2a1cd28c3a212f4d67e4dd5ba0894c0d7c592122b7d43badf387710439cee99",
+    "data/current/kaggle_development.csv": "f885a95aeadea47851d4214c356fa14821a086e8903e4bc5b3ed412487a7ea30",
+    "data/current/public_development.csv": "8160777aadd4bcc4d81e186f62243815b9b6ffeddc6b371c2a1e22f8a89f463e",
+    "reports/current/oof.csv": "6e35a69e932e2975fbeb69101de53366a7a744f43decaa946127dd454b900daf",
+    "reports/current_probability/oof.csv": "78af7f3daa43764ffffb0c315ba3a9120e5bed908b78ffa6de2bacb6b2905e82",
+    "reports/current_probability_public/oof.csv": "69311dc79b0e8be64db5a1194c1f32e4f31b9a563fc0c80f80b8f9740608d665",
+    "tests/test_current_probability_public.py": "5dbb0f1edd4deface80c6bbb0826a8bb21bdab3365d69a4c0b82d41da1043313",
+    "reports/current/kaggle_goal_submissions.json": "0f424e85d8753af30fbe3f37e77e61001a71b456f5029e7027b3beaab8283a19",
+    "reports/current_probability_public/submission_gp_power2.0_rho1.0_observation_mean.csv": "b0573e93e39ca83c489868d03aae84009f9a074d5357303e2713d2e54722d27a",
+    "reports/current_probability/submission_gp_power2.0_observation_mean.csv": "a23ba3d473dc6ebc76c6833f2565bc05e4fc4619b2196e7285c60a5cf9e2d5c8",
+    "reports/current_probability/submission_gp_power1.0_observation_mean.csv": "c3615e112947be16a46a967b28801ab5d3735beedcaf58586904ccbe44d07009",
+    "reports/current/submission_chemeleon_domain_log1p__public_plus_kaggle.csv": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3"
+  },
+  "metric": "Mean raw SI squared error across all original development rows, including zeros, averaged equally over molecule/scaffold protocols; three repeats per protocol.",
+  "data": {
+    "development_rows": 267,
+    "development_structures": 260,
+    "zeros": 66,
+    "public_pairs": 80,
+    "public_structures": 63,
+    "above_1000_rows": 7,
+    "duplicated_structure_groups": 7,
+    "duplicate_groups_with_conflicting_si": 5
+  },
+  "fold_coverage": {
+    "folds": 18,
+    "oof_rows_per_method": 1602,
+    "appearances_per_original_row": 6,
+    "all_targets_match_development": true,
+    "all_molecule_overlaps_zero": true,
+    "all_scaffold_overlaps_zero": true,
+    "checks": [
+      {
+        "protocol": "molecule",
+        "repeat": 0,
+        "fold": 0,
+        "held_rows": 106,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 0,
+        "fold": 1,
+        "held_rows": 73,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 0,
+        "fold": 2,
+        "held_rows": 88,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 1,
+        "fold": 0,
+        "held_rows": 95,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 1,
+        "fold": 1,
+        "held_rows": 83,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 1,
+        "fold": 2,
+        "held_rows": 89,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 2,
+        "fold": 0,
+        "held_rows": 94,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 2,
+        "fold": 1,
+        "held_rows": 85,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "molecule",
+        "repeat": 2,
+        "fold": 2,
+        "held_rows": 88,
+        "public_fit_rows": 80,
+        "molecule_overlap": 0,
+        "scaffold_overlap": null
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 0,
+        "fold": 0,
+        "held_rows": 107,
+        "public_fit_rows": 73,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 0,
+        "fold": 1,
+        "held_rows": 78,
+        "public_fit_rows": 79,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 0,
+        "fold": 2,
+        "held_rows": 82,
+        "public_fit_rows": 26,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 1,
+        "fold": 0,
+        "held_rows": 90,
+        "public_fit_rows": 74,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 1,
+        "fold": 1,
+        "held_rows": 82,
+        "public_fit_rows": 78,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 1,
+        "fold": 2,
+        "held_rows": 95,
+        "public_fit_rows": 26,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 2,
+        "fold": 0,
+        "held_rows": 77,
+        "public_fit_rows": 73,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 2,
+        "fold": 1,
+        "held_rows": 103,
+        "public_fit_rows": 76,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      },
+      {
+        "protocol": "scaffold",
+        "repeat": 2,
+        "fold": 2,
+        "held_rows": 87,
+        "public_fit_rows": 29,
+        "molecule_overlap": 0,
+        "scaffold_overlap": 0
+      }
+    ]
+  },
+  "mean_oof_mse": {
+    "mixed": 4973199.155002328,
+    "solo_best": 5032173.0652488,
+    "solo_matched_power2": 5048234.7900959505,
+    "chemeleon": 5061848.478142206
+  },
+  "per_protocol_repeat": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "mixed_se": 5022039.71678964,
+      "solo_best_se": 5029130.081945298,
+      "solo_matched_power2_se": 5064978.41688493,
+      "chemeleon_se": 5078072.529280293
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "mixed_se": 4893964.306249894,
+      "solo_best_se": 5014725.813137251,
+      "solo_matched_power2_se": 5010859.430719984,
+      "chemeleon_se": 5018026.599169564
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "mixed_se": 5174633.003450847,
+      "solo_best_se": 5066348.866410363,
+      "solo_matched_power2_se": 5082997.870668611,
+      "chemeleon_se": 5066056.213741817
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "mixed_se": 4911715.406437952,
+      "solo_best_se": 5018926.500692375,
+      "solo_matched_power2_se": 5034549.824995481,
+      "chemeleon_se": 4997589.292047062
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "mixed_se": 4941998.898831704,
+      "solo_best_se": 5043832.051770235,
+      "solo_matched_power2_se": 5068961.964509944,
+      "chemeleon_se": 5133148.158733246
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "mixed_se": 4894843.598253929,
+      "solo_best_se": 5020075.077537279,
+      "solo_matched_power2_se": 5027061.2327967575,
+      "chemeleon_se": 5078198.075881251
+    }
+  ],
+  "subgroup_mse": {
+    "above_1000": {
+      "mixed_se": 185754230.0002475,
+      "solo_best_se": 190487375.85910478,
+      "solo_matched_power2_se": 191391971.10915256,
+      "chemeleon_se": 191746304.05191082
+    },
+    "positive_up_to_1000": {
+      "mixed_se": 136661.04738481785,
+      "solo_best_se": 50514.32947032543,
+      "solo_matched_power2_se": 41115.659782599294,
+      "chemeleon_se": 46310.774881180965
+    },
+    "zero": {
+      "mixed_se": 15944.260473247563,
+      "solo_best_se": 5739.355915955313,
+      "solo_matched_power2_se": 2400.805965556363,
+      "chemeleon_se": 4623.105661271995
+    }
+  },
+  "comparisons": [
+    {
+      "baseline": "solo_best",
+      "mean_mse_gain": 58973.91024647253,
+      "relative_gain_percent": 1.1719372422569299,
+      "exploratory_cluster_ci95": [
+        -91174.90380349029,
+        253773.25669101003
+      ],
+      "bootstrap_fraction_positive_gain": 0.7355,
+      "independent_confirmation": false
+    },
+    {
+      "baseline": "solo_matched_power2",
+      "mean_mse_gain": 75035.63509362357,
+      "relative_gain_percent": 1.4863737170235036,
+      "exploratory_cluster_ci95": [
+        -89794.55111288484,
+        287417.31322361855
+      ],
+      "bootstrap_fraction_positive_gain": 0.7625,
+      "independent_confirmation": false
+    },
+    {
+      "baseline": "chemeleon",
+      "mean_mse_gain": 88649.32313987786,
+      "relative_gain_percent": 1.751323128747899,
+      "exploratory_cluster_ci95": [
+        -86187.21224003028,
+        323011.13354076835
+      ],
+      "bootstrap_fraction_positive_gain": 0.7998,
+      "independent_confirmation": false
+    }
+  ],
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261106,
+    "cluster": "standardized molecular structure, preserving original duplicate rows, protocols and repeated fits together",
+    "clusters": 260,
+    "purpose": "Exploratory uncertainty after repeated OOF model selection; no multiplicity adjustment and no independent holdout confirmation"
+  },
+  "dominant_error": {
+    "original_row": 14,
+    "si": 36066.667,
+    "mean_mixed_squared_error": 1273882958.858184,
+    "share_of_total_mixed_mse": 0.959361786143013,
+    "warning": "One row contributes approximately 96 percent of total MSE; the bulk and zero subsets worsen despite lower overall error."
+  },
+  "weighted_gp_math": {
+    "status": "Direct synthetic unwhitened-posterior equivalence passed",
+    "equivalent_covariance": "amplitude*K + noise*diag(1/weight)",
+    "source_kernel": "Tanimoto^power times B(source,source); diagonal 1, off-diagonal rho",
+    "selected_rho": 1.0,
+    "selected_source_interpretation": "Pooled latent function, not separated domain heads",
+    "test_module": "tests.test_current_probability_public",
+    "tests_passed": 2
+  },
+  "expectation_caveat": {
+    "implemented": "max(exp(mu+variance/2)-1,0)",
+    "not_equal_to": "E[max(exp(Z)-1,0)] for Z~Normal(mu,variance)",
+    "nonnegative_mean_formula": "exp(mu+variance/2)*Phi((mu+variance)/sqrt(variance)) - Phi(mu/sqrt(variance)), with deterministic limit max(expm1(mu),0)",
+    "counterexample": {
+      "mu": 0.0,
+      "variance": 1.0,
+      "implemented": 0.6487212707001282,
+      "exact_positive_part_mean": 0.8871429788350047
+    },
+    "interpretation": "Current clipped predictor is a valid heuristic, not the exact expectation of a nonnegative predictive SI distribution."
+  },
+  "source_quality_limitations": [
+    "Same paper and cell line do not guarantee matching assay time, protocol or strain context.",
+    "Public auxiliary IC50/EC50/CC50 tasks retain separate labels; censored observations are directional constraints only.",
+    "One selected OOF ranking does not establish a matching public Kaggle improvement."
+  ],
+  "recommendations": [
+    "Verify final artifacts independently before promotion; keep official and OOF winner pointers separate.",
+    "Preserve the last remaining attempt: the selected mixed GP failed at official Score 18558089.19131. Require a differentiated verified candidate; never fit to leaderboard scores or reconstruct hidden targets.",
+    "Update stale CLAUDE statements about unknown official score and public-auxiliary task scope.",
+    "Do not report the clipped Gaussian transformed predictor as an exact nonnegative mathematical expectation."
+  ],
+  "official_kaggle_followup": {
+    "source": "Parent-maintained authenticated Kaggle submission registry",
+    "registry": "reports/current/kaggle_goal_submissions.json",
+    "ref": 58104352,
+    "candidate": "gp_power2.0_rho1.0_observation_mean",
+    "submission_sha256": "b0573e93e39ca83c489868d03aae84009f9a074d5357303e2713d2e54722d27a",
+    "score": 18558089.19131,
+    "outcome": "Failure: lower development OOF MSE did not transfer to the public leaderboard. No score-based fitting or hidden-target recovery is permitted.",
+    "remaining_attempts_before_reset": 1
+  },
+  "prediction_tail_review": {
+    "inputs": "Saved predictions only; no test targets or endpoints",
+    "test_prediction_summaries": {
+      "mixed_gp": {
+        "median": 37.377173156294766,
+        "q95": 414.0119620186652,
+        "q99": 1963.1380657121113,
+        "maximum": 41420.954717652734,
+        "mean_prediction_squared": 6427767.944611138,
+        "above_10000": 3
+      },
+      "solo_gp_power2": {
+        "median": 31.128847128859604,
+        "q95": 227.2923215895927,
+        "q99": 1465.107242094342,
+        "maximum": 13827.519720364038,
+        "mean_prediction_squared": 378804.1036531822,
+        "above_10000": 1
+      },
+      "solo_gp_power1": {
+        "median": 25.429321912810984,
+        "q95": 345.218960159611,
+        "q99": 1473.1793926570901,
+        "maximum": 4789.074831974736,
+        "mean_prediction_squared": 97597.0152020396,
+        "above_10000": 0
+      },
+      "chemeleon": {
+        "median": 3.1609320640563965,
+        "q95": 291.73918457031135,
+        "q99": 1647.6368896484266,
+        "maximum": 29790.20703125,
+        "mean_prediction_squared": 1607270.1758072234,
+        "above_10000": 1
+      }
+    },
+    "mixed_oof_prediction_squared_mean": 183008.3326926098,
+    "mixed_oof_prediction_maximum": 6271.743415504659,
+    "mixed_test_to_oof_squared_prediction_ratio": 35.12281572122482,
+    "interpretation": "Large tail-exposure shift requires manual OOD/source review, not target inference. It is not proof of a specific hidden test label or its leaderboard-mask membership."
+  },
+  "prospective_risk_gate_recommendation": {
+    "status": "Proposed after the failed mixed-GP submission; not a predeclared or independently validated selection rule",
+    "primary_metric": "Raw ALL-row mean OOF MSE remains primary and must improve the fixed CheMeleon reference",
+    "guardrails": [
+      "Zero-subset MSE at most 1.20 times fixed reference",
+      "Positive SI<=1000 subset MSE at most 1.20 times fixed reference",
+      "At least 2 of 3 scaffold-repeat MSE wins",
+      "Review train-OOF versus test-SMILES/prediction tail exposure and GP posterior variance before upload; do not tune thresholds to Kaggle scores"
+    ],
+    "reference": {
+      "mean_oof_mse": 5061848.478142206,
+      "zero_mse": 4623.105661271996,
+      "positive_up_to_1000_mse": 46310.774881180965
+    },
+    "illustrative_candidates_passing_stored_oof_gates": [
+      {
+        "family": "current_probability_public",
+        "candidate": "gp_power2.0_rho0.5_latent_mean",
+        "oof_mse": 5029753.010181918,
+        "zero_mse_ratio": 0.8679853792570417,
+        "positive_up_to_1000_mse_ratio": 1.117042103422785,
+        "scaffold_repeat_wins": 2
+      },
+      {
+        "family": "current_probability_public",
+        "candidate": "gp_power1.0_rho1.0_median",
+        "oof_mse": 5034702.017311359,
+        "zero_mse_ratio": 1.0471606042273978,
+        "positive_up_to_1000_mse_ratio": 1.0920100237521662,
+        "scaffold_repeat_wins": 2
+      },
+      {
+        "family": "current_probability",
+        "candidate": "gp_power2.0_observation_mean",
+        "oof_mse": 5048234.7900959505,
+        "zero_mse_ratio": 0.5193058825516456,
+        "positive_up_to_1000_mse_ratio": 0.8878205965693573,
+        "scaffold_repeat_wins": 2
+      },
+      {
+        "family": "current_probability",
+        "candidate": "gp_power1.0_latent_mean",
+        "oof_mse": 5058956.408241673,
+        "zero_mse_ratio": 0.6276991272304614,
+        "positive_up_to_1000_mse_ratio": 0.7830141866352238,
+        "scaffold_repeat_wins": 2
+      },
+      {
+        "family": "current_auxiliary",
+        "candidate": "aux_lambda_0.0",
+        "oof_mse": 5061065.638641881,
+        "zero_mse_ratio": 0.9390983772203381,
+        "positive_up_to_1000_mse_ratio": 0.8790942348597816,
+        "scaffold_repeat_wins": 2
+      }
+    ],
+    "warning": "Passing these gates is a robustness screen, not proof of a lower official Kaggle score or an automatic submission authorization."
+  }
+}

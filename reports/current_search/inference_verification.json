@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "test_columns_read": [
+    "index",
+    "SMILES"
+  ],
+  "learning_and_prediction_code_unchanged": true,
+  "checks": [
+    {
+      "candidate": "boost__Quantile_alpha_0.8__log1p__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 4.547473508864641e-13,
+      "canonical_class": "src.current.search.Candidate",
+      "passed": true
+    },
+    {
+      "candidate": "forest__capped__4__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 4.547473508864641e-13,
+      "canonical_class": "src.current.search.Candidate",
+      "passed": true
+    },
+    {
+      "candidate": "boost__Tweedie_variance_power_1.7__raw__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "canonical_class": "src.current.search.Candidate",
+      "passed": true
+    },
+    {
+      "candidate": "neighbors__log1p__12.0__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 1.1368683772161603e-13,
+      "canonical_class": "src.current.search.Candidate",
+      "passed": true
+    },
+    {
+      "candidate": "kernel__log1p__0.1__2.0__kaggle_only",
+      "rows": 597,
+      "maximum_absolute_difference": 2.2737367544323206e-13,
+      "canonical_class": "src.current.search.Candidate",
+      "passed": true
+    }
+  ]
+}

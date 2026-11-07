@@ -35,12 +35,16 @@
   ],
   "fitted_variants": 14,
   "inference_verification": "reports/current/inference_verification.json",
-  "unit_tests_passed": 176,
+  "unit_tests_passed": 188,
   "new_official_score": 1586333.78789,
   "historical_concentration_heads_current_protocol_eligible": false,
   "scope": "Technical repository/data audit, not a guarantee of organizer admission",
   "protocol": "docs/current_protocol.md",
   "initial_comparison_kaggle_submissions": 0,
-  "submissions_during_followup_goal": 2,
-  "current_submission_registry": "reports/current/kaggle_goal_submissions.json"
+  "submissions_during_followup_goal": 4,
+  "current_submission_registry": "reports/current/kaggle_goal_submissions.json",
+  "best_official_score": 1586333.78789,
+  "latest_score_registry": "reports/current/kaggle_goal_submissions.json",
+  "all_models_report": "reports/current/all_models.csv",
+  "goal_target_achieved": false
 }

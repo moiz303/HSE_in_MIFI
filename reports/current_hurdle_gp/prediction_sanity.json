@@ -1,0 +1,70 @@
+{
+  "competition_development_max_target": 36066.667,
+  "train_max_source": "data/current/kaggle_development.csv",
+  "submission_distributions": [
+    {
+      "candidate": "2.0_public_plus_kaggle_latent_mean",
+      "min": 0.0539083531371869,
+      "median": 39.33080341786445,
+      "mean": 238.1804331447898,
+      "max": 31126.465150472995,
+      "q99": 1793.941998362508
+    },
+    {
+      "candidate": "2.0_kaggle_only_observation_mean",
+      "min": 0.0852051423530308,
+      "median": 54.90641951000424,
+      "mean": 142.13652720186167,
+      "max": 11438.502814353762,
+      "q99": 1821.6017278435604
+    },
+    {
+      "candidate": "1.0_kaggle_only_observation_mean",
+      "min": 0.0670821620301347,
+      "median": 38.582284173388096,
+      "mean": 126.02558122520439,
+      "max": 3096.1902547572963,
+      "q99": 1491.3683542877222
+    },
+    {
+      "candidate": "2.0_public_plus_kaggle_observation_mean",
+      "min": 0.0711914037179871,
+      "median": 51.94028275262742,
+      "mean": 314.54122389131106,
+      "max": 41105.6286806244,
+      "q99": 2369.0808867240125
+    },
+    {
+      "candidate": "2.0_kaggle_only_latent_mean",
+      "min": 0.0527567779450042,
+      "median": 33.99660750336744,
+      "mean": 88.00719060351321,
+      "max": 7082.419397879228,
+      "q99": 1127.8877683450078
+    },
+    {
+      "candidate": "1.0_kaggle_only_latent_mean",
+      "min": 0.0339797797594111,
+      "median": 19.54345953008796,
+      "mean": 63.836962979227096,
+      "max": 1568.3433533735308,
+      "q99": 755.4373127700821
+    },
+    {
+      "candidate": "1.0_public_plus_kaggle_latent_mean",
+      "min": 0.0267670760383602,
+      "median": 27.381292207148796,
+      "mean": 159.87768393056578,
+      "max": 9794.3485722137,
+      "q99": 1960.3700655793677
+    },
+    {
+      "candidate": "1.0_public_plus_kaggle_observation_mean",
+      "min": 0.0379535017756457,
+      "median": 38.82440954380603,
+      "mean": 226.69334342865238,
+      "max": 13887.576864730205,
+      "q99": 2779.6427468678853
+    }
+  ]
+}

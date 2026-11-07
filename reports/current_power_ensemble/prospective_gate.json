@@ -1,0 +1,12 @@
+{
+  "declared_utc": "2026-11-07T21:01:07.760233+00:00",
+  "reference": "chemeleon_domain_log1p__public_plus_kaggle",
+  "all_rows_primary_metric": "mean molecule/scaffold raw SI MSE",
+  "guardrails": {
+    "zero_mse_at_most_reference_times": 1.2,
+    "positive_SI_le1000_mse_at_most_reference_times": 1.2
+  },
+  "choice": "Among configurations passing both guardrails, minimize ALL-row MSE; if none, retain reference. No test endpoints or leaderboard involved.",
+  "uncertainty": "Structure-cluster paired bootstrap, exploratory reused OOF",
+  "selection_outputs": "Initial selection.json is primary-ALL-MSE ranking; decision_audit.json will provide this predeclared guardrail decision independently"
+}

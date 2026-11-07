@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "test_columns": [
+    "index",
+    "SMILES"
+  ],
+  "checks": [
+    {
+      "candidate": "2.0_public_plus_kaggle_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 4.547473508864641e-13
+    },
+    {
+      "candidate": "2.0_kaggle_only_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 2.2737367544323206e-13
+    },
+    {
+      "candidate": "1.0_kaggle_only_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 2.2737367544323206e-13
+    },
+    {
+      "candidate": "2.0_public_plus_kaggle_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 2.2737367544323206e-13
+    },
+    {
+      "candidate": "2.0_kaggle_only_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 2.842170943040401e-14
+    },
+    {
+      "candidate": "1.0_kaggle_only_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 1.1368683772161603e-13
+    },
+    {
+      "candidate": "1.0_public_plus_kaggle_latent_mean",
+      "passed": true,
+      "maximum_absolute_difference": 1.8189894035458565e-12
+    },
+    {
+      "candidate": "1.0_public_plus_kaggle_observation_mean",
+      "passed": true,
+      "maximum_absolute_difference": 4.547473508864641e-13
+    }
+  ]
+}

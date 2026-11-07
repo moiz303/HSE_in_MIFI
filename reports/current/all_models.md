@@ -1,0 +1,117 @@
+# Current SI-only scoreboard
+
+All OOF values use the same 267 original train_v2 development rows, including 66 zeros, 18 molecule/scaffold folds. Lower MSE is better.
+One row (SI=36066.667) dominates raw MSE. Subset scores expose this sensitivity; they do not replace official MSE or constitute independent confirmation.
+Kaggle scores are joined only by submission SHA256 and verified submission reference. Blank/— means unknown, not zero.
+
+| Experiment | Candidate | Mean OOF MSE | Zero MSE | Bulk MSE (0<SI<=1000) | Row14 loss share | Kaggle Score |
+|---|---|---:|---:|---:|---:|---:|
+| current_probability_public | gp_power2.0_rho1.0_observation_mean | 4973199.16 | 15944.26 | 136661.05 | 95.94% | 18558089.19131 |
+| current_probability_public | gp_power2.0_rho1.0_latent_mean | 4977286.33 | 10917.88 | 94907.14 | 96.19% | — |
+| current_representation_gp | rbf_tanimoto_public_plus_kaggle_latent_mean | 4986876.20 | 13071.29 | 73983.59 | 96.05% | — |
+| current_hurdle_gp | 2.0_public_plus_kaggle_latent_mean | 5002853.26 | 21527.97 | 155442.23 | 95.64% | — |
+| current_probability_public | gp_power1.0_rho0.5_observation_mean | 5010481.21 | 11978.30 | 75619.67 | 95.15% | — |
+| current_representation_gp | rbf_tanimoto_public_plus_kaggle_observation_mean | 5013150.34 | 18973.45 | 101808.45 | 95.27% | — |
+| current_probability_public | gp_power2.0_rho0.5_observation_mean | 5014082.10 | 5815.27 | 67499.62 | 95.26% | — |
+| current_probability_public | gp_power1.0_rho1.0_latent_mean | 5024812.05 | 60928.50 | 180423.09 | 95.11% | — |
+| current_probability_public | gp_power1.0_rho0.5_latent_mean | 5027621.34 | 8087.16 | 56166.88 | 95.17% | — |
+| current_probability_public | gp_power2.0_rho0.5_latent_mean | 5029753.01 | 4012.79 | 51731.09 | 95.26% | — |
+| current_probability | gp_power1.0_observation_mean | 5032173.07 | 5739.36 | 50514.33 | 95.01% | — |
+| current_probability_public | gp_power1.0_rho1.0_median | 5034702.02 | 4841.13 | 50571.83 | 95.80% | — |
+| current_hurdle_gp | 2.0_kaggle_only_observation_mean | 5045655.28 | 8057.06 | 79173.61 | 94.76% | — |
+| current_representation_gp | rbf_tanimoto_kaggle_only_observation_mean | 5046405.85 | 2849.48 | 39074.88 | 94.99% | — |
+| current_probability | gp_power2.0_observation_mean | 5048234.79 | 2400.81 | 41115.66 | 94.96% | — |
+| current_hurdle_gp | 1.0_kaggle_only_observation_mean | 5049944.94 | 13368.21 | 74743.37 | 94.95% | — |
+| current_hurdle_gp | 2.0_public_plus_kaggle_observation_mean | 5053653.09 | 33456.82 | 262704.40 | 94.32% | — |
+| current_hurdle_gp | 2.0_kaggle_only_latent_mean | 5057093.56 | 3643.42 | 39550.11 | 94.99% | — |
+| current_probability | gp_power1.0_latent_mean | 5058956.41 | 2901.92 | 36261.99 | 94.96% | — |
+| current_auxiliary | aux_lambda_0.0 | 5061065.64 | 4341.55 | 40711.54 | 94.96% | — |
+| current | chemeleon_domain_log1p__public_plus_kaggle | 5061848.48 | 4623.11 | 46310.77 | 94.94% | 1586333.78789 |
+| current_tail | domain_cap_q0.99 | 5061848.48 | 4623.11 | 46310.77 | 94.94% | 1586412.96821 |
+| current_representation_gp | rbf_kaggle_only_observation_mean | 5062438.58 | 6383.14 | 43847.47 | 94.88% | — |
+| current_power_ensemble | 0.0_public_plus_kaggle | 5063287.05 | 3119.95 | 44099.48 | 95.21% | — |
+| current_auxiliary | aux_lambda_0.05 | 5063456.17 | 3888.56 | 40535.89 | 94.95% | — |
+| current_tail | domain_cap_q0.975 | 5063788.00 | 4623.11 | 43266.67 | 94.90% | — |
+| current_auxiliary | aux_lambda_0.2 | 5066443.57 | 3436.20 | 40649.08 | 94.95% | — |
+| current_tail | domain_cap_q0.95 | 5066940.79 | 1783.12 | 35438.52 | 94.85% | — |
+| current_representation_gp | rbf_tanimoto_kaggle_only_latent_mean | 5067631.72 | 1636.91 | 32433.92 | 94.93% | — |
+| current_representation_gp | cosine_public_plus_kaggle_observation_mean | 5067785.44 | 5008.96 | 34522.43 | 95.37% | — |
+| current_probability | gp_power2.0_latent_mean | 5068316.74 | 1368.59 | 33676.10 | 94.91% | — |
+| current_tail | equal_domain_catboost | 5070007.96 | 1575.31 | 67914.88 | 95.27% | — |
+| current_tail | pooled_cap_q0.95 | 5070148.98 | 1860.04 | 35083.11 | 94.92% | — |
+| current_hurdle_gp | 1.0_kaggle_only_latent_mean | 5070675.74 | 4794.10 | 35576.37 | 95.05% | 1949484.90648 |
+| current_tail | pooled_cap_q0.99 | 5071066.32 | 5240.84 | 50707.91 | 94.90% | — |
+| current | chemeleon_mlp_log1p__kaggle_only | 5071066.32 | 5240.84 | 50707.91 | 94.90% | — |
+| current_tail | pooled_cap_q0.975 | 5072510.79 | 5240.84 | 46340.62 | 94.88% | — |
+| current | chemeleon_domain_log1p__kaggle_only | 5076402.90 | 2006.06 | 47966.65 | 94.93% | — |
+| current_probability_public | gp_power2.0_rho1.0_median | 5076528.65 | 481.05 | 33937.61 | 95.42% | — |
+| current_power_ensemble | 0.0_kaggle_only | 5077059.25 | 2478.07 | 42023.57 | 94.96% | — |
+| current_representation_gp | cosine_kaggle_only_observation_mean | 5077813.51 | 22969.94 | 39717.77 | 94.84% | — |
+| current_tail | equal_domain_catboost_tabpfn | 5078472.12 | 1352.89 | 46975.35 | 95.28% | — |
+| current_probability_public | gp_power1.0_rho0.5_median | 5081250.39 | 606.23 | 33211.87 | 94.93% | — |
+| current_probability_public | gp_power1.0_rho1.0_observation_mean | 5082118.17 | 93497.43 | 292615.90 | 93.61% | — |
+| current_representation_gp | rbf_kaggle_only_latent_mean | 5083205.39 | 4273.28 | 33889.40 | 94.85% | — |
+| current_hurdle_gp | 1.0_public_plus_kaggle_latent_mean | 5085481.43 | 70385.11 | 228263.84 | 94.33% | — |
+| current_tail | quantile_cap_q0.95 | 5085744.57 | 740.72 | 38400.85 | 95.05% | — |
+| current_tail | quantile_cap_q0.975 | 5085759.67 | 740.72 | 51183.33 | 95.03% | — |
+| current_tail | equal_domain_tabpfn | 5086124.52 | 2307.41 | 33274.75 | 94.98% | — |
+| current_tail | quantile_cap_q0.99 | 5091126.02 | 740.72 | 58646.86 | 94.93% | — |
+| current_search | boost__Quantile_alpha_0.8__log1p__kaggle_only | 5091126.02 | 740.72 | 58646.86 | 94.93% | — |
+| current_tail | catboost_cap_q0.975 | 5094687.06 | 646.03 | 55161.58 | 95.28% | — |
+| current_probability | gp_power1.0_median | 5099070.25 | 271.94 | 30545.45 | 94.78% | — |
+| current_search | forest__capped__4__kaggle_only | 5100059.25 | 31651.75 | 178896.75 | 93.95% | — |
+| current_tail | catboost_cap_q0.95 | 5102307.35 | 646.03 | 35585.57 | 95.14% | — |
+| current_representation_gp | cosine_kaggle_only_latent_mean | 5107697.43 | 18764.92 | 32530.24 | 94.70% | — |
+| current_probability_public | gp_power2.0_rho0.5_median | 5108270.21 | 157.15 | 30923.50 | 94.85% | — |
+| current_search | boost__Tweedie_variance_power_1.7__raw__kaggle_only | 5108580.13 | 917.64 | 66947.57 | 94.86% | — |
+| current_representation_gp | cosine_public_plus_kaggle_latent_mean | 5112039.31 | 1030.38 | 29530.07 | 94.96% | — |
+| current_search | neighbors__log1p__12.0__kaggle_only | 5114941.51 | 5686.85 | 57954.37 | 94.57% | — |
+| current_search | kernel__log1p__0.1__2.0__kaggle_only | 5116206.76 | 82.34 | 30336.17 | 94.73% | — |
+| current_tabular | tabpfn_log_mean20 | 5116448.21 | 19289.44 | 100415.08 | 94.52% | — |
+| current_search | kernel__raw__10.0__2.0__kaggle_only | 5116629.13 | 19520.14 | 71482.44 | 94.57% | — |
+| current_probability | gp_power2.0_median | 5118885.77 | 77.35 | 30182.11 | 94.71% | — |
+| current_tail | tabpfn_cap_q0.95 | 5119263.51 | 2344.32 | 28968.90 | 94.85% | — |
+| current_tabular | tabpfn_raw | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current_tail | tabpfn_cap_q0.99 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current_tail | tabpfn_cap_q0.975 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current | catboost_log1p__kaggle_only | 5125011.44 | 256.51 | 52927.45 | 94.58% | — |
+| current_search | boost__Huber_delta_100__raw__kaggle_only | 5125053.71 | 2069.19 | 33137.18 | 94.77% | — |
+| current_search | kernel__log1p__1.0__2.0__public_plus_kaggle | 5126751.69 | 115.58 | 29750.06 | 94.78% | — |
+| current_search | boost__Tweedie_variance_power_1.3__raw__kaggle_only | 5128103.80 | 1616.97 | 83903.90 | 94.64% | — |
+| current_search | neighbors__log1p__4.0__kaggle_only | 5129395.17 | 253.95 | 29538.76 | 94.75% | — |
+| current_search | hurdle__log1p__1.0__2.0__kaggle_only | 5131279.79 | 115.59 | 29741.75 | 94.68% | — |
+| current_search | boost__Poisson__raw__kaggle_only | 5132675.03 | 1579.33 | 73314.07 | 94.53% | — |
+| current_tail | catboost_cap_q0.99 | 5134019.80 | 646.03 | 132244.43 | 94.55% | — |
+| current | catboost_log1p__public_plus_kaggle | 5135017.31 | 646.03 | 143406.45 | 94.54% | — |
+| current_search | kernel__log1p__1.0__2.0__kaggle_only | 5135675.33 | 45.79 | 30287.36 | 94.65% | — |
+| current_tabular | tabpfn_log_median | 5141658.71 | 336.08 | 30265.14 | 94.68% | — |
+| current_search | forest__log1p__4__kaggle_only | 5142986.72 | 657.37 | 66641.80 | 94.41% | — |
+| current_search | forest__log1p__1__kaggle_only | 5144076.99 | 1068.77 | 85577.31 | 94.48% | — |
+| current_search | hurdle__log1p__10.0__2.0__kaggle_only | 5144476.07 | 66.76 | 30446.99 | 94.60% | — |
+| current_search | kernel__log1p__10.0__2.0__public_plus_kaggle | 5146209.88 | 64.95 | 30585.15 | 94.60% | — |
+| current_search | kernel__log1p__10.0__2.0__kaggle_only | 5148205.15 | 34.00 | 30930.14 | 94.58% | — |
+| current_power_ensemble | 0.25_public_plus_kaggle | 5174178.32 | 9645.74 | 238349.56 | 93.13% | — |
+| current_search | forest__capped__1__kaggle_only | 5190736.39 | 17500.76 | 190764.72 | 93.65% | — |
+| current_power_ensemble | 0.25_kaggle_only | 5225373.91 | 8180.39 | 267792.89 | 92.11% | — |
+| current_hurdle_gp | 1.0_public_plus_kaggle_observation_mean | 5228001.44 | 119757.90 | 414320.95 | 91.41% | — |
+| current_representation_gp | rbf_public_plus_kaggle_latent_mean | 5275405.87 | 13970.20 | 64706.22 | 90.92% | — |
+| current_representation_gp | rbf_public_plus_kaggle_observation_mean | 5489449.81 | 19918.94 | 86981.43 | 87.11% | — |
+| current_search | forest__raw__1__kaggle_only | 5494344.91 | 154546.20 | 552154.27 | 88.47% | — |
+| current | catboost_direct__kaggle_only | 5501602.81 | 144242.41 | 551130.07 | 87.96% | — |
+| current_search | kernel__raw__1.0__2.0__kaggle_only | 5524928.34 | 62008.92 | 682705.12 | 86.60% | — |
+| current_search | neighbors__raw__4.0__kaggle_only | 5810149.94 | 238557.24 | 1015979.74 | 82.05% | — |
+| current_power_ensemble | 0.5_public_plus_kaggle | 5859968.79 | 27925.33 | 1202113.92 | 82.19% | — |
+| current_power_ensemble | 0.5_kaggle_only | 5926158.09 | 24418.99 | 1255286.35 | 81.07% | — |
+| current_search | forest__raw__4__kaggle_only | 6043185.63 | 326325.44 | 1304675.90 | 79.29% | — |
+| current_search | kernel__raw__0.1__2.0__kaggle_only | 6254362.70 | 60724.82 | 1590876.64 | 76.12% | — |
+| current_search | neighbors__raw__12.0__kaggle_only | 6942721.88 | 223598.37 | 2290381.66 | 67.79% | — |
+| current | chemeleon_ridge__kaggle_only | 7693582.04 | 499192.90 | 3503973.20 | 62.30% | — |
+| current | chemeleon_domain__public_plus_kaggle | 7807105.80 | 172128.70 | 3862630.10 | 61.34% | — |
+| current | chemeleon_domain__kaggle_only | 7973414.61 | 114440.29 | 4083989.22 | 60.09% | — |
+| current | chemeleon_mlp_log1p__public_plus_kaggle | 8404670.38 | 5881.13 | 116294.60 | 57.32% | — |
+| current | chemeleon_mlp__kaggle_only | 9191511.41 | 102279.95 | 5777982.15 | 52.05% | — |
+| current | chemeleon_ridge__public_plus_kaggle | 56006693.70 | 12905832.02 | 45041252.83 | 8.62% | — |
+| current | chemeleon_mlp__public_plus_kaggle | 62869404.78 | 3807215.85 | 33788926.77 | 7.57% | — |
+| current | catboost_direct__public_plus_kaggle | 103831255.14 | 4070469.36 | 86853202.02 | 4.64% | — |
+
+Historical concentration-head models are excluded from this strict protocol. No test endpoint labels were read by this report.

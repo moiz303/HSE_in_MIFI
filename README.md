@@ -4,7 +4,8 @@
 В описании Kaggle запрещены `CC50_uM` и `IC50_uM_VACV` для построения моделей
 и предсказания; команда подтвердила строгую трактовку, включая обучающие цели.
 Новый workflow использует из Kaggle только `SMILES` и `SI VACV`.
-[Проверка требований](docs/current_protocol.md), [таблица результатов](reports/current/comparison.md).
+[Проверка требований](docs/current_protocol.md), [общий скореборд](reports/current/all_models.md),
+[парное сравнение источников](reports/current/source_comparison.md).
 
 ## Данные и сравнение
 
@@ -25,7 +26,8 @@ CheMeleon, прямой CatBoost; для MLP/domain/CatBoost также пров
 Каждый — Kaggle-only и public+Kaggle, на одинаковых 18 molecule/scaffold OOF-фолдах.
 Параметры и веса источников: `configs/current.json`.
 
-Выбранный по OOF кандидат: `chemeleon_domain_log1p__public_plus_kaggle`,
+Первоначальный OOF-кандидат и лучший официальный результат:
+`chemeleon_domain_log1p__public_plus_kaggle`,
 средний MSE **5061848.48**. Лучший дополнительный endpoint-диагностический MSE:
 CatBoost log1p на смеси, **1968835.32** на 468/597. Это другой неполный эталон,
 он не использован для выбора. После отдельного разрешения новый SI-кандидат
@@ -42,6 +44,40 @@ CatBoost log1p на смеси, **1968835.32** на 468/597. Это другой
 Ограничение по train-квантилю .99 сохраняет все OOF-прогнозы, ограничивая три
 экстремальных финальных прогноза; официальный результат проверяется отдельно.
 
+Последующие проверки не улучшили официальный результат:
+
+| Кандидат | OOF MSE | Kaggle Score |
+|---|---:|---:|
+| CheMeleon SI domain log1p, public + Kaggle | 5061848.48 | **1586333.78789** |
+| Он же, ограничение train-квантилем .99 | 5061848.48 | 1586412.96821 |
+| Tanimoto GP, public + Kaggle, observation mean | **4973199.16** | 18558089.19131 |
+| Hurdle GP power1, Kaggle-only, latent mean | 5070675.74 | 1949484.90648 |
+
+Около 96% ошибки некоторых OOF-моделей создаёт одна строка с SI=36066.667.
+Меньшая OOF MSE не доказывает улучшения скрытого теста.
+[Независимый аудит](reports/current/protocol_audit.md) проверяет разбиения,
+взвешенное GP-правдоподобие, влияние хвоста и интервалы неопределённости.
+Цель ещё не достигнута. Четыре попытки исходного окна использованы;
+ожидаемый сброс — 8 ноября в 03:00 по Москве, перед отправками квота проверяется через API.
+
+Дополнительные блоки: публичные auxiliary-задачи на 4430 измерениях/1711 молекулах,
+GP на CheMeleon/RBF и hurdle GP. Все используют прежние development-строки,
+holdout остаётся закрыт. Лучший OOF mixed GP не продвигается после провала Kaggle.
+Страты zero/bulk диагностируют риск, не подменяя raw MSE.
+Завершены ещё 6 ансамблей (3 seed, преобразования SI log1p/Box-Cox .25/.5,
+два источника). Лучший OOF5063287.05 не обошёл исходную голову5061848.48;
+все шесть воспроизведены отдельно и не продвигаются на Kaggle.
+Общая таблица содержит107 конфигураций и контролей; это89 конфигураций обучения
+и18 дополнительных постобработок, а не107 независимых подтверждений.
+
+Воспроизводимый read-only отчёт: `output/jupyter-notebook/vacv-model-comparison.ipynb`.
+Обновление таблиц и выполнение всех кодовых ячеек отчёта:
+
+```powershell
+../env_arch/Scripts/python.exe -m src.current.scoreboard
+../env_arch/Scripts/python.exe -m src.current.notebook_report
+```
+
 ```powershell
 ../env_arch/Scripts/python.exe -m src.current.tail_controls --predict-artifact artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib --quantile 0.99 --out reports/current_tail/prediction.csv
 ```
@@ -50,6 +86,12 @@ TabPFN — отдельный эксперимент: `requirements-tabular.txt`
 `python -m src.current.tabular`. Авторские веса и атрибуция:
 [Prior Labs TabPFN-v2](https://huggingface.co/Prior-Labs/TabPFN-v2-reg).
 Контекст модели хранится отдельно от скачиваемых авторских весов.
+Свежая проверка TabPFN пока не прошла: этот эксперимент исключён из кандидатов
+на отправку до исправления воспроизводимости; допуск проверки не ослабляется.
+Диагностика: `reports/current_tabular/reproducibility_audit.json`.
+Изменение embedding на1.8e-7 и PCA-признаков на1.6e-5 заметно меняет некоторые
+прогнозы TabPFN. Исторический исходный batch воспроизводится, отдельный batch
+не проходит прежний допуск. Модели и прогнозы не переписаны для сокрытия расхождения.
 
 ## Запуск
 

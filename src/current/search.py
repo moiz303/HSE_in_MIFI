@@ -154,4 +154,5 @@ def run():
 
 
 if __name__=='__main__':
-    with threadpool_limits(limits=4):run()
+    from src.current.search import run as canonical_run
+    with threadpool_limits(limits=4):canonical_run()

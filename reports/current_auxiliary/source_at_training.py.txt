@@ -1,0 +1,191 @@
+"""SI-only competition heads with independent public endpoint auxiliary tasks.
+
+Official concentration columns are never opened. Public IC50, EC50 and CC50
+remain distinct tasks; censored measurements contribute only directional bounds.
+"""
+import argparse
+import copy
+import hashlib
+import json
+import time
+from pathlib import Path
+import joblib
+import numpy as np
+import pandas as pd
+import torch
+from threadpoolctl import threadpool_limits
+from src.current.data import ROOT,DIRECTORY,load,sha
+from src.current.workflow import feature_inputs,select_fit_rows,fit_model,metrics
+from src.current.models import make_network
+from src.architecture_features import representations
+from src.data.standardize import standardize_smiles
+from src.splits import murcko_scaffold
+
+REPORTS=ROOT/'reports/current_auxiliary'
+ARTIFACTS=ROOT/'artifacts/current_auxiliary'
+DATA=ROOT/'data/current_auxiliary'
+LAMBDAS=[0.,.05,.2]
+EPOCHS=80
+TASKS={'IC50':0,'EC50':1,'CC50':2}
+
+
+def public_measurements():
+    frame=pd.read_csv(ROOT/'data/experiments/independent_endpoints.csv')
+    # Reserve structure roles without loading any old targets or official endpoints.
+    structures=pd.read_csv(ROOT/'data/processed/dataset.csv',usecols=['standard_smiles'])
+    manifest=json.loads((ROOT/'data/processed/splits.json').read_text())['indices']
+    reserved=set(structures.iloc[manifest['holdout']].standard_smiles.map(murcko_scaffold))
+    official=pd.read_csv(ROOT/'data/raw/kaggle/train_v2.csv',usecols=['SMILES'])
+    official_structures=set(official.SMILES.map(standardize_smiles))
+    valid=frame.measured_type.isin(TASKS)&np.isfinite(frame.value_um)&frame.value_um.gt(0)
+    valid&=frame.qualifier.fillna('').isin(['','>','>=','<','<='])
+    valid&=~frame.standard_smiles.isin(official_structures)
+    valid&=~frame.standard_smiles.map(murcko_scaffold).isin(reserved)
+    frame=frame[valid].copy().reset_index(drop=True)
+    frame['task']=frame.measured_type.map(TASKS).astype(int)
+    frame['bound']=np.select([frame.qualifier.fillna('').str.startswith('>'),frame.qualifier.fillna('').str.startswith('<')],[1,-1],default=0)
+    frame['log_value']=np.log(frame.value_um)
+    # Preserve each published activity; balance duplicate observations per structure/task.
+    frame['fit_weight']=1./frame.groupby(['standard_smiles','task']).standard_smiles.transform('size')
+    doi=pd.read_csv(ROOT/'data/raw/chembl.csv',usecols=['document_id','doi']).dropna().groupby('document_id').doi.first()
+    frame['doi']=frame.document_id.map(doi).fillna('')
+    return frame
+
+
+def network(warm):
+    model=make_network(warm.dim,64,.15,True)
+    model.output=torch.nn.Linear(32,5)
+    state={k:torch.from_numpy(v.copy()) for k,v in warm.state.items()}
+    model.trunk.load_state_dict({k.removeprefix('trunk.'):v for k,v in state.items() if k.startswith('trunk.')})
+    with torch.no_grad():
+        model.output.weight[:2].copy_(state['output.weight']);model.output.bias[:2].copy_(state['output.bias'])
+    return model
+
+
+def bound_errors(predicted,target,direction):
+    residual=predicted-target
+    return torch.where(direction>0,torch.minimum(residual,torch.zeros_like(residual)),
+        torch.where(direction<0,torch.maximum(residual,torch.zeros_like(residual)),residual))
+
+
+class AuxiliaryModel:
+    def __init__(self,warm,strength):self.warm=copy.deepcopy(warm);self.strength=strength
+    def fit(self,main_x,main_si,main_weight,main_source,extra_x,extra):
+        torch.manual_seed(20261106);torch.set_num_threads(4)
+        model=network(self.warm)
+        optimizer=torch.optim.AdamW(model.parameters(),lr=.0001,weight_decay=.01)
+        main=torch.from_numpy(self.warm._x(main_x))
+        target=torch.tensor((np.log1p(main_si)-self.warm.y_mean)/self.warm.y_scale,dtype=torch.float32)
+        weight=torch.tensor(np.asarray(main_weight),dtype=torch.float32)
+        source=torch.tensor(np.asarray(main_source),dtype=torch.long)
+        aux=torch.from_numpy(self.warm._x(extra_x))
+        task=torch.tensor(extra.task.to_numpy(),dtype=torch.long)
+        direction=torch.tensor(extra.bound.to_numpy(),dtype=torch.long)
+        self.aux_centers=[];self.aux_scales=[]
+        for i in range(3):
+            values=extra.loc[extra.task.eq(i)&extra.bound.eq(0),'log_value']
+            if values.empty:raise ValueError('No exact public observations for auxiliary task')
+            self.aux_centers.append(float(values.mean()));self.aux_scales.append(max(float(values.std(ddof=0)),.1))
+        yy=(extra.log_value.to_numpy()-np.array(self.aux_centers)[extra.task])/np.array(self.aux_scales)[extra.task]
+        aux_target=torch.tensor(yy,dtype=torch.float32)
+        aux_weight=torch.tensor(extra.fit_weight.to_numpy(),dtype=torch.float32)
+        generator=torch.Generator().manual_seed(20261106)
+        model.train()
+        for epoch in range(EPOCHS):
+            for batch in torch.randperm(len(main),generator=generator).split(64):
+                outputs=model.output(model.trunk(main[batch]))
+                error=(outputs[torch.arange(len(batch)),source[batch]]-target[batch]).square()
+                loss=(error*weight[batch]).sum()/weight[batch].sum()
+                # All controls draw identical random auxiliary batches, including strength=0.
+                selected=torch.randint(len(aux),(128,),generator=generator)
+                auxiliary=model.output(model.trunk(aux[selected]))
+                prediction=auxiliary[torch.arange(len(selected)),2+task[selected]]
+                error=bound_errors(prediction,aux_target[selected],direction[selected]).square()
+                terms=[]
+                for t in range(3):
+                    m=task[selected].eq(t)
+                    if m.any():terms.append((error[m]*aux_weight[selected][m]).sum()/aux_weight[selected][m].sum())
+                loss=loss+self.strength*torch.stack(terms).mean()
+                optimizer.zero_grad();loss.backward();torch.nn.utils.clip_grad_norm_(model.parameters(),5.);optimizer.step()
+        self.state={k:v.detach().numpy() for k,v in model.state_dict().items()}
+        self.public_measurements=len(extra)
+        return self
+    def predict(self,x):
+        model=network(self.warm);model.load_state_dict({k:torch.from_numpy(v) for k,v in self.state.items()});model.eval()
+        with torch.no_grad():
+            value=model.output(model.trunk(torch.from_numpy(self.warm._x(x))))[:,1].numpy()
+        result=np.maximum(np.expm1(np.clip(value*self.warm.y_scale+self.warm.y_mean,-30,30)),0.)
+        if not np.isfinite(result).all():raise ValueError('Nonfinite auxiliary SI predictions')
+        return result
+
+
+def run():
+    for p in [REPORTS,ARTIFACTS,DATA]:p.mkdir(parents=True,exist_ok=True)
+    cfg=json.loads((ROOT/'configs/current.json').read_text())
+    kaggle,public,test,matrices,encoder,audit=feature_inputs(cfg)
+    extra=public_measurements();extra.to_csv(DATA/'public_measurements.csv',index=False)
+    unique=list(dict.fromkeys(extra.standard_smiles))
+    print(f'[auxiliary] independent public measurements={len(extra)} structures={len(unique)} tasks={extra.measured_type.value_counts().to_dict()}',flush=True)
+    external,external_meta=representations(unique,'chemeleon',8)
+    if external_meta['checkpoint']['sha256']!=encoder['checkpoint']['sha256']:raise ValueError('Different encoders')
+    positions={s:i for i,s in enumerate(unique)}
+    extra['feature_row']=extra.standard_smiles.map(positions).astype(int)
+    matrix=matrices['chemeleon']
+    provenance={'data':audit,'public_source_sha256':sha(ROOT/'data/experiments/independent_endpoints.csv'),
+        'public_measurements_sha256':sha(DATA/'public_measurements.csv'),'public_rows':len(extra),'public_structures':len(unique),
+        'code_sha256':sha(Path(__file__)),'encoder':encoder,'config':cfg,'lambdas':LAMBDAS,'epochs':EPOCHS,
+        'official_columns_read':['SMILES','SI VACV'],'official_endpoint_columns_read':[],
+        'auxiliary_public_tasks':['IC50','EC50','CC50'],'censored_values':'Directional hinge bounds, never exact labels',
+        'holdout_used':False,'test_endpoints_used':False}
+    fingerprint=hashlib.sha256(json.dumps(provenance,sort_keys=True).encode()).hexdigest()
+    (DATA/'audit.json').write_text(json.dumps(provenance,indent=2),encoding='utf-8')
+    chunks=[]
+    for split in json.loads((DIRECTORY/'splits.json').read_text())['folds']:
+        stamp=f"{split['protocol']}_{split['repeat']}_{split['fold']}"
+        path=REPORTS/f'fold_{stamp}.csv';marker=path.with_suffix('.json')
+        if path.exists() and marker.exists() and json.loads(marker.read_text())['fingerprint']==fingerprint:
+            chunks.append(pd.read_csv(path));continue
+        held=kaggle[kaggle.original_row.isin(split['held_original_rows'])]
+        fit=select_fit_rows(kaggle,public,split['held_original_rows'],split['protocol'],'public_plus_kaggle')
+        supplemental=extra[~extra.standard_smiles.isin(held.standard_smiles)].copy()
+        if split['protocol']=='scaffold':supplemental=supplemental[~supplemental.standard_smiles.map(murcko_scaffold).isin(set(held.standard_smiles.map(murcko_scaffold)))]
+        warm=fit_model('chemeleon_domain_log1p',fit,matrices,cfg)
+        rows=held[['original_row','standard_smiles','SI']].rename(columns={'SI':'SI_true'}).copy()
+        rows['protocol']=split['protocol'];rows['repeat']=split['repeat'];rows['fold']=split['fold']
+        query=matrix[held.matrix_row.to_numpy(int)];rows['warm']=warm.predict(query)
+        for strength in LAMBDAS:
+            started=time.monotonic();name=f'aux_lambda_{strength}'
+            model=AuxiliaryModel(warm,strength).fit(matrix[fit.matrix_row.to_numpy(int)],fit.SI,fit.weight,fit.source.eq('kaggle'),external[supplemental.feature_row.to_numpy(int)],supplemental)
+            rows[name]=model.predict(query)
+            print(f"[auxiliary] {stamp} {name} MSE={metrics(held.SI,rows[name])['mse']:.3f} seconds={time.monotonic()-started:.1f}",flush=True)
+        rows.to_csv(path,index=False);marker.write_text(json.dumps({'fingerprint':fingerprint,'auxiliary_fit_rows':len(supplemental)}),encoding='utf-8');chunks.append(rows)
+    oof=pd.concat(chunks,ignore_index=True)
+    baseline=pd.read_csv(ROOT/'reports/current/oof.csv')
+    checked=oof.merge(baseline[['protocol','repeat','fold','original_row','chemeleon_domain_log1p__public_plus_kaggle']],on=['protocol','repeat','fold','original_row'],validate='one_to_one')
+    np.testing.assert_allclose(checked.warm,checked.chemeleon_domain_log1p__public_plus_kaggle,rtol=1e-4,atol=1e-4)
+    ranking=[]
+    for name in ['warm']+[f'aux_lambda_{s}' for s in LAMBDAS]:
+        per={p:metrics(r.SI_true,r[name])['mse'] for p,r in oof.groupby('protocol')}
+        ranking.append({'candidate':name,'mean_oof_mse':float(np.mean(list(per.values()))),**per})
+    ranking.sort(key=lambda r:r['mean_oof_mse'])
+    report={'selected':ranking[0]['candidate'],'ranking':ranking,'provenance':provenance,
+        'warm_matches_original_oof':True,'official_kaggle_score':None,'kaggle_submitted':False}
+    (REPORTS/'selection.json').write_text(json.dumps(report,indent=2),encoding='utf-8');oof.to_csv(REPORTS/'oof.csv',index=False)
+    fit=pd.concat([kaggle,public],ignore_index=True);warm=fit_model('chemeleon_domain_log1p',fit,matrices,cfg)
+    query=matrix[len(kaggle)+len(public):]
+    for row in ranking:
+        if row['candidate']=='warm':continue
+        strength=float(row['candidate'].removeprefix('aux_lambda_'))
+        model=AuxiliaryModel(warm,strength).fit(matrix[fit.matrix_row.to_numpy(int)],fit.SI,fit.weight,fit.source.eq('kaggle'),external[extra.feature_row.to_numpy(int)],extra)
+        path=ARTIFACTS/(row['candidate']+'.joblib');joblib.dump({'model':model,'provenance':provenance},path,compress=3)
+        restored=joblib.load(path)['model'];values=restored.predict(query)
+        np.testing.assert_allclose(values,model.predict(query),rtol=1e-5,atol=1e-5)
+        submission=REPORTS/('submission_'+row['candidate']+'.csv');pd.DataFrame({'index':test['index'],'SI VACV':values}).to_csv(submission,index=False)
+        row.update(artifact=path.relative_to(ROOT).as_posix(),submission=submission.relative_to(ROOT).as_posix(),submission_sha256=sha(submission))
+    (REPORTS/'report.json').write_text(json.dumps(report,indent=2),encoding='utf-8');pd.DataFrame(ranking).to_csv(REPORTS/'comparison.csv',index=False)
+    print('[auxiliary done] '+json.dumps(ranking),flush=True)
+
+
+if __name__=='__main__':
+    torch.set_num_threads(4)
+    with threadpool_limits(limits=4):run()

@@ -1,0 +1,7 @@
+{
+  "candidate": "1.0_kaggle_only_latent_mean",
+  "selection_uses_test_endpoints": false,
+  "raw_mse_winner": false,
+  "reason": "Diverse competition-only hurdle; TRAIN OOF bulk gain23.18%, wins5/6 groups, zeroMSE within4% of CheM; no public-source tail; uncertainty intervals include no gain. Final max1568.34. Last pre-reset attempt.",
+  "submission_sha256": "db6b580b6670d708371ab4881f89d1056219b087a719a15466d37b3a651ed818"
+}

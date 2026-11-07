@@ -23,8 +23,32 @@
       "submission_attempt_in_current_goal": 2,
       "ref": 58103262,
       "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "candidate": "gp_power2.0_rho1.0_observation_mean",
+      "submission": "reports/current_probability_public/submission_gp_power2.0_rho1.0_observation_mean.csv",
+      "submission_sha256": "b0573e93e39ca83c489868d03aae84009f9a074d5357303e2713d2e54722d27a",
+      "mean_oof_mse": 4973199.155002328,
+      "result": "{\"message\": \"Successfully submitted to Molecular Activity Prediction\", \"ref\": 58104352}",
+      "ref": 58104352,
+      "official_score": 18558089.19131,
+      "submission_attempt_in_current_goal": 3,
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "candidate": "1.0_kaggle_only_latent_mean",
+      "submission": "reports/current_hurdle_gp/submission_1.0_kaggle_only_latent_mean.csv",
+      "submission_sha256": "db6b580b6670d708371ab4881f89d1056219b087a719a15466d37b3a651ed818",
+      "mean_oof_mse": 5070675.736626121,
+      "result": "{\"message\": \"Successfully submitted to Molecular Activity Prediction\", \"ref\": 58104456}",
+      "ref": 58104456,
+      "official_score": 1949484.90648,
+      "submission_attempt_in_current_goal": 4,
+      "status": "SubmissionStatus.COMPLETE"
     }
   ],
   "target": "top10 OR Score<800000",
-  "goal_attempt_budget": 4
+  "goal_attempt_budget": 4,
+  "current_window_remaining_after_upload": 0,
+  "next_reset_expected_utc": "2026-11-08T00:00:00Z"
 }
