@@ -1,0 +1,4 @@
+candidate,bio_weight,regime,mean_oof_mse,molecule,scaffold,zero_mse,bulk_mse,submission,submission_sha256
+bio_weight_0.75,0.75,fixed_blend,5015503.079994075,5019055.219026919,5011950.94096123,3427.1252518789966,40468.31121586779,reports/current_bio_blend/submission_bio_weight_0.75.csv,f83c82f32bc23b5af1ce5e33a033487f8e2186223ed15b181ea39dca1f9ad8e9
+bio_weight_0.5,0.5,fixed_blend,5023845.703077359,5022554.145828736,5025137.260325981,3454.8767142365346,40517.45576935388,reports/current_bio_blend/submission_bio_weight_0.5.csv,02dd077f371df4de5d4cf6bbabd7f2fd3eb5127278f8b7f2357738efa3957f04
+bio_weight_0.25,0.25,fixed_blend,5039294.169126736,5034219.666396617,5044368.671856856,3853.536850700867,42464.943657791606,reports/current_bio_blend/submission_bio_weight_0.25.csv,4e6fbd9bf012c251aed9e352ea9fcffc7ad60750e13a5e599a4366eabc0d2894

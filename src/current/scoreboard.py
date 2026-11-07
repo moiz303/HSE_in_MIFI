@@ -6,7 +6,7 @@ import pandas as pd
 from src.current.data import ROOT
 
 EXPERIMENTS=['current','current_search','current_tabular','current_tail','current_auxiliary',
-    'current_probability','current_probability_public','current_representation_gp','current_hurdle_gp','current_power_ensemble','current_bio_transfer']
+    'current_probability','current_probability_public','current_representation_gp','current_hurdle_gp','current_power_ensemble','current_bio_transfer','current_bio_blend']
 
 
 def subset_mse(y,p,mask):

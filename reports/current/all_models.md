@@ -14,11 +14,14 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_representation_gp | rbf_tanimoto_public_plus_kaggle_observation_mean | 5013150.34 | 18973.45 | 101808.45 | 95.27% | — |
 | current_probability_public | gp_power2.0_rho0.5_observation_mean | 5014082.10 | 5815.27 | 67499.62 | 95.26% | — |
 | current_bio_transfer | bio_fp__kaggle_only | 5014266.30 | 3770.28 | 42317.51 | 95.88% | — |
+| current_bio_blend | bio_weight_0.75 | 5015503.08 | 3427.13 | 40468.31 | 95.85% | — |
+| current_bio_blend | bio_weight_0.5 | 5023845.70 | 3454.88 | 40517.46 | 95.68% | — |
 | current_probability_public | gp_power1.0_rho1.0_latent_mean | 5024812.05 | 60928.50 | 180423.09 | 95.11% | — |
 | current_probability_public | gp_power1.0_rho0.5_latent_mean | 5027621.34 | 8087.16 | 56166.88 | 95.17% | — |
 | current_probability_public | gp_power2.0_rho0.5_latent_mean | 5029753.01 | 4012.79 | 51731.09 | 95.26% | — |
 | current_probability | gp_power1.0_observation_mean | 5032173.07 | 5739.36 | 50514.33 | 95.01% | — |
 | current_probability_public | gp_power1.0_rho1.0_median | 5034702.02 | 4841.13 | 50571.83 | 95.80% | — |
+| current_bio_blend | bio_weight_0.25 | 5039294.17 | 3853.54 | 42464.94 | 95.38% | — |
 | current_hurdle_gp | 2.0_kaggle_only_observation_mean | 5045655.28 | 8057.06 | 79173.61 | 94.76% | — |
 | current_representation_gp | rbf_tanimoto_kaggle_only_observation_mean | 5046405.85 | 2849.48 | 39074.88 | 94.99% | — |
 | current_probability | gp_power2.0_observation_mean | 5048234.79 | 2400.81 | 41115.66 | 94.96% | — |
@@ -74,8 +77,8 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_probability | gp_power2.0_median | 5118885.77 | 77.35 | 30182.11 | 94.71% | — |
 | current_tail | tabpfn_cap_q0.95 | 5119263.51 | 2344.32 | 28968.90 | 94.85% | — |
 | current_tail | tabpfn_cap_q0.99 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
-| current_tabular | tabpfn_raw | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
 | current_tail | tabpfn_cap_q0.975 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current_tabular | tabpfn_raw | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
 | current_bio_transfer | base_fp__kaggle_only | 5125011.44 | 256.51 | 52927.45 | 94.58% | — |
 | current | catboost_log1p__kaggle_only | 5125011.44 | 256.51 | 52927.45 | 94.58% | — |
 | current_search | boost__Huber_delta_100__raw__kaggle_only | 5125053.71 | 2069.19 | 33137.18 | 94.77% | — |

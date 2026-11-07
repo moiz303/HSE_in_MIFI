@@ -1,0 +1,95 @@
+{
+  "selected": "bio_weight_0.75",
+  "ranking": [
+    {
+      "candidate": "bio_weight_0.75",
+      "bio_weight": 0.75,
+      "regime": "fixed_blend",
+      "mean_oof_mse": 5015503.079994075,
+      "molecule": 5019055.219026919,
+      "scaffold": 5011950.94096123,
+      "zero_mse": 3427.1252518789966,
+      "bulk_mse": 40468.31121586779,
+      "gain_vs_chemeleon": {
+        "mean_mse_gain": 46345.39814813115,
+        "ci95_lower": 2556.4508336700164,
+        "ci95_upper": 115463.35321625274,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "gain_vs_bio": {
+        "mean_mse_gain": -1236.7801171924368,
+        "ci95_lower": -6937.649357337826,
+        "ci95_upper": 3130.680807939149,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "bio_weight_0.5",
+      "bio_weight": 0.5,
+      "regime": "fixed_blend",
+      "mean_oof_mse": 5023845.703077359,
+      "molecule": 5022554.145828736,
+      "scaffold": 5025137.260325981,
+      "zero_mse": 3454.8767142365346,
+      "bulk_mse": 40517.45576935388,
+      "gain_vs_chemeleon": {
+        "mean_mse_gain": 38002.77506484614,
+        "ci95_lower": 3445.0825874210054,
+        "ci95_upper": 92218.97411467011,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "gain_vs_bio": {
+        "mean_mse_gain": -9579.403200477444,
+        "ci95_lower": -28999.96455052765,
+        "ci95_upper": 3807.318297113914,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    },
+    {
+      "candidate": "bio_weight_0.25",
+      "bio_weight": 0.25,
+      "regime": "fixed_blend",
+      "mean_oof_mse": 5039294.169126736,
+      "molecule": 5034219.666396617,
+      "scaffold": 5044368.671856856,
+      "zero_mse": 3853.536850700867,
+      "bulk_mse": 42464.943657791606,
+      "gain_vs_chemeleon": {
+        "mean_mse_gain": 22554.309015469287,
+        "ci95_lower": 2558.5954231226187,
+        "ci95_upper": 53731.189709252554,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "gain_vs_bio": {
+        "mean_mse_gain": -25027.869249854288,
+        "ci95_lower": -67159.34575351575,
+        "ci95_upper": 2752.320614675061,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      }
+    }
+  ],
+  "input_sha256": {
+    "reports/current/oof.csv": "6e35a69e932e2975fbeb69101de53366a7a744f43decaa946127dd454b900daf",
+    "reports/current_bio_transfer/oof.csv": "d7090abc840a4aad982502cfd77d4325534535e6eefa2ff769ca482831542f9f",
+    "reports/current/submission_chemeleon_domain_log1p__public_plus_kaggle.csv": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3",
+    "reports/current_bio_transfer/submission_bio_fp__kaggle_only.csv": "3245971fa75a156cdbd2f360bbbb40790b5295dd1f10563f26b446b7657454f8"
+  },
+  "weights_declared_before_comparison": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "primary_metric": "ALL original development raw-SI mean molecule/scaffold MSE",
+  "independent_confirmation": false,
+  "test_endpoints_used": false,
+  "kaggle_submitted": false,
+  "already_queued_candidate_changed": false,
+  "no_new_model_fitting": true,
+  "code_sha256": "30ac0953cdf64053a4a2ecaea4a43adcc871ca134b7dfc5df458bdcc9d877910"
+}
