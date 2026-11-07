@@ -1,0 +1,13 @@
+{
+  "policy": "User authorized only the best candidate if local MSE improves by strictly more than 10 percent",
+  "baseline_local_mse": 1932650.98144585,
+  "required_score_strictly_below": 1739385.883301265,
+  "best_hypothesis": "head_params",
+  "best_local_mse": 1893853.2391688058,
+  "improvement_percent": 2.007488297137803,
+  "n_evaluated": 468,
+  "n_test": 597,
+  "submitted": false,
+  "reason": "No candidate achieved the user-specified 10 percent reduction; Kaggle quota was preserved",
+  "new_official_kaggle_score": null
+}

@@ -1,0 +1,2988 @@
+{
+  "hypothesis": "features",
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "order": [
+      "independent",
+      "features",
+      "censoring",
+      "direct_si",
+      "clean_pairs",
+      "head_params"
+    ],
+    "baseline_submission": "reports/submission_xgb_tail.csv",
+    "baseline_oof": "reports/tail_comparison_oof.csv",
+    "baseline_report": "reports/tail_comparison.json",
+    "baseline_training": "reports/xgb_tail_training.json",
+    "submission_improvement_fraction": 0.1,
+    "submission_policy": "best_qualifying_only_unless_user_requests_each",
+    "note": "Independent ablations, selected by development OOF before separate test diagnostics. No Kaggle calls in training."
+  },
+  "candidates": {
+    "counts": {
+      "features": "counts"
+    },
+    "radius3": {
+      "features": "radius3"
+    },
+    "feature_morgan": {
+      "features": "feature_morgan"
+    }
+  },
+  "selection": {
+    "selected": "counts",
+    "oof_safe": false,
+    "rule": "Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration",
+    "note": "Exploratory candidate selection, no independent performance claim"
+  },
+  "protocols": {
+    "molecule": {
+      "baseline": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        }
+      },
+      "counts": {
+        "n": 801,
+        "mse": 29655285.54617258,
+        "rmse": 5445.66667600695,
+        "mae": 2703.1480589695866,
+        "bias": -2675.8101920048634,
+        "rmse_log10": 1.6477743935770182,
+        "repeat_mse": [
+          29656349.836590886,
+          29674817.95918077,
+          29634688.842746083
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6679574.146111974,
+          "rmse": 2584.487211442915,
+          "mae": 313.30722326198537,
+          "bias": -276.99274326406857,
+          "rmse_log10": 0.8444585993878198
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 4344.879535158596,
+          "rmse": 65.91570021746409,
+          "mae": 25.497125080422673,
+          "bias": 15.731486815125402,
+          "rmse_log10": 0.7543186234326424
+        },
+        "paired_gain": {
+          "mean_mse_gain": 11566.787006103503,
+          "ci95": [
+            -5661.235661834203,
+            37324.60899266223
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "radius3": {
+        "n": 801,
+        "mse": 29695502.055225693,
+        "rmse": 5449.3579488987225,
+        "mae": 2707.064327777389,
+        "bias": -2684.1776408928913,
+        "rmse_log10": 1.6417367355460812,
+        "repeat_mse": [
+          29716513.17328155,
+          29706356.652069256,
+          29663636.340326276
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6725919.9327562945,
+          "rmse": 2593.437859821649,
+          "mae": 318.1549821976141,
+          "bias": -287.75326379880477,
+          "rmse_log10": 0.8288684407945475
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 2442.704235612552,
+          "rmse": 49.423721385712675,
+          "mae": 22.05439460544786,
+          "bias": 12.874214575670687,
+          "rmse_log10": 0.7292913778958059
+        },
+        "paired_gain": {
+          "mean_mse_gain": -28649.72204701514,
+          "ci95": [
+            -83097.79916122412,
+            5305.788148392154
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "feature_morgan": {
+        "n": 801,
+        "mse": 29674183.33764074,
+        "rmse": 5447.401521610165,
+        "mae": 2710.7347424117634,
+        "bias": -2674.783955115482,
+        "rmse_log10": 1.6359058172767766,
+        "repeat_mse": [
+          29696822.203433022,
+          29690784.014271457,
+          29634943.795217734
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6704720.059235184,
+          "rmse": 2589.347419570264,
+          "mae": 323.3860097293551,
+          "bias": -275.63048630593676,
+          "rmse_log10": 0.8220182796216179
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 9882.783754821277,
+          "rmse": 99.41219117805058,
+          "mae": 32.97820501365963,
+          "bias": 23.657826355577498,
+          "rmse_log10": 0.7328655479253293
+        },
+        "paired_gain": {
+          "mean_mse_gain": -7331.004462060838,
+          "ci95": [
+            -69368.30952779314,
+            38050.25673620863
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "baseline": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477972,
+          "bias": 20.27150399889362,
+          "rmse_log10": 0.82984927730235
+        }
+      },
+      "counts": {
+        "n": 801,
+        "mse": 29683997.13126242,
+        "rmse": 5448.302224662507,
+        "mae": 2714.63521270692,
+        "bias": -2677.5022470232743,
+        "rmse_log10": 1.7067636676195759,
+        "repeat_mse": [
+          29651218.357886136,
+          29769802.89466248,
+          29630970.14123866
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6732623.344885629,
+          "rmse": 2594.729917522367,
+          "mae": 329.3210070979084,
+          "bias": -279.9951273091846,
+          "rmse_log10": 0.9576189231727912
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 27769.792148471483,
+          "rmse": 166.64270805670282,
+          "mae": 34.73705534644584,
+          "bias": 22.824741471500356,
+          "rmse_log10": 0.8323152670848384
+        },
+        "paired_gain": {
+          "mean_mse_gain": -2329.138472199111,
+          "ci95": [
+            -26184.252619218714,
+            16465.46006037267
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "radius3": {
+        "n": 801,
+        "mse": 29682666.61648289,
+        "rmse": 5448.180119680597,
+        "mae": 2714.316643526441,
+        "bias": -2678.921056769315,
+        "rmse_log10": 1.695296071749505,
+        "repeat_mse": [
+          29642605.296029598,
+          29741231.04997783,
+          29664163.50344123
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6731635.361354583,
+          "rmse": 2594.5395278073106,
+          "mae": 328.93492325701897,
+          "bias": -281.91690502740437,
+          "rmse_log10": 0.9459651706938079
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 9251.140784651518,
+          "rmse": 96.18285078251485,
+          "mae": 31.11642676826844,
+          "bias": 19.95095405305075,
+          "rmse_log10": 0.8238112429778724
+        },
+        "paired_gain": {
+          "mean_mse_gain": -998.6236926620924,
+          "ci95": [
+            -23173.707233699177,
+            23199.549029804937
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "feature_morgan": {
+        "n": 801,
+        "mse": 29701926.83417129,
+        "rmse": 5449.947415725338,
+        "mae": 2723.334422773859,
+        "bias": -2661.2640104015445,
+        "rmse_log10": 1.79152286510553,
+        "repeat_mse": [
+          29658155.997396227,
+          29752651.69510912,
+          29694972.810008522
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6724473.439519963,
+          "rmse": 2593.1589691956724,
+          "mae": 339.26867201231727,
+          "bias": -256.81693020431703,
+          "rmse_log10": 1.003058337326059
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 27027.856221236667,
+          "rmse": 164.4015091817489,
+          "mae": 50.931963461861756,
+          "bias": 38.93930977817084,
+          "rmse_log10": 0.9009819204402605
+        },
+        "paired_gain": {
+          "mean_mse_gain": -20258.841381062513,
+          "ci95": [
+            -45495.5729193055,
+            4931.384137372121
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "fit_audits": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 302,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 450,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 302,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 450,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 302,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 450,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 325,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 468,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 325,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 468,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 325,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 468,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 294,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 294,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 294,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 315,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 315,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 315,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 321,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 448,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 321,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 448,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 321,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 448,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 322,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 453,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 322,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 453,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 322,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 453,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 462,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 462,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 462,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 297,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 449,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 297,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 449,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 297,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 449,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 336,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 456,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 336,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 456,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 336,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 456,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 312,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 463,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 312,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 463,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 312,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 463,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 282,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 445,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 282,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 445,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 282,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 445,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 340,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 474,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 340,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 474,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 340,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 474,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 465,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 465,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 465,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 287,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 425,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 287,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 425,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 287,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 425,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 478,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 478,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 478,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 330,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 330,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 330,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "counts",
+      "heads": {
+        "IC50": {
+          "n": 289,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 440,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "radius3",
+      "heads": {
+        "IC50": {
+          "n": 289,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 440,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "feature_morgan",
+      "heads": {
+        "IC50": {
+          "n": 289,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 440,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    }
+  ],
+  "final_training": {
+    "IC50": {
+      "n": 465,
+      "censored": 0,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "reg:squarederror"
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    },
+    "CC50": {
+      "n": 682,
+      "censored": 0,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "reg:squarederror"
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    }
+  },
+  "development_rows": 1007,
+  "original_reference_rows": 267,
+  "holdout_used": false,
+  "extra_endpoints": 0,
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "extra_sha256": null,
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "artifact": "artifacts/hypotheses/features.joblib",
+  "submission": "reports/hypotheses/features/submission.csv",
+  "submission_sha256": "314f93d584b9109a5abf576ba83250c43df130011485622bf2488fd417ab8162",
+  "elapsed_seconds": 180.61366480001016
+}

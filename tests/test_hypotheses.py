@@ -58,7 +58,7 @@ class IndependentEndpoints(unittest.TestCase):
 
 class Models(unittest.TestCase):
     def test_module_cli_delegates_to_importable_training_module(self):
-        with patch.object(suite, "main") as main, patch("sys.argv", ["src.hypotheses"]):
+        with patch.object(suite, "main") as main, patch("sys.argv", ["src.hypotheses", "--help"]):
             runpy.run_module("src.hypotheses", run_name="__main__")
         main.assert_called_once_with()
 

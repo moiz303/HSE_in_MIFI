@@ -1,0 +1,64 @@
+{
+  "models": [
+    {
+      "hypothesis": "independent",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "48c9f211266beecae70279bc1405dfeba148396e511e086f87796682e925cd42"
+    },
+    {
+      "hypothesis": "features",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "f0deaad805fe0798da895b576871de0e5c3546f90ef475abbe1edd17b5ccabc7"
+    },
+    {
+      "hypothesis": "censoring",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "17f188e8308de19f7ef8649cb8674c14baf1c90b2c98c6f54488b6b76ca9bd80"
+    },
+    {
+      "hypothesis": "direct_si",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "67bfe73821f366aa399afa48e6c62b62e428baee7abc05ddd6691fe0c4dfb1ff"
+    },
+    {
+      "hypothesis": "clean_pairs",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "8d7dad0d11ad71292264debd8a66050d7c503df369f2fcd19eaf8344708898fa"
+    },
+    {
+      "hypothesis": "head_params",
+      "canonical_class": "src.hypotheses.HypothesisModel",
+      "predictions_match_saved": true,
+      "oof_baseline_matches": true,
+      "rows": 597,
+      "artifact_sha256": "f6c624d1b891086d2237290e718ae432e906e11d54d7f9dbd9a4a0abcd113f29"
+    }
+  ],
+  "source_sha256_lf": {
+    "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+    "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+    "data/experiments/independent_training.csv": "70b586fbd964b58bf829ce2849c945c494059ddb1c434967778c6258df5698cc",
+    "configs/hypotheses.json": "351f20a56d9a533493cd090a745e1537be3cb18302c36908881c1392154391cc"
+  },
+  "inference_test_columns": [
+    "index",
+    "SMILES"
+  ],
+  "diagnostic_endpoints_read": false,
+  "note": "Native artifacts verified in a separate process; initial CLI class names normalized without refitting or changing predictions"
+}

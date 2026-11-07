@@ -1,0 +1,475 @@
+[suite] independent extra endpoints=535: {'CC50': 313, 'IC50': 222}
+[suite] independent molecule repeat=1/3 fold=1/3; extra=535
+[suite] expanded MSE=64639123.7767
+[suite] independent molecule repeat=1/3 fold=2/3; extra=535
+[suite] expanded MSE=35633431.8185
+[suite] independent molecule repeat=1/3 fold=3/3; extra=535
+[suite] expanded MSE=33801941.5660
+[suite] independent molecule repeat=2/3 fold=1/3; extra=535
+[suite] expanded MSE=26550845.6785
+[suite] independent molecule repeat=2/3 fold=2/3; extra=535
+[suite] expanded MSE=40485549.4774
+[suite] independent molecule repeat=2/3 fold=3/3; extra=535
+[suite] expanded MSE=29158532.0597
+[suite] independent molecule repeat=3/3 fold=1/3; extra=535
+[suite] expanded MSE=38355437.2968
+[suite] independent molecule repeat=3/3 fold=2/3; extra=535
+[suite] expanded MSE=47243036.9823
+[suite] independent molecule repeat=3/3 fold=3/3; extra=535
+[suite] expanded MSE=15848477.9699
+[suite] independent scaffold repeat=1/3 fold=1/3; extra=459
+[suite] expanded MSE=41041637.8287
+[suite] independent scaffold repeat=1/3 fold=2/3; extra=456
+[suite] expanded MSE=20871405.4440
+[suite] independent scaffold repeat=1/3 fold=3/3; extra=447
+[suite] expanded MSE=23104117.1782
+[suite] independent scaffold repeat=2/3 fold=1/3; extra=461
+[suite] expanded MSE=34909165.7842
+[suite] independent scaffold repeat=2/3 fold=2/3; extra=458
+[suite] expanded MSE=33953264.3807
+[suite] independent scaffold repeat=2/3 fold=3/3; extra=443
+[suite] expanded MSE=37752225.5203
+[suite] independent scaffold repeat=3/3 fold=1/3; extra=455
+[suite] expanded MSE=22364499.8714
+[suite] independent scaffold repeat=3/3 fold=2/3; extra=433
+[suite] expanded MSE=40712751.8257
+[suite] independent scaffold repeat=3/3 fold=3/3; extra=474
+[suite] expanded MSE=23227893.9207
+[suite done] independent: {'selected': 'expanded', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=95.4s
+[suite] features molecule repeat=1/3 fold=1/3; extra=0
+[suite] counts MSE=21858801.7315
+[suite] radius3 MSE=21899136.0217
+[suite] feature_morgan MSE=21846104.6397
+[suite] features molecule repeat=1/3 fold=2/3; extra=0
+[suite] counts MSE=35609976.1544
+[suite] radius3 MSE=35760239.4801
+[suite] feature_morgan MSE=35757598.1906
+[suite] features molecule repeat=1/3 fold=3/3; extra=0
+[suite] counts MSE=34110047.3132
+[suite] radius3 MSE=34119353.6013
+[suite] feature_morgan MSE=34125679.1886
+[suite] features molecule repeat=2/3 fold=1/3; extra=0
+[suite] counts MSE=26537589.0669
+[suite] radius3 MSE=26543850.6476
+[suite] feature_morgan MSE=26522720.1440
+[suite] features molecule repeat=2/3 fold=2/3; extra=0
+[suite] counts MSE=33832724.4796
+[suite] radius3 MSE=33917489.5145
+[suite] feature_morgan MSE=33911396.1990
+[suite] features molecule repeat=2/3 fold=3/3; extra=0
+[suite] counts MSE=29145947.2129
+[suite] radius3 MSE=29154829.0435
+[suite] feature_morgan MSE=29136348.6923
+[suite] features molecule repeat=3/3 fold=1/3; extra=0
+[suite] counts MSE=38315339.2145
+[suite] radius3 MSE=38317277.8411
+[suite] feature_morgan MSE=38244665.6419
+[suite] features molecule repeat=3/3 fold=2/3; extra=0
+[suite] counts MSE=34276166.5725
+[suite] radius3 MSE=34353518.0713
+[suite] feature_morgan MSE=34370243.6092
+[suite] features molecule repeat=3/3 fold=3/3; extra=0
+[suite] counts MSE=15878930.4112
+[suite] radius3 MSE=15889974.4289
+[suite] feature_morgan MSE=15864326.3205
+[suite] features scaffold repeat=1/3 fold=1/3; extra=0
+[suite] counts MSE=41266516.7184
+[suite] radius3 MSE=41240610.0661
+[suite] feature_morgan MSE=41267628.8128
+[suite] features scaffold repeat=1/3 fold=2/3; extra=0
+[suite] counts MSE=20554922.4506
+[suite] radius3 MSE=20543617.5947
+[suite] feature_morgan MSE=20565258.1387
+[suite] features scaffold repeat=1/3 fold=3/3; extra=0
+[suite] counts MSE=23147244.6530
+[suite] radius3 MSE=23163758.1046
+[suite] feature_morgan MSE=23158551.6283
+[suite] features scaffold repeat=2/3 fold=1/3; extra=0
+[suite] counts MSE=34998079.8468
+[suite] radius3 MSE=35010949.8937
+[suite] feature_morgan MSE=35003920.5195
+[suite] features scaffold repeat=2/3 fold=2/3; extra=0
+[suite] counts MSE=14670233.2962
+[suite] radius3 MSE=14574855.6981
+[suite] feature_morgan MSE=14619380.7105
+[suite] features scaffold repeat=2/3 fold=3/3; extra=0
+[suite] counts MSE=37850011.1198
+[suite] radius3 MSE=37839842.4492
+[suite] feature_morgan MSE=37840167.7639
+[suite] features scaffold repeat=3/3 fold=1/3; extra=0
+[suite] counts MSE=22063886.5487
+[suite] radius3 MSE=22059757.5605
+[suite] feature_morgan MSE=22056020.7647
+[suite] features scaffold repeat=3/3 fold=2/3; extra=0
+[suite] counts MSE=40827746.3688
+[suite] radius3 MSE=40837426.7316
+[suite] feature_morgan MSE=40915006.6841
+[suite] features scaffold repeat=3/3 fold=3/3; extra=0
+[suite] counts MSE=23072320.5457
+[suite] radius3 MSE=23166383.5622
+[suite] feature_morgan MSE=23172396.0106
+[suite done] features: {'selected': 'counts', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=180.6s
+[suite] censoring molecule repeat=1/3 fold=1/3; extra=0
+[suite] aft_exact MSE=21861938.0584
+[suite] aft_censored MSE=21792376.8077
+[suite] censoring molecule repeat=1/3 fold=2/3; extra=0
+[suite] aft_exact MSE=35656277.2924
+[suite] aft_censored MSE=35628964.8384
+[suite] censoring molecule repeat=1/3 fold=3/3; extra=0
+[suite] aft_exact MSE=34106886.1716
+[suite] aft_censored MSE=34094253.0115
+[suite] censoring molecule repeat=2/3 fold=1/3; extra=0
+[suite] aft_exact MSE=26536192.9629
+[suite] aft_censored MSE=26553292.3809
+[suite] censoring molecule repeat=2/3 fold=2/3; extra=0
+[suite] aft_exact MSE=33850044.0790
+[suite] aft_censored MSE=33778103.7267
+[suite] censoring molecule repeat=2/3 fold=3/3; extra=0
+[suite] aft_exact MSE=29150316.6467
+[suite] aft_censored MSE=29186341.8311
+[suite] censoring molecule repeat=3/3 fold=1/3; extra=0
+[suite] aft_exact MSE=38305725.3093
+[suite] aft_censored MSE=38299546.5892
+[suite] censoring molecule repeat=3/3 fold=2/3; extra=0
+[suite] aft_exact MSE=34344655.8771
+[suite] aft_censored MSE=34174815.8760
+[suite] censoring molecule repeat=3/3 fold=3/3; extra=0
+[suite] aft_exact MSE=15876373.2912
+[suite] aft_censored MSE=15906529.5013
+[suite] censoring scaffold repeat=1/3 fold=1/3; extra=0
+[suite] aft_exact MSE=41243817.3090
+[suite] aft_censored MSE=41196641.3130
+[suite] censoring scaffold repeat=1/3 fold=2/3; extra=0
+[suite] aft_exact MSE=20581634.3698
+[suite] aft_censored MSE=20529449.5071
+[suite] censoring scaffold repeat=1/3 fold=3/3; extra=0
+[suite] aft_exact MSE=23171381.8598
+[suite] aft_censored MSE=23145284.5916
+[suite] censoring scaffold repeat=2/3 fold=1/3; extra=0
+[suite] aft_exact MSE=35013211.2160
+[suite] aft_censored MSE=35024210.4050
+[suite] censoring scaffold repeat=2/3 fold=2/3; extra=0
+[suite] aft_exact MSE=14591747.2296
+[suite] aft_censored MSE=14661788.9295
+[suite] censoring scaffold repeat=2/3 fold=3/3; extra=0
+[suite] aft_exact MSE=37826423.3842
+[suite] aft_censored MSE=37749652.0146
+[suite] censoring scaffold repeat=3/3 fold=1/3; extra=0
+[suite] aft_exact MSE=22064151.9200
+[suite] aft_censored MSE=22060471.8746
+[suite] censoring scaffold repeat=3/3 fold=2/3; extra=0
+[suite] aft_exact MSE=40843767.5247
+[suite] aft_censored MSE=40748071.9509
+[suite] censoring scaffold repeat=3/3 fold=3/3; extra=0
+[suite] aft_exact MSE=23151453.9295
+[suite] aft_censored MSE=23001152.4107
+[suite done] censoring: {'selected': 'aft_censored', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=134.2s
+[suite] direct_si molecule repeat=1/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=21730276.6252
+[suite] mix_0.25 MSE=21640360.5032
+[suite] mix_0.5 MSE=21769426.4188
+[suite] mix_1.0 MSE=23073531.1960
+[suite] direct_si molecule repeat=1/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=34611491.4467
+[suite] mix_0.25 MSE=33278493.5884
+[suite] mix_0.5 MSE=31615850.8923
+[suite] mix_1.0 MSE=30386892.0039
+[suite] direct_si molecule repeat=1/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=34224718.2057
+[suite] mix_0.25 MSE=35165338.9242
+[suite] mix_0.5 MSE=38789245.3606
+[suite] mix_1.0 MSE=53747827.8794
+[suite] direct_si molecule repeat=2/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=25527254.1342
+[suite] mix_0.25 MSE=24270703.7282
+[suite] mix_0.5 MSE=22809039.3677
+[suite] mix_1.0 MSE=22257909.3325
+[suite] direct_si molecule repeat=2/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=33698420.1147
+[suite] mix_0.25 MSE=33887750.7856
+[suite] mix_0.5 MSE=35344332.3238
+[suite] mix_1.0 MSE=42536359.4757
+[suite] direct_si molecule repeat=2/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=29060982.6414
+[suite] mix_0.25 MSE=29445231.9995
+[suite] mix_0.5 MSE=31454017.0450
+[suite] mix_1.0 MSE=40602972.5685
+[suite] direct_si molecule repeat=3/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=37159347.8496
+[suite] mix_0.25 MSE=35638021.2056
+[suite] mix_0.5 MSE=33625752.7542
+[suite] mix_1.0 MSE=31563500.6834
+[suite] direct_si molecule repeat=3/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=34087169.5833
+[suite] mix_0.25 MSE=34080540.4916
+[suite] mix_0.5 MSE=35144966.8195
+[suite] mix_1.0 MSE=41306850.0280
+[suite] direct_si molecule repeat=3/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=16022821.6972
+[suite] mix_0.25 MSE=17412510.6750
+[suite] mix_0.5 MSE=22855123.2617
+[suite] mix_1.0 MSE=45464589.5239
+[suite] direct_si scaffold repeat=1/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=40635231.4205
+[suite] mix_0.25 MSE=39854611.3602
+[suite] mix_0.5 MSE=38951202.6057
+[suite] mix_1.0 MSE=38635477.6438
+[suite] direct_si scaffold repeat=1/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=20567944.1650
+[suite] mix_0.25 MSE=22788851.7180
+[suite] mix_0.5 MSE=32422291.0399
+[suite] mix_1.0 MSE=73933894.9348
+[suite] direct_si scaffold repeat=1/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=23023552.7011
+[suite] mix_0.25 MSE=23016046.7285
+[suite] mix_0.5 MSE=23472851.6101
+[suite] mix_1.0 MSE=26146392.0076
+[suite] direct_si scaffold repeat=2/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=34447226.7572
+[suite] mix_0.25 MSE=36629975.6557
+[suite] mix_0.5 MSE=48236328.5843
+[suite] mix_1.0 MSE=101330677.3082
+[suite] direct_si scaffold repeat=2/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=14153550.2937
+[suite] mix_0.25 MSE=13781785.0496
+[suite] mix_0.5 MSE=13965691.3670
+[suite] mix_1.0 MSE=17346685.4683
+[suite] direct_si scaffold repeat=2/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=37562816.4076
+[suite] mix_0.25 MSE=37231413.4158
+[suite] mix_0.5 MSE=36938857.9156
+[suite] mix_1.0 MSE=37327932.4877
+[suite] direct_si scaffold repeat=3/3 fold=1/3; extra=0
+[suite] mix_0.1 MSE=21524846.2827
+[suite] mix_0.25 MSE=21412021.5085
+[suite] mix_0.5 MSE=23065456.1277
+[suite] mix_1.0 MSE=33277860.0270
+[suite] direct_si scaffold repeat=3/3 fold=2/3; extra=0
+[suite] mix_0.1 MSE=40766223.4439
+[suite] mix_0.25 MSE=40669868.8029
+[suite] mix_0.5 MSE=40518765.7846
+[suite] mix_1.0 MSE=40252139.9353
+[suite] direct_si scaffold repeat=3/3 fold=3/3; extra=0
+[suite] mix_0.1 MSE=23010771.0517
+[suite] mix_0.25 MSE=25584387.8687
+[suite] mix_0.5 MSE=37211119.7560
+[suite] mix_1.0 MSE=87979723.0010
+[suite done] direct_si: {'selected': 'mix_0.1', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=94.3s
+[suite] clean_pairs molecule repeat=1/3 fold=1/3; extra=0
+[suite] strict MSE=21898204.9104
+[suite] clean_pairs molecule repeat=1/3 fold=2/3; extra=0
+[suite] strict MSE=35672734.5266
+[suite] clean_pairs molecule repeat=1/3 fold=3/3; extra=0
+[suite] strict MSE=34056104.0791
+[suite] clean_pairs molecule repeat=2/3 fold=1/3; extra=0
+[suite] strict MSE=26608942.7110
+[suite] clean_pairs molecule repeat=2/3 fold=2/3; extra=0
+[suite] strict MSE=33832831.5103
+[suite] clean_pairs molecule repeat=2/3 fold=3/3; extra=0
+[suite] strict MSE=29097248.7730
+[suite] clean_pairs molecule repeat=3/3 fold=1/3; extra=0
+[suite] strict MSE=38207817.0249
+[suite] clean_pairs molecule repeat=3/3 fold=2/3; extra=0
+[suite] strict MSE=34525160.5997
+[suite] clean_pairs molecule repeat=3/3 fold=3/3; extra=0
+[suite] strict MSE=15901144.1632
+[suite] clean_pairs scaffold repeat=1/3 fold=1/3; extra=0
+[suite] strict MSE=41258543.4661
+[suite] clean_pairs scaffold repeat=1/3 fold=2/3; extra=0
+[suite] strict MSE=20572819.0137
+[suite] clean_pairs scaffold repeat=1/3 fold=3/3; extra=0
+[suite] strict MSE=23157415.9378
+[suite] clean_pairs scaffold repeat=2/3 fold=1/3; extra=0
+[suite] strict MSE=34888513.1921
+[suite] clean_pairs scaffold repeat=2/3 fold=2/3; extra=0
+[suite] strict MSE=14535292.2517
+[suite] clean_pairs scaffold repeat=2/3 fold=3/3; extra=0
+[suite] strict MSE=37815694.8929
+[suite] clean_pairs scaffold repeat=3/3 fold=1/3; extra=0
+[suite] strict MSE=22043817.0842
+[suite] clean_pairs scaffold repeat=3/3 fold=2/3; extra=0
+[suite] strict MSE=40773524.8735
+[suite] clean_pairs scaffold repeat=3/3 fold=3/3; extra=0
+[suite] strict MSE=23222315.9104
+[suite done] clean_pairs: {'selected': 'strict', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=67.3s
+[suite] head_params molecule repeat=1/3 fold=1/3; extra=0
+[suite] default__default MSE=21859952.2362
+[suite] default__shallow MSE=21856256.3988
+[suite] default__deeper MSE=21834541.5632
+[suite] shallow__default MSE=21843687.6228
+[suite] shallow__shallow MSE=21837278.0360
+[suite] shallow__deeper MSE=21820328.4052
+[suite] deeper__default MSE=21750830.3021
+[suite] deeper__shallow MSE=21745276.0853
+[suite] deeper__deeper MSE=21722653.8050
+[suite] head_params molecule repeat=1/3 fold=2/3; extra=0
+[suite] default__default MSE=35639911.7858
+[suite] default__shallow MSE=35647779.7636
+[suite] default__deeper MSE=35626167.6520
+[suite] shallow__default MSE=35722814.3523
+[suite] shallow__shallow MSE=35720703.8812
+[suite] shallow__deeper MSE=35715966.6441
+[suite] deeper__default MSE=35640524.7387
+[suite] deeper__shallow MSE=35649913.0938
+[suite] deeper__deeper MSE=35631585.5098
+[suite] head_params molecule repeat=1/3 fold=3/3; extra=0
+[suite] default__default MSE=34111689.0364
+[suite] default__shallow MSE=34097981.2160
+[suite] default__deeper MSE=34083710.1138
+[suite] shallow__default MSE=34090140.6993
+[suite] shallow__shallow MSE=34071869.8200
+[suite] shallow__deeper MSE=34053488.6728
+[suite] deeper__default MSE=34083699.0706
+[suite] deeper__shallow MSE=34066878.0509
+[suite] deeper__deeper MSE=34041696.5851
+[suite] head_params molecule repeat=2/3 fold=1/3; extra=0
+[suite] default__default MSE=26523100.9839
+[suite] default__shallow MSE=26516073.4068
+[suite] default__deeper MSE=26522884.5484
+[suite] shallow__default MSE=26564644.9916
+[suite] shallow__shallow MSE=26557796.8481
+[suite] shallow__deeper MSE=26563588.0479
+[suite] deeper__default MSE=26410689.2173
+[suite] deeper__shallow MSE=26397214.5897
+[suite] deeper__deeper MSE=26410968.0984
+[suite] head_params molecule repeat=2/3 fold=2/3; extra=0
+[suite] default__default MSE=33857457.2724
+[suite] default__shallow MSE=33852369.2301
+[suite] default__deeper MSE=33774605.5635
+[suite] shallow__default MSE=33848242.4374
+[suite] shallow__shallow MSE=33843110.7859
+[suite] shallow__deeper MSE=33761162.4926
+[suite] deeper__default MSE=33754318.5173
+[suite] deeper__shallow MSE=33753028.8756
+[suite] deeper__deeper MSE=33673135.9391
+[suite] head_params molecule repeat=2/3 fold=3/3; extra=0
+[suite] default__default MSE=29146908.7648
+[suite] default__shallow MSE=29145873.6745
+[suite] default__deeper MSE=29137556.6610
+[suite] shallow__default MSE=29118162.9996
+[suite] shallow__shallow MSE=29119539.0929
+[suite] shallow__deeper MSE=29110329.8938
+[suite] deeper__default MSE=29137237.7906
+[suite] deeper__shallow MSE=29141714.1728
+[suite] deeper__deeper MSE=29139879.3359
+[suite] head_params molecule repeat=3/3 fold=1/3; extra=0
+[suite] default__default MSE=38304384.6010
+[suite] default__shallow MSE=38287989.4329
+[suite] default__deeper MSE=38275387.4443
+[suite] shallow__default MSE=38253345.9922
+[suite] shallow__shallow MSE=38220743.6316
+[suite] shallow__deeper MSE=38199884.0890
+[suite] deeper__default MSE=38185010.4187
+[suite] deeper__shallow MSE=38169461.4713
+[suite] deeper__deeper MSE=38159122.7011
+[suite] head_params molecule repeat=3/3 fold=2/3; extra=0
+[suite] default__default MSE=34360457.6813
+[suite] default__shallow MSE=34352826.7731
+[suite] default__deeper MSE=34252868.1085
+[suite] shallow__default MSE=34362761.6760
+[suite] shallow__shallow MSE=34359290.4299
+[suite] shallow__deeper MSE=34267020.3572
+[suite] deeper__default MSE=34143426.9864
+[suite] deeper__shallow MSE=34139838.6431
+[suite] deeper__deeper MSE=34203683.1033
+[suite] head_params molecule repeat=3/3 fold=3/3; extra=0
+[suite] default__default MSE=15877978.4512
+[suite] default__shallow MSE=15882082.4403
+[suite] default__deeper MSE=15874368.7241
+[suite] shallow__default MSE=15864711.9062
+[suite] shallow__shallow MSE=15872587.0853
+[suite] shallow__deeper MSE=15862982.8341
+[suite] deeper__default MSE=15866499.6917
+[suite] deeper__shallow MSE=15868990.2245
+[suite] deeper__deeper MSE=15862995.6015
+[suite] head_params scaffold repeat=1/3 fold=1/3; extra=0
+[suite] default__default MSE=41255050.9639
+[suite] default__shallow MSE=41218488.7509
+[suite] default__deeper MSE=41222418.9267
+[suite] shallow__default MSE=41278974.2406
+[suite] shallow__shallow MSE=41245230.4786
+[suite] shallow__deeper MSE=41243144.1077
+[suite] deeper__default MSE=41198574.2523
+[suite] deeper__shallow MSE=41155745.9331
+[suite] deeper__deeper MSE=41168537.7230
+[suite] head_params scaffold repeat=1/3 fold=2/3; extra=0
+[suite] default__default MSE=20570320.8131
+[suite] default__shallow MSE=20617227.6147
+[suite] default__deeper MSE=20545626.4567
+[suite] shallow__default MSE=20560901.3654
+[suite] shallow__shallow MSE=20603736.6196
+[suite] shallow__deeper MSE=20578105.2557
+[suite] deeper__default MSE=20847855.7193
+[suite] deeper__shallow MSE=20908734.8292
+[suite] deeper__deeper MSE=21378771.6208
+[suite] head_params scaffold repeat=1/3 fold=3/3; extra=0
+[suite] default__default MSE=23145885.3917
+[suite] default__shallow MSE=23143935.6609
+[suite] default__deeper MSE=23135560.4916
+[suite] shallow__default MSE=23154975.2693
+[suite] shallow__shallow MSE=23151878.4143
+[suite] shallow__deeper MSE=23143674.1545
+[suite] deeper__default MSE=23152636.5992
+[suite] deeper__shallow MSE=23150766.6407
+[suite] deeper__deeper MSE=23139354.0192
+[suite] head_params scaffold repeat=2/3 fold=1/3; extra=0
+[suite] default__default MSE=34984170.3494
+[suite] default__shallow MSE=34972032.6147
+[suite] default__deeper MSE=34943245.0068
+[suite] shallow__default MSE=34989210.5162
+[suite] shallow__shallow MSE=34978185.9183
+[suite] shallow__deeper MSE=34955072.0102
+[suite] deeper__default MSE=34927318.3103
+[suite] deeper__shallow MSE=34915661.3729
+[suite] deeper__deeper MSE=34856505.1590
+[suite] head_params scaffold repeat=2/3 fold=2/3; extra=0
+[suite] default__default MSE=14602272.5542
+[suite] default__shallow MSE=14609837.3540
+[suite] default__deeper MSE=14659130.1657
+[suite] shallow__default MSE=14550489.7171
+[suite] shallow__shallow MSE=14549841.1091
+[suite] shallow__deeper MSE=14615453.3525
+[suite] deeper__default MSE=14842325.2755
+[suite] deeper__shallow MSE=14887157.7873
+[suite] deeper__deeper MSE=15248381.2614
+[suite] head_params scaffold repeat=2/3 fold=3/3; extra=0
+[suite] default__default MSE=37848697.4403
+[suite] default__shallow MSE=37851161.4617
+[suite] default__deeper MSE=37820522.5400
+[suite] shallow__default MSE=37836565.6069
+[suite] shallow__shallow MSE=37840163.8477
+[suite] shallow__deeper MSE=37800162.5221
+[suite] deeper__default MSE=37821730.8212
+[suite] deeper__shallow MSE=37829009.3076
+[suite] deeper__deeper MSE=37780193.7810
+[suite] head_params scaffold repeat=3/3 fold=1/3; extra=0
+[suite] default__default MSE=22060431.7763
+[suite] default__shallow MSE=22059840.5181
+[suite] default__deeper MSE=22051055.4688
+[suite] shallow__default MSE=22050144.4838
+[suite] shallow__shallow MSE=22046817.5412
+[suite] shallow__deeper MSE=22042524.2817
+[suite] deeper__default MSE=22129818.4297
+[suite] deeper__shallow MSE=22138018.1470
+[suite] deeper__deeper MSE=22293707.7277
+[suite] head_params scaffold repeat=3/3 fold=2/3; extra=0
+[suite] default__default MSE=40832831.8836
+[suite] default__shallow MSE=40861096.0067
+[suite] default__deeper MSE=40856221.1615
+[suite] shallow__default MSE=40595536.5057
+[suite] shallow__shallow MSE=40656131.2838
+[suite] shallow__deeper MSE=40691838.5256
+[suite] deeper__default MSE=40742083.7941
+[suite] deeper__shallow MSE=40781887.9381
+[suite] deeper__deeper MSE=40782337.8405
+[suite] head_params scaffold repeat=3/3 fold=3/3; extra=0
+[suite] default__default MSE=23129369.1384
+[suite] default__shallow MSE=23131551.6625
+[suite] default__deeper MSE=23121096.9337
+[suite] shallow__default MSE=23194718.9199
+[suite] shallow__shallow MSE=23198039.1245
+[suite] shallow__deeper MSE=23179216.3870
+[suite] deeper__default MSE=23014942.0748
+[suite] deeper__shallow MSE=23018620.7285
+[suite] deeper__deeper MSE=23001725.1013
+[suite done] head_params: {'selected': 'deeper__default', 'oof_safe': False, 'rule': 'Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration', 'note': 'Exploratory candidate selection, no independent performance claim'}; elapsed=257.6s

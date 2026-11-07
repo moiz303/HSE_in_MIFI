@@ -251,6 +251,6 @@ test_worst_pairing_is_used_and_competition_rows_keep_full_weight
 (tests.test_xgb_weighted.Weights.test_worst_pairing_is_used_and_competition_rows_keep_full_weight) ... ok
 
 ----------------------------------------------------------------------
-Ran 143 tests in 17.449s
+Ran 143 tests in 82.020s
 
 OK

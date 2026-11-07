@@ -1,0 +1,2194 @@
+{
+  "hypothesis": "censoring",
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "order": [
+      "independent",
+      "features",
+      "censoring",
+      "direct_si",
+      "clean_pairs",
+      "head_params"
+    ],
+    "baseline_submission": "reports/submission_xgb_tail.csv",
+    "baseline_oof": "reports/tail_comparison_oof.csv",
+    "baseline_report": "reports/tail_comparison.json",
+    "baseline_training": "reports/xgb_tail_training.json",
+    "submission_improvement_fraction": 0.1,
+    "submission_policy": "best_qualifying_only_unless_user_requests_each",
+    "note": "Independent ablations, selected by development OOF before separate test diagnostics. No Kaggle calls in training."
+  },
+  "candidates": {
+    "aft_exact": {
+      "aft": true
+    },
+    "aft_censored": {
+      "aft": true,
+      "censored": true
+    }
+  },
+  "selection": {
+    "selected": "aft_censored",
+    "oof_safe": false,
+    "rule": "Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration",
+    "note": "Exploratory candidate selection, no independent performance claim"
+  },
+  "protocols": {
+    "molecule": {
+      "baseline": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        }
+      },
+      "aft_exact": {
+        "n": 801,
+        "mse": 29667546.328924738,
+        "rmse": 5446.7922972080305,
+        "mae": 2703.091432119052,
+        "bias": -2678.4094424210434,
+        "rmse_log10": 1.6300279844108925,
+        "repeat_mse": [
+          29669212.208375778,
+          29681161.69132323,
+          29652265.087075207
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6694677.051300605,
+          "rmse": 2587.407399560534,
+          "mae": 313.17010119424384,
+          "bias": -280.38357756554564,
+          "rmse_log10": 0.8458284654656922
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3183.7445614855815,
+          "rmse": 56.4246804287413,
+          "mae": 23.365963882495283,
+          "bias": 13.909354394587822,
+          "rmse_log10": 0.7449468832504547
+        },
+        "paired_gain": {
+          "mean_mse_gain": -693.9957460604744,
+          "ci95": [
+            -6419.192503038082,
+            4468.910083011874
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "aft_censored": {
+        "n": 801,
+        "mse": 29637605.21007315,
+        "rmse": 5444.043094068337,
+        "mae": 2698.2608033769347,
+        "bias": -2669.310197453754,
+        "rmse_log10": 1.7057748143203109,
+        "repeat_mse": [
+          29629964.943196412,
+          29676890.668434504,
+          29605960.018588513
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6631199.769306632,
+          "rmse": 2575.111603272105,
+          "mae": 305.56860529386773,
+          "bias": -267.1118302615831,
+          "rmse_log10": 0.8058711268362537
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 6245.987831254973,
+          "rmse": 79.03156224733871,
+          "mae": 26.242772494701775,
+          "bias": 15.830834796635202,
+          "rmse_log10": 0.6943369923636575
+        },
+        "paired_gain": {
+          "mean_mse_gain": 29247.1231055351,
+          "ci95": [
+            -26519.11576971708,
+            99275.91837864042
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "baseline": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477972,
+          "bias": 20.27150399889362,
+          "rmse_log10": 0.82984927730235
+        }
+      },
+      "aft_exact": {
+        "n": 801,
+        "mse": 29687585.510541014,
+        "rmse": 5448.631526405599,
+        "mae": 2713.358794344189,
+        "bias": -2681.8942158796967,
+        "rmse_log10": 1.6945995509153853,
+        "repeat_mse": [
+          29657337.997794412,
+          29742406.38117954,
+          29663012.152649093
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6732240.227429055,
+          "rmse": 2594.656090396,
+          "mae": 327.36281933440154,
+          "bias": -285.5665882397781,
+          "rmse_log10": 0.9747726560363589
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14397.938232358747,
+          "rmse": 119.99140899397234,
+          "mae": 30.291028029431885,
+          "bias": 18.72885622846642,
+          "rmse_log10": 0.8457824404485348
+        },
+        "paired_gain": {
+          "mean_mse_gain": -5917.517750789647,
+          "ci95": [
+            -15397.636704862136,
+            3355.104647737687
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "aft_censored": {
+        "n": 801,
+        "mse": 29643847.183079,
+        "rmse": 5444.6163485666275,
+        "mae": 2704.19469106188,
+        "bias": -2669.27937725311,
+        "rmse_log10": 1.7500646555857091,
+        "repeat_mse": [
+          29615172.3541664,
+          29740309.251160115,
+          29576059.94391049
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6660505.776071022,
+          "rmse": 2580.795570375736,
+          "mae": 314.50693906760034,
+          "bias": -268.1268953514728,
+          "rmse_log10": 0.9401998087011412
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 10893.400015100331,
+          "rmse": 104.37145210784571,
+          "mae": 32.88847442756943,
+          "bias": 20.932805176014238,
+          "rmse_log10": 0.8034372428931795
+        },
+        "paired_gain": {
+          "mean_mse_gain": 37820.80971122576,
+          "ci95": [
+            -17648.550863351855,
+            98761.19779225494
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "fit_audits": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 302,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 450,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 616,
+          "censored": 314,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 654,
+          "censored": 204,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 325,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 468,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 616,
+          "censored": 291,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 652,
+          "censored": 184,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 606,
+          "censored": 303,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 654,
+          "censored": 208,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 294,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 612,
+          "censored": 318,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 651,
+          "censored": 193,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 315,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 607,
+          "censored": 292,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 655,
+          "censored": 197,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 321,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 448,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 619,
+          "censored": 298,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 654,
+          "censored": 206,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 322,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 453,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 627,
+          "censored": 305,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 653,
+          "censored": 200,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 462,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 606,
+          "censored": 295,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 655,
+          "censored": 193,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 297,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 449,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 605,
+          "censored": 308,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 652,
+          "censored": 203,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 336,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 456,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 627,
+          "censored": 291,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 657,
+          "censored": 201,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 312,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 463,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 605,
+          "censored": 293,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 650,
+          "censored": 187,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 282,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 445,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 606,
+          "censored": 324,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 653,
+          "censored": 208,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 340,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 474,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 624,
+          "censored": 284,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 657,
+          "censored": 183,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 465,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 605,
+          "censored": 302,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 651,
+          "censored": 186,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 287,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 425,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 609,
+          "censored": 322,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 652,
+          "censored": 227,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 478,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 604,
+          "censored": 293,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 651,
+          "censored": 173,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 330,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 626,
+          "censored": 296,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 657,
+          "censored": 211,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "aft_exact",
+      "heads": {
+        "IC50": {
+          "n": 289,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 440,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "aft_censored",
+      "heads": {
+        "IC50": {
+          "n": 608,
+          "censored": 319,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 652,
+          "censored": 212,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "survival:aft",
+            "aft_loss_distribution": "normal",
+            "aft_loss_distribution_scale": 1.0
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        }
+      }
+    }
+  ],
+  "final_training": {
+    "IC50": {
+      "n": 919,
+      "censored": 454,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "survival:aft",
+        "aft_loss_distribution": "normal",
+        "aft_loss_distribution_scale": 1.0
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    },
+    "CC50": {
+      "n": 980,
+      "censored": 298,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "survival:aft",
+        "aft_loss_distribution": "normal",
+        "aft_loss_distribution_scale": 1.0
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    }
+  },
+  "development_rows": 1007,
+  "original_reference_rows": 267,
+  "holdout_used": false,
+  "extra_endpoints": 0,
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "extra_sha256": null,
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "artifact": "artifacts/hypotheses/censoring.joblib",
+  "submission": "reports/hypotheses/censoring/submission.csv",
+  "submission_sha256": "dae81945b187d272929aedb85565e99f7d505b90ced5b112b2c6c6416112fb4c",
+  "elapsed_seconds": 134.24273759999778
+}

@@ -1,0 +1,1434 @@
+{
+  "hypothesis": "direct_si",
+  "config": {
+    "seed": 20261106,
+    "folds": 3,
+    "repeats": 3,
+    "order": [
+      "independent",
+      "features",
+      "censoring",
+      "direct_si",
+      "clean_pairs",
+      "head_params"
+    ],
+    "baseline_submission": "reports/submission_xgb_tail.csv",
+    "baseline_oof": "reports/tail_comparison_oof.csv",
+    "baseline_report": "reports/tail_comparison.json",
+    "baseline_training": "reports/xgb_tail_training.json",
+    "submission_improvement_fraction": 0.1,
+    "submission_policy": "best_qualifying_only_unless_user_requests_each",
+    "note": "Independent ablations, selected by development OOF before separate test diagnostics. No Kaggle calls in training."
+  },
+  "candidates": {
+    "mix_0.1": {
+      "direct_alpha": 0.1
+    },
+    "mix_0.25": {
+      "direct_alpha": 0.25
+    },
+    "mix_0.5": {
+      "direct_alpha": 0.5
+    },
+    "mix_1.0": {
+      "direct_alpha": 1.0
+    }
+  },
+  "selection": {
+    "selected": "mix_0.1",
+    "oof_safe": false,
+    "rule": "Minimize mean of molecule/scaffold MSE ratios; safety: <=2% overall/measured and <=20% SI<=100 deterioration",
+    "note": "Exploratory candidate selection, no independent performance claim"
+  },
+  "protocols": {
+    "molecule": {
+      "baseline": {
+        "n": 801,
+        "mse": 29666852.33317868,
+        "rmse": 5446.728590005076,
+        "mae": 2703.4359656302972,
+        "bias": -2679.2716406855498,
+        "rmse_log10": 1.620453779430993,
+        "repeat_mse": [
+          29665532.331866384,
+          29677672.011806723,
+          29657352.65586294
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6697386.592190564,
+          "rmse": 2587.930948110974,
+          "mae": 313.8105094316775,
+          "bias": -281.7116300274601,
+          "rmse_log10": 0.8276032366190348
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 3154.535462239922,
+          "rmse": 56.165251376985054,
+          "mae": 22.776968137125657,
+          "bias": 13.432496971683017,
+          "rmse_log10": 0.7270964249897222
+        }
+      },
+      "mix_0.1": {
+        "n": 801,
+        "mse": 29276785.629368927,
+        "rmse": 5410.802678842477,
+        "mae": 2737.6301512719133,
+        "bias": -2564.2926194843467,
+        "rmse_log10": 1.6765370964629571,
+        "repeat_mse": [
+          29370125.093550384,
+          29245263.922659792,
+          29214967.87189659
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6728959.1017116085,
+          "rmse": 2594.023728054855,
+          "mae": 387.58663127663254,
+          "bias": -157.3322980065812,
+          "rmse_log10": 1.1750178585222621
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 122307.83359678743,
+          "rmse": 349.7253688207183,
+          "mae": 119.98744789223048,
+          "bias": 112.69736296411993,
+          "rmse_log10": 1.1846140391786917
+        },
+        "paired_gain": {
+          "mean_mse_gain": 390066.7038097536,
+          "ci95": [
+            108239.99179076271,
+            765225.1847242462
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_0.25": {
+        "n": 801,
+        "mse": 29133464.122940682,
+        "rmse": 5397.5424151127045,
+        "mae": 2820.7501844880126,
+        "bias": -2391.824087682542,
+        "rmse_log10": 1.757070061391578,
+        "repeat_mse": [
+          29279992.773863904,
+          28985115.42073345,
+          29135284.174224697
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 7304496.551173165,
+          "rmse": 2702.6832132481168,
+          "mae": 540.5308017019329,
+          "bias": 29.236700024736997,
+          "rmse_log10": 1.3342000276897195
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 673772.8210383573,
+          "rmse": 820.8366591706034,
+          "mae": 269.37916050182145,
+          "bias": 261.5946619527752,
+          "rmse_log10": 1.3633880129170335
+        },
+        "paired_gain": {
+          "mean_mse_gain": 533388.2102379964,
+          "ci95": [
+            -296816.66240905516,
+            1550343.495347585
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_0.5": {
+        "n": 801,
+        "mse": 30072671.07699065,
+        "rmse": 5483.855493810049,
+        "mae": 2984.6495772888425,
+        "bias": -2104.376534679534,
+        "rmse_log10": 1.874290181298373,
+        "repeat_mse": [
+          30071048.341819808,
+          29587437.60230697,
+          30559527.286845163
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 9672202.127422402,
+          "rmse": 3110.016419156401,
+          "mae": 829.1328921951321,
+          "bias": 340.185030076934,
+          "rmse_log10": 1.484914082094744
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 2586841.2407469703,
+          "rmse": 1608.3660157896181,
+          "mae": 518.9925449252595,
+          "bias": 509.75682693386744,
+          "rmse_log10": 1.518323912238845
+        },
+        "paired_gain": {
+          "mean_mse_gain": -405818.74381196656,
+          "ci95": [
+            -3176425.901187395,
+            2154383.0894580563
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_1.0": {
+        "n": 801,
+        "mse": 36368870.47795444,
+        "rmse": 6030.660865772045,
+        "mae": 3341.687796963868,
+        "bias": -1529.4814286735182,
+        "rmse_log10": 2.0807590151229816,
+        "repeat_mse": [
+          35182944.85560676,
+          34676718.28339435,
+          39246948.29486222
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 19689400.131720774,
+          "rmse": 4437.2739527463,
+          "mae": 1440.3772816013338,
+          "bias": 962.0816901813282,
+          "rmse_log10": 2.25065704495305
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 10140328.482561683,
+          "rmse": 3184.3882430636004,
+          "mae": 1020.1931794046945,
+          "bias": 1006.081156896052,
+          "rmse_log10": 2.461643235727707
+        },
+        "paired_gain": {
+          "mean_mse_gain": -6702018.144775762,
+          "ci95": [
+            -17804281.44806584,
+            1296998.5080381408
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    },
+    "scaffold": {
+      "baseline": {
+        "n": 801,
+        "mse": 29681667.992790222,
+        "rmse": 5448.088471454022,
+        "mae": 2713.7084698819504,
+        "bias": -2679.527919608561,
+        "rmse_log10": 1.6841805898489008,
+        "repeat_mse": [
+          29650704.414507464,
+          29743775.04764392,
+          29650524.5162193
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6730053.092746632,
+          "rmse": 2594.234587069302,
+          "mae": 328.1121753359666,
+          "bias": -282.70816079370354,
+          "rmse_log10": 0.960510841409657
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 14373.000106179194,
+          "rmse": 119.88744765895716,
+          "mae": 31.594505587477972,
+          "bias": 20.27150399889362,
+          "rmse_log10": 0.82984927730235
+        }
+      },
+      "mix_0.1": {
+        "n": 801,
+        "mse": 29373010.086519305,
+        "rmse": 5419.687268331938,
+        "mae": 2783.425221293877,
+        "bias": -2501.860726374372,
+        "rmse_log10": 1.7310998327832126,
+        "repeat_mse": [
+          29364047.671735313,
+          29323255.022331584,
+          29431727.565491013
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 6836261.766334108,
+          "rmse": 2614.6245937675467,
+          "mae": 447.5015690674116,
+          "bias": -73.48306089075585,
+          "rmse_log10": 1.2618707879670015
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 264748.938424382,
+          "rmse": 514.5375967063845,
+          "mae": 187.60087552318876,
+          "bias": 179.8001067641219,
+          "rmse_log10": 1.2715891771585164
+        },
+        "paired_gain": {
+          "mean_mse_gain": 308657.9062709226,
+          "ci95": [
+            56239.56843174056,
+            626552.4430994123
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_0.25": {
+        "n": 801,
+        "mse": 29908417.01162177,
+        "rmse": 5468.858839979486,
+        "mae": 2953.241511526042,
+        "bias": -2235.3599365230884,
+        "rmse_log10": 1.8159450288256138,
+        "repeat_mse": [
+          29697714.162126914,
+          29826923.06213013,
+          30200613.810608268
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 8257876.745231857,
+          "rmse": 2873.652161489253,
+          "mae": 713.2492942492133,
+          "bias": 240.35458896366578,
+          "rmse_log10": 1.4309018095887827
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 1440787.0732994075,
+          "rmse": 1200.327902408091,
+          "mae": 426.58461771362295,
+          "bias": 419.0930109119643,
+          "rmse_log10": 1.462198688467132
+        },
+        "paired_gain": {
+          "mean_mse_gain": -226749.01883154377,
+          "ci95": [
+            -1601617.5493055636,
+            940292.3107134193
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_0.5": {
+        "n": 801,
+        "mse": 33463145.31214948,
+        "rmse": 5784.73381515083,
+        "mae": 3280.9584234645718,
+        "bias": -1791.191953437616,
+        "rmse_log10": 1.9344884850367472,
+        "repeat_mse": [
+          32290229.258245748,
+          33691564.66917318,
+          34407642.009029515
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 13993373.626105525,
+          "rmse": 3740.771795512996,
+          "mae": 1215.5261811655182,
+          "bias": 763.417338721035,
+          "rmse_log10": 1.5890093440398465
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 5535448.571151706,
+          "rmse": 2352.7534021124497,
+          "mae": 826.0883613518619,
+          "bias": 817.9145178250351,
+          "rmse_log10": 1.625562098120784
+        },
+        "paired_gain": {
+          "mean_mse_gain": -3781477.3193592536,
+          "ci95": [
+            -9894653.688521048,
+            708945.481322683
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      },
+      "mix_1.0": {
+        "n": 801,
+        "mse": 50556539.7582934,
+        "rmse": 7110.312212434374,
+        "mae": 3990.0399065715146,
+        "bias": -902.8559872666708,
+        "rmse_log10": 2.099420431326948,
+        "repeat_mse": [
+          45111775.49598157,
+          52765328.66092976,
+          53792515.11796886
+        ],
+        "measured": {
+          "n": 603,
+          "mse": 38087387.07301821,
+          "rmse": 6171.497960221506,
+          "mae": 2251.0075624753454,
+          "bias": 1809.5428382357738,
+          "rmse_log10": 2.2608953662205304
+        },
+        "low_si": {
+          "n": 501,
+          "mse": 21729513.84083352,
+          "rmse": 4661.492662316816,
+          "mae": 1627.185016782808,
+          "bias": 1615.5575316511765,
+          "rmse_log10": 2.476748911726012
+        },
+        "paired_gain": {
+          "mean_mse_gain": -20874871.765503168,
+          "ci95": [
+            -46833418.65269993,
+            -2448157.8235031343
+          ],
+          "scaffold_clusters": 135,
+          "method": "paired scaffold-cluster bootstrap, repeats averaged by original row"
+        }
+      }
+    }
+  },
+  "fit_audits": [
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 302,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 450,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 233,
+          "measured_competition_rows": 118,
+          "public_rows": 115
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 325,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 468,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 274,
+          "measured_competition_rows": 154,
+          "public_rows": 120
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 241,
+          "measured_competition_rows": 130,
+          "public_rows": 111
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 294,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 242,
+          "measured_competition_rows": 131,
+          "public_rows": 111
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 315,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 458,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 252,
+          "measured_competition_rows": 133,
+          "public_rows": 119
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 321,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 448,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 254,
+          "measured_competition_rows": 138,
+          "public_rows": 116
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 322,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 453,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 258,
+          "measured_competition_rows": 143,
+          "public_rows": 115
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 462,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 255,
+          "measured_competition_rows": 132,
+          "public_rows": 123
+        }
+      }
+    },
+    {
+      "protocol": "molecule",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 297,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 449,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 235,
+          "measured_competition_rows": 127,
+          "public_rows": 108
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 336,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 456,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 258,
+          "measured_competition_rows": 125,
+          "public_rows": 133
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 312,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 463,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 258,
+          "measured_competition_rows": 139,
+          "public_rows": 119
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 0,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 282,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 445,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 232,
+          "measured_competition_rows": 138,
+          "public_rows": 94
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 340,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 474,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 280,
+          "measured_competition_rows": 142,
+          "public_rows": 138
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 303,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 465,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 246,
+          "measured_competition_rows": 131,
+          "public_rows": 115
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 1,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 287,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 425,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 222,
+          "measured_competition_rows": 129,
+          "public_rows": 93
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "0",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 311,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 478,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 267,
+          "measured_competition_rows": 141,
+          "public_rows": 126
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "1",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 330,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 446,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 245,
+          "measured_competition_rows": 127,
+          "public_rows": 118
+        }
+      }
+    },
+    {
+      "protocol": "scaffold",
+      "repeat": 2,
+      "fold": "2",
+      "candidate": "mix_0.1",
+      "heads": {
+        "IC50": {
+          "n": 289,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "CC50": {
+          "n": 440,
+          "censored": 0,
+          "parameters": {
+            "max_depth": 3,
+            "learning_rate": 0.03,
+            "min_child_weight": 5,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 5.0,
+            "reg_alpha": 0.1,
+            "seed": 20261106,
+            "nthread": 4,
+            "tree_method": "hist",
+            "device": "cpu",
+            "objective": "reg:squarederror"
+          },
+          "rounds": 400,
+          "extra_rows": 0
+        },
+        "SI": {
+          "n": 236,
+          "measured_competition_rows": 134,
+          "public_rows": 102
+        }
+      }
+    }
+  ],
+  "final_training": {
+    "IC50": {
+      "n": 465,
+      "censored": 0,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "reg:squarederror"
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    },
+    "CC50": {
+      "n": 682,
+      "censored": 0,
+      "parameters": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 5.0,
+        "reg_alpha": 0.1,
+        "seed": 20261106,
+        "nthread": 4,
+        "tree_method": "hist",
+        "device": "cpu",
+        "objective": "reg:squarederror"
+      },
+      "rounds": 400,
+      "extra_rows": 0
+    },
+    "SI": {
+      "n": 374,
+      "measured_competition_rows": 201,
+      "public_rows": 173
+    }
+  },
+  "development_rows": 1007,
+  "original_reference_rows": 267,
+  "holdout_used": false,
+  "extra_endpoints": 0,
+  "data_sha256": {
+    "train.csv": "678e46f0f2083ee22931ad4283ffb95c9949c2a8db5af85a7e7c8e13f7789946",
+    "validation.csv": "ec6dcf9ae871a578c89b5038d65971a6d44f3f3885e91035b84e3b842de5eea9",
+    "splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+    "kaggle_reference.csv": "23692a2173159779ed42e73d3056042d08d685e63cb9e449e4e102cf9948df86",
+    "public_quality.csv": "4086562aacaf09f361ef69b1c24afa3fc93a9b42a66a605d09bf79ae325e69b7"
+  },
+  "extra_sha256": null,
+  "versions": {
+    "xgboost": "3.4.1",
+    "rdkit": "2026.09.1"
+  },
+  "artifact": "artifacts/hypotheses/direct_si.joblib",
+  "submission": "reports/hypotheses/direct_si/submission.csv",
+  "submission_sha256": "b44e6468b74a03bec3f3da7a503d42c21741e5fdaa8d8145c8bcff9c45d60bad",
+  "elapsed_seconds": 94.31236100001843
+}
