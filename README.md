@@ -486,3 +486,5 @@ python -m src.pipeline submission
 # Frozen MolE experiment
 
 See [`docs/mole_ridge_experiment.md`](docs/mole_ridge_experiment.md) for the author checkpoint source, extraction commands, nested OOF comparison, and its limitations. This optional experiment does not change the default model.
+
+The after-MSE experiment adds only globally safe exact CC50 rows from the curated VACV supplement; EC50 is retained as a separate endpoint. See [`docs/mole_ridge_after_supplement.md`](docs/mole_ridge_after_supplement.md) for counts and unchanged-fold results.

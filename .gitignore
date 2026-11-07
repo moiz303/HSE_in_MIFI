@@ -41,6 +41,8 @@ pip-delete-this-directory.txt
 data/interim/features_cache.npz
 data/interim/mole_development_embeddings.npz
 data/interim/mole_development_embeddings.json
+data/interim/mole_vacv_supplement_embeddings_new_dataset.npz
+data/interim/mole_vacv_supplement_embeddings_new_dataset.json
 artifacts/mole/checkpoints/model.pth
 artifacts/mole/checkpoints/config.yaml
 
