@@ -1,0 +1,40 @@
+{
+  "branch": "origin/testing_main",
+  "branch_commit": "92aedefeaeeb4546c7a714a78720563c7f1fa35a",
+  "training_public_rows": 0,
+  "development_competition_rows": 267,
+  "reserved_competition_rows": 53,
+  "validation_is_single_split": true,
+  "holdout_evaluated": false,
+  "test_endpoint_features": false,
+  "kaggle_submitted": false,
+  "old_train_sha256": "239efa4b3aa667b3681f6e1062d86ca5b0ba441364b8f2b894b4c428e272ba81",
+  "train_v2_sha256": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+  "changed_targets_10000_to_zero": 81,
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "catboost": "1.2.10",
+    "scikit-learn": "1.9.1",
+    "rdkit": "2026.9.1"
+  },
+  "fresh_inference": [
+    {
+      "variant": "native_development",
+      "rows": 597,
+      "fresh_smiles_only_inference_verified": true,
+      "negative_predictions": 72,
+      "submission_sha256": "8f9fd57e28f54c72a363007da51497a813408da8e5f8ecc999f8305f4cd6ad09"
+    },
+    {
+      "variant": "v2_development",
+      "rows": 597,
+      "fresh_smiles_only_inference_verified": true,
+      "negative_predictions": 22,
+      "submission_sha256": "ef7ab0a035d970366138de098cff716320dcdb8d503411a1216abd159ad22c74"
+    }
+  ],
+  "official_targets_changed_outside_SI": false,
+  "projection_for_diagnostic": "max(prediction,0), applied after inference; raw outputs retained",
+  "repeated_oof_performed": false
+}

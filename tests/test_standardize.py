@@ -29,6 +29,16 @@ class Standardize(unittest.TestCase):
 
 
 class Aggregate(unittest.TestCase):
+    def test_zero_si_is_not_silently_converted_to_missing_or_discarded(self):
+        frame = pd.DataFrame([
+            {'standard_smiles':'C','IC50':float('nan'),'CC50':10.,'SI':0.},
+            {'standard_smiles':'CC','IC50':1.,'CC50':10.,'SI':0.},
+            {'standard_smiles':'CC','IC50':1.,'CC50':10.,'SI':10.}])
+        out = standardize.aggregate_duplicates(frame).set_index('standard_smiles')
+        self.assertEqual(out.loc['C','SI'],0.)
+        self.assertEqual(out.loc['CC','SI'],5.)
+        self.assertIn('0',out.loc['CC','SI_values'])
+
     def test_conflicting_measurements_collapse_to_log_median(self):
         frame = pd.DataFrame([
             {"standard_smiles": "CCO", "IC50": 1.0, "CC50": 100.0, "SI": 100.0, "doi": "10.1/a"},

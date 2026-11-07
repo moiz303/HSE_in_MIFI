@@ -166,7 +166,7 @@ def validate_table(frame: pd.DataFrame, si_tolerance: float = 0.25) -> tuple[pd.
 
         # Строки, где цель задана меткой организаторов, а не измерена: с них
         # нельзя требовать согласованности SI = CC50 / IC50 и наличия IC50.
-        # Проверяем только структуру и положительность цели.
+        # Актуальные условные цели train_v2 могут быть равны нулю.
         label_flag = getattr(row, "target_is_label", False)
         # concat sources introduces NaN for sources without this flag.
         # bool(float('nan')) is True and previously bypassed validation.
@@ -180,8 +180,8 @@ def validate_table(frame: pd.DataFrame, si_tolerance: float = 0.25) -> tuple[pd.
             target, _ = parse_measurement(getattr(row, "SI", None))
             if smiles is None or not str(smiles).strip():
                 reason = "пустой smiles"
-            elif target is None or not target > 0:
-                reason = "SI-метка: не положительное значение"
+            elif target is None or not math.isfinite(target) or target < 0:
+                reason = "SI-метка: требуется конечное неотрицательное значение"
             reasons.append(reason)
             continue
 

@@ -6,6 +6,11 @@ CC50_uM и IC50_uM_VACV на пути сабмита, тест покрасне�
 """
 
 import unittest
+import tempfile
+import zipfile
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import pandas as pd
 
@@ -39,6 +44,38 @@ class ForbiddenFeatures(unittest.TestCase):
 
 
 class TrainingFrame(unittest.TestCase):
+    def test_current_targets_override_legacy_training_file_and_keep_zero(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            pd.DataFrame({'SMILES':['CCO'],'SI VACV':[10000.]}).to_csv(directory/'train.csv',index=False)
+            pd.DataFrame({'SMILES':['CCO'],'SI VACV':[0.]}).to_csv(directory/'train_v2.csv',index=False)
+            self.assertEqual(kd.load('train',directory)['SI VACV'].tolist(),[0.])
+            self.assertEqual(pd.read_csv(directory/'train.csv')['SI VACV'].tolist(),[10000.])
+
+    def test_legacy_only_directory_cannot_silently_train_on_obsolete_targets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            pd.DataFrame({'SMILES':['CCO'],'SI VACV':[10000.]}).to_csv(directory/'train.csv',index=False)
+            with self.assertRaisesRegex(SystemExit,'train_v2.csv'):
+                kd.load('train',directory)
+
+    def test_cached_legacy_archive_still_fetches_corrected_training_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)/'inputs'
+            directory.mkdir()
+            with zipfile.ZipFile(directory/'example.zip','w') as archive:
+                archive.writestr('train.csv','SMILES,SI VACV\nCCO,10000\n')
+            def download(args, **kwargs):
+                self.assertIn('train_v2.csv',args)
+                pd.DataFrame({'SMILES':['CCO'],'SI VACV':[0.]}).to_csv(directory/'train_v2.csv',index=False)
+                return SimpleNamespace(returncode=0,stdout='',stderr='')
+            def isolated_path(value):
+                return Path(tmp)/'reports' if str(value) == 'reports' else Path(value)
+            with patch.object(kd.subprocess,'run',side_effect=download) as call, patch.object(kd,'Path',side_effect=isolated_path):
+                kd.download('example',directory)
+            self.assertEqual(call.call_count,1)
+            self.assertEqual(kd.load('train',directory)['SI VACV'].tolist(),[0.])
+
     def test_columns_are_renamed_to_the_contract(self):
         raw = pd.DataFrame({
             "SMILES": ["CCO"], "CC50_uM": [100.0], "IC50_uM_VACV": [4.0],

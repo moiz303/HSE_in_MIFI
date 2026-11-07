@@ -82,9 +82,14 @@ def aggregate_duplicates(
 
         for column in value_columns:
             values = pd.to_numeric(group[column], errors="coerce").dropna()
-            values = values[values > 0]
+            values = values[np.isfinite(values) & (values >= 0 if column == 'SI' else values > 0)]
             if values.empty:
                 row[column] = np.nan
+                row[f"{column}_spread_log10"] = np.nan
+            elif column == 'SI' and values.eq(0).any():
+                # Zero is a valid current competition target, never a missing value.
+                # A log median is undefined here; preserve zeros with a raw median.
+                row[column] = float(np.median(values.to_numpy(dtype=float)))
                 row[f"{column}_spread_log10"] = np.nan
             else:
                 logs = np.log10(values.to_numpy(dtype=float))

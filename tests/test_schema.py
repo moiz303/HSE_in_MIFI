@@ -73,6 +73,14 @@ class ValidateTable(unittest.TestCase):
                 self.assertEqual(len(accepted), 1)
                 self.assertEqual(len(rejected), 0)
 
+    def test_current_zero_label_is_kept_but_negative_label_is_rejected(self):
+        accepted, rejected = schema.validate_table(self.frame(IC50=float('nan'),SI=0.,target_is_label=True))
+        self.assertEqual(len(accepted),1)
+        self.assertEqual(len(rejected),0)
+        accepted, rejected = schema.validate_table(self.frame(IC50=float('nan'),SI=-1.,target_is_label=True))
+        self.assertEqual(len(accepted),0)
+        self.assertEqual(len(rejected),1)
+
     def test_non_numeric_is_rejected_with_reason(self):
         accepted, rejected = schema.validate_table(self.frame(IC50="нет"))
         self.assertEqual(len(accepted), 0)

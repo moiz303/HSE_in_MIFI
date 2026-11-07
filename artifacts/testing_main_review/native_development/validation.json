@@ -1,0 +1,31 @@
+{
+  "validation": {
+    "metric": "mean_squared_error",
+    "target": "SI VACV",
+    "scale": "raw SI",
+    "mse": 15455517.414844817,
+    "method": "Murcko scaffold grouped split",
+    "seed": 20261106,
+    "train_rows": 214,
+    "validation_rows": 53
+  },
+  "final_fit": {
+    "labeled_training_rows": 267,
+    "zero_targets_retained": 0,
+    "feature_count": 2061,
+    "feature_source": "SMILES: Morgan fingerprint plus RDKit descriptors",
+    "model_parameters": {
+      "iterations": 600,
+      "depth": 5,
+      "learning_rate": 0.03,
+      "l2_leaf_reg": 5.0,
+      "random_seed": 20261106,
+      "thread_count": 1,
+      "loss_function": "RMSE",
+      "task_type": "CPU",
+      "verbose": false,
+      "allow_writing_files": false
+    }
+  },
+  "interpretation": "This is a local scaffold-validation metric, not the official competition score."
+}

@@ -53,7 +53,7 @@ def download(competition: str = COMPETITION, dest: Path | str = KAGGLE_DIR) -> P
 
     if not archive.exists():
         result = subprocess.run(
-            ["kaggle", "competitions", "download", "-c", competition, "-p", str(target)],
+            ["kaggle", "competitions", "download", competition, "-p", str(target)],
             capture_output=True,
             text=True,
         )
@@ -65,6 +65,18 @@ def download(competition: str = COMPETITION, dest: Path | str = KAGGLE_DIR) -> P
 
     with zipfile.ZipFile(archive) as bundle:
         bundle.extractall(target)
+
+    # Cached pre-update archives contain train.csv with obsolete 10000 labels.
+    # Fetch the corrected training file separately; retain the old file for audit.
+    if not (target / "train_v2.csv").exists():
+        result = subprocess.run(
+            ["kaggle", "competitions", "download", competition,
+             "-f", "train_v2.csv", "-p", str(target)],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0 or not (target / "train_v2.csv").exists():
+            raise SystemExit("Не удалось получить актуальный train_v2.csv.\n" +
+                             (result.stderr or result.stdout))
 
     checksums = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
@@ -80,8 +92,9 @@ def download(competition: str = COMPETITION, dest: Path | str = KAGGLE_DIR) -> P
 
 
 def load(name: str, directory: Path | str = KAGGLE_DIR) -> pd.DataFrame:
-    """Прочитать train.csv, test.csv или sample_submit.csv."""
-    path = Path(directory) / f"{name}.csv"
+    """Load current training targets; never silently fall back to legacy train.csv."""
+    filename = "train_v2.csv" if name == "train" else f"{name}.csv"
+    path = Path(directory) / filename
     if not path.exists():
         raise SystemExit(f"нет {path}. Скачайте данные: python -m src.pipeline kaggle")
     return pd.read_csv(path)

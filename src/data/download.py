@@ -509,8 +509,8 @@ def from_kaggle_train(config: dict | None = None) -> pd.DataFrame:
     Запрет организаторов касается тестового файла: в обучающем измеренные CC50
     и IC50 использовать можно.
 
-    У 81 строки IC50 не определён, и SI там задан меткой 10000 — это не
-    измерение, а разметка «неактивно». Такие строки помечаются
+    У 81 строки IC50 не определён. В актуальном train_v2 их SI равен 0;
+    прежний train.csv содержал устаревшую условную метку 10000. Такие строки помечаются
     target_is_label, чтобы валидация не требовала от них согласованности
     SI = CC50 / IC50, а обучение могло их исключить переключателем.
     """
@@ -521,7 +521,7 @@ def from_kaggle_train(config: dict | None = None) -> pd.DataFrame:
 
     ic50 = pd.to_numeric(frame.get("IC50"), errors="coerce")
     frame["target_is_label"] = ic50.isna()
-    print(f"[kaggle_train] {len(frame)} строк, из них строк-меток SI=10000: "
+    print(f"[kaggle_train] {len(frame)} строк, из них условных целей без IC50: "
           f"{int(frame['target_is_label'].sum())}")
 
     if settings.get("sentinels", "keep") == "drop":
