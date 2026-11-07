@@ -25,6 +25,7 @@ class XGBHybrid(XGBTwoHead):
         self.classifier = None
         self.single_class = None
         self.use_classifier = False
+        self.mixture_weight = 1.0
 
     def fit_classifier(self, features, labels):
         labels = np.asarray(labels, dtype=float)
@@ -62,6 +63,7 @@ class XGBHybrid(XGBTwoHead):
     def predict_candidate_si(self, features):
         probability = self.predict_label_probability(features)
         baseline = self.predict_baseline_si(features)
+        probability = probability * getattr(self, "mixture_weight", 1.0)
         return probability * 10000.0 + (1.0 - probability) * baseline
 
     def predict_si(self, features):

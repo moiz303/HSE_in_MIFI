@@ -23,6 +23,8 @@ MODEL_TYPES["xgb_hybrid"] = XGBHybrid
 
 
 def report_prefix(config):
+    if cv_protocol(config):
+        return "xgb_cv"
     if config["model"]["strategy"] == "xgb_hybrid":
         return "xgb_hybrid"
     return "catboost" if config["model"]["strategy"] == "catboost_two_head" else "xgb"
@@ -82,38 +84,72 @@ def metric(truth, predicted):
 
 
 def data_hashes():
-    return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes()).hexdigest()
-            for name in ("train.csv", "validation.csv", "splits.json")}
+    names = ["train.csv", "validation.csv", "splits.json"]
+    if (ROOT / "data/processed/kaggle_reference.csv").exists():
+        names.append("kaggle_reference.csv")
+    return {name: hashlib.sha256((ROOT / "data/processed" / name).read_bytes()).hexdigest() for name in names}
+
+
+def cv_protocol(config):
+    return config["model"].get("selection_protocol") == "train_scaffold_cv"
+
+
+def reference_parts(parts, config):
+    if not cv_protocol(config):
+        return parts, None
+    from src.data.kaggle_reference import restore_targets
+    reference = pd.read_csv(ROOT / "data/processed/kaggle_reference.csv")
+    return {name: restore_targets(frame, reference) for name, frame in parts.items()}, reference
+
+
+def original_mse(frame, prediction, reference):
+    from src.data.kaggle_reference import original_pairs
+    truth, predicted = original_pairs(frame, prediction, reference)
+    return {"n": len(truth), "mse": float(np.mean((truth-predicted)**2)) if len(truth) else None}
 
 
 def train(config):
     validate_config(config)
-    parts = load_parts()
+    parts, reference = reference_parts(load_parts(), config)
     frame = parts["train"]
     settings = config["model"]
     model = MODEL_TYPES[settings["strategy"]](settings.get("params"), settings.get("clip_si"))
     print(f"[train] {settings['strategy']}: train={len(frame)}, validation={len(parts['validation'])}", flush=True)
     matrix = features(frame)
     print(f"[train] features={matrix.shape}; holdout unused", flush=True)
+    cv_result = None
+    if cv_protocol(config):
+        from src.hybrid_cv import select_on_train
+        cv_result = select_on_train(frame, matrix, reference, settings.get("params"))
+        print("[CV result] " + json.dumps(cv_result), flush=True)
     model.fit(matrix, exact_target(frame, "IC50"), exact_target(frame, "CC50"))
     if isinstance(model, XGBHybrid):
         labels = np.full(len(frame), np.nan)
-        pure = frame.source.eq("kaggle_train").to_numpy()
+        pure = competition_rows(frame) if cv_result is not None else frame.source.eq("kaggle_train").to_numpy()
         flags = frame.target_is_label.astype("string").fillna("unknown").str.lower()
         known = flags.isin(["true", "false"]).to_numpy()
         labels[pure & known] = flags.eq("true").to_numpy(dtype=bool)[pure & known]
         model.fit_classifier(matrix, labels)
+        if cv_result is not None:
+            model.mixture_weight = cv_result["weight"]
     mask = competition_rows(frame)
     si = pd.to_numeric(frame.SI, errors="coerce").to_numpy(float)
     usable = mask & np.isfinite(si) & (si > 0)
     if not usable.any():
         raise ValueError("нет обучающих SI соревнования для константного сравнения")
+    constant_si = float(si[usable].mean())
+    if reference is not None:
+        from src.data.kaggle_reference import original_pairs
+        truth, _ = original_pairs(frame, np.zeros(len(frame)), reference)
+        constant_si = float(truth.mean())
     import xgboost
     import importlib.metadata
     from rdkit import rdBase
     bundle = {"model": model, "config": config, "data_sha256": data_hashes(),
-              "constant_si": float(si[usable].mean()),
+              "constant_si": constant_si,
               "versions": {"xgboost": xgboost.__version__, "rdkit": rdBase.rdkitVersion}}
+    if cv_result is not None:
+        bundle["train_cv"] = cv_result
     if settings["strategy"] == "catboost_two_head":
         bundle["versions"]["catboost"] = importlib.metadata.version("catboost")
     path = ROOT / config["submission"]["model_file"]
@@ -138,7 +174,7 @@ def evaluate(config):
     bundle = load_bundle(config)
     if bundle["data_sha256"] != data_hashes():
         raise ValueError("данные изменились после обучения")
-    parts = load_parts()
+    parts, reference = reference_parts(load_parts(), config)
     report = {"config": config, "data_sha256": bundle["data_sha256"],
               "versions": bundle["versions"], "n_train": bundle["model"].n_train,
               "note": "Fixed validation; no tuning, significance claim or holdout evaluation."}
@@ -150,11 +186,18 @@ def evaluate(config):
         targets = validation.SI.to_numpy(float)
         base = metric(targets[mask], model.predict_baseline_si(matrix)[mask])["mse"]
         candidate = metric(targets[mask], model.predict_candidate_si(matrix)[mask])["mse"]
+        if reference is not None:
+            base = original_mse(validation, model.predict_baseline_si(matrix), reference)["mse"]
+            candidate = original_mse(validation, model.predict_candidate_si(matrix), reference)["mse"]
         model.use_classifier = select_hybrid(base, candidate)
         bundle["selection"] = {"baseline_mse": base, "candidate_mse": candidate,
             "selected": "hybrid" if model.use_classifier else "baseline",
             "rule": "candidate MSE <= 0.98 * baseline MSE on fixed competition validation"}
         report["selection"] = bundle["selection"]
+        if "train_cv" in bundle:
+            report["train_cv"] = bundle["train_cv"]
+            report["selection"]["weight"] = model.mixture_weight
+            report["selection"]["targets"] = "original competition training rows, matched to fixed validation"
         report["note"] = "Validation used for two-candidate selection; no independent performance claim. Holdout unused."
         print("[selection] " + json.dumps(bundle["selection"]), flush=True)
     predictions = None
@@ -172,6 +215,10 @@ def evaluate(config):
         report[name]["SI_competition"] = metric(targets[mask], si[mask])
         report[name]["constant_competition"] = metric(
             targets[mask], np.full(mask.sum(), bundle["constant_si"]))
+        if reference is not None:
+            report[name]["SI_kaggle_original"] = original_mse(frame, si, reference)
+            report[name]["constant_kaggle_original"] = original_mse(
+                frame, np.full(len(frame), bundle["constant_si"]), reference)
         if name == "validation":
             predictions = pd.DataFrame({"standard_smiles": frame.standard_smiles,
                 "IC50_pred_uM": 10.0 ** logs["IC50"], "CC50_pred_uM": 10.0 ** logs["CC50"],
