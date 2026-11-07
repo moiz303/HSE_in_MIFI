@@ -1,4 +1,4 @@
-"""Train CC50/IC50 XGBoost heads on Mac; --help is safe anywhere."""
+"""Train CC50/IC50 models on the authorized local machine; --help is safe anywhere."""
 from __future__ import annotations
 
 import argparse
@@ -8,7 +8,7 @@ from src import xgb_workflow
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="CatBoost / XGBoost CC50/IC50 -> SI (train on Mac)")
+    parser = argparse.ArgumentParser(description="CatBoost / XGBoost CC50/IC50 -> SI (local CPU training)")
     parser.add_argument("--config", default="configs/xgb_analog.json")
     parser.add_argument("--predict", help="Optional test CSV for submission after training")
     parser.add_argument("--out", default="reports/submission.csv")

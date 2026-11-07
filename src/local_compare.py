@@ -1,4 +1,4 @@
-"""Leakage-controlled OOF comparison of all three options. Run real fits on Mac only."""
+"""Leakage-controlled OOF comparison of all three options on an authorized machine."""
 import argparse
 import json
 import time
@@ -159,7 +159,7 @@ def run(config):
 
 def main(argv=None):
     from src.pipeline import load_config
-    parser = argparse.ArgumentParser(description="Local OOF score comparison; real fits on Mac only")
+    parser = argparse.ArgumentParser(description="Local OOF score comparison on CPU")
     parser.add_argument("--config", default="configs/xgb_weighted.json")
     args = parser.parse_args(argv)
     run(load_config(args.config))

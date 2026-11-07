@@ -22,7 +22,7 @@ Run commands from the repository root, using the existing parent-directory envir
 - `python -m unittest discover -s tests -t . -v`: run the offline suite, matching CI.
 - `python -m unittest tests.test_splits -v`: run one test module.
 
-**Never train models on this machine.** Do not run pipeline `train`/`all`, sweeps, or real-data experiment comparisons. Hand runnable scripts and exports to the teammate training on Mac. Toy-model smoke tests are allowed.
+**Training on this Windows laptop is now explicitly authorized by the user.** Real-data fitting and comparisons may run locally using `../env/Scripts/python.exe`; the Mac launcher remains available for Mac. Preserve experiment logs, keep holdout excluded, and never submit to Kaggle without a separate explicit request.
 
 ## Coding Style & Naming Conventions
 

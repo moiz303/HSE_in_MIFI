@@ -8,7 +8,7 @@ Current training default is option 3, configs/xgb_weighted.json: fixed reliabili
 
 Latest authorized experiment/default: configs/xgb_analog.json. Weighted XGBoost plus independent training-only IC50/CC50 neighbor banks; Morgan/Tanimoto, k=5, minimum similarity=0.5. Alpha 0/.1/.25/.5 selected only via original training OOF targets with scaffold/measured-target safeguards. Holdout and test endpoints never enter the banks or alpha selection. Preserve weighted and prior artifacts. Do not confuse this molecular-analogue experiment with the earlier five-seed option 2.
 
-Never train on this Windows machine. Real-data model fitting, sweeps and comparisons run on the teammate's Mac through `./run_mac.sh`. Local data preparation, static checks and unittest toy-model tests are allowed.
+The user has explicitly lifted the earlier no-training restriction: real-data training and comparisons are now authorized on this Windows laptop. Use ../env/Scripts/python.exe for local runs; ./run_mac.sh remains the Mac-specific launcher. Preserve holdout exclusions and logs. Kaggle submissions still require a separate explicit request.
 
 The previous HGB, sentinel, mixture, calibration and sweep implementations were removed. Do not restore their defaults or load historical model artifacts. Historical findings are summarized in `docs/previous_experiments.md`.
 

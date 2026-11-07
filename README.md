@@ -396,7 +396,17 @@ python train_model.py --config configs/baseline.json
 
 Настройки — `configs/baseline.json`: собственные параметры XGBoost (`n_estimators`, `max_depth`, `min_child_weight`, `reg_lambda` и другие из `DEFAULT_PARAMS`). Число деревьев фиксировано, early stopping по внешней validation не применяется. `clip_si` по умолчанию `null`: произвольного потолка SI нет. Проверять ограничения следует отдельным заранее определённым экспериментом.
 
-**На Windows обучение не запускать.** Здесь разрешены сбор/валидация данных, экспорт и тесты на искусственных примерах:
+**Ограничение снято пользователем: обучение на этом Windows-ноутбуке разрешено.**
+Для актуального эксперимента в PowerShell:
+
+```powershell
+../env/Scripts/python.exe -u train_model.py --config configs/xgb_analog.json --predict data/raw/kaggle/test.csv --out reports/submission_xgb_analog.csv
+../env/Scripts/python.exe -m src.test_diagnostics --submission reports/submission_xgb_analog.csv
+```
+
+`run_mac.sh` остаётся запускателем для macOS; на Windows используется Python
+напрямую. Holdout исключён, отправка Kaggle — только по отдельному указанию.
+Команды подготовки данных и тестов:
 
 ```powershell
 ../env/Scripts/Activate.ps1
