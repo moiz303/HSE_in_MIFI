@@ -211,9 +211,15 @@ class SentinelSI:
     """
 
     def __init__(self, params: dict | None = None, clip_si: float | None = None,
-                 label_value: float = 10000.0, regressor: str = "log") -> None:
+                 label_value: float = 10000.0, regressor: str = "log",
+                 classifier_scope: str = "all", calibrate: bool = False,
+                 calibration_folds: int = 5) -> None:
         from sklearn.ensemble import HistGradientBoostingClassifier
 
+        if classifier_scope not in ("all", "competition"):
+            raise ValueError("classifier_scope должен быть 'all' или 'competition'")
+        if calibration_folds < 2:
+            raise ValueError("calibration_folds должен быть не меньше 2")
         merged = dict(DEFAULT_PARAMS)
         merged.update(params or {})
         self.classifier = HistGradientBoostingClassifier(**merged)
@@ -225,30 +231,126 @@ class SentinelSI:
         self.regressor_kind = regressor
         self.label_value = label_value
         self.clip_si = clip_si
+        self.classifier_scope = classifier_scope
+        self.calibrate = calibrate
+        self.calibration_folds = calibration_folds
+        self._calibrator = None
         self.n_train: dict[str, int] = {}
         self._single_class: bool | None = None
 
-    def fit(self, features: np.ndarray, si: np.ndarray, is_label: np.ndarray) -> "SentinelSI":
+    def fit(
+        self,
+        features: np.ndarray,
+        si: np.ndarray,
+        is_label: np.ndarray,
+        classifier_mask: np.ndarray | None = None,
+        groups: np.ndarray | list[str] | None = None,
+    ) -> "SentinelSI":
         labels = np.asarray(is_label, dtype=bool)
-        if labels.all() or not labels.any():
+        eligible = (
+            np.ones(labels.shape, dtype=bool)
+            if classifier_mask is None
+            else np.asarray(classifier_mask, dtype=bool)
+        )
+        if eligible.shape != labels.shape:
+            raise ValueError("classifier_mask должен иметь ту же длину, что и is_label")
+        if self.classifier_scope == "competition" and classifier_mask is None:
+            raise ValueError(
+                "для classifier_scope='competition' нужно передать classifier_mask"
+            )
+        if not eligible.any():
+            raise ValueError("classifier_mask не выбрал строки для классификатора")
+        classifier_labels = labels[eligible]
+        if classifier_labels.all() or not classifier_labels.any():
             # Один класс: классификатор не нужен и обучаться не может.
-            self._single_class = bool(labels.all())
+            self._single_class = bool(classifier_labels.all())
         else:
             self._single_class = None
-            self.classifier.fit(features, labels.astype(int))
+            if self.calibrate:
+                self._fit_calibrated_classifier(features, classifier_labels, eligible, groups)
+            else:
+                self.classifier.fit(
+                    features[eligible], classifier_labels.astype(int)
+                )
 
         self.regressor.fit(features[~labels], np.asarray(si, dtype=float)[~labels])
         self.n_train = {
             "регрессия": int((~labels).sum()),
             "метки": int(labels.sum()),
+            "классификатор": int(eligible.sum()),
+            "классификатор_метки": int(classifier_labels.sum()),
             "доля меток": round(float(labels.mean()), 3),
         }
         return self
 
+    def _fit_calibrated_classifier(
+        self,
+        features: np.ndarray,
+        labels: np.ndarray,
+        eligible: np.ndarray,
+        groups: np.ndarray | list[str] | None,
+    ) -> None:
+        from sklearn.base import clone
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import StratifiedGroupKFold
+
+        if groups is None:
+            raise ValueError("для scaffold-OOF калибровки нужно передать groups")
+        group_values = np.asarray(groups)
+        if group_values.shape != eligible.shape:
+            raise ValueError("groups должен иметь ту же длину, что и is_label")
+        selected_groups = group_values[eligible]
+        n_groups = np.unique(selected_groups).size
+        n_splits = min(self.calibration_folds, n_groups)
+        if n_splits < 2:
+            raise ValueError("для scaffold-OOF калибровки нужно хотя бы 2 группы")
+
+        splitter = StratifiedGroupKFold(
+            n_splits=n_splits,
+            shuffle=True,
+            random_state=DEFAULT_PARAMS["random_state"],
+        )
+        out_of_fold = np.full(labels.size, np.nan, dtype=float)
+        selected_features = features[eligible]
+        for train_index, held_index in splitter.split(
+            selected_features, labels.astype(int), selected_groups
+        ):
+            if np.unique(labels[train_index]).size != 2:
+                raise ValueError(
+                    "scaffold-fold не содержит оба класса в обучающей части; "
+                    "уменьшите число calibration_folds или добавьте данные"
+                )
+            fold_model = clone(self.classifier)
+            fold_model.fit(
+                selected_features[train_index], labels[train_index].astype(int)
+            )
+            out_of_fold[held_index] = fold_model.predict_proba(
+                selected_features[held_index]
+            )[:, 1]
+
+        if not np.isfinite(out_of_fold).all():
+            raise ValueError("не удалось получить полные scaffold-OOF вероятности")
+        epsilon = np.finfo(float).eps
+        logits = np.log(
+            np.clip(out_of_fold, epsilon, 1.0 - epsilon)
+            / np.clip(1.0 - out_of_fold, epsilon, 1.0)
+        ).reshape(-1, 1)
+        self._calibrator = LogisticRegression(random_state=DEFAULT_PARAMS["random_state"])
+        self._calibrator.fit(logits, labels.astype(int))
+        self.classifier.fit(selected_features, labels.astype(int))
+
     def predict_proba_label(self, features: np.ndarray) -> np.ndarray:
         if self._single_class is not None:
             return np.full(features.shape[0], 1.0 if self._single_class else 0.0)
-        return self.classifier.predict_proba(features)[:, 1]
+        probability = self.classifier.predict_proba(features)[:, 1]
+        if self._calibrator is None:
+            return probability
+        epsilon = np.finfo(float).eps
+        logits = np.log(
+            np.clip(probability, epsilon, 1.0 - epsilon)
+            / np.clip(1.0 - probability, epsilon, 1.0)
+        ).reshape(-1, 1)
+        return self._calibrator.predict_proba(logits)[:, 1]
 
     def predict_si(self, features: np.ndarray) -> np.ndarray:
         """Ожидаемое значение SI в линейном масштабе — так оценивает метрика."""
@@ -280,7 +382,15 @@ def build(strategy: str, params: dict | None = None, clip_si: float | None = Non
         return SentinelSI(params, clip_si, regressor="log")
     if strategy == "sentinel_raw":
         return SentinelSI(params, clip_si, regressor="raw")
+    if strategy == "sentinel_cal":
+        return SentinelSI(
+            params,
+            clip_si,
+            regressor="raw",
+            classifier_scope="competition",
+            calibrate=True,
+        )
     raise ValueError(
         f"неизвестная стратегия: {strategy!r}; доступны: "
-        "direct, raw, two_head, sentinel, sentinel_raw"
+        "direct, raw, two_head, sentinel, sentinel_raw, sentinel_cal"
     )

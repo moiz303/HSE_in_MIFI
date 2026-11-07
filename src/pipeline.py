@@ -196,6 +196,38 @@ def step_train(config: dict) -> None:
             dataset["IC50"].to_numpy()[train_index],
             dataset["CC50"].to_numpy()[train_index],
         )
+    elif strategy.startswith("sentinel"):
+        labels = (
+            dataset["target_is_label"].fillna(False).to_numpy(dtype=bool)
+            if "target_is_label" in dataset.columns
+            else np.zeros(len(dataset), dtype=bool)
+        )
+        fit_options = {}
+        if strategy == "sentinel_cal":
+            if "source" not in dataset.columns:
+                raise ValueError("для стратегии sentinel_cal требуется колонка source")
+            classifier_mask = (
+                dataset["source"].fillna("").str.split(";")
+                .apply(lambda sources: "kaggle_train" in sources)
+                .to_numpy(dtype=bool)
+            )
+            smiles_column = (
+                "standard_smiles" if "standard_smiles" in dataset.columns else "smiles"
+            )
+            groups = np.asarray([
+                splits_module.murcko_scaffold(value)
+                for value in dataset[smiles_column].astype(str)
+            ])
+            fit_options = {
+                "classifier_mask": classifier_mask[train_index],
+                "groups": groups[train_index],
+            }
+        model.fit(
+            features[train_index],
+            dataset["SI"].to_numpy()[train_index],
+            labels[train_index],
+            **fit_options,
+        )
     else:
         model.fit(features[train_index], dataset["SI"].to_numpy()[train_index])
 

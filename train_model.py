@@ -82,7 +82,28 @@ def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
     if strategy == "two_head":
         model.fit(features, frame["IC50"].to_numpy(), frame["CC50"].to_numpy())
     elif strategy.startswith("sentinel"):
-        model.fit(features, frame["SI"].to_numpy(), labels_of(frame))
+        fit_options = {}
+        if strategy == "sentinel_cal":
+            from src.splits import murcko_scaffold
+
+            if "source" not in frame.columns:
+                raise ValueError("для стратегии sentinel_cal требуется колонка source")
+            fit_options = {
+                "classifier_mask": (
+                    frame["source"].fillna("").str.split(";")
+                    .apply(lambda sources: "kaggle_train" in sources)
+                    .to_numpy(dtype=bool)
+                ),
+                "groups": (
+                    frame[SMILES_COLUMN]
+                    .astype(str)
+                    .map(murcko_scaffold)
+                    .to_numpy()
+                ),
+            }
+        model.fit(
+            features, frame["SI"].to_numpy(), labels_of(frame), **fit_options
+        )
     else:
         model.fit(features, frame["SI"].to_numpy())
     return model
@@ -277,7 +298,7 @@ def predict(path: Path, strategy: str, id_column: str, smiles_column: str,
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--strategy",
-                        choices=["sentinel", "sentinel_raw", "raw", "direct",
+                        choices=["sentinel", "sentinel_raw", "sentinel_cal", "raw", "direct",
                                  "two_head", "both", "all"],
                         default="sentinel")
     parser.add_argument("--repeats", type=int, default=0,
@@ -297,7 +318,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.strategy == "both":
         strategies = ["two_head", "direct"]
     elif args.strategy == "all":
-        strategies = ["sentinel_raw", "sentinel", "raw", "direct", "two_head"]
+        strategies = [
+            "sentinel_cal", "sentinel_raw", "sentinel", "raw", "direct", "two_head"
+        ]
     else:
         strategies = [args.strategy]
     params = json.loads(Path(args.params).read_text(encoding="utf-8")) if args.params else None

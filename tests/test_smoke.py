@@ -167,6 +167,48 @@ class TrainingLoop(unittest.TestCase):
         probability = model.predict_proba_label(features)
         self.assertTrue(((probability >= 0) & (probability <= 1)).all())
 
+    def test_sentinel_cal_uses_competition_rows_and_scaffold_oof_calibration(self):
+        rng = np.random.default_rng(7)
+        features = rng.normal(size=(40, 6))
+        labels = np.tile([False, True], 20)
+        si = np.where(labels, 10000.0, 10 ** rng.uniform(0, 2, 40))
+        classifier_mask = np.zeros(40, dtype=bool)
+        classifier_mask[:32] = True
+        groups = np.array([f"scaffold-{index // 2}" for index in range(40)])
+
+        model = baseline.build("sentinel_cal", clip_si=36066.7).fit(
+            features,
+            si,
+            labels,
+            classifier_mask=classifier_mask,
+            groups=groups,
+        )
+
+        self.assertEqual(model.n_train["классификатор"], 32)
+        self.assertEqual(model.n_train["классификатор_метки"], 16)
+        self.assertIsNotNone(model._calibrator)
+        probability = model.predict_proba_label(features)
+        self.assertTrue(np.isfinite(probability).all())
+        self.assertTrue(((probability >= 0) & (probability <= 1)).all())
+        predicted = model.predict_si(features)
+        self.assertTrue(np.isfinite(predicted).all())
+        self.assertLessEqual(predicted.max(), 36066.7)
+
+    def test_sentinel_cal_requires_competition_mask_and_groups(self):
+        features = np.random.default_rng(8).random((20, 4))
+        labels = np.tile([False, True], 10)
+        si = np.where(labels, 10000.0, 2.0)
+        model = baseline.build("sentinel_cal")
+        with self.assertRaisesRegex(ValueError, "classifier_mask"):
+            model.fit(features, si, labels)
+        with self.assertRaisesRegex(ValueError, "groups"):
+            model.fit(
+                features,
+                si,
+                labels,
+                classifier_mask=np.ones(len(labels), dtype=bool),
+            )
+
     def test_a_head_with_no_usable_rows_fails_clearly(self):
         with self.assertRaises(ValueError) as caught:
             baseline.build("two_head").fit(
