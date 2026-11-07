@@ -1,0 +1,610 @@
+{
+  "selected": "boost__Quantile_alpha_0.8__log1p__kaggle_only",
+  "ranking": [
+    {
+      "candidate": "boost__Quantile_alpha_0.8__log1p__kaggle_only",
+      "mean_oof_mse": 5091126.019244431,
+      "molecule": 5086713.674852884,
+      "scaffold": 5095538.363635978,
+      "spec": {
+        "kind": "boost",
+        "loss": "Quantile:alpha=0.8",
+        "target": "log1p",
+        "regime": "kaggle_only",
+        "name": "boost__Quantile_alpha_0.8__log1p__kaggle_only"
+      },
+      "artifact": "artifacts/current_search/boost__Quantile_alpha_0.8__log1p__kaggle_only.joblib",
+      "submission": "reports/current_search/submission_boost__Quantile_alpha_0.8__log1p__kaggle_only.csv",
+      "submission_sha256": "bd389a3b2fb91346fa9c65ac5292fda22dc4b00648e9cea118e8d8542e876533"
+    },
+    {
+      "candidate": "forest__capped__4__kaggle_only",
+      "mean_oof_mse": 5100059.254107404,
+      "molecule": 5139884.455840676,
+      "scaffold": 5060234.052374131,
+      "spec": {
+        "kind": "forest",
+        "target": "capped",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__capped__4__kaggle_only"
+      },
+      "artifact": "artifacts/current_search/forest__capped__4__kaggle_only.joblib",
+      "submission": "reports/current_search/submission_forest__capped__4__kaggle_only.csv",
+      "submission_sha256": "21e8c366f660555ac8464d30abaa8a84ee4dc009d236a1dc5f91529ee114a1a1"
+    },
+    {
+      "candidate": "boost__Tweedie_variance_power_1.7__raw__kaggle_only",
+      "mean_oof_mse": 5108580.130610662,
+      "molecule": 5122563.573496925,
+      "scaffold": 5094596.687724398,
+      "spec": {
+        "kind": "boost",
+        "loss": "Tweedie:variance_power=1.7",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Tweedie_variance_power_1.7__raw__kaggle_only"
+      },
+      "artifact": "artifacts/current_search/boost__Tweedie_variance_power_1.7__raw__kaggle_only.joblib",
+      "submission": "reports/current_search/submission_boost__Tweedie_variance_power_1.7__raw__kaggle_only.csv",
+      "submission_sha256": "cc236cfc8f88c5bb21dcc1e13a478950a1c4018aad3f8636fba2e7329f4c564b"
+    },
+    {
+      "candidate": "neighbors__log1p__12.0__kaggle_only",
+      "mean_oof_mse": 5114941.510605276,
+      "molecule": 5125882.514280769,
+      "scaffold": 5104000.506929782,
+      "spec": {
+        "kind": "neighbors",
+        "target": "log1p",
+        "power": 12.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__log1p__12.0__kaggle_only"
+      },
+      "artifact": "artifacts/current_search/neighbors__log1p__12.0__kaggle_only.joblib",
+      "submission": "reports/current_search/submission_neighbors__log1p__12.0__kaggle_only.csv",
+      "submission_sha256": "e4585ccd3826b0cd0f56670b5f89da0957a26579d11dc409a75f87acf2f6fba1"
+    },
+    {
+      "candidate": "kernel__log1p__0.1__2.0__kaggle_only",
+      "mean_oof_mse": 5116206.758659773,
+      "molecule": 5114942.616181212,
+      "scaffold": 5117470.901138333,
+      "spec": {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 0.1,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__0.1__2.0__kaggle_only"
+      },
+      "artifact": "artifacts/current_search/kernel__log1p__0.1__2.0__kaggle_only.joblib",
+      "submission": "reports/current_search/submission_kernel__log1p__0.1__2.0__kaggle_only.csv",
+      "submission_sha256": "e851dfcb036c2355a9a129733b97f22fa4deca1685e51d9a2249f926fff42846"
+    },
+    {
+      "candidate": "kernel__raw__10.0__2.0__kaggle_only",
+      "mean_oof_mse": 5116629.130143223,
+      "molecule": 5114741.76677563,
+      "scaffold": 5118516.493510817,
+      "spec": {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__10.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "boost__Huber_delta_100__raw__kaggle_only",
+      "mean_oof_mse": 5125053.711849449,
+      "molecule": 5127266.061152305,
+      "scaffold": 5122841.362546593,
+      "spec": {
+        "kind": "boost",
+        "loss": "Huber:delta=100",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Huber_delta_100__raw__kaggle_only"
+      }
+    },
+    {
+      "candidate": "kernel__log1p__1.0__2.0__public_plus_kaggle",
+      "mean_oof_mse": 5126751.6940865675,
+      "molecule": 5125880.101101046,
+      "scaffold": 5127623.287072089,
+      "spec": {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "public_plus_kaggle",
+        "name": "kernel__log1p__1.0__2.0__public_plus_kaggle"
+      }
+    },
+    {
+      "candidate": "boost__Tweedie_variance_power_1.3__raw__kaggle_only",
+      "mean_oof_mse": 5128103.797384701,
+      "molecule": 5156091.977400585,
+      "scaffold": 5100115.617368816,
+      "spec": {
+        "kind": "boost",
+        "loss": "Tweedie:variance_power=1.3",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Tweedie_variance_power_1.3__raw__kaggle_only"
+      }
+    },
+    {
+      "candidate": "neighbors__log1p__4.0__kaggle_only",
+      "mean_oof_mse": 5129395.167469585,
+      "molecule": 5128750.107645694,
+      "scaffold": 5130040.2272934755,
+      "spec": {
+        "kind": "neighbors",
+        "target": "log1p",
+        "power": 4.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__log1p__4.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "hurdle__log1p__1.0__2.0__kaggle_only",
+      "mean_oof_mse": 5131279.787487598,
+      "molecule": 5130020.279718049,
+      "scaffold": 5132539.295257148,
+      "spec": {
+        "kind": "hurdle",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "hurdle__log1p__1.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "boost__Poisson__raw__kaggle_only",
+      "mean_oof_mse": 5132675.030162131,
+      "molecule": 5153222.6218168335,
+      "scaffold": 5112127.438507429,
+      "spec": {
+        "kind": "boost",
+        "loss": "Poisson",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Poisson__raw__kaggle_only"
+      }
+    },
+    {
+      "candidate": "kernel__log1p__1.0__2.0__kaggle_only",
+      "mean_oof_mse": 5135675.333255606,
+      "molecule": 5135030.104935848,
+      "scaffold": 5136320.561575363,
+      "spec": {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__1.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "forest__log1p__4__kaggle_only",
+      "mean_oof_mse": 5142986.7212038655,
+      "molecule": 5166618.834809983,
+      "scaffold": 5119354.607597748,
+      "spec": {
+        "kind": "forest",
+        "target": "log1p",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__log1p__4__kaggle_only"
+      }
+    },
+    {
+      "candidate": "forest__log1p__1__kaggle_only",
+      "mean_oof_mse": 5144076.9864303805,
+      "molecule": 5168625.285052027,
+      "scaffold": 5119528.687808733,
+      "spec": {
+        "kind": "forest",
+        "target": "log1p",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__log1p__1__kaggle_only"
+      }
+    },
+    {
+      "candidate": "hurdle__log1p__10.0__2.0__kaggle_only",
+      "mean_oof_mse": 5144476.073372964,
+      "molecule": 5144246.692846337,
+      "scaffold": 5144705.453899589,
+      "spec": {
+        "kind": "hurdle",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "hurdle__log1p__10.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "kernel__log1p__10.0__2.0__public_plus_kaggle",
+      "mean_oof_mse": 5146209.880440304,
+      "molecule": 5146049.023086998,
+      "scaffold": 5146370.737793611,
+      "spec": {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "public_plus_kaggle",
+        "name": "kernel__log1p__10.0__2.0__public_plus_kaggle"
+      }
+    },
+    {
+      "candidate": "kernel__log1p__10.0__2.0__kaggle_only",
+      "mean_oof_mse": 5148205.149345664,
+      "molecule": 5148233.9935713075,
+      "scaffold": 5148176.305120022,
+      "spec": {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__10.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "forest__capped__1__kaggle_only",
+      "mean_oof_mse": 5190736.394174656,
+      "molecule": 5255146.191361552,
+      "scaffold": 5126326.596987759,
+      "spec": {
+        "kind": "forest",
+        "target": "capped",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__capped__1__kaggle_only"
+      }
+    },
+    {
+      "candidate": "forest__raw__1__kaggle_only",
+      "mean_oof_mse": 5494344.907497623,
+      "molecule": 5277979.122969421,
+      "scaffold": 5710710.692025825,
+      "spec": {
+        "kind": "forest",
+        "target": "raw",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__raw__1__kaggle_only"
+      }
+    },
+    {
+      "candidate": "kernel__raw__1.0__2.0__kaggle_only",
+      "mean_oof_mse": 5524928.339692352,
+      "molecule": 5316087.677918724,
+      "scaffold": 5733769.00146598,
+      "spec": {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__1.0__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "neighbors__raw__4.0__kaggle_only",
+      "mean_oof_mse": 5810149.944897991,
+      "molecule": 5421370.9923474165,
+      "scaffold": 6198928.897448565,
+      "spec": {
+        "kind": "neighbors",
+        "target": "raw",
+        "power": 4.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__raw__4.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "forest__raw__4__kaggle_only",
+      "mean_oof_mse": 6043185.632787472,
+      "molecule": 5759118.559286127,
+      "scaffold": 6327252.7062888155,
+      "spec": {
+        "kind": "forest",
+        "target": "raw",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__raw__4__kaggle_only"
+      }
+    },
+    {
+      "candidate": "kernel__raw__0.1__2.0__kaggle_only",
+      "mean_oof_mse": 6254362.703685544,
+      "molecule": 5629423.245345568,
+      "scaffold": 6879302.1620255215,
+      "spec": {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 0.1,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__0.1__2.0__kaggle_only"
+      }
+    },
+    {
+      "candidate": "neighbors__raw__12.0__kaggle_only",
+      "mean_oof_mse": 6942721.884692315,
+      "molecule": 5526845.38676736,
+      "scaffold": 8358598.38261727,
+      "spec": {
+        "kind": "neighbors",
+        "target": "raw",
+        "power": 12.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__raw__12.0__kaggle_only"
+      }
+    }
+  ],
+  "provenance": {
+    "specifications": [
+      {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 0.1,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__0.1__2.0__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__1.0__2.0__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "raw",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__raw__10.0__2.0__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 0.1,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__0.1__2.0__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__1.0__2.0__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "kernel__log1p__10.0__2.0__kaggle_only"
+      },
+      {
+        "kind": "neighbors",
+        "target": "raw",
+        "power": 4.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__raw__4.0__kaggle_only"
+      },
+      {
+        "kind": "neighbors",
+        "target": "raw",
+        "power": 12.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__raw__12.0__kaggle_only"
+      },
+      {
+        "kind": "neighbors",
+        "target": "log1p",
+        "power": 4.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__log1p__4.0__kaggle_only"
+      },
+      {
+        "kind": "neighbors",
+        "target": "log1p",
+        "power": 12.0,
+        "regime": "kaggle_only",
+        "name": "neighbors__log1p__12.0__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "raw",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__raw__1__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "raw",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__raw__4__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "log1p",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__log1p__1__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "log1p",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__log1p__4__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "capped",
+        "leaf": 1,
+        "regime": "kaggle_only",
+        "name": "forest__capped__1__kaggle_only"
+      },
+      {
+        "kind": "forest",
+        "target": "capped",
+        "leaf": 4,
+        "regime": "kaggle_only",
+        "name": "forest__capped__4__kaggle_only"
+      },
+      {
+        "kind": "boost",
+        "loss": "Tweedie:variance_power=1.3",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Tweedie_variance_power_1.3__raw__kaggle_only"
+      },
+      {
+        "kind": "boost",
+        "loss": "Tweedie:variance_power=1.7",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Tweedie_variance_power_1.7__raw__kaggle_only"
+      },
+      {
+        "kind": "boost",
+        "loss": "Poisson",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Poisson__raw__kaggle_only"
+      },
+      {
+        "kind": "boost",
+        "loss": "Huber:delta=100",
+        "target": "raw",
+        "regime": "kaggle_only",
+        "name": "boost__Huber_delta_100__raw__kaggle_only"
+      },
+      {
+        "kind": "boost",
+        "loss": "Quantile:alpha=0.8",
+        "target": "log1p",
+        "regime": "kaggle_only",
+        "name": "boost__Quantile_alpha_0.8__log1p__kaggle_only"
+      },
+      {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "public_plus_kaggle",
+        "name": "kernel__log1p__1.0__2.0__public_plus_kaggle"
+      },
+      {
+        "kind": "kernel",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "public_plus_kaggle",
+        "name": "kernel__log1p__10.0__2.0__public_plus_kaggle"
+      },
+      {
+        "kind": "hurdle",
+        "target": "log1p",
+        "alpha": 1.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "hurdle__log1p__1.0__2.0__kaggle_only"
+      },
+      {
+        "kind": "hurdle",
+        "target": "log1p",
+        "alpha": 10.0,
+        "power": 2.0,
+        "regime": "kaggle_only",
+        "name": "hurdle__log1p__10.0__2.0__kaggle_only"
+      }
+    ],
+    "data": {
+      "version": "train_v2_exact_public_v1",
+      "feature_columns": [
+        "SMILES"
+      ],
+      "kaggle_columns_read": [
+        "SMILES",
+        "SI VACV"
+      ],
+      "forbidden_columns_read": [],
+      "kaggle_rows": 320,
+      "kaggle_development_rows": 267,
+      "reserved_competition_rows": 53,
+      "development_zeros": 66,
+      "legacy_unmapped_competition_structures_excluded": 2,
+      "public_collected_pairs": 109,
+      "public_collected_structures": 87,
+      "public_fit_pairs": 80,
+      "public_fit_structures": 63,
+      "public_missing_doi": 0,
+      "public_rejection_counts": {
+        "censored_measurement": 2930,
+        "no_exact_partner_same_document_and_cell_line": 1748,
+        "endpoint_type_not_IC50_or_CC50": 1292,
+        "unknown_cell_line": 184
+      },
+      "public_target_types": [
+        "IC50",
+        "CC50"
+      ],
+      "public_virus": "VACV whole-organism targets only",
+      "public_weight_rule": "0.5/number of records of a structure",
+      "competition_targets_aggregated_with_public": false,
+      "holdout_used": false,
+      "source_sha256": {
+        "data/raw/kaggle/train_v2.csv": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+        "data/experiments/independent_endpoints.csv": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+        "data/experiments/independent_collection.json": "3c89589e9e306622057fe870e3e5c12602b53e7cd9444a166935af1363cd6200",
+        "data/raw/chembl.csv": "4bfc3758ba657774ebcc140ce729701fa40e694ca1192662a5bf7bd02357afb0",
+        "data/processed/splits.json": "8dc017aaa86dc037bccb9cd29703b2368d0332896226b29f5300ea4399634f80",
+        "data/processed/dataset.csv": "2c56548919a0fdf386e93295c078d5460b9159509134eb201925cbe1c450d58d"
+      },
+      "source_content_sha256": {
+        "data/raw/kaggle/train_v2.csv": "16b861ef36b77c98acfb6870ea1ff25751e8add55debc650b4903c8f38f79e53",
+        "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+        "data/experiments/independent_collection.json": "105bac5f2d5cc639b79d29ff8232164add04b859225adb3495f9315167661040",
+        "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+        "data/processed/splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+        "data/processed/dataset.csv": "e7cf2826f9ace628f46b3264271c3d390d4dfd42ec8ab55156c175370171127e"
+      },
+      "output_content_sha256": {
+        "development_mixed.csv": "11b3a768d4af49171d5a34bad25af2987201c5a29037fd9bb396abae22b65f8e",
+        "kaggle_development.csv": "5c613e49049434fbed42c820f4a69a97f13ecbcfe9685f65ac07cd214115131a",
+        "public_dataset.csv": "a0a280b8ba4f680d6145f92180f40d34a29f6b6ab13348bc14e26d3da519df1c",
+        "public_development.csv": "da9ba8e41f8e9a4ff05fd710214872c4fa9db4a17d3497a5c93c36eb809f8d01",
+        "public_rejected.csv": "88de8aaa0b9c06b10261bcb7eb95569c5f0d7376852566a0d9e77a8468a7f3e2"
+      }
+    },
+    "code_sha256": "e9d244b76185fb4197a249f8941b6bb960565b211ace12687e4ee905a28d5f4d",
+    "feature_code_sha256": "a80e823cd35efb3a53111188c1b14fe8b0cf7ebda1d5e703e0495203afc5e91c",
+    "selection": "Mean ALL-row raw-SI MSE over fixed molecule/scaffold development OOF; no endpoint inputs",
+    "independent_holdout_used": false,
+    "official_concentrations_used": false
+  },
+  "test_endpoints_used": false,
+  "official_kaggle_score": null,
+  "submissions_sent": 0
+}

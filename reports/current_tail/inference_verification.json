@@ -1,0 +1,10 @@
+{
+  "candidate": "domain_cap_q0.99",
+  "base_artifact_verified": "reports/current/inference_verification.json",
+  "postprocess_verified_from_training_targets_only": true,
+  "final_cap": 3349.9999999999372,
+  "modified_test_predictions": 3,
+  "no_oof_predictions_changed": true,
+  "submission_sha256": "4b1ef726c4f7e491de176e34c8bf8238065c3ef75170fcd4e11190d248230eb1",
+  "rows": 597
+}

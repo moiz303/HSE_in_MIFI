@@ -18,13 +18,13 @@
 | chemeleon_domain | public_plus_kaggle | 6320466.22 | 9293745.39 | 3612776.64 | не отправлен |
 | catboost_direct | public_plus_kaggle | 28715696.46 | 178946813.82 | 9927306.08 | не отправлен |
 | chemeleon_mlp_log1p | public_plus_kaggle | 5390944.43 | 11418396.32 | 5650984.88 | не отправлен |
-| chemeleon_domain_log1p | public_plus_kaggle | 5054051.78 | 5069645.18 | 3240409.48 | не отправлен |
+| chemeleon_domain_log1p | public_plus_kaggle | 5054051.78 | 5069645.18 | 3240409.48 | 1586333.78789 |
 | catboost_log1p | public_plus_kaggle | 5211207.73 | 5058826.90 | 1968835.32 | не отправлен |
 
 Выбор по OOF до тестовых диагностик: **chemeleon_domain_log1p__public_plus_kaggle**.
 Прямое сравнение источников: те же параметры и те же отложенные исходные конкурсные строки.
 Локальный endpoint MSE использует другой неполный эталон; это не официальный Score, он не участвует в выборе.
-Ни одной заявки на Kaggle этим запуском не отправлено. Достижение порога 700000 официально не подтверждено.
+Последующие разрешённые отправки и текущая цель top10 или Score<800000: kaggle_goal_submissions.json. Контроли хвоста: ../current_tail/.
 
 | Ориентир | OOF molecule MSE | OOF scaffold MSE |
 |---|---:|---:|

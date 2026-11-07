@@ -1,0 +1,30 @@
+{
+  "submissions": [
+    {
+      "candidate": "chemeleon_domain_log1p__public_plus_kaggle",
+      "submission": "reports/current/submission_chemeleon_domain_log1p__public_plus_kaggle.csv",
+      "submission_sha256": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3",
+      "mean_oof_mse": 5061848.478142206,
+      "authorization": "User requested best hypotheses on Kaggle; updated target top10 or score<800000",
+      "result": "{\"message\": \"Successfully submitted to Molecular Activity Prediction\", \"ref\": 58103006}",
+      "official_score": 1586333.78789,
+      "submission_attempt_in_current_goal": 1,
+      "ref": 58103006,
+      "status": "SubmissionStatus.COMPLETE"
+    },
+    {
+      "candidate": "domain_cap_q0.99",
+      "submission": "reports/current_tail/submission_domain_cap_q0.99.csv",
+      "submission_sha256": "4b1ef726c4f7e491de176e34c8bf8238065c3ef75170fcd4e11190d248230eb1",
+      "mean_oof_mse": 5061848.478142206,
+      "final_cap": 3349.9999999999372,
+      "result": "{\"message\": \"Successfully submitted to Molecular Activity Prediction\", \"ref\": 58103262}",
+      "official_score": 1586412.96821,
+      "submission_attempt_in_current_goal": 2,
+      "ref": 58103262,
+      "status": "SubmissionStatus.COMPLETE"
+    }
+  ],
+  "target": "top10 OR Score<800000",
+  "goal_attempt_budget": 4
+}

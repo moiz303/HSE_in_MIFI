@@ -1,0 +1,8 @@
+# Optional separate environment for the Prior Labs TabPFN-v2 experiment.
+-r requirements-current.txt
+tabpfn==2.1.3
+pydantic==2.14.3
+pydantic-settings==2.16.2
+eval-type-backport==0.4.0
+einops==0.8.2
+huggingface-hub==0.36.2

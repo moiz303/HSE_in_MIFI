@@ -1,0 +1,424 @@
+{
+  "selected": "domain_cap_q0.99",
+  "ranking": [
+    {
+      "candidate": "domain_cap_q0.99",
+      "kind": "train_quantile_cap",
+      "base": "domain",
+      "quantile": 0.99,
+      "mean_oof_mse": 5061848.478142206,
+      "molecule": 5054051.780730559,
+      "scaffold": 5069645.175553853,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": 0.0,
+        "ci95_lower": 0.0,
+        "ci95_upper": 0.0,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 3349.9999999999372,
+      "submission": "reports/current_tail/submission_domain_cap_q0.99.csv",
+      "submission_sha256": "4b1ef726c4f7e491de176e34c8bf8238065c3ef75170fcd4e11190d248230eb1"
+    },
+    {
+      "candidate": "domain_cap_q0.975",
+      "kind": "train_quantile_cap",
+      "base": "domain",
+      "quantile": 0.975,
+      "mean_oof_mse": 5063788.003006274,
+      "molecule": 5062354.475817643,
+      "scaffold": 5065221.530194906,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -1939.524864068306,
+        "ci95_lower": -11139.170971395748,
+        "ci95_upper": 4391.578041289953,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 1278.811749999972,
+      "submission": "reports/current_tail/submission_domain_cap_q0.975.csv",
+      "submission_sha256": "af40e06525b69ab60656cf1924c3341a559538bcdb7f2d11aa9521af8316d4f3"
+    },
+    {
+      "candidate": "domain_cap_q0.95",
+      "kind": "train_quantile_cap",
+      "base": "domain",
+      "quantile": 0.95,
+      "mean_oof_mse": 5066940.787950726,
+      "molecule": 5076843.085758086,
+      "scaffold": 5057038.490143365,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -5092.30980852039,
+        "ci95_lower": -30355.90806232893,
+        "ci95_upper": 12632.356335995715,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 533.5410999999979,
+      "submission": "reports/current_tail/submission_domain_cap_q0.95.csv",
+      "submission_sha256": "50dbb37f2e0c9d7b95063e687f694de8ca0dfadec823b5bca91546566604d28b"
+    },
+    {
+      "candidate": "equal_domain_catboost",
+      "kind": "fixed_equal_blend",
+      "bases": [
+        "domain",
+        "catboost"
+      ],
+      "mean_oof_mse": 5070007.955028244,
+      "molecule": 5102836.549532188,
+      "scaffold": 5037179.3605243005,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -8159.47688603869,
+        "ci95_lower": -78999.13306358793,
+        "ci95_upper": 68566.24182844671,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "submission": "reports/current_tail/submission_equal_domain_catboost.csv",
+      "submission_sha256": "b24a865756a1323294b2bf29f21cbd3e6782f97eddc4e073343c44a8531c69cd"
+    },
+    {
+      "candidate": "pooled_cap_q0.95",
+      "kind": "train_quantile_cap",
+      "base": "pooled",
+      "quantile": 0.95,
+      "mean_oof_mse": 5070148.975566368,
+      "molecule": 5076797.334542481,
+      "scaffold": 5063500.616590254,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -8300.497424162444,
+        "ci95_lower": -42103.903796823986,
+        "ci95_upper": 14303.254048425739,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 533.5410999999979,
+      "submission": "reports/current_tail/submission_pooled_cap_q0.95.csv",
+      "submission_sha256": "9b404009ebcb1167dd8bfdf53c0ff08aeb6fa796a301149b479300d1028da179"
+    },
+    {
+      "candidate": "pooled_cap_q0.99",
+      "kind": "train_quantile_cap",
+      "base": "pooled",
+      "quantile": 0.99,
+      "mean_oof_mse": 5071066.321626591,
+      "molecule": 5065331.763642674,
+      "scaffold": 5076800.879610508,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -9217.84348438555,
+        "ci95_lower": -28864.837361687845,
+        "ci95_upper": 3935.8663306882236,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 3349.9999999999372,
+      "submission": "reports/current_tail/submission_pooled_cap_q0.99.csv",
+      "submission_sha256": "25d2f1cca6af8c72981ea8229697e2eb74f2d5753aeee4ccdafa1196d1d377c0"
+    },
+    {
+      "candidate": "pooled_cap_q0.975",
+      "kind": "train_quantile_cap",
+      "base": "pooled",
+      "quantile": 0.975,
+      "mean_oof_mse": 5072510.78584918,
+      "molecule": 5073247.3373396415,
+      "scaffold": 5071774.234358719,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -10662.307706974432,
+        "ci95_lower": -35499.887864006516,
+        "ci95_upper": 5493.106029634958,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 1278.811749999972,
+      "submission": "reports/current_tail/submission_pooled_cap_q0.975.csv",
+      "submission_sha256": "642d958096d2855462f69696cb776dfc2314083ac8782fcddd4ad765ab538d48"
+    },
+    {
+      "candidate": "equal_domain_catboost_tabpfn",
+      "kind": "fixed_equal_blend",
+      "bases": [
+        "domain",
+        "catboost",
+        "tabpfn"
+      ],
+      "mean_oof_mse": 5078472.116137641,
+      "molecule": 5099576.778962474,
+      "scaffold": 5057367.453312806,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -16623.637995434612,
+        "ci95_lower": -98062.75666994037,
+        "ci95_upper": 49493.75352186694,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "submission": "reports/current_tail/submission_equal_domain_catboost_tabpfn.csv",
+      "submission_sha256": "cab34850078f931ae8694fb37480acc2653e6c362c13b7e9afaa9cb74b7e1d38"
+    },
+    {
+      "candidate": "quantile_cap_q0.95",
+      "kind": "train_quantile_cap",
+      "base": "quantile",
+      "quantile": 0.95,
+      "mean_oof_mse": 5085744.57456835,
+      "molecule": 5076184.833095267,
+      "scaffold": 5095304.316041432,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -23896.096426144428,
+        "ci95_lower": -96767.55167425095,
+        "ci95_upper": 22995.803618331604,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 533.5410999999979,
+      "submission": "reports/current_tail/submission_quantile_cap_q0.95.csv",
+      "submission_sha256": "81eb45794a50f2e31d1ebc86b691343ccd4f11c211e532b9c213df255cd06497"
+    },
+    {
+      "candidate": "quantile_cap_q0.975",
+      "kind": "train_quantile_cap",
+      "base": "quantile",
+      "quantile": 0.975,
+      "mean_oof_mse": 5085759.668168992,
+      "molecule": 5079972.285617637,
+      "scaffold": 5091547.050720346,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -23911.190026786368,
+        "ci95_lower": -89812.594084371,
+        "ci95_upper": 21857.715661582883,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 1278.811749999972,
+      "submission": "reports/current_tail/submission_quantile_cap_q0.975.csv",
+      "submission_sha256": "ddb592836849c056e35785f515615423d678bc2c6d3eb79b8927ded5729d3751"
+    },
+    {
+      "candidate": "equal_domain_tabpfn",
+      "kind": "fixed_equal_blend",
+      "bases": [
+        "domain",
+        "tabpfn"
+      ],
+      "mean_oof_mse": 5086124.516106269,
+      "molecule": 5082956.8925300995,
+      "scaffold": 5089292.139682439,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -24276.037964063275,
+        "ci95_lower": -86734.06931769574,
+        "ci95_upper": 11421.55939114597,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "submission": "reports/current_tail/submission_equal_domain_tabpfn.csv",
+      "submission_sha256": "dbedff44c2383bd78225fb2ee8b87f5a60963f110131dc89831545052dacbda0"
+    },
+    {
+      "candidate": "quantile_cap_q0.99",
+      "kind": "train_quantile_cap",
+      "base": "quantile",
+      "quantile": 0.99,
+      "mean_oof_mse": 5091126.019244431,
+      "molecule": 5086713.674852884,
+      "scaffold": 5095538.363635978,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -29277.541102225758,
+        "ci95_lower": -97111.67457871525,
+        "ci95_upper": 18848.26100725085,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 3349.9999999999372,
+      "submission": "reports/current_tail/submission_quantile_cap_q0.99.csv",
+      "submission_sha256": "b96139c0836f646bee682e3a4ad6827f4697bb8a89a8e2f697281c36abb9ba7d"
+    },
+    {
+      "candidate": "catboost_cap_q0.975",
+      "kind": "train_quantile_cap",
+      "base": "catboost",
+      "quantile": 0.975,
+      "mean_oof_mse": 5094687.061629528,
+      "molecule": 5115197.701155691,
+      "scaffold": 5074176.422103365,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -32838.58348732213,
+        "ci95_lower": -153218.5625684414,
+        "ci95_upper": 61700.631486637954,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 1278.811749999972,
+      "submission": "reports/current_tail/submission_catboost_cap_q0.975.csv",
+      "submission_sha256": "2d14f1c9f362a7c5e7d8d192c07a217e929fae92f7da0380ac222eaffb4bd5f2"
+    },
+    {
+      "candidate": "catboost_cap_q0.95",
+      "kind": "train_quantile_cap",
+      "base": "catboost",
+      "quantile": 0.95,
+      "mean_oof_mse": 5102307.351092768,
+      "molecule": 5105630.181384248,
+      "scaffold": 5098984.520801288,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -40458.87295056237,
+        "ci95_lower": -159496.43375718716,
+        "ci95_upper": 32185.185623169393,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 533.5410999999979,
+      "submission": "reports/current_tail/submission_catboost_cap_q0.95.csv",
+      "submission_sha256": "f4da26f58da694fed6f3f1e783a11556e98eff94eac9d028afd3c7f72832376a"
+    },
+    {
+      "candidate": "tabpfn_cap_q0.95",
+      "kind": "train_quantile_cap",
+      "base": "tabpfn",
+      "quantile": 0.95,
+      "mean_oof_mse": 5119263.513331199,
+      "molecule": 5120169.132832742,
+      "scaffold": 5118357.893829657,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -57415.03518899487,
+        "ci95_lower": -183015.2807220966,
+        "ci95_upper": 12177.706334911096,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 533.5410999999979,
+      "submission": "reports/current_tail/submission_tabpfn_cap_q0.95.csv",
+      "submission_sha256": "88d49f2828e9adff3644b8a3bbb3d3e601144c3eae5228919bd9abea2efecfc2"
+    },
+    {
+      "candidate": "tabpfn_cap_q0.975",
+      "kind": "train_quantile_cap",
+      "base": "tabpfn",
+      "quantile": 0.975,
+      "mean_oof_mse": 5119274.685032481,
+      "molecule": 5120169.132832742,
+      "scaffold": 5118380.23723222,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -57426.20689027681,
+        "ci95_lower": -183026.17313084652,
+        "ci95_upper": 12177.155994644992,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 1278.811749999972,
+      "submission": "reports/current_tail/submission_tabpfn_cap_q0.975.csv",
+      "submission_sha256": "88d49f2828e9adff3644b8a3bbb3d3e601144c3eae5228919bd9abea2efecfc2"
+    },
+    {
+      "candidate": "tabpfn_cap_q0.99",
+      "kind": "train_quantile_cap",
+      "base": "tabpfn",
+      "quantile": 0.99,
+      "mean_oof_mse": 5119274.685032481,
+      "molecule": 5120169.132832742,
+      "scaffold": 5118380.23723222,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -57426.20689027681,
+        "ci95_lower": -183026.17313084652,
+        "ci95_upper": 12177.155994644992,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 3349.9999999999372,
+      "submission": "reports/current_tail/submission_tabpfn_cap_q0.99.csv",
+      "submission_sha256": "88d49f2828e9adff3644b8a3bbb3d3e601144c3eae5228919bd9abea2efecfc2"
+    },
+    {
+      "candidate": "catboost_cap_q0.99",
+      "kind": "train_quantile_cap",
+      "base": "catboost",
+      "quantile": 0.99,
+      "mean_oof_mse": 5134019.798146508,
+      "molecule": 5211207.725153469,
+      "scaffold": 5056831.871139547,
+      "gain_vs_uncapped_domain": {
+        "mean_mse_gain": -72171.32000430168,
+        "ci95_lower": -213268.781780753,
+        "ci95_upper": 57873.56333410641,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "final_cap": 3349.9999999999372,
+      "submission": "reports/current_tail/submission_catboost_cap_q0.99.csv",
+      "submission_sha256": "8686f41527226e1f6f21858100f62306b34a4beddcf071573aaf518cc5992689"
+    }
+  ],
+  "input_sha256": {
+    "reports/current/oof.csv": "6e35a69e932e2975fbeb69101de53366a7a744f43decaa946127dd454b900daf",
+    "reports/current/submission_chemeleon_domain_log1p__public_plus_kaggle.csv": "135e30fce5df6e19ae59e69bd0b3fb7eb7a4a06390d9c7d3507fa1c3d03010b3",
+    "reports/current/submission_chemeleon_mlp_log1p__kaggle_only.csv": "ca8d9ee2396424a35f1198ba45925f049aae3966aedb90ab2b5d3b15544ed126",
+    "reports/current/submission_catboost_log1p__public_plus_kaggle.csv": "de0c931bf5a305dd3ae30d6757918ab8b8e8301475ae0d1af2d39dbaa0799836",
+    "reports/current_search/oof.csv": "d9cfc0d677ea4da4c777dd4c0a0a6c296004f1af0e59781dd59fb728786af84b",
+    "reports/current_search/submission_boost__Quantile_alpha_0.8__log1p__kaggle_only.csv": "bd389a3b2fb91346fa9c65ac5292fda22dc4b00648e9cea118e8d8542e876533",
+    "reports/current_tabular/oof.csv": "7204fdb8e6050b9c25c2a865d9b018ceda0aa158d7f3f579299ebdc853e446d9",
+    "reports/current_tabular/submission_tabpfn_raw.csv": "88d49f2828e9adff3644b8a3bbb3d3e601144c3eae5228919bd9abea2efecfc2"
+  },
+  "data_audit": {
+    "version": "train_v2_exact_public_v1",
+    "feature_columns": [
+      "SMILES"
+    ],
+    "kaggle_columns_read": [
+      "SMILES",
+      "SI VACV"
+    ],
+    "forbidden_columns_read": [],
+    "kaggle_rows": 320,
+    "kaggle_development_rows": 267,
+    "reserved_competition_rows": 53,
+    "development_zeros": 66,
+    "legacy_unmapped_competition_structures_excluded": 2,
+    "public_collected_pairs": 109,
+    "public_collected_structures": 87,
+    "public_fit_pairs": 80,
+    "public_fit_structures": 63,
+    "public_missing_doi": 0,
+    "public_rejection_counts": {
+      "censored_measurement": 2930,
+      "no_exact_partner_same_document_and_cell_line": 1748,
+      "endpoint_type_not_IC50_or_CC50": 1292,
+      "unknown_cell_line": 184
+    },
+    "public_target_types": [
+      "IC50",
+      "CC50"
+    ],
+    "public_virus": "VACV whole-organism targets only",
+    "public_weight_rule": "0.5/number of records of a structure",
+    "competition_targets_aggregated_with_public": false,
+    "holdout_used": false,
+    "source_sha256": {
+      "data/raw/kaggle/train_v2.csv": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+      "data/experiments/independent_endpoints.csv": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+      "data/experiments/independent_collection.json": "3c89589e9e306622057fe870e3e5c12602b53e7cd9444a166935af1363cd6200",
+      "data/raw/chembl.csv": "4bfc3758ba657774ebcc140ce729701fa40e694ca1192662a5bf7bd02357afb0",
+      "data/processed/splits.json": "8dc017aaa86dc037bccb9cd29703b2368d0332896226b29f5300ea4399634f80",
+      "data/processed/dataset.csv": "2c56548919a0fdf386e93295c078d5460b9159509134eb201925cbe1c450d58d"
+    },
+    "source_content_sha256": {
+      "data/raw/kaggle/train_v2.csv": "16b861ef36b77c98acfb6870ea1ff25751e8add55debc650b4903c8f38f79e53",
+      "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+      "data/experiments/independent_collection.json": "105bac5f2d5cc639b79d29ff8232164add04b859225adb3495f9315167661040",
+      "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+      "data/processed/splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+      "data/processed/dataset.csv": "e7cf2826f9ace628f46b3264271c3d390d4dfd42ec8ab55156c175370171127e"
+    },
+    "output_content_sha256": {
+      "development_mixed.csv": "11b3a768d4af49171d5a34bad25af2987201c5a29037fd9bb396abae22b65f8e",
+      "kaggle_development.csv": "5c613e49049434fbed42c820f4a69a97f13ecbcfe9685f65ac07cd214115131a",
+      "public_dataset.csv": "a0a280b8ba4f680d6145f92180f40d34a29f6b6ab13348bc14e26d3da519df1c",
+      "public_development.csv": "da9ba8e41f8e9a4ff05fd710214872c4fa9db4a17d3497a5c93c36eb809f8d01",
+      "public_rejected.csv": "88de8aaa0b9c06b10261bcb7eb95569c5f0d7376852566a0d9e77a8468a7f3e2"
+    }
+  },
+  "code_sha256": "9b4037a0f0621da23fe24998b9f82abece93ae1bc96177fb62574bbb4eb647fb",
+  "test_endpoints_used": false,
+  "selection": "ALL-row mean molecule/scaffold MSE; exploratory reused OOF, no independent confirmation",
+  "official_kaggle_score": null,
+  "kaggle_submitted": false
+}

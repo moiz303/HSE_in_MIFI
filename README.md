@@ -27,11 +27,29 @@ CheMeleon, прямой CatBoost; для MLP/domain/CatBoost также пров
 
 Выбранный по OOF кандидат: `chemeleon_domain_log1p__public_plus_kaggle`,
 средний MSE **5061848.48**. Лучший дополнительный endpoint-диагностический MSE:
-CatBoost log1p на смеси, **1968835.32** на468/597. Это другой неполный эталон,
-он не использован для выбора. Новый официальный Kaggle Score неизвестен;
-цель ниже700000 этим запуском не подтверждена. Заявки не отправлялись.
-Улучшение выбранного метода к нулю в OOF около1.77%; exploratory bootstrap-интервал
+CatBoost log1p на смеси, **1968835.32** на 468/597. Это другой неполный эталон,
+он не использован для выбора. После отдельного разрешения новый SI-кандидат
+получил официальный **Kaggle Score 1586333.78789**, ref 58103006.
+Текущая цель — top10 или Score<800000. История попыток:
+`reports/current/kaggle_goal_submissions.json`.
+Улучшение выбранного метода к нулю в OOF около 1.77%; exploratory bootstrap-интервал
 включает отсутствие выигрыша. Это не независимое подтверждение превосходства.
+
+Дополнительно проверены 25 вариантов Tanimoto-kernel/аналогов/ExtraTrees/бустинга
+и 3 варианта Prior Labs TabPFN-v2 с PCA CheMeleon + RDKit. Их OOF не обошёл
+основной SI-кандидат: `reports/current_search/` и `reports/current_tabular/`.
+Контроли квантильных ограничений и равновесных ансамблей: `reports/current_tail/`.
+Ограничение по train-квантилю .99 сохраняет все OOF-прогнозы, ограничивая три
+экстремальных финальных прогноза; официальный результат проверяется отдельно.
+
+```powershell
+../env_arch/Scripts/python.exe -m src.current.tail_controls --predict-artifact artifacts/current/chemeleon_domain_log1p__public_plus_kaggle.joblib --quantile 0.99 --out reports/current_tail/prediction.csv
+```
+
+TabPFN — отдельный эксперимент: `requirements-tabular.txt`,
+`python -m src.current.tabular`. Авторские веса и атрибуция:
+[Prior Labs TabPFN-v2](https://huggingface.co/Prior-Labs/TabPFN-v2-reg).
+Контекст модели хранится отдельно от скачиваемых авторских весов.
 
 ## Запуск
 

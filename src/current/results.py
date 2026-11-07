@@ -26,6 +26,9 @@ def main():
     diagnostic_path=ROOT/'reports/current_test_diagnostics.json'
     diagnostics=json.loads(diagnostic_path.read_text())['results'] if diagnostic_path.exists() else []
     lookup={row['submission_sha256']:row for row in diagnostics}
+    registry_path=directory/'kaggle_goal_submissions.json'
+    registry=json.loads(registry_path.read_text()).get('submissions',[]) if registry_path.exists() else []
+    official={row['submission_sha256']:row for row in registry if row.get('official_score') is not None and row.get('ref')}
     rows=[]
     for row in report['final']:
         if sha(ROOT/row['submission'])!=row['submission_sha256']:
@@ -33,7 +36,9 @@ def main():
         name=row['candidate']
         values={p:report['protocols'][p][name]['mse'] for p in ('molecule','scaffold')}
         diagnostic=lookup.get(row['submission_sha256'])
-        rows.append({**row,'molecule_oof_mse':values['molecule'],'scaffold_oof_mse':values['scaffold'],
+        verified=official.get(row['submission_sha256'])
+        rows.append({**row,'official_kaggle_score':verified['official_score'] if verified else row.get('official_kaggle_score'),
+            'molecule_oof_mse':values['molecule'],'scaffold_oof_mse':values['scaffold'],
             'mean_oof_mse':float(np.mean(list(values.values()))),
             'molecule_zero_oof_mse':report['protocols']['molecule'][name]['zero']['mse'],
             'scaffold_zero_oof_mse':report['protocols']['scaffold'][name]['zero']['mse'],
@@ -64,11 +69,12 @@ def main():
         '|---|---|---:|---:|---:|---:|']
     for row in rows:
         local=f"{row['local_endpoint_subset_mse']:.2f}" if row['local_endpoint_subset_mse'] is not None else '—'
-        lines.append(f"| {row['method']} | {row['regime']} | {row['molecule_oof_mse']:.2f} | {row['scaffold_oof_mse']:.2f} | {local} | не отправлен |")
+        public=f"{row['official_kaggle_score']:.5f}" if row['official_kaggle_score'] is not None else 'не отправлен'
+        lines.append(f"| {row['method']} | {row['regime']} | {row['molecule_oof_mse']:.2f} | {row['scaffold_oof_mse']:.2f} | {local} | {public} |")
     lines+=['',f"Выбор по OOF до тестовых диагностик: **{report['selection']['selected']}**.",
         'Прямое сравнение источников: те же параметры и те же отложенные исходные конкурсные строки.',
         'Локальный endpoint MSE использует другой неполный эталон; это не официальный Score, он не участвует в выборе.',
-        'Ни одной заявки на Kaggle этим запуском не отправлено. Достижение порога 700000 официально не подтверждено.', '',
+        'Последующие разрешённые отправки и текущая цель top10 или Score<800000: kaggle_goal_submissions.json. Контроли хвоста: ../current_tail/.', '',
         '| Ориентир | OOF molecule MSE | OOF scaffold MSE |', '|---|---:|---:|']
     for name in ['constant_zero','constant_mean']:
         lines.append(f"| {name} | {report['protocols']['molecule'][name]['mse']:.2f} | {report['protocols']['scaffold'][name]['mse']:.2f} |")

@@ -69,3 +69,9 @@ reports/finetune_diagnostics.log
 reports/current/oof_*_*.csv
 reports/current/audit_*.json
 .venv-current/
+reports/current_search/fold_*.csv
+reports/current_search/fold_*.json
+reports/current_tabular/fold_*.csv
+reports/current_tabular/fold_*.json
+reports/current_tail/reproduced.csv
+reports/current_tail/prediction.csv

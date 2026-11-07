@@ -1,0 +1,10 @@
+{
+  "reason": "Change only final serialization equality check to 1e-12 relative/absolute tolerance; observed float64 variation max 4.55e-13, no fit or inference code changed",
+  "training_source_snapshot": "reports/current_search/source_at_training.py.txt",
+  "training_code_sha256": "6d2e5e5ee7746e07f7363f39a881c05880bd80c949e94c691efb9311abbfb739",
+  "verification_fixed_code_sha256": "e9d244b76185fb4197a249f8941b6bb960565b211ace12687e4ee905a28d5f4d",
+  "old_fingerprint": "3599dacedf624fbccffe5c37220f0ef9ab7d92d1263c1574e7d3d5ec9078ca66",
+  "resumable_fingerprint": "6d083bf47ef85d373ac4a8df6213ea073f8c6825b0922214fb6128e02a8e2cc7",
+  "verified_exactly_one_assertion_changed": true,
+  "cached_oof_folds": 18
+}

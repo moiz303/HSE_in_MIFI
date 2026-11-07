@@ -5094,7 +5094,8 @@
       "competition_rows": 267,
       "public_rows": 80,
       "zero_targets": 66,
-      "official_kaggle_score": null
+      "official_kaggle_score": 1586333.78789,
+      "submission_ref": 58103006
     },
     {
       "candidate": "catboost_log1p__public_plus_kaggle",
@@ -5112,5 +5113,5 @@
   ],
   "holdout_used": false,
   "test_endpoint_columns_read": [],
-  "kaggle_submitted": false
+  "kaggle_submitted": true
 }

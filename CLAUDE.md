@@ -46,8 +46,10 @@ multiple selection on reused OOF is not independent validation.
 
 Training on this Windows laptop explicitly authorized. Use ../env_arch/Scripts/python.exe,
 Python3.12, requirements-current.txt; Mac launcher uses .venv-current.
-Never submit to Kaggle automatically. User reported4 remaining attempts; this
-audit/training/refactor consumed none. Require new explicit upload instruction.
+No automatic Kaggle submissions from training scripts. User explicitly authorized
+best-hypothesis uploads in the followup goal: top10 OR Score<800000, four attempts
+at goal start. Live attempt/ref/Score registry: reports/current/kaggle_goal_submissions.json.
+Check it and current team submissions before any new upload; never duplicate a submission.
 No messages to organizers/others without explicit authorization.
 Holdout reserved. Test endpoint diagnostics allowed only separately after saved
 predictions via src.test_diagnostics; never fit, tune, infer labels or promote
