@@ -56,7 +56,9 @@ python -m src.pipeline train       # обучение по configs/baseline.json
 python -m src.pipeline evaluate    # метрики на validation с интервалами   B D
 python -m src.pipeline kaggle      # скачать файлы соревнования (нужна авторизация)
 python -m src.pipeline submission  # собрать CSV из уже обученной модели   D
-python -m src.pipeline all         # splits, train, evaluate и submission; нужен скачанный test.csv
+python -m src.pipeline all         # новая baseline-модель, evaluate, submission, release
+python -m src.pipeline release     # чексуммы выбранной модели и результатов
+python -m src.pipeline holdout     # однократно после фиксации модели
 
 python -m unittest discover -s tests -t . -v   # тесты и smoke-прогон
 ```

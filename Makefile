@@ -3,7 +3,7 @@
 PYTHON ?= python
 CONFIG ?= configs/baseline.json
 
-.PHONY: help data kaggle splits train eval submission test clean
+.PHONY: help data kaggle splits train eval submission release holdout test clean
 
 help:
 	@echo "data        выгрузка из открытых баз, валидация, стандартизация (A)"
@@ -12,6 +12,8 @@ help:
 	@echo "train       обучение по конфигу $(CONFIG)                        (B C)"
 	@echo "eval        метрики на validation с интервалами                  (B D)"
 	@echo "submission  predictions -> reports/submission.csv                (D)"
+	@echo "release     чексуммы выбранной модели и результатов            (D)"
+	@echo "holdout     однократно после фиксации модели                     (D)"
 	@echo "test        тесты и smoke-прогон                                 (все)"
 
 data:
@@ -31,6 +33,12 @@ eval:
 
 submission:
 	$(PYTHON) -m src.pipeline submission --config $(CONFIG)
+
+release:
+	$(PYTHON) -m src.pipeline release --config $(CONFIG)
+
+holdout:
+	$(PYTHON) -m src.pipeline holdout --config $(CONFIG)
 
 test:
 	$(PYTHON) -m unittest discover -s tests -t . -v

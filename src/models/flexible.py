@@ -37,6 +37,9 @@ DEFAULT_PARAMS = {
     "random_state": 20261106,
 }
 
+# Параметры леса и XGBoost, которых HistGradientBoostingRegressor не принимает.
+FOREST_ONLY_PARAMS = ("n_estimators", "max_features", "criterion", "n_jobs")
+
 # Потери, которым нужна строго положительная цель — значит только сырой масштаб.
 POSITIVE_ONLY_LOSSES = ("poisson", "gamma")
 
@@ -157,13 +160,30 @@ class FlexibleSI:
 
         from sklearn.ensemble import HistGradientBoostingRegressor
 
-        kwargs = dict(merged, loss=self.loss)
+        # Параметры, которых у HistGradientBoosting нет: он падает на незнакомом
+        # ключе, а sweep.py передаёт один общий набор для скрининга всем
+        # обучателям. Без этого фильтра вся ветка hgb молча «пропускалась».
+        kwargs = dict(
+            {key: value for key, value in merged.items() if key not in FOREST_ONLY_PARAMS},
+            loss=self.loss,
+        )
         if self.loss == "quantile":
             kwargs["quantile"] = self.quantile
         return HistGradientBoostingRegressor(**kwargs)
 
     # ----------------------------------------------------------------- обучение
-    def fit(self, features: np.ndarray, si: np.ndarray) -> "FlexibleSI":
+    def fit(
+        self,
+        features: np.ndarray,
+        si: np.ndarray,
+        sample_weight: np.ndarray | None = None,
+    ) -> "FlexibleSI":
+        """sample_weight задаёт вес каждой строки.
+
+        Нужен, чтобы проверять гипотезу разбавления: строки ChEMBL из другого
+        распределения можно оставить в обучении, но с меньшим весом, чем строки
+        соревнования. weight_power при этом остаётся и домножается.
+        """
         target = np.asarray(si, dtype=float)
         usable = np.isfinite(target) & (target > 0)
         if not usable.any():
@@ -174,10 +194,14 @@ class FlexibleSI:
             capped = np.minimum(capped, self.clip_si)
 
         weights = None
+        if sample_weight is not None:
+            weights = np.asarray(sample_weight, dtype=float)[usable]
         if self.weight_power:
             # Вклад строки в MSE растёт как SI^2; weight_power задаёт, насколько
             # сильно это учитывать при обучении.
-            weights = capped[usable] ** self.weight_power
+            by_target = capped[usable] ** self.weight_power
+            weights = by_target if weights is None else weights * by_target
+        if weights is not None:
             weights = weights / weights.mean()
 
         self.model = self._build()

@@ -1,16 +1,6 @@
-transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,разбиений,quantile
-raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,24376827.44944947,8206275.026461859,71662610.2634842,5,
-raw,squared_error,10000.0,hgb · raw · squared_error · clip=10000,25304448.301490173,7697325.025344704,72227687.72925028,5,
-raw,squared_error,36066.7,hgb · raw · squared_error · clip=36066.7,25357241.517279986,7435525.482444927,71113755.03428489,5,
-raw,quantile,36066.7,hgb · raw · quantile · q=0.8 · clip=36066.7,26091490.8311342,8423354.723238371,73138618.41399181,5,0.8
-sqrt,squared_error,36066.7,hgb · sqrt · squared_error · clip=36066.7,28404546.271672744,7677077.100047253,72548304.65929751,5,
-raw,quantile,36066.7,hgb · raw · quantile · q=0.7 · clip=36066.7,28474255.313525558,7409045.331451244,72797729.0351603,5,0.7
-raw,squared_error,3000.0,hgb · raw · squared_error · clip=3000,29950884.29283006,7174708.487187206,72739721.41506949,5,
-raw,absolute_error,36066.7,hgb · raw · absolute_error · clip=36066.7,30480895.976576693,6840398.185154107,72787339.61527073,5,
-raw,quantile,36066.7,hgb · raw · quantile · q=0.9 · clip=36066.7,32336549.283992648,6388241.9290822055,80636454.16178486,5,0.9
-sqrt,absolute_error,36066.7,hgb · sqrt · absolute_error · clip=36066.7,33283886.65639193,7151863.602710859,73737083.61253183,5,
-raw,poisson,36066.7,hgb · raw · poisson · clip=36066.7,33319473.365246367,6518002.473226805,73471856.13497774,5,
-log,squared_error,36066.7,hgb · log · squared_error · clip=36066.7,33635655.06409361,7672893.4754068,73885156.75637491,5,
-raw,gamma,36066.7,hgb · raw · gamma · clip=36066.7,34036256.89270499,6968293.606959539,74123516.27204013,5,
-log,absolute_error,36066.7,hgb · log · absolute_error · clip=36066.7,34740149.898780264,6549416.100052727,74296213.43390402,5,
-raw,squared_error,,hgb · raw · squared_error,38186075.746392965,15555108.524018925,73333459.76686923,5,
+transform,loss,clip_si,описание,mse_в_распределении,mse_в_распределении_std,mse_вся_валидация,строк_оценки,повторов,learner,weight_power
+raw,squared_error,20000.0,hgb · raw · squared_error · clip=20000,19978172.078900546,1421907.9060340961,92623139.52166378,260,2,,
+raw,squared_error,20000.0,extra · raw · squared_error · clip=20000,21262803.350824304,1474733.4273709129,93290737.05380943,260,2,extra,
+raw,squared_error,20000.0,rf · raw · squared_error · clip=20000,21542864.58170906,1322734.4162319577,92825723.53582823,260,2,rf,
+raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.25 · clip=20000,22986813.16344122,3524861.384158304,94608983.27309112,260,2,,0.25
+raw,squared_error,20000.0,hgb · raw · squared_error · w=SI^0.5 · clip=20000,26978873.718291983,3629114.946047596,97262185.94104934,260,2,,0.5

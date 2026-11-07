@@ -14,6 +14,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 REPEATS="${1:-0}"
 STRATEGY="${2:-sentinel}"   # sentinel: классификатор меток + регрессия; "all" — сравнить все три
 CLIP="${3:-clip}"           # "noclip" — замер без ограничения SI сверху
+BUDGET="${4:-0}"            # минут на перебор; 0 — без ограничения
 VENV=".venv"
 LOG_DIR="reports"
 LOG_FILE="$LOG_DIR/train_$(date +%Y%m%d_%H%M%S).log"
@@ -117,7 +118,7 @@ step "Обучаю"
 mkdir -p "$LOG_DIR"
 # Режим перебора: вместо сравнения стратегий гоняем сетку методов.
 if [[ "$STRATEGY" == "sweep" || "$STRATEGY" == "sweep-full" ]]; then
-  SWEEP_ARGS=(--repeats "${REPEATS:-3}" --max-minutes 5)
+  SWEEP_ARGS=(--repeats "${REPEATS:-3}" --max-minutes "$BUDGET")
   [[ "$STRATEGY" == "sweep-full" ]] && SWEEP_ARGS+=(--grid full)
   set +e
   python -u sweep.py "${SWEEP_ARGS[@]}" 2>&1 | tee "$LOG_FILE"

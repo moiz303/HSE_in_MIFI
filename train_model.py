@@ -93,12 +93,7 @@ def fit(strategy: str, features: np.ndarray, frame: pd.DataFrame,
 def score(model, features: np.ndarray, frame: pd.DataFrame) -> dict:
     true = baseline.to_log(frame["SI"].to_numpy())
     predicted = model.predict_log_si(features)
-    result = evaluate.metrics(true, predicted)
-    low, high = evaluate.bootstrap_ci(true, predicted)
-    result["rmse_log10_ci95"] = [low, high]
-    # Метрика соревнования. На неё и смотрим: лидерборд считает MSE по сырому
-    # SI, а не по логарифму.
-    result["competition_mse"] = evaluate.competition_mse(true, predicted)
+    result = evaluate.report(true, predicted)
 
     # Наша валидация содержит хвост ChEMBL с SI до 2.2e5, которого в тесте нет:
     # на ней MSE была 7e7 при реальных 2.1e6 на лидерборде. Поэтому отдельно
