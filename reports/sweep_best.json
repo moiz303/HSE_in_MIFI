@@ -1,17 +1,17 @@
 [
   {
     "файл": "model_sweep1.joblib",
-    "описание": "hgb · raw · squared_error · clip=20000",
-    "mse_в_распределении": 19978172.078900546
+    "описание": "hgb · raw · squared_error · clip=10000",
+    "mse_в_распределении": 19377184.533003118
   },
   {
     "файл": "model_sweep2.joblib",
-    "описание": "extra · raw · squared_error · clip=20000",
-    "mse_в_распределении": 21262803.350824304
+    "описание": "hgb · raw · squared_error · clip=20000",
+    "mse_в_распределении": 19605753.78373276
   },
   {
     "файл": "model_sweep3.joblib",
-    "описание": "rf · raw · squared_error · clip=20000",
-    "mse_в_распределении": 21542864.58170906
+    "описание": "hgb · raw · squared_error · clip=15000",
+    "mse_в_распределении": 19668031.512141053
   }
 ]
