@@ -39,6 +39,10 @@ pip-delete-this-directory.txt
 .env
 # Кэш признаков RDKit: минуты счёта, десятки мегабайт, восстанавливается сам.
 data/interim/features_cache.npz
+data/interim/mole_development_embeddings.npz
+data/interim/mole_development_embeddings.json
+artifacts/mole/checkpoints/model.pth
+artifacts/mole/checkpoints/config.yaml
 
 # Артефакты обучения и кэш HTTP: тяжёлые, восстанавливаются прогоном.
 # Данные в data/ коммитятся — собранная база входит в сдачу.

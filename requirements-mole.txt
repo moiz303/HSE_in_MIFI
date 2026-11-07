@@ -1,0 +1,7 @@
+# Separate CPU environment for the optional frozen MolE encoder.
+torch==2.2.1
+torch-geometric==2.5.0
+numpy==1.26.4
+pandas==2.2.3
+rdkit==2024.9.6
+PyYAML==6.0.1

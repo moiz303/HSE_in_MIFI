@@ -483,3 +483,6 @@ python -m src.pipeline submission
 - `tests/`: stdlib unittest; CI запускает их на Python 3.12.
 
 Прежние экспериментальные скрипты, модели и отчёты удалены. Ошибки и ограничения прежних выводов сохранены кратко в [аудите](docs/previous_experiments.md). Датасет, исходники измерений и манифест разбиения сохранены.
+# Frozen MolE experiment
+
+See [`docs/mole_ridge_experiment.md`](docs/mole_ridge_experiment.md) for the author checkpoint source, extraction commands, nested OOF comparison, and its limitations. This optional experiment does not change the default model.
