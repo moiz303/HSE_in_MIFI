@@ -136,6 +136,21 @@
       "best_mean_oof_mse": 5021738.970864522,
       "conclusion": "No ALL-MSE improvement over output-onlyBio; zero/bulk gains but 1/3scaffold wins and higher test tail exposure. No automatic promotion or upload.",
       "report": "reports/current_bio_latent/report.json"
+    },
+    {
+      "experiment": "current_graph_readout",
+      "status": "pilot_running",
+      "changed_factor": "Strict direct log1p(SI) graph W_o rank8 adaptation; prior graph LoRA used forbidden competition concentration targets and is historical only",
+      "control": "Exactly reproduced current frozen domain SI head, then paired forty-epoch head-only continuation vs LoRA; same RNG draws, source heads, splits and zeros",
+      "configurations_planned": 4,
+      "regimes": [
+        "kaggle_only",
+        "public_plus_kaggle"
+      ],
+      "legacy_evidence": "docs/chemeleon_finetune.md: legacy LoRA did not beat matched continuation; no promise that more training helps",
+      "new_repetition_requires": "Use new SI objective and train_v2 zeros, never copy old concentration heads or endpoint loader",
+      "code": "src/current/graph_readout.py",
+      "selection": "ALL MSE below frozen reference; zero/bulk <=1.2x and at least2/3 scaffold repeat wins; LoRA must also beat matched continuation. No automatic uploads"
     }
   ],
   "legacy_research_links": [
