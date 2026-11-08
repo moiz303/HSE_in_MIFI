@@ -1,0 +1,225 @@
+{
+  "selected": "latent_chem__public_plus_kaggle",
+  "ranking": [
+    {
+      "candidate": "latent_chem__public_plus_kaggle",
+      "kind": "latent_chem",
+      "regime": "public_plus_kaggle",
+      "mean_oof_mse": 5021738.970864522,
+      "molecule": 5037092.491869099,
+      "scaffold": 5006385.449859945,
+      "artifact": "artifacts/current_bio_latent/latent_chem__public_plus_kaggle.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_chem__public_plus_kaggle.csv",
+      "submission_sha256": "cf0ecc5b5165732f7b7a8dbcebe103b6c9b6042dd837555fa5f5c076c7c5e6ab"
+    },
+    {
+      "candidate": "latent_fp__kaggle_only",
+      "kind": "latent_fp",
+      "regime": "kaggle_only",
+      "mean_oof_mse": 5084186.776870106,
+      "molecule": 5075711.325387883,
+      "scaffold": 5092662.22835233,
+      "artifact": "artifacts/current_bio_latent/latent_fp__kaggle_only.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_fp__kaggle_only.csv",
+      "submission_sha256": "dde1b3c222c6539c1357e521f093db6fdf4784282741c9f695917b96f05c8e0b"
+    },
+    {
+      "candidate": "latent_small__kaggle_only",
+      "kind": "latent_small",
+      "regime": "kaggle_only",
+      "mean_oof_mse": 5105320.349928065,
+      "molecule": 5094767.574783356,
+      "scaffold": 5115873.1250727745,
+      "artifact": "artifacts/current_bio_latent/latent_small__kaggle_only.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_small__kaggle_only.csv",
+      "submission_sha256": "9bd5ba99f5bc72739651392777cd1a748adb679ae6c6ab12fb0eb9fe44c45c1f"
+    },
+    {
+      "candidate": "latent_chem__kaggle_only",
+      "kind": "latent_chem",
+      "regime": "kaggle_only",
+      "mean_oof_mse": 5109312.45967039,
+      "molecule": 5099920.630648994,
+      "scaffold": 5118704.288691786,
+      "artifact": "artifacts/current_bio_latent/latent_chem__kaggle_only.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_chem__kaggle_only.csv",
+      "submission_sha256": "41a8ec518d7270450644842f9fa0d376960319f6b8c479aedea5a1e7d1afff01"
+    },
+    {
+      "candidate": "latent_small__public_plus_kaggle",
+      "kind": "latent_small",
+      "regime": "public_plus_kaggle",
+      "mean_oof_mse": 5156599.276415996,
+      "molecule": 5285551.327312665,
+      "scaffold": 5027647.2255193265,
+      "artifact": "artifacts/current_bio_latent/latent_small__public_plus_kaggle.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_small__public_plus_kaggle.csv",
+      "submission_sha256": "007984da03367c635e1b4cd23dab3305f6dead8d524192564e9d52469aaa92e2"
+    },
+    {
+      "candidate": "latent_fp__public_plus_kaggle",
+      "kind": "latent_fp",
+      "regime": "public_plus_kaggle",
+      "mean_oof_mse": 5227980.163723901,
+      "molecule": 5257306.053336939,
+      "scaffold": 5198654.274110863,
+      "artifact": "artifacts/current_bio_latent/latent_fp__public_plus_kaggle.joblib",
+      "submission": "reports/current_bio_latent/submission_latent_fp__public_plus_kaggle.csv",
+      "submission_sha256": "7db9b9d9ebbdaa8fdb9272f8889b923cade4e68f7fa7832444a2609ca291e9bc"
+    }
+  ],
+  "provenance": {
+    "code_sha256": "6369457f36be2da139388d3441706adaad71263ac672b7af3be4d4066382b475",
+    "feature_sources": {
+      "public_data": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+      "public_pretraining_code": "5859deaa85bc14678930b5da5bf350407a7103473060c36788c9cb8e50ba50ca",
+      "public_preparation_code": "bca0cc2a39b7fa8830e445c07cd35efdb994f85cdb597927f30ab2da12a42ee1",
+      "encoded_features": "f49f798bbbba84e6ea1194b2761e12f5b400029f780bd67cfb0ca20c179de791"
+    },
+    "data": {
+      "version": "train_v2_exact_public_v1",
+      "feature_columns": [
+        "SMILES"
+      ],
+      "kaggle_columns_read": [
+        "SMILES",
+        "SI VACV"
+      ],
+      "forbidden_columns_read": [],
+      "kaggle_rows": 320,
+      "kaggle_development_rows": 267,
+      "reserved_competition_rows": 53,
+      "development_zeros": 66,
+      "legacy_unmapped_competition_structures_excluded": 2,
+      "public_collected_pairs": 109,
+      "public_collected_structures": 87,
+      "public_fit_pairs": 80,
+      "public_fit_structures": 63,
+      "public_missing_doi": 0,
+      "public_rejection_counts": {
+        "censored_measurement": 2930,
+        "no_exact_partner_same_document_and_cell_line": 1748,
+        "endpoint_type_not_IC50_or_CC50": 1292,
+        "unknown_cell_line": 184
+      },
+      "public_target_types": [
+        "IC50",
+        "CC50"
+      ],
+      "public_virus": "VACV whole-organism targets only",
+      "public_weight_rule": "0.5/number of records of a structure",
+      "competition_targets_aggregated_with_public": false,
+      "holdout_used": false,
+      "source_sha256": {
+        "data/raw/kaggle/train_v2.csv": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+        "data/experiments/independent_endpoints.csv": "6d1c7293903f11a132b7c71e605e4e27eb2311f77d246fb0a0daf5a230fcf0fa",
+        "data/experiments/independent_collection.json": "3c89589e9e306622057fe870e3e5c12602b53e7cd9444a166935af1363cd6200",
+        "data/raw/chembl.csv": "4bfc3758ba657774ebcc140ce729701fa40e694ca1192662a5bf7bd02357afb0",
+        "data/processed/splits.json": "8dc017aaa86dc037bccb9cd29703b2368d0332896226b29f5300ea4399634f80",
+        "data/processed/dataset.csv": "2c56548919a0fdf386e93295c078d5460b9159509134eb201925cbe1c450d58d"
+      },
+      "source_content_sha256": {
+        "data/raw/kaggle/train_v2.csv": "16b861ef36b77c98acfb6870ea1ff25751e8add55debc650b4903c8f38f79e53",
+        "data/experiments/independent_endpoints.csv": "04c625868373b0646c1cd6719568de8da5ad7ccfa279aa8f3f805e2e66ae093d",
+        "data/experiments/independent_collection.json": "105bac5f2d5cc639b79d29ff8232164add04b859225adb3495f9315167661040",
+        "data/raw/chembl.csv": "99f7e49694b65626bac75ad6c0d114acddd4845a13d7864de80696f4447edc23",
+        "data/processed/splits.json": "099467622937110ae1e1b0e25eb325179560bedc6c147f54884876bf43c0b678",
+        "data/processed/dataset.csv": "e7cf2826f9ace628f46b3264271c3d390d4dfd42ec8ab55156c175370171127e"
+      },
+      "output_content_sha256": {
+        "development_mixed.csv": "11b3a768d4af49171d5a34bad25af2987201c5a29037fd9bb396abae22b65f8e",
+        "kaggle_development.csv": "5c613e49049434fbed42c820f4a69a97f13ecbcfe9685f65ac07cd214115131a",
+        "public_dataset.csv": "a0a280b8ba4f680d6145f92180f40d34a29f6b6ab13348bc14e26d3da519df1c",
+        "public_development.csv": "da9ba8e41f8e9a4ff05fd710214872c4fa9db4a17d3497a5c93c36eb809f8d01",
+        "public_rejected.csv": "88de8aaa0b9c06b10261bcb7eb95569c5f0d7376852566a0d9e77a8468a7f3e2"
+      }
+    },
+    "encoder": {
+      "checkpoint": {
+        "url": "https://zenodo.org/records/15460715/files/chemeleon_mp.pt",
+        "file": "artifacts/pretrained/chemeleon_mp.pt",
+        "sha256": "c376624d3407204e780a0ed13a9ac097cc9bb1c13ef89cdbc633c1715c183651",
+        "bytes": 34859448
+      },
+      "random_control": false,
+      "frozen": true,
+      "dimensions": 2048,
+      "elapsed_seconds": 280.6719999999914,
+      "smiles_sha256": "7fe9646e6a644c0e21f53d90093a062a351dfdfad7f552f33ecdb912050bb4bd",
+      "rows": 944,
+      "cache": "data/architecture_cache/chemeleon_7fe9646e6a644c0e21f53d90093a062a351dfdfad7f552f33ecdb912050bb4bd.npz"
+    },
+    "config": {
+      "seed": 20261106,
+      "folds": 3,
+      "repeats": 3,
+      "methods": [
+        "chemeleon_ridge",
+        "chemeleon_mlp",
+        "chemeleon_domain",
+        "catboost_direct",
+        "chemeleon_mlp_log1p",
+        "chemeleon_domain_log1p",
+        "catboost_log1p"
+      ],
+      "regimes": [
+        "kaggle_only",
+        "public_plus_kaggle"
+      ],
+      "neural": {
+        "epochs": 160,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "weight_decay": 0.01,
+        "hidden": 64,
+        "dropout": 0.15
+      },
+      "ridge_alpha": 100.0,
+      "catboost": {
+        "iterations": 600,
+        "depth": 5,
+        "learning_rate": 0.03,
+        "l2_leaf_reg": 5.0,
+        "random_seed": 20261106,
+        "thread_count": 1,
+        "loss_function": "RMSE",
+        "task_type": "CPU",
+        "verbose": false,
+        "allow_writing_files": false
+      },
+      "public_weight": 0.5,
+      "selection": "Mean raw SI MSE across molecule/scaffold OOF on ALL original development competition rows, including zeros; before separate test diagnostics. No automatic promotion or Kaggle upload.",
+      "additional_ablation_reason": "Raw-SI development OOF can lose to constant zero and public high-SI tail dominates. Add fixed log1p loss controls retaining zeros; primary selection still raw-SI OOF MSE. No test targets used for architecture or parameter choice.",
+      "feature_columns": [
+        "SMILES"
+      ],
+      "kaggle_target_column": "SI VACV",
+      "expected_train_sha256": "d9a876a67b5623d9cdb6592fc53d31ffaa7c535b09968c3a538138740fe246e8",
+      "forbidden_kaggle_columns": [
+        "CC50_uM",
+        "IC50_uM_VACV"
+      ],
+      "holdout_used": false,
+      "test_endpoints_used_in_training_or_inference": false,
+      "kaggle_submission_authorized": false
+    },
+    "kinds": [
+      "latent_small",
+      "latent_fp",
+      "latent_chem"
+    ],
+    "regimes": [
+      "kaggle_only",
+      "public_plus_kaggle"
+    ],
+    "target": "log1p(SI), CatBoost600/depth5; source indicator",
+    "novel_factor": "32 public-task-trained hidden features; chemical-input variant uses train-only PCA64; training/splits/objective otherwise fixed",
+    "reference": "bio_fp__kaggle_only, mean OOF5014266.299876882",
+    "selection": "ALL-row raw SI MSE, zero/bulk <=1.2x fixed Bio reference; no automatic upload",
+    "queued_candidate_changed": false,
+    "holdout_used": false,
+    "official_endpoint_columns_read": []
+  },
+  "official_score": null,
+  "kaggle_submitted": false
+}

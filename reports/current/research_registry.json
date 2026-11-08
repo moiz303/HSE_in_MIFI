@@ -35,8 +35,10 @@
       "report": "reports/current_bio_transfer/report.json",
       "best_oof_candidate": "bio_fp__kaggle_only",
       "best_mean_oof_mse": 5014266.299876882,
-      "conclusion": "Public-only pretraining then Kaggle-only SI calibration passes all/zero/bulk guards; queued, official score unknown.",
-      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
+      "conclusion": "Improved local ALL/zero/bulk did not transfer: official1900880.07244 ref58107726, worse than CheM1586333.78789; do not repeat unchanged.",
+      "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks",
+      "official_score": 1900880.07244,
+      "submission_ref": 58107726
     },
     {
       "experiment": "current_bio_blend",
@@ -44,7 +46,7 @@
       "report": "reports/current_bio_blend/report.json",
       "best_oof_candidate": "bio_weight_0.75",
       "best_mean_oof_mse": 5015503.079994075,
-      "conclusion": "Fixed weights improve some strata but primary MSE slightly worse than pureBio; queued candidate unchanged.",
+      "conclusion": "Fixed weights improve some strata but primary MSE slightly worse than pureBio; no upload. PureBio subsequently failed to improve official Score.",
       "new_repetition_requires": "Explicit changed data, representation, objective or independently justified correction; same controls may be reproduced only for attribution/cache checks"
     },
     {
@@ -125,10 +127,20 @@
     },
     {
       "experiment": "current_bio_latent",
-      "status": "running",
-      "changed_factor": "Task-trained internal32D features instead of only3outputpredictions; not genericCheM GP",
+      "status": "complete",
+      "changed_factor": "Task-trained32D hidden state; chemical input uses train-onlyPCA64 after bounded runtime revision",
       "control": "Reproduce identical prior BioFp log-SI OOF before any new feature comparisons",
-      "cache": "Save fold-specific public neural states; reusing states avoids repeating pretraining for future head-only changes"
+      "cache": "Key public states by actual training rows; identical molecule-fold data reuse one state",
+      "configurations": 6,
+      "best_oof_candidate": "latent_chem__public_plus_kaggle",
+      "best_mean_oof_mse": 5021738.970864522,
+      "conclusion": "No ALL-MSE improvement over output-onlyBio; zero/bulk gains but 1/3scaffold wins and higher test tail exposure. No automatic promotion or upload.",
+      "report": "reports/current_bio_latent/report.json"
     }
+  ],
+  "legacy_research_links": [
+    "docs/previous_experiments.md",
+    "reports/archive/model_scoreboard_v1.md",
+    "legacy/README_v1.md"
   ]
 }

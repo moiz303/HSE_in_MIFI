@@ -13,8 +13,9 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_probability_public | gp_power1.0_rho0.5_observation_mean | 5010481.21 | 11978.30 | 75619.67 | 95.15% | — |
 | current_representation_gp | rbf_tanimoto_public_plus_kaggle_observation_mean | 5013150.34 | 18973.45 | 101808.45 | 95.27% | — |
 | current_probability_public | gp_power2.0_rho0.5_observation_mean | 5014082.10 | 5815.27 | 67499.62 | 95.26% | — |
-| current_bio_transfer | bio_fp__kaggle_only | 5014266.30 | 3770.28 | 42317.51 | 95.88% | — |
+| current_bio_transfer | bio_fp__kaggle_only | 5014266.30 | 3770.28 | 42317.51 | 95.88% | 1900880.07244 |
 | current_bio_blend | bio_weight_0.75 | 5015503.08 | 3427.13 | 40468.31 | 95.85% | — |
+| current_bio_latent | latent_chem__public_plus_kaggle | 5021738.97 | 2175.48 | 33652.91 | 95.83% | — |
 | current_bio_blend | bio_weight_0.5 | 5023845.70 | 3454.88 | 40517.46 | 95.68% | — |
 | current_probability_public | gp_power1.0_rho1.0_latent_mean | 5024812.05 | 60928.50 | 180423.09 | 95.11% | — |
 | current_probability_public | gp_power1.0_rho0.5_latent_mean | 5027621.34 | 8087.16 | 56166.88 | 95.17% | — |
@@ -56,6 +57,7 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_probability_public | gp_power1.0_rho0.5_median | 5081250.39 | 606.23 | 33211.87 | 94.93% | — |
 | current_probability_public | gp_power1.0_rho1.0_observation_mean | 5082118.17 | 93497.43 | 292615.90 | 93.61% | — |
 | current_representation_gp | rbf_kaggle_only_latent_mean | 5083205.39 | 4273.28 | 33889.40 | 94.85% | — |
+| current_bio_latent | latent_fp__kaggle_only | 5084186.78 | 994.68 | 30939.79 | 95.16% | — |
 | current_hurdle_gp | 1.0_public_plus_kaggle_latent_mean | 5085481.43 | 70385.11 | 228263.84 | 94.33% | — |
 | current_tail | quantile_cap_q0.95 | 5085744.57 | 740.72 | 38400.85 | 95.05% | — |
 | current_tail | quantile_cap_q0.975 | 5085759.67 | 740.72 | 51183.33 | 95.03% | — |
@@ -66,9 +68,11 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_probability | gp_power1.0_median | 5099070.25 | 271.94 | 30545.45 | 94.78% | — |
 | current_search | forest__capped__4__kaggle_only | 5100059.25 | 31651.75 | 178896.75 | 93.95% | — |
 | current_tail | catboost_cap_q0.95 | 5102307.35 | 646.03 | 35585.57 | 95.14% | — |
+| current_bio_latent | latent_small__kaggle_only | 5105320.35 | 1719.20 | 32108.27 | 94.93% | — |
 | current_representation_gp | cosine_kaggle_only_latent_mean | 5107697.43 | 18764.92 | 32530.24 | 94.70% | — |
 | current_probability_public | gp_power2.0_rho0.5_median | 5108270.21 | 157.15 | 30923.50 | 94.85% | — |
 | current_search | boost__Tweedie_variance_power_1.7__raw__kaggle_only | 5108580.13 | 917.64 | 66947.57 | 94.86% | — |
+| current_bio_latent | latent_chem__kaggle_only | 5109312.46 | 2394.23 | 30503.11 | 94.94% | — |
 | current_representation_gp | cosine_public_plus_kaggle_latent_mean | 5112039.31 | 1030.38 | 29530.07 | 94.96% | — |
 | current_search | neighbors__log1p__12.0__kaggle_only | 5114941.51 | 5686.85 | 57954.37 | 94.57% | — |
 | current_search | kernel__log1p__0.1__2.0__kaggle_only | 5116206.76 | 82.34 | 30336.17 | 94.73% | — |
@@ -76,9 +80,9 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_search | kernel__raw__10.0__2.0__kaggle_only | 5116629.13 | 19520.14 | 71482.44 | 94.57% | — |
 | current_probability | gp_power2.0_median | 5118885.77 | 77.35 | 30182.11 | 94.71% | — |
 | current_tail | tabpfn_cap_q0.95 | 5119263.51 | 2344.32 | 28968.90 | 94.85% | — |
-| current_tail | tabpfn_cap_q0.99 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
-| current_tail | tabpfn_cap_q0.975 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
 | current_tabular | tabpfn_raw | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current_tail | tabpfn_cap_q0.975 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
+| current_tail | tabpfn_cap_q0.99 | 5119274.69 | 2344.32 | 28984.27 | 94.85% | — |
 | current_bio_transfer | base_fp__kaggle_only | 5125011.44 | 256.51 | 52927.45 | 94.58% | — |
 | current | catboost_log1p__kaggle_only | 5125011.44 | 256.51 | 52927.45 | 94.58% | — |
 | current_search | boost__Huber_delta_100__raw__kaggle_only | 5125053.71 | 2069.19 | 33137.18 | 94.77% | — |
@@ -100,9 +104,11 @@ Kaggle scores are joined only by submission SHA256 and verified submission refer
 | current_search | kernel__log1p__10.0__2.0__public_plus_kaggle | 5146209.88 | 64.95 | 30585.15 | 94.60% | — |
 | current_bio_transfer | base_small__kaggle_only | 5146427.44 | 1377.53 | 57145.58 | 94.58% | — |
 | current_search | kernel__log1p__10.0__2.0__kaggle_only | 5148205.15 | 34.00 | 30930.14 | 94.58% | — |
+| current_bio_latent | latent_small__public_plus_kaggle | 5156599.28 | 3272.63 | 34198.72 | 93.19% | — |
 | current_power_ensemble | 0.25_public_plus_kaggle | 5174178.32 | 9645.74 | 238349.56 | 93.13% | — |
 | current_search | forest__capped__1__kaggle_only | 5190736.39 | 17500.76 | 190764.72 | 93.65% | — |
 | current_power_ensemble | 0.25_kaggle_only | 5225373.91 | 8180.39 | 267792.89 | 92.11% | — |
+| current_bio_latent | latent_fp__public_plus_kaggle | 5227980.16 | 1542.31 | 35395.96 | 91.57% | — |
 | current_hurdle_gp | 1.0_public_plus_kaggle_observation_mean | 5228001.44 | 119757.90 | 414320.95 | 91.41% | — |
 | current_representation_gp | rbf_public_plus_kaggle_latent_mean | 5275405.87 | 13970.20 | 64706.22 | 90.92% | — |
 | current_bio_transfer | bio_fp__public_plus_kaggle | 5338903.29 | 3267.46 | 65416.71 | 87.81% | — |

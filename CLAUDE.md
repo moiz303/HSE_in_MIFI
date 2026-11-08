@@ -60,8 +60,11 @@ Check it and current team submissions before any new upload; never duplicate a s
 Initial four authorized attempts are used (20/20 team submissions on2026-11-07).
 User expects reset2026-11-08 03:00Europe/Moscow /00:00UTC. Verify live remaining
 quota after reset and upload only selected, reproducible hypotheses.
-One selected biological candidate is queued for2026-11-08 00:00:05UTC:
-reports/current/queued_submission_plan.json. Its separate process has one upload
+The biological candidate queued for2026-11-08 00:00:05UTC completed:
+bio_fp__kaggle_only official1900880.07244/ref58107726; it lost to CheMeleon.
+One of20 attempts used in the new UTC window; verify live quota before uploads.
+reports/current/queued_submission_plan.json is historical, not a pending task.
+The separate queue process had one upload
 call, bounded network/score waits, a one-shot lock, and live quota/hash/dedup checks.
 If user pauses/cancels the goal before upload, create the cancel_file named in
 reports/current/queued_submission_plan.json

@@ -1,0 +1,208 @@
+{
+  "reference": "bio_fp__kaggle_only",
+  "reference_mse": {
+    "all": 5014266.299876882,
+    "zero": 3770.2824636282508,
+    "bulk": 42317.50999733332
+  },
+  "selected_under_predeclared_gate": "retain_output_only_bio",
+  "candidates": [
+    {
+      "candidate": "latent_chem__public_plus_kaggle",
+      "mse": {
+        "all": 5021738.970864522,
+        "zero": 2175.479986660255,
+        "bulk": 33652.91171680743
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -7472.670987640602,
+        "ci95_lower": -45582.30695019275,
+        "ci95_upper": 27889.74126459989,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": null,
+      "gain_vs_matched_control": null,
+      "attribution_note": "Chemical input uses PCA64; not a one-factor comparison with fingerprint reference",
+      "scaffold_repeat_gains": [
+        -4486.061356803159,
+        101082.31398003292,
+        -101323.4609152654
+      ],
+      "scaffold_repeats_won": 1,
+      "final_prediction_median": 4.310781261923793,
+      "final_prediction_max": 15259.39941472901,
+      "test_to_oof_squared_prediction_ratio": 3.0432330617044743
+    },
+    {
+      "candidate": "latent_fp__kaggle_only",
+      "mse": {
+        "all": 5084186.776870106,
+        "zero": 994.6808817522774,
+        "bulk": 30939.794349744716
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -69920.4769932246,
+        "ci95_lower": -164252.99466860824,
+        "ci95_upper": -648.5552439802491,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": "bio_fp__kaggle_only",
+      "gain_vs_matched_control": {
+        "mean_mse_gain": -69920.4769932246,
+        "ci95_lower": -164252.99466860824,
+        "ci95_upper": -648.5552439802491,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "attribution_note": "Adds only hidden features to the same base",
+      "scaffold_repeat_gains": [
+        -54699.26671146872,
+        -75666.05945903847,
+        -133192.2175986768
+      ],
+      "scaffold_repeats_won": 0,
+      "final_prediction_median": 3.697269732120807,
+      "final_prediction_max": 14094.580960453251,
+      "test_to_oof_squared_prediction_ratio": 77.00624632767169
+    },
+    {
+      "candidate": "latent_small__kaggle_only",
+      "mse": {
+        "all": 5105320.349928065,
+        "zero": 1719.1960806520678,
+        "bulk": 32108.26585704905
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -91054.05005118343,
+        "ci95_lower": -208051.459294357,
+        "ci95_upper": -3075.2771466465597,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": "bio_small__kaggle_only",
+      "gain_vs_matched_control": {
+        "mean_mse_gain": -28549.100057654305,
+        "ci95_lower": -153611.6471555155,
+        "ci95_upper": 64729.32599687542,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "attribution_note": "Adds only hidden features to the same base",
+      "scaffold_repeat_gains": [
+        -80493.07095564275,
+        -97497.04671992107,
+        -155200.1162549597
+      ],
+      "scaffold_repeats_won": 0,
+      "final_prediction_median": 3.688686903709984,
+      "final_prediction_max": 15449.812332923086,
+      "test_to_oof_squared_prediction_ratio": 109.46089124680245
+    },
+    {
+      "candidate": "latent_chem__kaggle_only",
+      "mse": {
+        "all": 5109312.45967039,
+        "zero": 2394.226248563892,
+        "bulk": 30503.10918582207
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -95046.15979350796,
+        "ci95_lower": -219013.55091047258,
+        "ci95_upper": -2898.9705403921926,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": null,
+      "gain_vs_matched_control": null,
+      "attribution_note": "Chemical input uses PCA64; not a one-factor comparison with fingerprint reference",
+      "scaffold_repeat_gains": [
+        -83182.092407381,
+        -102741.8352666639,
+        -155759.7971135105
+      ],
+      "scaffold_repeats_won": 0,
+      "final_prediction_median": 3.662031612687716,
+      "final_prediction_max": 16691.778191863217,
+      "test_to_oof_squared_prediction_ratio": 205.55903906002223
+    },
+    {
+      "candidate": "latent_small__public_plus_kaggle",
+      "mse": {
+        "all": 5156599.276415995,
+        "zero": 3272.634560406381,
+        "bulk": 34198.72121243209
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -142332.9765391139,
+        "ci95_lower": -413930.2579329132,
+        "ci95_upper": 5345.369063670461,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": "bio_small__public_plus_kaggle",
+      "gain_vs_matched_control": {
+        "mean_mse_gain": 507287.21609920054,
+        "ci95_lower": -111273.36332472216,
+        "ci95_upper": 1586668.4806426032,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "attribution_note": "Adds only hidden features to the same base",
+      "scaffold_repeat_gains": [
+        10221.05457456509,
+        -12701.428607463564,
+        -66032.16123727741
+      ],
+      "scaffold_repeats_won": 1,
+      "final_prediction_median": 4.083338310309,
+      "final_prediction_max": 17516.281787016003,
+      "test_to_oof_squared_prediction_ratio": 1.3853410447893397
+    },
+    {
+      "candidate": "latent_fp__public_plus_kaggle",
+      "mse": {
+        "all": 5227980.1637239,
+        "zero": 1542.3142374837098,
+        "bulk": 35395.95523749282
+      },
+      "passes_predeclared_gate": false,
+      "gain_vs_reference": {
+        "mean_mse_gain": -213713.86384701886,
+        "ci95_lower": -723336.2204127767,
+        "ci95_upper": 65725.69431618642,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "matched_output_only_control": "bio_fp__public_plus_kaggle",
+      "gain_vs_matched_control": {
+        "mean_mse_gain": 110923.1229491105,
+        "ci95_lower": -230428.5936769526,
+        "ci95_upper": 627414.7296984864,
+        "structure_clusters": 260,
+        "independent_holdout_confirmation": false
+      },
+      "attribution_note": "Adds only hidden features to the same base",
+      "scaffold_repeat_gains": [
+        44941.550859489515,
+        -569140.158812651,
+        -57335.07309162755
+      ],
+      "scaffold_repeats_won": 1,
+      "final_prediction_median": 3.994125658761568,
+      "final_prediction_max": 12294.331191649231,
+      "test_to_oof_squared_prediction_ratio": 0.665301418033573
+    }
+  ],
+  "test_endpoints_used": false,
+  "independent_confirmation": false,
+  "uncertainty": "Exploratory molecule-cluster bootstrap on reused OOF",
+  "queued_candidate_changed": false,
+  "kaggle_upload_automatic": false
+}
